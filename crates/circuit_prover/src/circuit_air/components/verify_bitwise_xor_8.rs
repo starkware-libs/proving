@@ -41,8 +41,10 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_112558620 = E::F::from(M31::from(112558620));
-        let M31_521092554 = E::F::from(M31::from(521092554));
+        let verify_bitwise_xor_8_b_relation_id =
+            E::F::from(relations::VERIFY_BITWISE_XOR_8_B_RELATION_ID);
+        let verify_bitwise_xor_8_relation_id =
+            E::F::from(relations::VERIFY_BITWISE_XOR_8_RELATION_ID);
         let bitwise_xor_8_0 =
             eval.get_preprocessed_column(PreProcessedColumnId { id: "bitwise_xor_8_0".to_owned() });
         let bitwise_xor_8_1 =
@@ -56,7 +58,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 bitwise_xor_8_0.clone(),
                 bitwise_xor_8_1.clone(),
                 bitwise_xor_8_2.clone(),
@@ -67,7 +69,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_1_col1.clone()),
             &[
-                M31_521092554.clone(),
+                verify_bitwise_xor_8_b_relation_id.clone(),
                 bitwise_xor_8_0.clone(),
                 bitwise_xor_8_1.clone(),
                 bitwise_xor_8_2.clone(),

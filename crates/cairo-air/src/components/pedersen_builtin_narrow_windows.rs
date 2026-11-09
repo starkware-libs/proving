@@ -49,9 +49,10 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_194336987 = E::F::from(M31::from(194336987));
         let M31_2 = E::F::from(M31::from(2));
         let M31_3 = E::F::from(M31::from(3));
+        let pedersen_aggregator_window_bits_9_relation_id =
+            E::F::from(relations::PEDERSEN_AGGREGATOR_WINDOW_BITS_9_RELATION_ID);
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let input_state_0_id_col0 = eval.next_trace_mask();
         let input_state_1_id_col1 = eval.next_trace_mask();
@@ -86,7 +87,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_194336987.clone(),
+                pedersen_aggregator_window_bits_9_relation_id.clone(),
                 input_state_0_id_col0.clone(),
                 input_state_1_id_col1.clone(),
                 output_state_id_col2.clone(),

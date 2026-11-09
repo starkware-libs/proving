@@ -71,13 +71,14 @@ impl LinearCombinationN4Coefs4211 {
         eval: &mut E,
     ) -> [E::F; 0] {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1027333874 = E::F::from(M31::from(1027333874));
         let M31_136 = E::F::from(M31::from(136));
         let M31_16 = E::F::from(M31::from(16));
-        let M31_1651211826 = E::F::from(M31::from(1651211826));
         let M31_2 = E::F::from(M31::from(2));
         let M31_256 = E::F::from(M31::from(256));
         let M31_4 = E::F::from(M31::from(4));
+        let range_check_4_4_4_4_relation_id =
+            E::F::from(relations::RANGE_CHECK_4_4_4_4_RELATION_ID);
+        let range_check_4_4_relation_id = E::F::from(relations::RANGE_CHECK_4_4_RELATION_ID);
 
         let carry_0_tmp_39cb7_2 = eval.add_intermediate(
             (((((((M31_4.clone() * linear_combination_n_4_coefs_4_2_1_1_input_limb_0.clone())
@@ -178,7 +179,7 @@ impl LinearCombinationN4Coefs4211 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1027333874.clone(),
+                range_check_4_4_4_4_relation_id.clone(),
                 (p_coef_col10.clone() + M31_1.clone()),
                 (carry_0_tmp_39cb7_2.clone() + M31_1.clone()),
                 (carry_1_tmp_39cb7_3.clone() + M31_1.clone()),
@@ -190,7 +191,7 @@ impl LinearCombinationN4Coefs4211 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1027333874.clone(),
+                range_check_4_4_4_4_relation_id.clone(),
                 (carry_3_tmp_39cb7_5.clone() + M31_1.clone()),
                 (carry_4_tmp_39cb7_6.clone() + M31_1.clone()),
                 (carry_5_tmp_39cb7_7.clone() + M31_1.clone()),
@@ -202,7 +203,7 @@ impl LinearCombinationN4Coefs4211 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1651211826.clone(),
+                range_check_4_4_relation_id.clone(),
                 (carry_7_tmp_39cb7_9.clone() + M31_1.clone()),
                 (carry_8_tmp_39cb7_10.clone() + M31_1.clone()),
             ],

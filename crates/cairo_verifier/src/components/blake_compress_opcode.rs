@@ -335,7 +335,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield BlakeRound.
     let tuple_3 = &[
-        eval!(context, 40528774),
+        context.constant(relations::BLAKE_ROUND_RELATION_ID.into()),
         eval!(context, seq),
         eval!(context, 0),
         eval!(context, low_16_bits_col39),
@@ -377,7 +377,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeRound.
     let tuple_4 = &[
-        eval!(context, 40528774),
+        context.constant(relations::BLAKE_ROUND_RELATION_ID.into()),
         eval!(context, seq),
         eval!(context, 10),
         eval!(context, blake_round_output_limb_0_col93),
@@ -620,7 +620,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Opcodes.
     let tuple_14 = &[
-        eval!(context, 428564188),
+        context.constant(relations::OPCODES_RELATION_ID.into()),
         eval!(context, input_pc_col1),
         eval!(context, input_ap_col2),
         eval!(context, input_fp_col3),
@@ -630,7 +630,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Opcodes.
     let tuple_15 = &[
-        eval!(context, 428564188),
+        context.constant(relations::OPCODES_RELATION_ID.into()),
         eval!(context, (input_pc_col1) + (1)),
         eval!(context, (input_ap_col2) + (ap_update_add_1_col10)),
         eval!(context, input_fp_col3),

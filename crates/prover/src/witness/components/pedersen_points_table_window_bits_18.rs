@@ -72,7 +72,8 @@ fn write_trace_simd(
         )
     };
 
-    let M31_1444721856 = PackedM31::broadcast(M31::from(1444721856));
+    let pedersen_points_table_window_bits_18_relation_id =
+        PackedM31::broadcast(relations::PEDERSEN_POINTS_TABLE_WINDOW_BITS_18_RELATION_ID);
     let seq_23 = preprocessed_trace.get_column(&PreProcessedColumnId { id: "seq_23".to_owned() });
     let pedersen_points_0 =
         preprocessed_trace.get_column(&PreProcessedColumnId { id: "pedersen_points_0".to_owned() });
@@ -249,7 +250,7 @@ fn write_trace_simd(
             let multiplicity_0_col0 = *mults[0].get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = multiplicity_0_col0;
             *lookup_data.pedersen_points_table_window_bits_18_0 = [
-                M31_1444721856,
+                pedersen_points_table_window_bits_18_relation_id,
                 seq_23,
                 pedersen_points_0,
                 pedersen_points_1,

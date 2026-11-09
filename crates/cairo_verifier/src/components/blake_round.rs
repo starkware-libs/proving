@@ -242,7 +242,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeRoundSigma.
     let tuple_1 = &[
-        eval!(context, 1805967942),
+        context.constant(relations::BLAKE_ROUND_SIGMA_RELATION_ID.into()),
         eval!(context, input_limb_1_col2),
         eval!(context, blake_round_sigma_output_limb_0_col36),
         eval!(context, blake_round_sigma_output_limb_1_col37),
@@ -522,7 +522,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeG.
     let tuple_18 = &[
-        eval!(context, 1139985212),
+        context.constant(relations::BLAKE_G_RELATION_ID.into()),
         eval!(context, input_limb_2_col3),
         eval!(context, input_limb_3_col4),
         eval!(context, input_limb_10_col11),
@@ -549,7 +549,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeG.
     let tuple_19 = &[
-        eval!(context, 1139985212),
+        context.constant(relations::BLAKE_G_RELATION_ID.into()),
         eval!(context, input_limb_4_col5),
         eval!(context, input_limb_5_col6),
         eval!(context, input_limb_12_col13),
@@ -576,7 +576,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeG.
     let tuple_20 = &[
-        eval!(context, 1139985212),
+        context.constant(relations::BLAKE_G_RELATION_ID.into()),
         eval!(context, input_limb_6_col7),
         eval!(context, input_limb_7_col8),
         eval!(context, input_limb_14_col15),
@@ -603,7 +603,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeG.
     let tuple_21 = &[
-        eval!(context, 1139985212),
+        context.constant(relations::BLAKE_G_RELATION_ID.into()),
         eval!(context, input_limb_8_col9),
         eval!(context, input_limb_9_col10),
         eval!(context, input_limb_16_col17),
@@ -630,7 +630,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeG.
     let tuple_22 = &[
-        eval!(context, 1139985212),
+        context.constant(relations::BLAKE_G_RELATION_ID.into()),
         eval!(context, blake_g_output_limb_0_col148),
         eval!(context, blake_g_output_limb_1_col149),
         eval!(context, blake_g_output_limb_2_col158),
@@ -657,7 +657,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeG.
     let tuple_23 = &[
-        eval!(context, 1139985212),
+        context.constant(relations::BLAKE_G_RELATION_ID.into()),
         eval!(context, blake_g_output_limb_0_col156),
         eval!(context, blake_g_output_limb_1_col157),
         eval!(context, blake_g_output_limb_2_col166),
@@ -684,7 +684,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeG.
     let tuple_24 = &[
-        eval!(context, 1139985212),
+        context.constant(relations::BLAKE_G_RELATION_ID.into()),
         eval!(context, blake_g_output_limb_0_col164),
         eval!(context, blake_g_output_limb_1_col165),
         eval!(context, blake_g_output_limb_2_col174),
@@ -711,7 +711,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeG.
     let tuple_25 = &[
-        eval!(context, 1139985212),
+        context.constant(relations::BLAKE_G_RELATION_ID.into()),
         eval!(context, blake_g_output_limb_0_col172),
         eval!(context, blake_g_output_limb_1_col173),
         eval!(context, blake_g_output_limb_2_col150),
@@ -738,7 +738,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use BlakeRound.
     let tuple_26 = &[
-        eval!(context, 40528774),
+        context.constant(relations::BLAKE_ROUND_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, input_limb_1_col2),
         eval!(context, input_limb_2_col3),
@@ -780,7 +780,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield BlakeRound.
     let tuple_27 = &[
-        eval!(context, 40528774),
+        context.constant(relations::BLAKE_ROUND_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, (input_limb_1_col2) + (1)),
         eval!(context, blake_g_output_limb_0_col180),

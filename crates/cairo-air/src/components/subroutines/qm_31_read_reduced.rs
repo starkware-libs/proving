@@ -40,11 +40,12 @@ impl Qm31ReadReduced {
         eval: &mut E,
     ) -> [E::F; 4] {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1027333874 = E::F::from(M31::from(1027333874));
         let M31_134217728 = E::F::from(M31::from(134217728));
         let M31_1548 = E::F::from(M31::from(1548));
         let M31_262144 = E::F::from(M31::from(262144));
         let M31_512 = E::F::from(M31::from(512));
+        let range_check_4_4_4_4_relation_id =
+            E::F::from(relations::RANGE_CHECK_4_4_4_4_RELATION_ID);
 
         ReadPositiveNumBits144::evaluate(
             [qm_31_read_reduced_input.clone()],
@@ -73,7 +74,7 @@ impl Qm31ReadReduced {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1027333874.clone(),
+                range_check_4_4_4_4_relation_id.clone(),
                 value_limb_3_col4.clone(),
                 value_limb_7_col8.clone(),
                 value_limb_11_col12.clone(),

@@ -76,7 +76,8 @@ fn write_trace_simd(
         )
     };
 
-    let M31_45448144 = PackedM31::broadcast(M31::from(45448144));
+    let verify_bitwise_xor_4_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_4_RELATION_ID);
     let bitwise_xor_4_0 =
         preprocessed_trace.get_column(&PreProcessedColumnId { id: "bitwise_xor_4_0".to_owned() });
     let bitwise_xor_4_1 =
@@ -91,8 +92,12 @@ fn write_trace_simd(
             let bitwise_xor_4_2 = bitwise_xor_4_2.packed_at(row_index);
             let multiplicity_0_col0 = *mults[0].get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = multiplicity_0_col0;
-            *lookup_data.verify_bitwise_xor_4_0 =
-                [M31_45448144, bitwise_xor_4_0, bitwise_xor_4_1, bitwise_xor_4_2];
+            *lookup_data.verify_bitwise_xor_4_0 = [
+                verify_bitwise_xor_4_relation_id,
+                bitwise_xor_4_0,
+                bitwise_xor_4_1,
+                bitwise_xor_4_2,
+            ];
             *lookup_data.mults_0 = multiplicity_0_col0;
         },
     );

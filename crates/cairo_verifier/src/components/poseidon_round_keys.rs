@@ -79,7 +79,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PoseidonRoundKeys.
     let tuple_0 = &[
-        eval!(context, 1024310512),
+        context.constant(relations::POSEIDON_ROUND_KEYS_RELATION_ID.into()),
         eval!(context, seq_6),
         eval!(context, poseidon_round_keys_0),
         eval!(context, poseidon_round_keys_1),

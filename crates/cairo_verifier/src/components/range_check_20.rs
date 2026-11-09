@@ -27,42 +27,50 @@ pub fn accumulate_constraints<Value: IValue>(
     let seq_20 = acc.get_preprocessed_column(&PreProcessedColumnId { id: "seq_20".to_owned() });
 
     // Yield RangeCheck_20.
-    let tuple_0 = &[eval!(context, 1410849886), eval!(context, seq_20)];
+    let tuple_0 =
+        &[context.constant(relations::RANGE_CHECK_20_RELATION_ID.into()), eval!(context, seq_20)];
     let numerator_0 = eval!(context, -(multiplicity_0_col0));
     acc.add_to_relation(context, numerator_0, tuple_0);
 
     // Yield RangeCheck_20_B.
-    let tuple_1 = &[eval!(context, 514232941), eval!(context, seq_20)];
+    let tuple_1 =
+        &[context.constant(relations::RANGE_CHECK_20_B_RELATION_ID.into()), eval!(context, seq_20)];
     let numerator_1 = eval!(context, -(multiplicity_1_col1));
     acc.add_to_relation(context, numerator_1, tuple_1);
 
     // Yield RangeCheck_20_C.
-    let tuple_2 = &[eval!(context, 531010560), eval!(context, seq_20)];
+    let tuple_2 =
+        &[context.constant(relations::RANGE_CHECK_20_C_RELATION_ID.into()), eval!(context, seq_20)];
     let numerator_2 = eval!(context, -(multiplicity_2_col2));
     acc.add_to_relation(context, numerator_2, tuple_2);
 
     // Yield RangeCheck_20_D.
-    let tuple_3 = &[eval!(context, 480677703), eval!(context, seq_20)];
+    let tuple_3 =
+        &[context.constant(relations::RANGE_CHECK_20_D_RELATION_ID.into()), eval!(context, seq_20)];
     let numerator_3 = eval!(context, -(multiplicity_3_col3));
     acc.add_to_relation(context, numerator_3, tuple_3);
 
     // Yield RangeCheck_20_E.
-    let tuple_4 = &[eval!(context, 497455322), eval!(context, seq_20)];
+    let tuple_4 =
+        &[context.constant(relations::RANGE_CHECK_20_E_RELATION_ID.into()), eval!(context, seq_20)];
     let numerator_4 = eval!(context, -(multiplicity_4_col4));
     acc.add_to_relation(context, numerator_4, tuple_4);
 
     // Yield RangeCheck_20_F.
-    let tuple_5 = &[eval!(context, 447122465), eval!(context, seq_20)];
+    let tuple_5 =
+        &[context.constant(relations::RANGE_CHECK_20_F_RELATION_ID.into()), eval!(context, seq_20)];
     let numerator_5 = eval!(context, -(multiplicity_5_col5));
     acc.add_to_relation(context, numerator_5, tuple_5);
 
     // Yield RangeCheck_20_G.
-    let tuple_6 = &[eval!(context, 463900084), eval!(context, seq_20)];
+    let tuple_6 =
+        &[context.constant(relations::RANGE_CHECK_20_G_RELATION_ID.into()), eval!(context, seq_20)];
     let numerator_6 = eval!(context, -(multiplicity_6_col6));
     acc.add_to_relation(context, numerator_6, tuple_6);
 
     // Yield RangeCheck_20_H.
-    let tuple_7 = &[eval!(context, 682009131), eval!(context, seq_20)];
+    let tuple_7 =
+        &[context.constant(relations::RANGE_CHECK_20_H_RELATION_ID.into()), eval!(context, seq_20)];
     let numerator_7 = eval!(context, -(multiplicity_7_col7));
     acc.add_to_relation(context, numerator_7, tuple_7);
 }

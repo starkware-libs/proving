@@ -40,17 +40,29 @@ pub impl AirComponentImpl of AirComponent {
         core::internal::revoke_ap_tracking();
 
         let range_check_16_sum_0: QM31 = common_lookup_elements
-            .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_0_col1].span());
+            .combine(
+                [
+                    qm31_const::<relations::RANGE_CHECK_16_RELATION_ID, 0, 0, 0>(),
+                    input_u32_limb_0_col1,
+                ]
+                    .span(),
+            );
         let numerator_0: QM31 = qm31_const::<1, 0, 0, 0>();
 
         let range_check_16_sum_1: QM31 = common_lookup_elements
-            .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_1_col2].span());
+            .combine(
+                [
+                    qm31_const::<relations::RANGE_CHECK_16_RELATION_ID, 0, 0, 0>(),
+                    input_u32_limb_1_col2,
+                ]
+                    .span(),
+            );
         let numerator_1: QM31 = qm31_const::<1, 0, 0, 0>();
 
         let range_check_16_sum_2: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<1008385708, 0, 0, 0>(),
+                    qm31_const::<relations::RANGE_CHECK_16_RELATION_ID, 0, 0, 0>(),
                     (qm31_const::<32767, 0, 0, 0>() - input_u32_limb_1_col2),
                 ]
                     .span(),
@@ -69,14 +81,18 @@ pub impl AirComponentImpl of AirComponent {
 
         let gate_sum_3: QM31 = common_lookup_elements
             .combine(
-                [qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_input_addr, input_m31_col0].span(),
+                [
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), m31_to_u32_input_addr,
+                    input_m31_col0,
+                ]
+                    .span(),
             );
         let numerator_3: QM31 = qm31_const::<1, 0, 0, 0>();
 
         let gate_sum_4: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_output_addr,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), m31_to_u32_output_addr,
                     input_u32_limb_0_col1, input_u32_limb_1_col2,
                 ]
                     .span(),

@@ -78,7 +78,8 @@ fn write_trace_simd(
         )
     };
 
-    let M31_502259093 = PackedM31::broadcast(M31::from(502259093));
+    let range_check_3_3_3_3_3_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_3_3_3_3_3_RELATION_ID);
     let range_check_3_3_3_3_3_column_0 = preprocessed_trace
         .get_column(&PreProcessedColumnId { id: "range_check_3_3_3_3_3_column_0".to_owned() });
     let range_check_3_3_3_3_3_column_1 = preprocessed_trace
@@ -105,7 +106,7 @@ fn write_trace_simd(
             let multiplicity_0_col0 = *mults[0].get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = multiplicity_0_col0;
             *lookup_data.range_check_3_3_3_3_3_0 = [
-                M31_502259093,
+                range_check_3_3_3_3_3_relation_id,
                 range_check_3_3_3_3_3_column_0,
                 range_check_3_3_3_3_3_column_1,
                 range_check_3_3_3_3_3_column_2,

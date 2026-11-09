@@ -57,16 +57,13 @@ impl FrameworkEval for Eval {
         let M31_148 = E::F::from(M31::from(148));
         let M31_160 = E::F::from(M31::from(160));
         let M31_161 = E::F::from(M31::from(161));
-        let M31_1662111297 = E::F::from(M31::from(1662111297));
         let M31_167 = E::F::from(M31::from(167));
         let M31_18 = E::F::from(M31::from(18));
         let M31_181 = E::F::from(M31::from(181));
         let M31_184 = E::F::from(M31::from(184));
         let M31_19 = E::F::from(M31::from(19));
-        let M31_194336987 = E::F::from(M31::from(194336987));
         let M31_199 = E::F::from(M31::from(199));
         let M31_2 = E::F::from(M31::from(2));
-        let M31_2038149019 = E::F::from(M31::from(2038149019));
         let M31_206 = E::F::from(M31::from(206));
         let M31_21 = E::F::from(M31::from(21));
         let M31_211 = E::F::from(M31::from(211));
@@ -109,6 +106,11 @@ impl FrameworkEval for Eval {
         let M31_59 = E::F::from(M31::from(59));
         let M31_86 = E::F::from(M31::from(86));
         let M31_88 = E::F::from(M31::from(88));
+        let memory_id_to_big_relation_id = E::F::from(relations::MEMORY_ID_TO_BIG_RELATION_ID);
+        let partial_ec_mul_window_bits_9_relation_id =
+            E::F::from(relations::PARTIAL_EC_MUL_WINDOW_BITS_9_RELATION_ID);
+        let pedersen_aggregator_window_bits_9_relation_id =
+            E::F::from(relations::PEDERSEN_AGGREGATOR_WINDOW_BITS_9_RELATION_ID);
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let multiplicity_0_col0 = eval.next_trace_mask();
         let input_limb_0_col1 = eval.next_trace_mask();
@@ -495,7 +497,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(M31_1.clone()),
             &[
-                M31_2038149019.clone(),
+                partial_ec_mul_window_bits_9_relation_id.clone(),
                 partial_ec_mul_window_bits_9_chain_tmp_tmp_e17b2_8.clone(),
                 M31_0.clone(),
                 value_limb_0_col4.clone(),
@@ -589,7 +591,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_2038149019.clone(),
+                partial_ec_mul_window_bits_9_relation_id.clone(),
                 partial_ec_mul_window_bits_9_chain_tmp_tmp_e17b2_8.clone(),
                 M31_28.clone(),
                 partial_ec_mul_window_bits_9_output_limb_0_col66.clone(),
@@ -686,7 +688,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(M31_1.clone()),
             &[
-                M31_2038149019.clone(),
+                partial_ec_mul_window_bits_9_relation_id.clone(),
                 partial_ec_mul_window_bits_9_chain_id_tmp_e17b2_37.clone(),
                 M31_28.clone(),
                 value_limb_0_col32.clone(),
@@ -780,7 +782,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_2038149019.clone(),
+                partial_ec_mul_window_bits_9_relation_id.clone(),
                 partial_ec_mul_window_bits_9_chain_id_tmp_e17b2_37.clone(),
                 M31_56.clone(),
                 partial_ec_mul_window_bits_9_output_limb_0_col150.clone(),
@@ -874,7 +876,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 input_limb_2_col3.clone(),
                 partial_ec_mul_window_bits_9_output_limb_28_col178.clone(),
                 partial_ec_mul_window_bits_9_output_limb_29_col179.clone(),
@@ -911,7 +913,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_194336987.clone(),
+                pedersen_aggregator_window_bits_9_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 input_limb_1_col2.clone(),
                 input_limb_2_col3.clone(),

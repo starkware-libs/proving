@@ -41,7 +41,8 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1024310512 = E::F::from(M31::from(1024310512));
+        let poseidon_round_keys_relation_id =
+            E::F::from(relations::POSEIDON_ROUND_KEYS_RELATION_ID);
         let seq_6 = eval.get_preprocessed_column(PreProcessedColumnId { id: "seq_6".to_owned() });
         let poseidon_round_keys_0 = eval.get_preprocessed_column(PreProcessedColumnId {
             id: "poseidon_round_keys_0".to_owned(),
@@ -139,7 +140,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_1024310512.clone(),
+                poseidon_round_keys_relation_id.clone(),
                 seq_6.clone(),
                 poseidon_round_keys_0.clone(),
                 poseidon_round_keys_1.clone(),

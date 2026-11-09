@@ -56,7 +56,7 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_0 = E::F::from(M31::from(0));
-        let M31_1139985212 = E::F::from(M31::from(1139985212));
+        let blake_g_relation_id = E::F::from(relations::BLAKE_G_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_limb_0_col1 = eval.next_trace_mask();
         let input_limb_1_col2 = eval.next_trace_mask();
@@ -269,7 +269,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 input_limb_1_col2.clone(),
                 input_limb_2_col3.clone(),

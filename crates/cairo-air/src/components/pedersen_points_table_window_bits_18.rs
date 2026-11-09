@@ -41,7 +41,8 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1444721856 = E::F::from(M31::from(1444721856));
+        let pedersen_points_table_window_bits_18_relation_id =
+            E::F::from(relations::PEDERSEN_POINTS_TABLE_WINDOW_BITS_18_RELATION_ID);
         let seq_23 = eval.get_preprocessed_column(PreProcessedColumnId { id: "seq_23".to_owned() });
         let pedersen_points_0 = eval
             .get_preprocessed_column(PreProcessedColumnId { id: "pedersen_points_0".to_owned() });
@@ -161,7 +162,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_1444721856.clone(),
+                pedersen_points_table_window_bits_18_relation_id.clone(),
                 seq_23.clone(),
                 pedersen_points_0.clone(),
                 pedersen_points_1.clone(),

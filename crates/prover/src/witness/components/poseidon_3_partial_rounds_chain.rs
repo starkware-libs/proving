@@ -121,19 +121,23 @@ fn write_trace_simd(
     let Felt252_3_0_0_0 = PackedFelt252::broadcast(Felt252::from([3, 0, 0, 0]));
     let Felt252_4_0_0_0 = PackedFelt252::broadcast(Felt252::from([4, 0, 0, 0]));
     let M31_1 = PackedM31::broadcast(M31::from(1));
-    let M31_1024310512 = PackedM31::broadcast(M31::from(1024310512));
-    let M31_1027333874 = PackedM31::broadcast(M31::from(1027333874));
-    let M31_1090315331 = PackedM31::broadcast(M31::from(1090315331));
     let M31_134217729 = PackedM31::broadcast(M31::from(134217729));
-    let M31_1343313504 = PackedM31::broadcast(M31::from(1343313504));
     let M31_136 = PackedM31::broadcast(M31::from(136));
     let M31_16 = PackedM31::broadcast(M31::from(16));
-    let M31_1651211826 = PackedM31::broadcast(M31::from(1651211826));
-    let M31_1987997202 = PackedM31::broadcast(M31::from(1987997202));
     let M31_2 = PackedM31::broadcast(M31::from(2));
     let M31_268435458 = PackedM31::broadcast(M31::from(268435458));
     let M31_3 = PackedM31::broadcast(M31::from(3));
     let M31_4 = PackedM31::broadcast(M31::from(4));
+    let cube_252_relation_id = PackedM31::broadcast(relations::CUBE_252_RELATION_ID);
+    let poseidon_3_partial_rounds_chain_relation_id =
+        PackedM31::broadcast(relations::POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID);
+    let poseidon_round_keys_relation_id =
+        PackedM31::broadcast(relations::POSEIDON_ROUND_KEYS_RELATION_ID);
+    let range_check_252_width_27_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_252_WIDTH_27_RELATION_ID);
+    let range_check_4_4_4_4_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_4_4_4_4_RELATION_ID);
+    let range_check_4_4_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_4_4_RELATION_ID);
     let enabler_col = Enabler::new(n_rows);
 
     (
@@ -329,7 +333,7 @@ fn write_trace_simd(
                     poseidon_round_keys_output_tmp_8c14f_0[2].get_m31(9);
                 *row[72] = poseidon_round_keys_output_limb_29_col72;
                 *lookup_data.poseidon_round_keys_0 = [
-                    M31_1024310512,
+                    poseidon_round_keys_relation_id,
                     input_limb_1_col2,
                     poseidon_round_keys_output_limb_0_col43,
                     poseidon_round_keys_output_limb_1_col44,
@@ -389,7 +393,7 @@ fn write_trace_simd(
                 let cube_252_output_limb_9_col82 = cube_252_output_tmp_8c14f_1.get_m31(9);
                 *row[82] = cube_252_output_limb_9_col82;
                 *lookup_data.cube_252_1 = [
-                    M31_1987997202,
+                    cube_252_relation_id,
                     input_limb_32_col33,
                     input_limb_33_col34,
                     input_limb_34_col35,
@@ -563,7 +567,7 @@ fn write_trace_simd(
                     ((carry_2_tmp_8c14f_6) + (M31_2)),
                 ];
                 *lookup_data.range_check_4_4_4_4_2 = [
-                    M31_1027333874,
+                    range_check_4_4_4_4_relation_id,
                     ((p_coef_col93) + (M31_2)),
                     ((carry_0_tmp_8c14f_4) + (M31_2)),
                     ((carry_1_tmp_8c14f_5) + (M31_2)),
@@ -576,7 +580,7 @@ fn write_trace_simd(
                     ((carry_6_tmp_8c14f_10) + (M31_2)),
                 ];
                 *lookup_data.range_check_4_4_4_4_3 = [
-                    M31_1027333874,
+                    range_check_4_4_4_4_relation_id,
                     ((carry_3_tmp_8c14f_7) + (M31_2)),
                     ((carry_4_tmp_8c14f_8) + (M31_2)),
                     ((carry_5_tmp_8c14f_9) + (M31_2)),
@@ -585,7 +589,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_4_4[0] =
                     [((carry_7_tmp_8c14f_11) + (M31_2)), ((carry_8_tmp_8c14f_12) + (M31_2))];
                 *lookup_data.range_check_4_4_4 = [
-                    M31_1651211826,
+                    range_check_4_4_relation_id,
                     ((carry_7_tmp_8c14f_11) + (M31_2)),
                     ((carry_8_tmp_8c14f_12) + (M31_2)),
                 ];
@@ -595,7 +599,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_252_width_27[0] =
                     linear_combination_n_6_coefs_4_2_3_1_m1_1_output_tmp_8c14f_13;
                 *lookup_data.range_check_252_width_27_5 = [
-                    M31_1090315331,
+                    range_check_252_width_27_relation_id,
                     combination_limb_0_col83,
                     combination_limb_1_col84,
                     combination_limb_2_col85,
@@ -714,7 +718,7 @@ fn write_trace_simd(
                 let cube_252_output_limb_9_col114 = cube_252_output_tmp_8c14f_36.get_m31(9);
                 *row[114] = cube_252_output_limb_9_col114;
                 *lookup_data.cube_252_6 = [
-                    M31_1987997202,
+                    cube_252_relation_id,
                     combination_limb_0_col94,
                     combination_limb_1_col95,
                     combination_limb_2_col96,
@@ -888,7 +892,7 @@ fn write_trace_simd(
                     ((carry_2_tmp_8c14f_41) + (M31_2)),
                 ];
                 *lookup_data.range_check_4_4_4_4_7 = [
-                    M31_1027333874,
+                    range_check_4_4_4_4_relation_id,
                     ((p_coef_col125) + (M31_2)),
                     ((carry_0_tmp_8c14f_39) + (M31_2)),
                     ((carry_1_tmp_8c14f_40) + (M31_2)),
@@ -901,7 +905,7 @@ fn write_trace_simd(
                     ((carry_6_tmp_8c14f_45) + (M31_2)),
                 ];
                 *lookup_data.range_check_4_4_4_4_8 = [
-                    M31_1027333874,
+                    range_check_4_4_4_4_relation_id,
                     ((carry_3_tmp_8c14f_42) + (M31_2)),
                     ((carry_4_tmp_8c14f_43) + (M31_2)),
                     ((carry_5_tmp_8c14f_44) + (M31_2)),
@@ -910,7 +914,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_4_4[1] =
                     [((carry_7_tmp_8c14f_46) + (M31_2)), ((carry_8_tmp_8c14f_47) + (M31_2))];
                 *lookup_data.range_check_4_4_9 = [
-                    M31_1651211826,
+                    range_check_4_4_relation_id,
                     ((carry_7_tmp_8c14f_46) + (M31_2)),
                     ((carry_8_tmp_8c14f_47) + (M31_2)),
                 ];
@@ -920,7 +924,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_252_width_27[1] =
                     linear_combination_n_6_coefs_4_2_3_1_m1_1_output_tmp_8c14f_48;
                 *lookup_data.range_check_252_width_27_10 = [
-                    M31_1090315331,
+                    range_check_252_width_27_relation_id,
                     combination_limb_0_col115,
                     combination_limb_1_col116,
                     combination_limb_2_col117,
@@ -1039,7 +1043,7 @@ fn write_trace_simd(
                 let cube_252_output_limb_9_col146 = cube_252_output_tmp_8c14f_71.get_m31(9);
                 *row[146] = cube_252_output_limb_9_col146;
                 *lookup_data.cube_252_11 = [
-                    M31_1987997202,
+                    cube_252_relation_id,
                     combination_limb_0_col126,
                     combination_limb_1_col127,
                     combination_limb_2_col128,
@@ -1214,7 +1218,7 @@ fn write_trace_simd(
                     ((carry_2_tmp_8c14f_76) + (M31_2)),
                 ];
                 *lookup_data.range_check_4_4_4_4_12 = [
-                    M31_1027333874,
+                    range_check_4_4_4_4_relation_id,
                     ((p_coef_col157) + (M31_2)),
                     ((carry_0_tmp_8c14f_74) + (M31_2)),
                     ((carry_1_tmp_8c14f_75) + (M31_2)),
@@ -1227,7 +1231,7 @@ fn write_trace_simd(
                     ((carry_6_tmp_8c14f_80) + (M31_2)),
                 ];
                 *lookup_data.range_check_4_4_4_4_13 = [
-                    M31_1027333874,
+                    range_check_4_4_4_4_relation_id,
                     ((carry_3_tmp_8c14f_77) + (M31_2)),
                     ((carry_4_tmp_8c14f_78) + (M31_2)),
                     ((carry_5_tmp_8c14f_79) + (M31_2)),
@@ -1236,7 +1240,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_4_4[2] =
                     [((carry_7_tmp_8c14f_81) + (M31_2)), ((carry_8_tmp_8c14f_82) + (M31_2))];
                 *lookup_data.range_check_4_4_14 = [
-                    M31_1651211826,
+                    range_check_4_4_relation_id,
                     ((carry_7_tmp_8c14f_81) + (M31_2)),
                     ((carry_8_tmp_8c14f_82) + (M31_2)),
                 ];
@@ -1246,7 +1250,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_252_width_27[2] =
                     linear_combination_n_6_coefs_4_2_3_1_m1_1_output_tmp_8c14f_83;
                 *lookup_data.range_check_252_width_27_15 = [
-                    M31_1090315331,
+                    range_check_252_width_27_relation_id,
                     combination_limb_0_col147,
                     combination_limb_1_col148,
                     combination_limb_2_col149,
@@ -1340,7 +1344,7 @@ fn write_trace_simd(
                 ];
 
                 *lookup_data.poseidon_3_partial_rounds_chain_16 = [
-                    M31_1343313504,
+                    poseidon_3_partial_rounds_chain_relation_id,
                     input_limb_0_col1,
                     input_limb_1_col2,
                     input_limb_2_col3,
@@ -1385,7 +1389,7 @@ fn write_trace_simd(
                     input_limb_41_col42,
                 ];
                 *lookup_data.poseidon_3_partial_rounds_chain_17 = [
-                    M31_1343313504,
+                    poseidon_3_partial_rounds_chain_relation_id,
                     input_limb_0_col1,
                     ((input_limb_1_col2) + (M31_1)),
                     cube_252_output_limb_0_col105,

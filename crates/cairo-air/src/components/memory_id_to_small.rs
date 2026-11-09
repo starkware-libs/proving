@@ -50,7 +50,7 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1662111297 = E::F::from(M31::from(1662111297));
+        let memory_id_to_big_relation_id = E::F::from(relations::MEMORY_ID_TO_BIG_RELATION_ID);
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let multiplicity_0_col0 = eval.next_trace_mask();
         let memory_id_to_small_output_col1 = eval.next_trace_mask();
@@ -81,7 +81,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 seq.clone(),
                 memory_id_to_small_output_col1.clone(),
                 memory_id_to_small_output_col2.clone(),

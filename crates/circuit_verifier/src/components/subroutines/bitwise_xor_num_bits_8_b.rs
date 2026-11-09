@@ -21,7 +21,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8_B.
     let tuple_0 = &[
-        eval!(context, 521092554),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_B_RELATION_ID.into()),
         eval!(context, bitwise_xor_num_bits_8_b_input_limb_0),
         eval!(context, bitwise_xor_num_bits_8_b_input_limb_1),
         eval!(context, xor_col0),

@@ -22,11 +22,11 @@ impl DecodeInstructionEdfb6 {
     ) -> [E::F; 2] {
         let M31_1 = E::F::from(M31::from(1));
         let M31_128 = E::F::from(M31::from(128));
-        let M31_1719106205 = E::F::from(M31::from(1719106205));
         let M31_32768 = E::F::from(M31::from(32768));
         let M31_32769 = E::F::from(M31::from(32769));
         let M31_64 = E::F::from(M31::from(64));
         let M31_66 = E::F::from(M31::from(66));
+        let verify_instruction_relation_id = E::F::from(relations::VERIFY_INSTRUCTION_RELATION_ID);
 
         // Flag op1_base_fp is a bit.
         eval.add_constraint(
@@ -36,7 +36,7 @@ impl DecodeInstructionEdfb6 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1719106205.clone(),
+                verify_instruction_relation_id.clone(),
                 decode_instruction_edfb6_input_pc.clone(),
                 M31_32768.clone(),
                 M31_32769.clone(),

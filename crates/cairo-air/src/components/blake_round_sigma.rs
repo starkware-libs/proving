@@ -41,7 +41,7 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1805967942 = E::F::from(M31::from(1805967942));
+        let blake_round_sigma_relation_id = E::F::from(relations::BLAKE_ROUND_SIGMA_RELATION_ID);
         let seq_4 = eval.get_preprocessed_column(PreProcessedColumnId { id: "seq_4".to_owned() });
         let blake_sigma_0 =
             eval.get_preprocessed_column(PreProcessedColumnId { id: "blake_sigma_0".to_owned() });
@@ -81,7 +81,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_1805967942.clone(),
+                blake_round_sigma_relation_id.clone(),
                 seq_4.clone(),
                 blake_sigma_0.clone(),
                 blake_sigma_1.clone(),

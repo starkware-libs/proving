@@ -1,3 +1,4 @@
+pub use cairo_air::relations;
 pub use circuits::context::{Context, Var};
 pub use circuits::eval;
 pub use circuits::ivalue::IValue;

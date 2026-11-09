@@ -100,14 +100,10 @@ fn write_trace_simd(
     let M31_0 = PackedM31::broadcast(M31::from(0));
     let M31_1 = PackedM31::broadcast(M31::from(1));
     let M31_1048576 = PackedM31::broadcast(M31::from(1048576));
-    let M31_1109051422 = PackedM31::broadcast(M31::from(1109051422));
     let M31_128 = PackedM31::broadcast(M31::from(128));
     let M31_134217728 = PackedM31::broadcast(M31::from(134217728));
     let M31_136 = PackedM31::broadcast(M31::from(136));
-    let M31_1444891767 = PackedM31::broadcast(M31::from(1444891767));
     let M31_16 = PackedM31::broadcast(M31::from(16));
-    let M31_1662111297 = PackedM31::broadcast(M31::from(1662111297));
-    let M31_1719106205 = PackedM31::broadcast(M31::from(1719106205));
     let M31_2147483646 = PackedM31::broadcast(M31::from(2147483646));
     let M31_24 = PackedM31::broadcast(M31::from(24));
     let M31_256 = PackedM31::broadcast(M31::from(256));
@@ -115,13 +111,11 @@ fn write_trace_simd(
     let M31_32 = PackedM31::broadcast(M31::from(32));
     let M31_32767 = PackedM31::broadcast(M31::from(32767));
     let M31_32768 = PackedM31::broadcast(M31::from(32768));
-    let M31_428564188 = PackedM31::broadcast(M31::from(428564188));
     let M31_508 = PackedM31::broadcast(M31::from(508));
     let M31_511 = PackedM31::broadcast(M31::from(511));
     let M31_512 = PackedM31::broadcast(M31::from(512));
     let M31_536870912 = PackedM31::broadcast(M31::from(536870912));
     let M31_64 = PackedM31::broadcast(M31::from(64));
-    let M31_991608089 = PackedM31::broadcast(M31::from(991608089));
     let UInt16_1 = PackedUInt16::broadcast(UInt16::from(1));
     let UInt16_13 = PackedUInt16::broadcast(UInt16::from(13));
     let UInt16_2 = PackedUInt16::broadcast(UInt16::from(2));
@@ -131,6 +125,15 @@ fn write_trace_simd(
     let UInt16_6 = PackedUInt16::broadcast(UInt16::from(6));
     let UInt16_7 = PackedUInt16::broadcast(UInt16::from(7));
     let UInt32_2047 = PackedUInt32::broadcast(UInt32::from(2047));
+    let memory_address_to_id_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID);
+    let memory_id_to_big_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ID_TO_BIG_RELATION_ID);
+    let opcodes_relation_id = PackedM31::broadcast(relations::OPCODES_RELATION_ID);
+    let range_check_11_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_11_RELATION_ID);
+    let range_check_18_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_18_RELATION_ID);
+    let verify_instruction_relation_id =
+        PackedM31::broadcast(relations::VERIFY_INSTRUCTION_RELATION_ID);
     let enabler_col = Enabler::new(n_rows);
 
     (
@@ -203,7 +206,7 @@ fn write_trace_simd(
                     M31_0,
                 );
                 *lookup_data.verify_instruction_0 = [
-                    M31_1719106205,
+                    verify_instruction_relation_id,
                     input_pc_col1,
                     M31_32767,
                     M31_32767,
@@ -253,7 +256,7 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[0] =
                     ((mem1_base_col7) + (decode_instruction_89ffb_output_tmp_44683_6.0[2]));
                 *lookup_data.memory_address_to_id_1 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((mem1_base_col7) + (decode_instruction_89ffb_output_tmp_44683_6.0[2])),
                     op1_id_col8,
                 ];
@@ -302,7 +305,7 @@ fn write_trace_simd(
 
                 *sub_component_inputs.memory_id_to_big[0] = op1_id_col8;
                 *lookup_data.memory_id_to_big_2 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     op1_id_col8,
                     op1_limb_0_col11,
                     op1_limb_1_col12,
@@ -354,16 +357,17 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_18[0] =
                     [(((next_ap_tmp_44683_17) - (range_check_29_bot11bits_col16)) * (M31_1048576))];
                 *lookup_data.range_check_18_3 = [
-                    M31_1109051422,
+                    range_check_18_relation_id,
                     (((next_ap_tmp_44683_17) - (range_check_29_bot11bits_col16)) * (M31_1048576)),
                 ];
                 *sub_component_inputs.range_check_11[0] = [range_check_29_bot11bits_col16];
-                *lookup_data.range_check_11_4 = [M31_991608089, range_check_29_bot11bits_col16];
+                *lookup_data.range_check_11_4 =
+                    [range_check_11_relation_id, range_check_29_bot11bits_col16];
 
                 *lookup_data.opcodes_5 =
-                    [M31_428564188, input_pc_col1, input_ap_col2, input_fp_col3];
+                    [opcodes_relation_id, input_pc_col1, input_ap_col2, input_fp_col3];
                 *lookup_data.opcodes_6 = [
-                    M31_428564188,
+                    opcodes_relation_id,
                     ((input_pc_col1) + ((M31_1) + (op1_imm_col5))),
                     next_ap_tmp_44683_17,
                     input_fp_col3,

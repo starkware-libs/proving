@@ -9,10 +9,11 @@ use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::{deduction_consts, packed_name};
+use crate::rust::component_code::parse::RustConst;
 use crate::rust::component_code::trace_gen::{Mode, MultiplicityMode, RustProverGen, vec_of_type};
 use crate::utils::{
-    block_doc, get_variable_name, is_const_size_component, is_state_component_name,
-    make_preprocessed_column_id, replace_generics_with_turbofish,
+    block_doc, is_const_size_component, is_state_component_name, make_preprocessed_column_id,
+    replace_generics_with_turbofish,
 };
 
 impl RustProverGen {
@@ -400,11 +401,10 @@ impl RustProverGen {
         // declare constants.
         let mut constants_def_code = quote! {};
         let constants = deduction_consts(&self.air_fn.deductions);
-        for (ty, val) in constants.into_iter() {
-            let name = get_variable_name(&ty, &val);
+        for constant in constants.into_iter() {
             constants_def_code.extend(quote! {
-                let $(name) = $(replace_generics_with_turbofish(&packed_name(&ty)))::broadcast(
-                    $(replace_generics_with_turbofish(&ty))::from($(val))
+                let $(constant.var_name()) = $(replace_generics_with_turbofish(&packed_name(constant.ty())))::broadcast(
+                    $(constant.value())
                 );
             });
         }
@@ -535,7 +535,7 @@ impl RustProverGen {
         let const_names = &self
             .constants
             .iter()
-            .map(|(ty, value)| ((ty.clone(), value.clone()), get_variable_name(ty, value)))
+            .map(|constant| (constant.clone(), constant.var_name()))
             .collect_vec();
         let mut write_trace_body = rust::Tokens::new();
         let mut offset = 0;
@@ -639,25 +639,20 @@ fn write_trace_args(sub_components: &IndexMap<String, PaddingType>) -> rust::Tok
 }
 
 /// Parses a `CompiledAirVar` into a string for the write_trace function.
-fn simd_parse_air_var(
-    expr: &CompiledAirVar,
-    constant_names: &[((String, String), String)],
-) -> String {
+fn simd_parse_air_var(expr: &CompiledAirVar, constant_names: &[(RustConst, String)]) -> String {
     match expr {
-        CompiledAirVar::Const(ty, val)
-        | CompiledAirVar::NamedConst { r#type: ty, value: val, .. } => match ty.as_str() {
-            // "usize" is used as index.
-            // TODO(Ohad): ask anatg about this.
-            "usize" => val.to_string(),
-            _ => constant_names
+        // "usize" is used as index.
+        // TODO(Ohad): ask anatg about this.
+        CompiledAirVar::Const(ty, val) if ty == "usize" => val.to_string(),
+        CompiledAirVar::Const(..) | CompiledAirVar::NamedConst { .. } => {
+            // `unwrap` is safe because the type of the const cannot be `usize`.
+            let constant = RustConst::from_air_var(expr).unwrap();
+            constant_names
                 .iter()
-                .find(|((t, v), _)| t == ty && v == val)
+                .find(|(c, _)| *c == constant)
                 .map(|(_, name)| name.clone())
-                .unwrap_or_else(|| {
-                    let name = get_variable_name(ty, val);
-                    panic!("const_{name}")
-                }),
-        },
+                .unwrap_or_else(|| panic!("const_{}", constant.var_name()))
+        }
         CompiledAirVar::Var(_, id) => id.clone(),
         CompiledAirVar::State(name) => name.clone(),
         CompiledAirVar::StaticCall(id, args) => {

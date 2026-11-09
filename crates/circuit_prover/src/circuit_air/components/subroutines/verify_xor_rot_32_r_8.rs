@@ -33,7 +33,8 @@ impl VerifyXorRot32R8 {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_112558620 = E::F::from(M31::from(112558620));
+        let verify_bitwise_xor_8_relation_id =
+            E::F::from(relations::VERIFY_BITWISE_XOR_8_RELATION_ID);
 
         let [split_16_low_part_size_8_output_tmp_e2dc4_1_limb_0] = Split16LowPartSize8::evaluate(
             [verify_xor_rot_32_r_8_input_limb_0.clone()],
@@ -81,7 +82,7 @@ impl VerifyXorRot32R8 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 ms_8_bits_col0.clone(),
                 ms_8_bits_col2.clone(),
                 split_16_low_part_size_8_output_tmp_e2dc4_9_limb_0.clone(),
@@ -92,7 +93,7 @@ impl VerifyXorRot32R8 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 split_16_low_part_size_8_output_tmp_e2dc4_3_limb_0.clone(),
                 split_16_low_part_size_8_output_tmp_e2dc4_7_limb_0.clone(),
                 ms_8_bits_col4.clone(),
@@ -103,7 +104,7 @@ impl VerifyXorRot32R8 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 ms_8_bits_col1.clone(),
                 ms_8_bits_col3.clone(),
                 split_16_low_part_size_8_output_tmp_e2dc4_11_limb_0.clone(),
@@ -114,7 +115,7 @@ impl VerifyXorRot32R8 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 split_16_low_part_size_8_output_tmp_e2dc4_1_limb_0.clone(),
                 split_16_low_part_size_8_output_tmp_e2dc4_5_limb_0.clone(),
                 ms_8_bits_col5.clone(),

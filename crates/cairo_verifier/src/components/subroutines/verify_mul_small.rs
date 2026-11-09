@@ -36,7 +36,10 @@ pub fn accumulate_constraints<Value: IValue>(
     ] = input.try_into().unwrap();
 
     // Use RangeCheck_11.
-    let tuple_0 = &[eval!(context, 991608089), eval!(context, carry_1_col0)];
+    let tuple_0 = &[
+        context.constant(relations::RANGE_CHECK_11_RELATION_ID.into()),
+        eval!(context, carry_1_col0),
+    ];
     let numerator_0 = eval!(context, enabler);
     acc.add_to_relation(context, numerator_0, tuple_0);
 
@@ -54,7 +57,10 @@ pub fn accumulate_constraints<Value: IValue>(
     acc.add_constraint(context, constraint_1_value);
 
     // Use RangeCheck_11.
-    let tuple_2 = &[eval!(context, 991608089), eval!(context, carry_3_col1)];
+    let tuple_2 = &[
+        context.constant(relations::RANGE_CHECK_11_RELATION_ID.into()),
+        eval!(context, carry_3_col1),
+    ];
     let numerator_2 = eval!(context, enabler);
     acc.add_to_relation(context, numerator_2, tuple_2);
 
@@ -78,7 +84,10 @@ pub fn accumulate_constraints<Value: IValue>(
     acc.add_constraint(context, constraint_3_value);
 
     // Use RangeCheck_11.
-    let tuple_4 = &[eval!(context, 991608089), eval!(context, carry_5_col2)];
+    let tuple_4 = &[
+        context.constant(relations::RANGE_CHECK_11_RELATION_ID.into()),
+        eval!(context, carry_5_col2),
+    ];
     let numerator_4 = eval!(context, enabler);
     acc.add_to_relation(context, numerator_4, tuple_4);
 

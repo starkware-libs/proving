@@ -85,20 +85,23 @@ fn write_trace_simd(
     let M31_1 = PackedM31::broadcast(M31::from(1));
     let M31_130 = PackedM31::broadcast(M31::from(130));
     let M31_134217728 = PackedM31::broadcast(M31::from(134217728));
-    let M31_1444891767 = PackedM31::broadcast(M31::from(1444891767));
-    let M31_1662111297 = PackedM31::broadcast(M31::from(1662111297));
-    let M31_1719106205 = PackedM31::broadcast(M31::from(1719106205));
     let M31_2 = PackedM31::broadcast(M31::from(2));
     let M31_2147483645 = PackedM31::broadcast(M31::from(2147483645));
     let M31_2147483646 = PackedM31::broadcast(M31::from(2147483646));
     let M31_262144 = PackedM31::broadcast(M31::from(262144));
     let M31_32766 = PackedM31::broadcast(M31::from(32766));
     let M31_32767 = PackedM31::broadcast(M31::from(32767));
-    let M31_428564188 = PackedM31::broadcast(M31::from(428564188));
     let M31_512 = PackedM31::broadcast(M31::from(512));
     let M31_88 = PackedM31::broadcast(M31::from(88));
     let UInt16_1 = PackedUInt16::broadcast(UInt16::from(1));
     let UInt16_2 = PackedUInt16::broadcast(UInt16::from(2));
+    let memory_address_to_id_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID);
+    let memory_id_to_big_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ID_TO_BIG_RELATION_ID);
+    let opcodes_relation_id = PackedM31::broadcast(relations::OPCODES_RELATION_ID);
+    let verify_instruction_relation_id =
+        PackedM31::broadcast(relations::VERIFY_INSTRUCTION_RELATION_ID);
     let enabler_col = Enabler::new(n_rows);
 
     (
@@ -128,7 +131,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_instruction[0] =
                 (input_pc_col1, [M31_32766, M31_32767, M31_32767], [M31_88, M31_130], M31_0);
             *lookup_data.verify_instruction_0 = [
-                M31_1719106205,
+                verify_instruction_relation_id,
                 input_pc_col1,
                 M31_32766,
                 M31_32767,
@@ -156,7 +159,7 @@ fn write_trace_simd(
             *row[4] = next_pc_id_col4;
             *sub_component_inputs.memory_address_to_id[0] = ((input_fp_col3) - (M31_1));
             *lookup_data.memory_address_to_id_1 =
-                [M31_1444891767, ((input_fp_col3) - (M31_1)), next_pc_id_col4];
+                [memory_address_to_id_relation_id, ((input_fp_col3) - (M31_1)), next_pc_id_col4];
 
             // Read Positive Known Id Num Bits 29.
 
@@ -182,7 +185,7 @@ fn write_trace_simd(
 
             *sub_component_inputs.memory_id_to_big[0] = next_pc_id_col4;
             *lookup_data.memory_id_to_big_2 = [
-                M31_1662111297,
+                memory_id_to_big_relation_id,
                 next_pc_id_col4,
                 next_pc_limb_0_col5,
                 next_pc_limb_1_col6,
@@ -258,7 +261,7 @@ fn write_trace_simd(
             *row[10] = next_fp_id_col10;
             *sub_component_inputs.memory_address_to_id[1] = ((input_fp_col3) - (M31_2));
             *lookup_data.memory_address_to_id_3 =
-                [M31_1444891767, ((input_fp_col3) - (M31_2)), next_fp_id_col10];
+                [memory_address_to_id_relation_id, ((input_fp_col3) - (M31_2)), next_fp_id_col10];
 
             // Read Positive Known Id Num Bits 29.
 
@@ -284,7 +287,7 @@ fn write_trace_simd(
 
             *sub_component_inputs.memory_id_to_big[1] = next_fp_id_col10;
             *lookup_data.memory_id_to_big_4 = [
-                M31_1662111297,
+                memory_id_to_big_relation_id,
                 next_fp_id_col10,
                 next_fp_limb_0_col11,
                 next_fp_limb_1_col12,
@@ -350,9 +353,10 @@ fn write_trace_simd(
             let read_positive_num_bits_29_output_tmp_3f5e2_16 =
                 (read_positive_known_id_num_bits_29_output_tmp_3f5e2_15, next_fp_id_col10);
 
-            *lookup_data.opcodes_5 = [M31_428564188, input_pc_col1, input_ap_col2, input_fp_col3];
+            *lookup_data.opcodes_5 =
+                [opcodes_relation_id, input_pc_col1, input_ap_col2, input_fp_col3];
             *lookup_data.opcodes_6 = [
-                M31_428564188,
+                opcodes_relation_id,
                 ((((next_pc_limb_0_col5) + ((next_pc_limb_1_col6) * (M31_512)))
                     + ((next_pc_limb_2_col7) * (M31_262144)))
                     + ((next_pc_limb_3_col8) * (M31_134217728))),

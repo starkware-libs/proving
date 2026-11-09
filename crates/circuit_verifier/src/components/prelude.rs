@@ -11,3 +11,4 @@ pub use stwo::core::fields::qm31::SECURE_EXTENSION_DEGREE;
 pub use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
 pub use crate::components::subroutines::*;
+pub use crate::relations;

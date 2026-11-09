@@ -216,7 +216,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8.
     let tuple_12 = &[
-        eval!(context, 112558620),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_RELATION_ID.into()),
         eval!(context, xor_col16),
         eval!(context, split_16_low_part_size_8_output_tmp_4ec2c_9_limb_0),
         eval!(context, split_16_low_part_size_8_output_tmp_4ec2c_13_limb_0),
@@ -226,7 +226,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8.
     let tuple_13 = &[
-        eval!(context, 112558620),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_RELATION_ID.into()),
         eval!(context, xor_col17),
         eval!(context, ms_8_bits_col12),
         eval!(context, ms_8_bits_col14),
@@ -236,7 +236,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8.
     let tuple_14 = &[
-        eval!(context, 112558620),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_RELATION_ID.into()),
         eval!(context, xor_col18),
         eval!(context, split_16_low_part_size_8_output_tmp_4ec2c_11_limb_0),
         eval!(context, split_16_low_part_size_8_output_tmp_4ec2c_15_limb_0),
@@ -246,7 +246,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8.
     let tuple_15 = &[
-        eval!(context, 112558620),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_RELATION_ID.into()),
         eval!(context, xor_col19),
         eval!(context, ms_8_bits_col13),
         eval!(context, ms_8_bits_col15),
@@ -256,7 +256,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_16 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, triple_xor_input_addr_0),
         eval!(context, input_a_limb_0_col0),
         eval!(context, input_a_limb_1_col1),
@@ -266,7 +266,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_17 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, triple_xor_input_addr_1),
         eval!(context, input_b_limb_0_col2),
         eval!(context, input_b_limb_1_col3),
@@ -276,7 +276,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_18 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, triple_xor_input_addr_2),
         eval!(context, input_c_limb_0_col4),
         eval!(context, input_c_limb_1_col5),
@@ -286,7 +286,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Gate.
     let tuple_19 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, triple_xor_output_addr),
         eval!(context, input_a_xor_b_xor_c_limb_0_col6),
         eval!(context, input_a_xor_b_xor_c_limb_1_col7),

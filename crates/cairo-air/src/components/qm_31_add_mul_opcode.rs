@@ -53,7 +53,7 @@ impl FrameworkEval for Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
         let M31_2 = E::F::from(M31::from(2));
-        let M31_428564188 = E::F::from(M31::from(428564188));
+        let opcodes_relation_id = E::F::from(relations::OPCODES_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_pc_col1 = eval.next_trace_mask();
         let input_ap_col2 = eval.next_trace_mask();
@@ -355,7 +355,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_428564188.clone(),
+                opcodes_relation_id.clone(),
                 input_pc_col1.clone(),
                 input_ap_col2.clone(),
                 input_fp_col3.clone(),
@@ -366,7 +366,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_428564188.clone(),
+                opcodes_relation_id.clone(),
                 ((input_pc_col1.clone() + M31_1.clone()) + op1_imm_col9.clone()),
                 (input_ap_col2.clone() + ap_update_add_1_col12.clone()),
                 input_fp_col3.clone(),

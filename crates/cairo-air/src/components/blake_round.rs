@@ -52,9 +52,9 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1139985212 = E::F::from(M31::from(1139985212));
-        let M31_1805967942 = E::F::from(M31::from(1805967942));
-        let M31_40528774 = E::F::from(M31::from(40528774));
+        let blake_g_relation_id = E::F::from(relations::BLAKE_G_RELATION_ID);
+        let blake_round_relation_id = E::F::from(relations::BLAKE_ROUND_RELATION_ID);
+        let blake_round_sigma_relation_id = E::F::from(relations::BLAKE_ROUND_SIGMA_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_limb_0_col1 = eval.next_trace_mask();
         let input_limb_1_col2 = eval.next_trace_mask();
@@ -274,7 +274,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1805967942.clone(),
+                blake_round_sigma_relation_id.clone(),
                 input_limb_1_col2.clone(),
                 blake_round_sigma_output_limb_0_col36.clone(),
                 blake_round_sigma_output_limb_1_col37.clone(),
@@ -491,7 +491,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 input_limb_2_col3.clone(),
                 input_limb_3_col4.clone(),
                 input_limb_10_col11.clone(),
@@ -519,7 +519,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 input_limb_4_col5.clone(),
                 input_limb_5_col6.clone(),
                 input_limb_12_col13.clone(),
@@ -547,7 +547,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 input_limb_6_col7.clone(),
                 input_limb_7_col8.clone(),
                 input_limb_14_col15.clone(),
@@ -575,7 +575,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 input_limb_8_col9.clone(),
                 input_limb_9_col10.clone(),
                 input_limb_16_col17.clone(),
@@ -603,7 +603,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 blake_g_output_limb_0_col148.clone(),
                 blake_g_output_limb_1_col149.clone(),
                 blake_g_output_limb_2_col158.clone(),
@@ -631,7 +631,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 blake_g_output_limb_0_col156.clone(),
                 blake_g_output_limb_1_col157.clone(),
                 blake_g_output_limb_2_col166.clone(),
@@ -659,7 +659,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 blake_g_output_limb_0_col164.clone(),
                 blake_g_output_limb_1_col165.clone(),
                 blake_g_output_limb_2_col174.clone(),
@@ -687,7 +687,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1139985212.clone(),
+                blake_g_relation_id.clone(),
                 blake_g_output_limb_0_col172.clone(),
                 blake_g_output_limb_1_col173.clone(),
                 blake_g_output_limb_2_col150.clone(),
@@ -715,7 +715,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_40528774.clone(),
+                blake_round_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 input_limb_1_col2.clone(),
                 input_limb_2_col3.clone(),
@@ -758,7 +758,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_40528774.clone(),
+                blake_round_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 (input_limb_1_col2.clone() + M31_1.clone()),
                 blake_g_output_limb_0_col180.clone(),

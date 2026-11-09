@@ -11,10 +11,63 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use crate::utils::{expr_iterator, remove_trailing_zeroes};
+use crate::utils::{
+    expr_iterator, get_variable_name, named_const_path, remove_trailing_zeroes,
+    replace_generics_with_turbofish,
+};
+
+/// A constant that the generated code defines once, as a variable, before using it.
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum RustConst {
+    /// A literal of type `ty`.
+    Literal { ty: String, value: String },
+    /// A constant of type `ty` that the generated code refers to by its `name`.
+    Named { ty: String, name: String },
+}
+
+impl RustConst {
+    /// Returns the constant `expr` is, if it is one that is defined as a variable.
+    pub fn from_air_var(expr: &CompiledAirVar) -> Option<Self> {
+        match expr {
+            // Usize are used for array indexing, handled differently.
+            CompiledAirVar::Const(ty, _) if ty == "usize" => None,
+            CompiledAirVar::Const(ty, value) => {
+                Some(Self::Literal { ty: ty.clone(), value: value.clone() })
+            }
+            CompiledAirVar::NamedConst { r#type, name, .. } => {
+                Some(Self::Named { ty: r#type.clone(), name: name.clone() })
+            }
+            _ => None,
+        }
+    }
+
+    pub fn ty(&self) -> &str {
+        match self {
+            Self::Literal { ty, .. } | Self::Named { ty, .. } => ty,
+        }
+    }
+
+    /// The name of the variable holding the constant.
+    pub fn var_name(&self) -> String {
+        match self {
+            Self::Literal { ty, value } => get_variable_name(ty, value),
+            Self::Named { name, .. } => name.to_lowercase(),
+        }
+    }
+
+    /// The expression of the constant, of type [`Self::ty`].
+    pub fn value(&self) -> String {
+        match self {
+            Self::Literal { ty, value } => {
+                format!("{}::from({value})", replace_generics_with_turbofish(ty))
+            }
+            Self::Named { name, .. } => named_const_path(name),
+        }
+    }
+}
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
-pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String, String)> {
+pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<RustConst> {
     constraints
         .iter()
         .fold(HashSet::new(), |mut const_defs, constraint| {
@@ -43,16 +96,11 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String
         .collect()
 }
 
-pub fn seek_consts(expr: &CompiledAirVar) -> BTreeSet<(String, String)> {
+pub fn seek_consts(expr: &CompiledAirVar) -> BTreeSet<RustConst> {
     let mut hashset = BTreeSet::new();
     let mut insert = |expr: &CompiledAirVar| {
-        if let CompiledAirVar::Const(ty, val)
-        | CompiledAirVar::NamedConst { r#type: ty, value: val, .. } = expr
-        {
-            // Usize are used for array indexing, handled differently.
-            if ty != "usize" {
-                hashset.insert((ty.to_string(), val.to_string()));
-            }
+        if let Some(constant) = RustConst::from_air_var(expr) {
+            hashset.insert(constant);
         }
     };
     expr_iterator(expr, &mut insert);
@@ -62,12 +110,13 @@ pub fn seek_consts(expr: &CompiledAirVar) -> BTreeSet<(String, String)> {
 pub fn parse_eval_constraint(
     air_fn: &CompiledAirFn,
     expr: &CompiledAirVar,
-    constant_names: &HashMap<(String, String), String>,
+    constant_names: &HashMap<RustConst, String>,
 ) -> String {
     match expr {
-        CompiledAirVar::Const(ty, val)
-        | CompiledAirVar::NamedConst { r#type: ty, value: val, .. } => {
-            constant_names.get(&(ty.to_owned(), val.to_owned())).unwrap().to_string() + ".clone()"
+        CompiledAirVar::Const(..) | CompiledAirVar::NamedConst { .. } => {
+            // Constraints have no `usize` constants, so this `unwrap` never fails.
+            let constant = RustConst::from_air_var(expr).unwrap();
+            constant_names.get(&constant).unwrap().to_string() + ".clone()"
         }
         CompiledAirVar::State(name) => format!("{name}.clone()"),
         CompiledAirVar::StaticCall(id, args) => {
@@ -125,7 +174,7 @@ fn gen_evaluate_call(
     air_fn: &CompiledAirFn,
     id: &str,
     args: &[CompiledAirVar],
-    constant_names: &HashMap<(String, String), String>,
+    constant_names: &HashMap<RustConst, String>,
 ) -> String {
     let mut arg_str = args
         .iter()
@@ -171,7 +220,7 @@ pub fn parse_lookup_constraint(
     felts: &[CompiledAirVar],
     use_or_yield: &UseOrYield,
     multiplicity: &CompiledAirVar,
-    constant_defs: &HashMap<(String, String), String>,
+    constant_defs: &HashMap<RustConst, String>,
 ) -> rust::Tokens {
     let lookup_values = remove_trailing_zeroes(felts)
         .iter()

@@ -28,17 +28,26 @@ pub fn accumulate_constraints<Value: IValue>(
         .get_preprocessed_column(&PreProcessedColumnId { id: "m31_to_u32_output_addr".to_owned() });
 
     // Use RangeCheck_16.
-    let tuple_0 = &[eval!(context, 1008385708), eval!(context, input_u32_limb_0_col1)];
+    let tuple_0 = &[
+        context.constant(relations::RANGE_CHECK_16_RELATION_ID.into()),
+        eval!(context, input_u32_limb_0_col1),
+    ];
     let numerator_0 = eval!(context, 1);
     acc.add_to_relation(context, numerator_0, tuple_0);
 
     // Use RangeCheck_16.
-    let tuple_1 = &[eval!(context, 1008385708), eval!(context, input_u32_limb_1_col2)];
+    let tuple_1 = &[
+        context.constant(relations::RANGE_CHECK_16_RELATION_ID.into()),
+        eval!(context, input_u32_limb_1_col2),
+    ];
     let numerator_1 = eval!(context, 1);
     acc.add_to_relation(context, numerator_1, tuple_1);
 
     // Use RangeCheck_16.
-    let tuple_2 = &[eval!(context, 1008385708), eval!(context, (32767) - (input_u32_limb_1_col2))];
+    let tuple_2 = &[
+        context.constant(relations::RANGE_CHECK_16_RELATION_ID.into()),
+        eval!(context, (32767) - (input_u32_limb_1_col2)),
+    ];
     let numerator_2 = eval!(context, 1);
     acc.add_to_relation(context, numerator_2, tuple_2);
 
@@ -56,7 +65,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_5 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, m31_to_u32_input_addr),
         eval!(context, input_m31_col0),
     ];
@@ -65,7 +74,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Gate.
     let tuple_6 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, m31_to_u32_output_addr),
         eval!(context, input_u32_limb_0_col1),
         eval!(context, input_u32_limb_1_col2),

@@ -12,7 +12,7 @@ use genco::quote;
 use interaction_claim_generator::interaction_prover_struct;
 use itertools::Itertools;
 
-use super::parse::seek_consts;
+use super::parse::{RustConst, seek_consts};
 use crate::utils::is_const_size_component;
 
 pub enum MultiplicityMode {
@@ -33,7 +33,7 @@ pub enum Mode {
 
 pub struct RustProverGen {
     pub air_fn: CompiledAirFn,
-    pub constants: Vec<(String, String)>,
+    pub constants: Vec<RustConst>,
     pub lookup_terms: Vec<LookupTerm>,
     multiplicity_indices: HashMap<CompiledAirVar, usize>,
     pub mode: Mode,
@@ -214,7 +214,7 @@ impl RustProverGen {
     }
 }
 
-fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
+fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<RustConst> {
     deductions
         .iter()
         .fold(HashSet::new(), |mut const_defs, deductions| {

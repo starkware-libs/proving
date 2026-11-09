@@ -114,7 +114,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8.
     let tuple_6 = &[
-        eval!(context, 112558620),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_RELATION_ID.into()),
         eval!(context, ms_8_bits_col0),
         eval!(context, ms_8_bits_col2),
         eval!(context, split_16_low_part_size_8_output_tmp_e2dc4_9_limb_0),
@@ -124,7 +124,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8.
     let tuple_7 = &[
-        eval!(context, 112558620),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_RELATION_ID.into()),
         eval!(context, split_16_low_part_size_8_output_tmp_e2dc4_3_limb_0),
         eval!(context, split_16_low_part_size_8_output_tmp_e2dc4_7_limb_0),
         eval!(context, ms_8_bits_col4),
@@ -134,7 +134,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8.
     let tuple_8 = &[
-        eval!(context, 112558620),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_RELATION_ID.into()),
         eval!(context, ms_8_bits_col1),
         eval!(context, ms_8_bits_col3),
         eval!(context, split_16_low_part_size_8_output_tmp_e2dc4_11_limb_0),
@@ -144,7 +144,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyBitwiseXor_8.
     let tuple_9 = &[
-        eval!(context, 112558620),
+        context.constant(relations::VERIFY_BITWISE_XOR_8_RELATION_ID.into()),
         eval!(context, split_16_low_part_size_8_output_tmp_e2dc4_1_limb_0),
         eval!(context, split_16_low_part_size_8_output_tmp_e2dc4_5_limb_0),
         eval!(context, ms_8_bits_col5),

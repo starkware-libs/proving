@@ -13,10 +13,7 @@ use super::parse::{
     constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
 };
 use crate::supported_components::AirAutogenConfig;
-use crate::utils::{
-    generate_relation_uses, get_variable_name, is_const_size_component,
-    make_preprocessed_column_id, replace_generics_with_turbofish,
-};
+use crate::utils::{generate_relation_uses, is_const_size_component, make_preprocessed_column_id};
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
 pub fn generate_toplevel_constraints_code(
@@ -322,13 +319,13 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
         constants.extend(seek_consts(&air_fn.verifier_output.0));
     }
     let mut const_names = HashMap::new();
-    for (ty, val) in constants.into_iter() {
-        let name = get_variable_name(&ty, &val);
-        const_names.insert((ty.clone(), val.clone()), name.clone());
-        assert_eq!(ty, "M31", "Unsupported constant type {ty}");
+    for constant in constants.into_iter() {
+        let name = constant.var_name();
+        assert_eq!(constant.ty(), "M31", "Unsupported constant type {}", constant.ty());
         code.append(quote! {
-            let $(name) = E::F::from($(replace_generics_with_turbofish(&ty))::from($(val)));
+            let $(&name) = E::F::from($(constant.value()));
         });
+        const_names.insert(constant, name);
     }
 
     if air_fn.r#type != TraceType::Inline {

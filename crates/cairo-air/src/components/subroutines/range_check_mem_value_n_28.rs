@@ -47,20 +47,20 @@ impl RangeCheckMemValueN28 {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_1813904000 = E::F::from(M31::from(1813904000));
-        let M31_1830681619 = E::F::from(M31::from(1830681619));
-        let M31_1847459238 = E::F::from(M31::from(1847459238));
-        let M31_1864236857 = E::F::from(M31::from(1864236857));
-        let M31_1881014476 = E::F::from(M31::from(1881014476));
-        let M31_1897792095 = E::F::from(M31::from(1897792095));
-        let M31_2065568285 = E::F::from(M31::from(2065568285));
-        let M31_517791011 = E::F::from(M31::from(517791011));
+        let range_check_9_9_b_relation_id = E::F::from(relations::RANGE_CHECK_9_9_B_RELATION_ID);
+        let range_check_9_9_c_relation_id = E::F::from(relations::RANGE_CHECK_9_9_C_RELATION_ID);
+        let range_check_9_9_d_relation_id = E::F::from(relations::RANGE_CHECK_9_9_D_RELATION_ID);
+        let range_check_9_9_e_relation_id = E::F::from(relations::RANGE_CHECK_9_9_E_RELATION_ID);
+        let range_check_9_9_f_relation_id = E::F::from(relations::RANGE_CHECK_9_9_F_RELATION_ID);
+        let range_check_9_9_g_relation_id = E::F::from(relations::RANGE_CHECK_9_9_G_RELATION_ID);
+        let range_check_9_9_h_relation_id = E::F::from(relations::RANGE_CHECK_9_9_H_RELATION_ID);
+        let range_check_9_9_relation_id = E::F::from(relations::RANGE_CHECK_9_9_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_517791011.clone(),
+                range_check_9_9_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_0.clone(),
                 range_check_mem_value_n_28_input_limb_1.clone(),
             ],
@@ -70,7 +70,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1897792095.clone(),
+                range_check_9_9_b_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_2.clone(),
                 range_check_mem_value_n_28_input_limb_3.clone(),
             ],
@@ -80,7 +80,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1881014476.clone(),
+                range_check_9_9_c_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_4.clone(),
                 range_check_mem_value_n_28_input_limb_5.clone(),
             ],
@@ -90,7 +90,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1864236857.clone(),
+                range_check_9_9_d_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_6.clone(),
                 range_check_mem_value_n_28_input_limb_7.clone(),
             ],
@@ -100,7 +100,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1847459238.clone(),
+                range_check_9_9_e_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_8.clone(),
                 range_check_mem_value_n_28_input_limb_9.clone(),
             ],
@@ -110,7 +110,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1830681619.clone(),
+                range_check_9_9_f_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_10.clone(),
                 range_check_mem_value_n_28_input_limb_11.clone(),
             ],
@@ -120,7 +120,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1813904000.clone(),
+                range_check_9_9_g_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_12.clone(),
                 range_check_mem_value_n_28_input_limb_13.clone(),
             ],
@@ -130,7 +130,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_2065568285.clone(),
+                range_check_9_9_h_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_14.clone(),
                 range_check_mem_value_n_28_input_limb_15.clone(),
             ],
@@ -140,7 +140,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_517791011.clone(),
+                range_check_9_9_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_16.clone(),
                 range_check_mem_value_n_28_input_limb_17.clone(),
             ],
@@ -150,7 +150,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1897792095.clone(),
+                range_check_9_9_b_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_18.clone(),
                 range_check_mem_value_n_28_input_limb_19.clone(),
             ],
@@ -160,7 +160,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1881014476.clone(),
+                range_check_9_9_c_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_20.clone(),
                 range_check_mem_value_n_28_input_limb_21.clone(),
             ],
@@ -170,7 +170,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1864236857.clone(),
+                range_check_9_9_d_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_22.clone(),
                 range_check_mem_value_n_28_input_limb_23.clone(),
             ],
@@ -180,7 +180,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1847459238.clone(),
+                range_check_9_9_e_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_24.clone(),
                 range_check_mem_value_n_28_input_limb_25.clone(),
             ],
@@ -190,7 +190,7 @@ impl RangeCheckMemValueN28 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1830681619.clone(),
+                range_check_9_9_f_relation_id.clone(),
                 range_check_mem_value_n_28_input_limb_26.clone(),
                 range_check_mem_value_n_28_input_limb_27.clone(),
             ],

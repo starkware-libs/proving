@@ -60,7 +60,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use VerifyInstruction.
     let tuple_8 = &[
-        eval!(context, 1719106205),
+        context.constant(relations::VERIFY_INSTRUCTION_RELATION_ID.into()),
         eval!(context, decode_instruction_c67a5_input_pc),
         eval!(context, offset0_col0),
         eval!(context, offset1_col1),

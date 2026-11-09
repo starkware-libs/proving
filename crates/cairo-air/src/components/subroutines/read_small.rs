@@ -33,10 +33,10 @@ impl ReadSmall {
         let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));
         let M31_134217728 = E::F::from(M31::from(134217728));
-        let M31_1662111297 = E::F::from(M31::from(1662111297));
         let M31_262144 = E::F::from(M31::from(262144));
         let M31_512 = E::F::from(M31::from(512));
         let M31_536870912 = E::F::from(M31::from(536870912));
+        let memory_id_to_big_relation_id = E::F::from(relations::MEMORY_ID_TO_BIG_RELATION_ID);
 
         ReadId::evaluate(
             [read_small_input.clone()],
@@ -69,7 +69,7 @@ impl ReadSmall {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 id_col0.clone(),
                 value_limb_0_col3.clone(),
                 value_limb_1_col4.clone(),

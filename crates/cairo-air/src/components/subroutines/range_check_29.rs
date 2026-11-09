@@ -20,14 +20,14 @@ impl RangeCheck29 {
         eval: &mut E,
     ) -> [E::F; 0] {
         let M31_1048576 = E::F::from(M31::from(1048576));
-        let M31_1109051422 = E::F::from(M31::from(1109051422));
-        let M31_991608089 = E::F::from(M31::from(991608089));
+        let range_check_11_relation_id = E::F::from(relations::RANGE_CHECK_11_RELATION_ID);
+        let range_check_18_relation_id = E::F::from(relations::RANGE_CHECK_18_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1109051422.clone(),
+                range_check_18_relation_id.clone(),
                 ((range_check_29_input.clone() - range_check_29_bot11bits_col0.clone())
                     * M31_1048576.clone()),
             ],
@@ -36,7 +36,7 @@ impl RangeCheck29 {
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
-            &[M31_991608089.clone(), range_check_29_bot11bits_col0.clone()],
+            &[range_check_11_relation_id.clone(), range_check_29_bot11bits_col0.clone()],
         ));
 
         []

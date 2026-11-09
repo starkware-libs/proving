@@ -110,16 +110,22 @@ fn write_trace_simd(
         )
     };
 
-    let M31_1090315331 = PackedM31::broadcast(M31::from(1090315331));
-    let M31_1109051422 = PackedM31::broadcast(M31::from(1109051422));
-    let M31_1424798916 = PackedM31::broadcast(M31::from(1424798916));
-    let M31_1847459238 = PackedM31::broadcast(M31::from(1847459238));
-    let M31_1864236857 = PackedM31::broadcast(M31::from(1864236857));
-    let M31_1881014476 = PackedM31::broadcast(M31::from(1881014476));
-    let M31_1897792095 = PackedM31::broadcast(M31::from(1897792095));
     let M31_262144 = PackedM31::broadcast(M31::from(262144));
     let M31_4194304 = PackedM31::broadcast(M31::from(4194304));
-    let M31_517791011 = PackedM31::broadcast(M31::from(517791011));
+    let range_check_18_b_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_18_B_RELATION_ID);
+    let range_check_18_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_18_RELATION_ID);
+    let range_check_252_width_27_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_252_WIDTH_27_RELATION_ID);
+    let range_check_9_9_b_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_B_RELATION_ID);
+    let range_check_9_9_c_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_C_RELATION_ID);
+    let range_check_9_9_d_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_D_RELATION_ID);
+    let range_check_9_9_e_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_E_RELATION_ID);
+    let range_check_9_9_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_9_9_RELATION_ID);
     let enabler_col = Enabler::new(n_rows);
 
     (
@@ -166,17 +172,17 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_9_9[0] =
                     [limb_0_high_part_col11, limb_1_low_part_col12];
                 *lookup_data.range_check_9_9_0 =
-                    [M31_517791011, limb_0_high_part_col11, limb_1_low_part_col12];
+                    [range_check_9_9_relation_id, limb_0_high_part_col11, limb_1_low_part_col12];
                 *sub_component_inputs.range_check_18[0] =
                     [((input_limb_0_col1) - ((limb_0_high_part_col11) * (M31_262144)))];
                 *lookup_data.range_check_18_1 = [
-                    M31_1109051422,
+                    range_check_18_relation_id,
                     ((input_limb_0_col1) - ((limb_0_high_part_col11) * (M31_262144))),
                 ];
                 *sub_component_inputs.range_check_18[1] =
                     [(((input_limb_1_col2) - (limb_1_low_part_col12)) * (M31_4194304))];
                 *lookup_data.range_check_18_2 = [
-                    M31_1109051422,
+                    range_check_18_relation_id,
                     (((input_limb_1_col2) - (limb_1_low_part_col12)) * (M31_4194304)),
                 ];
                 let limb_2_high_part_col13 = input_as_felt252_tmp_6d30a_0.get_m31_limb(8);
@@ -186,17 +192,17 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_9_9_b[0] =
                     [limb_2_high_part_col13, limb_3_low_part_col14];
                 *lookup_data.range_check_9_9_b_3 =
-                    [M31_1897792095, limb_2_high_part_col13, limb_3_low_part_col14];
+                    [range_check_9_9_b_relation_id, limb_2_high_part_col13, limb_3_low_part_col14];
                 *sub_component_inputs.range_check_18_b[0] =
                     [((input_limb_2_col3) - ((limb_2_high_part_col13) * (M31_262144)))];
                 *lookup_data.range_check_18_b_4 = [
-                    M31_1424798916,
+                    range_check_18_b_relation_id,
                     ((input_limb_2_col3) - ((limb_2_high_part_col13) * (M31_262144))),
                 ];
                 *sub_component_inputs.range_check_18[2] =
                     [(((input_limb_3_col4) - (limb_3_low_part_col14)) * (M31_4194304))];
                 *lookup_data.range_check_18_5 = [
-                    M31_1109051422,
+                    range_check_18_relation_id,
                     (((input_limb_3_col4) - (limb_3_low_part_col14)) * (M31_4194304)),
                 ];
                 let limb_4_high_part_col15 = input_as_felt252_tmp_6d30a_0.get_m31_limb(14);
@@ -206,17 +212,17 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_9_9_c[0] =
                     [limb_4_high_part_col15, limb_5_low_part_col16];
                 *lookup_data.range_check_9_9_c_6 =
-                    [M31_1881014476, limb_4_high_part_col15, limb_5_low_part_col16];
+                    [range_check_9_9_c_relation_id, limb_4_high_part_col15, limb_5_low_part_col16];
                 *sub_component_inputs.range_check_18[3] =
                     [((input_limb_4_col5) - ((limb_4_high_part_col15) * (M31_262144)))];
                 *lookup_data.range_check_18_7 = [
-                    M31_1109051422,
+                    range_check_18_relation_id,
                     ((input_limb_4_col5) - ((limb_4_high_part_col15) * (M31_262144))),
                 ];
                 *sub_component_inputs.range_check_18[4] =
                     [(((input_limb_5_col6) - (limb_5_low_part_col16)) * (M31_4194304))];
                 *lookup_data.range_check_18_8 = [
-                    M31_1109051422,
+                    range_check_18_relation_id,
                     (((input_limb_5_col6) - (limb_5_low_part_col16)) * (M31_4194304)),
                 ];
                 let limb_6_high_part_col17 = input_as_felt252_tmp_6d30a_0.get_m31_limb(20);
@@ -226,17 +232,17 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_9_9_d[0] =
                     [limb_6_high_part_col17, limb_7_low_part_col18];
                 *lookup_data.range_check_9_9_d_9 =
-                    [M31_1864236857, limb_6_high_part_col17, limb_7_low_part_col18];
+                    [range_check_9_9_d_relation_id, limb_6_high_part_col17, limb_7_low_part_col18];
                 *sub_component_inputs.range_check_18_b[1] =
                     [((input_limb_6_col7) - ((limb_6_high_part_col17) * (M31_262144)))];
                 *lookup_data.range_check_18_b_10 = [
-                    M31_1424798916,
+                    range_check_18_b_relation_id,
                     ((input_limb_6_col7) - ((limb_6_high_part_col17) * (M31_262144))),
                 ];
                 *sub_component_inputs.range_check_18[5] =
                     [(((input_limb_7_col8) - (limb_7_low_part_col18)) * (M31_4194304))];
                 *lookup_data.range_check_18_11 = [
-                    M31_1109051422,
+                    range_check_18_relation_id,
                     (((input_limb_7_col8) - (limb_7_low_part_col18)) * (M31_4194304)),
                 ];
                 let limb_8_high_part_col19 = input_as_felt252_tmp_6d30a_0.get_m31_limb(26);
@@ -244,15 +250,15 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_9_9_e[0] =
                     [limb_8_high_part_col19, input_limb_9_col10];
                 *lookup_data.range_check_9_9_e_12 =
-                    [M31_1847459238, limb_8_high_part_col19, input_limb_9_col10];
+                    [range_check_9_9_e_relation_id, limb_8_high_part_col19, input_limb_9_col10];
                 *sub_component_inputs.range_check_18[6] =
                     [((input_limb_8_col9) - ((limb_8_high_part_col19) * (M31_262144)))];
                 *lookup_data.range_check_18_13 = [
-                    M31_1109051422,
+                    range_check_18_relation_id,
                     ((input_limb_8_col9) - ((limb_8_high_part_col19) * (M31_262144))),
                 ];
                 *lookup_data.range_check_252_width_27_14 = [
-                    M31_1090315331,
+                    range_check_252_width_27_relation_id,
                     input_limb_0_col1,
                     input_limb_1_col2,
                     input_limb_2_col3,

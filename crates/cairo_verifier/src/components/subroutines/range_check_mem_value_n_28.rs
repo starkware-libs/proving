@@ -54,7 +54,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9.
     let tuple_0 = &[
-        eval!(context, 517791011),
+        context.constant(relations::RANGE_CHECK_9_9_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_0),
         eval!(context, range_check_mem_value_n_28_input_limb_1),
     ];
@@ -63,7 +63,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_B.
     let tuple_1 = &[
-        eval!(context, 1897792095),
+        context.constant(relations::RANGE_CHECK_9_9_B_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_2),
         eval!(context, range_check_mem_value_n_28_input_limb_3),
     ];
@@ -72,7 +72,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_C.
     let tuple_2 = &[
-        eval!(context, 1881014476),
+        context.constant(relations::RANGE_CHECK_9_9_C_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_4),
         eval!(context, range_check_mem_value_n_28_input_limb_5),
     ];
@@ -81,7 +81,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_D.
     let tuple_3 = &[
-        eval!(context, 1864236857),
+        context.constant(relations::RANGE_CHECK_9_9_D_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_6),
         eval!(context, range_check_mem_value_n_28_input_limb_7),
     ];
@@ -90,7 +90,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_E.
     let tuple_4 = &[
-        eval!(context, 1847459238),
+        context.constant(relations::RANGE_CHECK_9_9_E_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_8),
         eval!(context, range_check_mem_value_n_28_input_limb_9),
     ];
@@ -99,7 +99,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_F.
     let tuple_5 = &[
-        eval!(context, 1830681619),
+        context.constant(relations::RANGE_CHECK_9_9_F_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_10),
         eval!(context, range_check_mem_value_n_28_input_limb_11),
     ];
@@ -108,7 +108,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_G.
     let tuple_6 = &[
-        eval!(context, 1813904000),
+        context.constant(relations::RANGE_CHECK_9_9_G_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_12),
         eval!(context, range_check_mem_value_n_28_input_limb_13),
     ];
@@ -117,7 +117,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_H.
     let tuple_7 = &[
-        eval!(context, 2065568285),
+        context.constant(relations::RANGE_CHECK_9_9_H_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_14),
         eval!(context, range_check_mem_value_n_28_input_limb_15),
     ];
@@ -126,7 +126,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9.
     let tuple_8 = &[
-        eval!(context, 517791011),
+        context.constant(relations::RANGE_CHECK_9_9_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_16),
         eval!(context, range_check_mem_value_n_28_input_limb_17),
     ];
@@ -135,7 +135,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_B.
     let tuple_9 = &[
-        eval!(context, 1897792095),
+        context.constant(relations::RANGE_CHECK_9_9_B_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_18),
         eval!(context, range_check_mem_value_n_28_input_limb_19),
     ];
@@ -144,7 +144,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_C.
     let tuple_10 = &[
-        eval!(context, 1881014476),
+        context.constant(relations::RANGE_CHECK_9_9_C_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_20),
         eval!(context, range_check_mem_value_n_28_input_limb_21),
     ];
@@ -153,7 +153,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_D.
     let tuple_11 = &[
-        eval!(context, 1864236857),
+        context.constant(relations::RANGE_CHECK_9_9_D_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_22),
         eval!(context, range_check_mem_value_n_28_input_limb_23),
     ];
@@ -162,7 +162,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_E.
     let tuple_12 = &[
-        eval!(context, 1847459238),
+        context.constant(relations::RANGE_CHECK_9_9_E_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_24),
         eval!(context, range_check_mem_value_n_28_input_limb_25),
     ];
@@ -171,7 +171,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_9_9_F.
     let tuple_13 = &[
-        eval!(context, 1830681619),
+        context.constant(relations::RANGE_CHECK_9_9_F_RELATION_ID.into()),
         eval!(context, range_check_mem_value_n_28_input_limb_26),
         eval!(context, range_check_mem_value_n_28_input_limb_27),
     ];

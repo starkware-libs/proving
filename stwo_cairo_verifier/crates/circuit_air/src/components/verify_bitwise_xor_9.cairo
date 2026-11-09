@@ -33,8 +33,8 @@ pub impl AirComponentImpl of AirComponent {
         let verify_bitwise_xor_9_sum_0: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<95781001, 0, 0, 0>(), bitwise_xor_9_0, bitwise_xor_9_1,
-                    bitwise_xor_9_2,
+                    qm31_const::<relations::VERIFY_BITWISE_XOR_9_RELATION_ID, 0, 0, 0>(),
+                    bitwise_xor_9_0, bitwise_xor_9_1, bitwise_xor_9_2,
                 ]
                     .span(),
             );

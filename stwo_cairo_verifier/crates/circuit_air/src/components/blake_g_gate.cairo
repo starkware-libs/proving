@@ -375,7 +375,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_16: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_a,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), blake_g_gate_input_addr_a,
                     input_a_limb_0_col0, input_a_limb_1_col1,
                 ]
                     .span(),
@@ -385,7 +385,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_17: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_b,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), blake_g_gate_input_addr_b,
                     input_b_limb_0_col2, input_b_limb_1_col3,
                 ]
                     .span(),
@@ -395,7 +395,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_18: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_c,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), blake_g_gate_input_addr_c,
                     input_c_limb_0_col4, input_c_limb_1_col5,
                 ]
                     .span(),
@@ -405,7 +405,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_19: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_d,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), blake_g_gate_input_addr_d,
                     input_d_limb_0_col6, input_d_limb_1_col7,
                 ]
                     .span(),
@@ -415,8 +415,8 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_20: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_f0,
-                    input_f0_limb_0_col8, input_f0_limb_1_col9,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(),
+                    blake_g_gate_input_addr_f0, input_f0_limb_0_col8, input_f0_limb_1_col9,
                 ]
                     .span(),
             );
@@ -425,8 +425,8 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_21: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_f1,
-                    input_f1_limb_0_col10, input_f1_limb_1_col11,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(),
+                    blake_g_gate_input_addr_f1, input_f1_limb_0_col10, input_f1_limb_1_col11,
                 ]
                     .span(),
             );
@@ -435,8 +435,8 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_22: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_a,
-                    input_a_out_limb_0_col12, input_a_out_limb_1_col13,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(),
+                    blake_g_gate_output_addr_a, input_a_out_limb_0_col12, input_a_out_limb_1_col13,
                 ]
                     .span(),
             );
@@ -445,8 +445,8 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_23: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_b,
-                    input_b_out_limb_0_col14, input_b_out_limb_1_col15,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(),
+                    blake_g_gate_output_addr_b, input_b_out_limb_0_col14, input_b_out_limb_1_col15,
                 ]
                     .span(),
             );
@@ -455,8 +455,8 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_24: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_c,
-                    input_c_out_limb_0_col16, input_c_out_limb_1_col17,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(),
+                    blake_g_gate_output_addr_c, input_c_out_limb_0_col16, input_c_out_limb_1_col17,
                 ]
                     .span(),
             );
@@ -465,8 +465,8 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_25: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_d,
-                    input_d_out_limb_0_col18, input_d_out_limb_1_col19,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(),
+                    blake_g_gate_output_addr_d, input_d_out_limb_0_col18, input_d_out_limb_1_col19,
                 ]
                     .span(),
             );

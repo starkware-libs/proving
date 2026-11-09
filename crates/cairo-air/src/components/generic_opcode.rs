@@ -70,7 +70,7 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_428564188 = E::F::from(M31::from(428564188));
+        let opcodes_relation_id = E::F::from(relations::OPCODES_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_pc_col1 = eval.next_trace_mask();
         let input_ap_col2 = eval.next_trace_mask();
@@ -809,7 +809,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_428564188.clone(),
+                opcodes_relation_id.clone(),
                 input_pc_col1.clone(),
                 input_ap_col2.clone(),
                 input_fp_col3.clone(),
@@ -820,7 +820,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_428564188.clone(),
+                opcodes_relation_id.clone(),
                 next_pc_col239.clone(),
                 next_ap_col240.clone(),
                 next_fp_col242.clone(),

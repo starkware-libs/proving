@@ -59,7 +59,7 @@ impl FrameworkEval for Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));
-        let M31_378353459 = E::F::from(M31::from(378353459));
+        let gate_relation_id = E::F::from(relations::GATE_RELATION_ID);
         let blake_g_gate_input_addr_a = eval.get_preprocessed_column(PreProcessedColumnId {
             id: "blake_g_gate_input_addr_a".to_owned(),
         });
@@ -296,7 +296,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_input_addr_a.clone(),
                 input_a_limb_0_col0.clone(),
                 input_a_limb_1_col1.clone(),
@@ -307,7 +307,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_input_addr_b.clone(),
                 input_b_limb_0_col2.clone(),
                 input_b_limb_1_col3.clone(),
@@ -318,7 +318,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_input_addr_c.clone(),
                 input_c_limb_0_col4.clone(),
                 input_c_limb_1_col5.clone(),
@@ -329,7 +329,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_input_addr_d.clone(),
                 input_d_limb_0_col6.clone(),
                 input_d_limb_1_col7.clone(),
@@ -340,7 +340,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_input_addr_f0.clone(),
                 input_f0_limb_0_col8.clone(),
                 input_f0_limb_1_col9.clone(),
@@ -351,7 +351,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_input_addr_f1.clone(),
                 input_f1_limb_0_col10.clone(),
                 input_f1_limb_1_col11.clone(),
@@ -362,7 +362,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(blake_g_gate_multiplicity.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_output_addr_a.clone(),
                 input_a_out_limb_0_col12.clone(),
                 input_a_out_limb_1_col13.clone(),
@@ -373,7 +373,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(blake_g_gate_multiplicity.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_output_addr_b.clone(),
                 input_b_out_limb_0_col14.clone(),
                 input_b_out_limb_1_col15.clone(),
@@ -384,7 +384,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(blake_g_gate_multiplicity.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_output_addr_c.clone(),
                 input_c_out_limb_0_col16.clone(),
                 input_c_out_limb_1_col17.clone(),
@@ -395,7 +395,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(blake_g_gate_multiplicity.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 blake_g_gate_output_addr_d.clone(),
                 input_d_out_limb_0_col18.clone(),
                 input_d_out_limb_1_col19.clone(),

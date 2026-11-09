@@ -82,7 +82,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use TripleXor32.
     let tuple_0 = &[
-        eval!(context, 990559919),
+        context.constant(relations::TRIPLE_XOR_32_RELATION_ID.into()),
         eval!(context, create_blake_output_input_limb_16),
         eval!(context, create_blake_output_input_limb_17),
         eval!(context, create_blake_output_input_limb_32),
@@ -97,7 +97,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use TripleXor32.
     let tuple_1 = &[
-        eval!(context, 990559919),
+        context.constant(relations::TRIPLE_XOR_32_RELATION_ID.into()),
         eval!(context, create_blake_output_input_limb_18),
         eval!(context, create_blake_output_input_limb_19),
         eval!(context, create_blake_output_input_limb_34),
@@ -112,7 +112,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use TripleXor32.
     let tuple_2 = &[
-        eval!(context, 990559919),
+        context.constant(relations::TRIPLE_XOR_32_RELATION_ID.into()),
         eval!(context, create_blake_output_input_limb_20),
         eval!(context, create_blake_output_input_limb_21),
         eval!(context, create_blake_output_input_limb_36),
@@ -127,7 +127,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use TripleXor32.
     let tuple_3 = &[
-        eval!(context, 990559919),
+        context.constant(relations::TRIPLE_XOR_32_RELATION_ID.into()),
         eval!(context, create_blake_output_input_limb_22),
         eval!(context, create_blake_output_input_limb_23),
         eval!(context, create_blake_output_input_limb_38),
@@ -142,7 +142,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use TripleXor32.
     let tuple_4 = &[
-        eval!(context, 990559919),
+        context.constant(relations::TRIPLE_XOR_32_RELATION_ID.into()),
         eval!(context, create_blake_output_input_limb_24),
         eval!(context, create_blake_output_input_limb_25),
         eval!(context, create_blake_output_input_limb_40),
@@ -157,7 +157,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use TripleXor32.
     let tuple_5 = &[
-        eval!(context, 990559919),
+        context.constant(relations::TRIPLE_XOR_32_RELATION_ID.into()),
         eval!(context, create_blake_output_input_limb_26),
         eval!(context, create_blake_output_input_limb_27),
         eval!(context, create_blake_output_input_limb_42),
@@ -172,7 +172,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use TripleXor32.
     let tuple_6 = &[
-        eval!(context, 990559919),
+        context.constant(relations::TRIPLE_XOR_32_RELATION_ID.into()),
         eval!(context, create_blake_output_input_limb_28),
         eval!(context, create_blake_output_input_limb_29),
         eval!(context, create_blake_output_input_limb_44),
@@ -187,7 +187,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use TripleXor32.
     let tuple_7 = &[
-        eval!(context, 990559919),
+        context.constant(relations::TRIPLE_XOR_32_RELATION_ID.into()),
         eval!(context, create_blake_output_input_limb_30),
         eval!(context, create_blake_output_input_limb_31),
         eval!(context, create_blake_output_input_limb_46),

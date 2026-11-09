@@ -41,7 +41,8 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_62225763 = E::F::from(M31::from(62225763));
+        let verify_bitwise_xor_7_relation_id =
+            E::F::from(relations::VERIFY_BITWISE_XOR_7_RELATION_ID);
         let bitwise_xor_7_0 =
             eval.get_preprocessed_column(PreProcessedColumnId { id: "bitwise_xor_7_0".to_owned() });
         let bitwise_xor_7_1 =
@@ -54,7 +55,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_62225763.clone(),
+                verify_bitwise_xor_7_relation_id.clone(),
                 bitwise_xor_7_0.clone(),
                 bitwise_xor_7_1.clone(),
                 bitwise_xor_7_2.clone(),

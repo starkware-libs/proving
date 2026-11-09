@@ -34,8 +34,10 @@ impl VerifyXorRot32R7 {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_62225763 = E::F::from(M31::from(62225763));
-        let M31_95781001 = E::F::from(M31::from(95781001));
+        let verify_bitwise_xor_7_relation_id =
+            E::F::from(relations::VERIFY_BITWISE_XOR_7_RELATION_ID);
+        let verify_bitwise_xor_9_relation_id =
+            E::F::from(relations::VERIFY_BITWISE_XOR_9_RELATION_ID);
 
         let [split_16_low_part_size_7_output_tmp_f88f9_1_limb_0] = Split16LowPartSize7::evaluate(
             [verify_xor_rot_32_r_7_input_limb_0.clone()],
@@ -83,7 +85,7 @@ impl VerifyXorRot32R7 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_95781001.clone(),
+                verify_bitwise_xor_9_relation_id.clone(),
                 ms_9_bits_col0.clone(),
                 ms_9_bits_col2.clone(),
                 split_16_low_part_size_9_output_tmp_f88f9_9_limb_0.clone(),
@@ -94,7 +96,7 @@ impl VerifyXorRot32R7 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_62225763.clone(),
+                verify_bitwise_xor_7_relation_id.clone(),
                 split_16_low_part_size_7_output_tmp_f88f9_3_limb_0.clone(),
                 split_16_low_part_size_7_output_tmp_f88f9_7_limb_0.clone(),
                 ms_7_bits_col4.clone(),
@@ -105,7 +107,7 @@ impl VerifyXorRot32R7 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_95781001.clone(),
+                verify_bitwise_xor_9_relation_id.clone(),
                 ms_9_bits_col1.clone(),
                 ms_9_bits_col3.clone(),
                 split_16_low_part_size_9_output_tmp_f88f9_11_limb_0.clone(),
@@ -116,7 +118,7 @@ impl VerifyXorRot32R7 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_62225763.clone(),
+                verify_bitwise_xor_7_relation_id.clone(),
                 split_16_low_part_size_7_output_tmp_f88f9_1_limb_0.clone(),
                 split_16_low_part_size_7_output_tmp_f88f9_5_limb_0.clone(),
                 ms_7_bits_col5.clone(),

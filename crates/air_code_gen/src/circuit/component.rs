@@ -294,6 +294,9 @@ fn make_var_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
     } else if let CompiledAirVar::Array(vars) = expr {
         let mut var_strings = vars.iter().map(|var| make_var_for_expr(var).to_string().unwrap());
         quote! { [$(var_strings.join(", "))] }
+    } else if let CompiledAirVar::NamedConst { name, .. } = expr {
+        // Same as `eval!` on the constant's literal value.
+        quote! { context.constant($(named_const_path(name)).into()) }
     } else {
         // All the rest generate an eval!(...) call
         quote! { eval!(context, $(make_eval_body_for_expr(expr))) }
@@ -304,6 +307,7 @@ fn make_var_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
 /// to create a Var for the given expression.
 fn make_eval_body_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
     match expr {
+        // `eval!` takes only literals and vars, so a nested named constant uses its value.
         CompiledAirVar::Const(_, val) | CompiledAirVar::NamedConst { value: val, .. } => {
             quote! { $(val) }
         }

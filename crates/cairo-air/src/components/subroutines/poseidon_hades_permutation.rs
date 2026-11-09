@@ -257,7 +257,6 @@ impl PoseidonHadesPermutation {
         let M31_102193642 = E::F::from(M31::from(102193642));
         let M31_103094260 = E::F::from(M31::from(103094260));
         let M31_108487870 = E::F::from(M31::from(108487870));
-        let M31_1090315331 = E::F::from(M31::from(1090315331));
         let M31_112 = E::F::from(M31::from(112));
         let M31_112479959 = E::F::from(M31::from(112479959));
         let M31_112795138 = E::F::from(M31::from(112795138));
@@ -272,13 +271,10 @@ impl PoseidonHadesPermutation {
         let M31_129717753 = E::F::from(M31::from(129717753));
         let M31_130418270 = E::F::from(M31::from(130418270));
         let M31_133303902 = E::F::from(M31::from(133303902));
-        let M31_1343313504 = E::F::from(M31::from(1343313504));
-        let M31_1480369132 = E::F::from(M31::from(1480369132));
         let M31_154 = E::F::from(M31::from(154));
         let M31_16173996 = E::F::from(M31::from(16173996));
         let M31_18765944 = E::F::from(M31::from(18765944));
         let M31_19292069 = E::F::from(M31::from(19292069));
-        let M31_1987997202 = E::F::from(M31::from(1987997202));
         let M31_2 = E::F::from(M31::from(2));
         let M31_20 = E::F::from(M31::from(20));
         let M31_208 = E::F::from(M31::from(208));
@@ -332,6 +328,13 @@ impl PoseidonHadesPermutation {
         let M31_94624323 = E::F::from(M31::from(94624323));
         let M31_95050340 = E::F::from(M31::from(95050340));
         let M31_99 = E::F::from(M31::from(99));
+        let cube_252_relation_id = E::F::from(relations::CUBE_252_RELATION_ID);
+        let poseidon_3_partial_rounds_chain_relation_id =
+            E::F::from(relations::POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID);
+        let poseidon_full_round_chain_relation_id =
+            E::F::from(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID);
+        let range_check_252_width_27_relation_id =
+            E::F::from(relations::RANGE_CHECK_252_WIDTH_27_RELATION_ID);
 
         LinearCombinationN2Coefs11::evaluate(
             [
@@ -453,7 +456,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             -E::EF::from(enabler.clone()),
             &[
-                M31_1480369132.clone(),
+                poseidon_full_round_chain_relation_id.clone(),
                 poseidon_full_round_chain_chain_tmp_tmp_da3c7_63.clone(),
                 M31_0.clone(),
                 combination_limb_0_col0.clone(),
@@ -493,7 +496,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1480369132.clone(),
+                poseidon_full_round_chain_relation_id.clone(),
                 poseidon_full_round_chain_chain_tmp_tmp_da3c7_63.clone(),
                 M31_4.clone(),
                 poseidon_full_round_chain_output_limb_0_col33.clone(),
@@ -533,7 +536,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1090315331.clone(),
+                range_check_252_width_27_relation_id.clone(),
                 poseidon_full_round_chain_output_limb_0_col33.clone(),
                 poseidon_full_round_chain_output_limb_1_col34.clone(),
                 poseidon_full_round_chain_output_limb_2_col35.clone(),
@@ -551,7 +554,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1090315331.clone(),
+                range_check_252_width_27_relation_id.clone(),
                 poseidon_full_round_chain_output_limb_10_col43.clone(),
                 poseidon_full_round_chain_output_limb_11_col44.clone(),
                 poseidon_full_round_chain_output_limb_12_col45.clone(),
@@ -569,7 +572,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1987997202.clone(),
+                cube_252_relation_id.clone(),
                 poseidon_full_round_chain_output_limb_20_col53.clone(),
                 poseidon_full_round_chain_output_limb_21_col54.clone(),
                 poseidon_full_round_chain_output_limb_22_col55.clone(),
@@ -655,7 +658,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1987997202.clone(),
+                cube_252_relation_id.clone(),
                 combination_limb_0_col73.clone(),
                 combination_limb_1_col74.clone(),
                 combination_limb_2_col75.clone(),
@@ -741,7 +744,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             -E::EF::from(enabler.clone()),
             &[
-                M31_1343313504.clone(),
+                poseidon_3_partial_rounds_chain_relation_id.clone(),
                 seq.clone(),
                 M31_4.clone(),
                 cube_252_output_limb_0_col63.clone(),
@@ -791,7 +794,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1343313504.clone(),
+                poseidon_3_partial_rounds_chain_relation_id.clone(),
                 seq.clone(),
                 M31_31.clone(),
                 poseidon_3_partial_rounds_chain_output_limb_0_col105.clone(),
@@ -960,7 +963,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             -E::EF::from(enabler.clone()),
             &[
-                M31_1480369132.clone(),
+                poseidon_full_round_chain_relation_id.clone(),
                 poseidon_full_round_chain_chain_id_tmp_da3c7_146.clone(),
                 M31_31.clone(),
                 combination_limb_0_col156.clone(),
@@ -1000,7 +1003,7 @@ impl PoseidonHadesPermutation {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1480369132.clone(),
+                poseidon_full_round_chain_relation_id.clone(),
                 poseidon_full_round_chain_chain_id_tmp_da3c7_146.clone(),
                 M31_35.clone(),
                 poseidon_full_round_chain_output_limb_0_col167.clone(),

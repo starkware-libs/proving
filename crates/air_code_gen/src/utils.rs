@@ -271,6 +271,12 @@ pub fn generate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
+/// The path of the named constant `name` in the generated code. Named constants are defined in
+/// the generated relations files.
+pub fn named_const_path(name: &str) -> String {
+    format!("relations::{name}")
+}
+
 pub fn expr_iterator<F>(expr: &CompiledAirVar, f: &mut F)
 where
     F: FnMut(&CompiledAirVar),

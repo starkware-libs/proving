@@ -41,14 +41,14 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1410849886 = E::F::from(M31::from(1410849886));
-        let M31_447122465 = E::F::from(M31::from(447122465));
-        let M31_463900084 = E::F::from(M31::from(463900084));
-        let M31_480677703 = E::F::from(M31::from(480677703));
-        let M31_497455322 = E::F::from(M31::from(497455322));
-        let M31_514232941 = E::F::from(M31::from(514232941));
-        let M31_531010560 = E::F::from(M31::from(531010560));
-        let M31_682009131 = E::F::from(M31::from(682009131));
+        let range_check_20_b_relation_id = E::F::from(relations::RANGE_CHECK_20_B_RELATION_ID);
+        let range_check_20_c_relation_id = E::F::from(relations::RANGE_CHECK_20_C_RELATION_ID);
+        let range_check_20_d_relation_id = E::F::from(relations::RANGE_CHECK_20_D_RELATION_ID);
+        let range_check_20_e_relation_id = E::F::from(relations::RANGE_CHECK_20_E_RELATION_ID);
+        let range_check_20_f_relation_id = E::F::from(relations::RANGE_CHECK_20_F_RELATION_ID);
+        let range_check_20_g_relation_id = E::F::from(relations::RANGE_CHECK_20_G_RELATION_ID);
+        let range_check_20_h_relation_id = E::F::from(relations::RANGE_CHECK_20_H_RELATION_ID);
+        let range_check_20_relation_id = E::F::from(relations::RANGE_CHECK_20_RELATION_ID);
         let seq_20 = eval.get_preprocessed_column(PreProcessedColumnId { id: "seq_20".to_owned() });
         let multiplicity_0_col0 = eval.next_trace_mask();
         let multiplicity_1_col1 = eval.next_trace_mask();
@@ -62,49 +62,49 @@ impl FrameworkEval for Eval {
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
-            &[M31_1410849886.clone(), seq_20.clone()],
+            &[range_check_20_relation_id.clone(), seq_20.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_1_col1.clone()),
-            &[M31_514232941.clone(), seq_20.clone()],
+            &[range_check_20_b_relation_id.clone(), seq_20.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_2_col2.clone()),
-            &[M31_531010560.clone(), seq_20.clone()],
+            &[range_check_20_c_relation_id.clone(), seq_20.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_3_col3.clone()),
-            &[M31_480677703.clone(), seq_20.clone()],
+            &[range_check_20_d_relation_id.clone(), seq_20.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_4_col4.clone()),
-            &[M31_497455322.clone(), seq_20.clone()],
+            &[range_check_20_e_relation_id.clone(), seq_20.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_5_col5.clone()),
-            &[M31_447122465.clone(), seq_20.clone()],
+            &[range_check_20_f_relation_id.clone(), seq_20.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_6_col6.clone()),
-            &[M31_463900084.clone(), seq_20.clone()],
+            &[range_check_20_g_relation_id.clone(), seq_20.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_7_col7.clone()),
-            &[M31_682009131.clone(), seq_20.clone()],
+            &[range_check_20_h_relation_id.clone(), seq_20.clone()],
         ));
 
         eval.finalize_logup_in_pairs();

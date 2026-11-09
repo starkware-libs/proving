@@ -212,7 +212,7 @@ pub impl AirComponentImpl of AirComponent {
         let verify_bitwise_xor_8_sum_4: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<112558620, 0, 0, 0>(), xor_col16,
+                    qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(), xor_col16,
                     split_16_low_part_size_8_output_tmp_4ec2c_9_limb_0,
                     split_16_low_part_size_8_output_tmp_4ec2c_13_limb_0,
                 ]
@@ -222,7 +222,10 @@ pub impl AirComponentImpl of AirComponent {
 
         let verify_bitwise_xor_8_sum_5: QM31 = common_lookup_elements
             .combine(
-                [qm31_const::<112558620, 0, 0, 0>(), xor_col17, ms_8_bits_col12, ms_8_bits_col14]
+                [
+                    qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(), xor_col17,
+                    ms_8_bits_col12, ms_8_bits_col14,
+                ]
                     .span(),
             );
         let numerator_5: QM31 = qm31_const::<1, 0, 0, 0>();
@@ -230,7 +233,7 @@ pub impl AirComponentImpl of AirComponent {
         let verify_bitwise_xor_8_sum_6: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<112558620, 0, 0, 0>(), xor_col18,
+                    qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(), xor_col18,
                     split_16_low_part_size_8_output_tmp_4ec2c_11_limb_0,
                     split_16_low_part_size_8_output_tmp_4ec2c_15_limb_0,
                 ]
@@ -240,7 +243,10 @@ pub impl AirComponentImpl of AirComponent {
 
         let verify_bitwise_xor_8_sum_7: QM31 = common_lookup_elements
             .combine(
-                [qm31_const::<112558620, 0, 0, 0>(), xor_col19, ms_8_bits_col13, ms_8_bits_col15]
+                [
+                    qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(), xor_col19,
+                    ms_8_bits_col13, ms_8_bits_col15,
+                ]
                     .span(),
             );
         let numerator_7: QM31 = qm31_const::<1, 0, 0, 0>();
@@ -248,7 +254,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_8: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_0,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), triple_xor_input_addr_0,
                     input_a_limb_0_col0, input_a_limb_1_col1,
                 ]
                     .span(),
@@ -258,7 +264,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_9: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_1,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), triple_xor_input_addr_1,
                     input_b_limb_0_col2, input_b_limb_1_col3,
                 ]
                     .span(),
@@ -268,7 +274,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_10: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_2,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), triple_xor_input_addr_2,
                     input_c_limb_0_col4, input_c_limb_1_col5,
                 ]
                     .span(),
@@ -278,7 +284,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_11: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), triple_xor_output_addr,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), triple_xor_output_addr,
                     input_a_xor_b_xor_c_limb_0_col6, input_a_xor_b_xor_c_limb_1_col7,
                 ]
                     .span(),

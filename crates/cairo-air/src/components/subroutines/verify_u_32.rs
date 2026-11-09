@@ -26,9 +26,9 @@ impl VerifyU32 {
     ) -> [E::F; 0] {
         let M31_0 = E::F::from(M31::from(0));
         let M31_128 = E::F::from(M31::from(128));
-        let M31_371240602 = E::F::from(M31::from(371240602));
         let M31_4 = E::F::from(M31::from(4));
         let M31_512 = E::F::from(M31::from(512));
+        let range_check_7_2_5_relation_id = E::F::from(relations::RANGE_CHECK_7_2_5_RELATION_ID);
 
         let high_2_ls_bits_tmp_1a63a_2 = eval.add_intermediate(
             (verify_u_32_input_limb_2.clone() - (high_14_ms_bits_col1.clone() * M31_4.clone())),
@@ -37,7 +37,7 @@ impl VerifyU32 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_371240602.clone(),
+                range_check_7_2_5_relation_id.clone(),
                 low_7_ms_bits_col0.clone(),
                 high_2_ls_bits_tmp_1a63a_2.clone(),
                 high_5_ms_bits_col2.clone(),

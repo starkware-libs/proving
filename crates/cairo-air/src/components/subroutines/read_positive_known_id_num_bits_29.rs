@@ -25,7 +25,7 @@ impl ReadPositiveKnownIdNumBits29 {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_1662111297 = E::F::from(M31::from(1662111297));
+        let memory_id_to_big_relation_id = E::F::from(relations::MEMORY_ID_TO_BIG_RELATION_ID);
 
         RangeCheckLastLimbBitsInMsLimb2::evaluate(
             [value_limb_3_col3.clone()],
@@ -38,7 +38,7 @@ impl ReadPositiveKnownIdNumBits29 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 read_positive_known_id_num_bits_29_input.clone(),
                 value_limb_0_col0.clone(),
                 value_limb_1_col1.clone(),

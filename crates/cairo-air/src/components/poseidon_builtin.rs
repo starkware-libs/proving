@@ -49,12 +49,13 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1551892206 = E::F::from(M31::from(1551892206));
         let M31_2 = E::F::from(M31::from(2));
         let M31_3 = E::F::from(M31::from(3));
         let M31_4 = E::F::from(M31::from(4));
         let M31_5 = E::F::from(M31::from(5));
         let M31_6 = E::F::from(M31::from(6));
+        let poseidon_aggregator_relation_id =
+            E::F::from(relations::POSEIDON_AGGREGATOR_RELATION_ID);
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let input_state_0_id_col0 = eval.next_trace_mask();
         let input_state_1_id_col1 = eval.next_trace_mask();
@@ -113,7 +114,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_1551892206.clone(),
+                poseidon_aggregator_relation_id.clone(),
                 input_state_0_id_col0.clone(),
                 input_state_1_id_col1.clone(),
                 input_state_2_id_col2.clone(),

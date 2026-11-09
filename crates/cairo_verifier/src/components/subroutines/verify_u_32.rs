@@ -31,7 +31,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_7_2_5.
     let tuple_1 = &[
-        eval!(context, 371240602),
+        context.constant(relations::RANGE_CHECK_7_2_5_RELATION_ID.into()),
         eval!(context, low_7_ms_bits_col0),
         eval!(context, high_2_ls_bits_tmp_1a63a_2),
         eval!(context, high_5_ms_bits_col2),

@@ -187,7 +187,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PedersenPointsTableWindowBits9.
     let tuple_0 = &[
-        eval!(context, 1791500038),
+        context.constant(relations::PEDERSEN_POINTS_TABLE_WINDOW_BITS_9_RELATION_ID.into()),
         eval!(context, seq_15),
         eval!(context, pedersen_points_small_0),
         eval!(context, pedersen_points_small_1),

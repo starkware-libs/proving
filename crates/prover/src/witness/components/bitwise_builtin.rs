@@ -86,14 +86,18 @@ fn write_trace_simd(
 
     let M31_1 = PackedM31::broadcast(M31::from(1));
     let M31_1073741824 = PackedM31::broadcast(M31::from(1073741824));
-    let M31_112558620 = PackedM31::broadcast(M31::from(112558620));
-    let M31_1444891767 = PackedM31::broadcast(M31::from(1444891767));
-    let M31_1662111297 = PackedM31::broadcast(M31::from(1662111297));
     let M31_2 = PackedM31::broadcast(M31::from(2));
     let M31_3 = PackedM31::broadcast(M31::from(3));
     let M31_4 = PackedM31::broadcast(M31::from(4));
     let M31_5 = PackedM31::broadcast(M31::from(5));
-    let M31_95781001 = PackedM31::broadcast(M31::from(95781001));
+    let memory_address_to_id_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID);
+    let memory_id_to_big_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ID_TO_BIG_RELATION_ID);
+    let verify_bitwise_xor_8_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_8_RELATION_ID);
+    let verify_bitwise_xor_9_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_9_RELATION_ID);
     let seq = Seq::new(log_size);
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut(), sub_component_inputs.par_iter_mut())
@@ -116,7 +120,7 @@ fn write_trace_simd(
                 ((PackedM31::broadcast(M31::from(bitwise_builtin_segment_start)))
                     + ((seq) * (M31_5)));
             *lookup_data.memory_address_to_id_0 = [
-                M31_1444891767,
+                memory_address_to_id_relation_id,
                 ((PackedM31::broadcast(M31::from(bitwise_builtin_segment_start)))
                     + ((seq) * (M31_5))),
                 op0_id_col0,
@@ -184,7 +188,7 @@ fn write_trace_simd(
             *row[28] = op0_limb_27_col28;
             *sub_component_inputs.memory_id_to_big[0] = op0_id_col0;
             *lookup_data.memory_id_to_big_1 = [
-                M31_1662111297,
+                memory_id_to_big_relation_id,
                 op0_id_col0,
                 op0_limb_0_col1,
                 op0_limb_1_col2,
@@ -266,7 +270,7 @@ fn write_trace_simd(
                     + ((seq) * (M31_5)))
                     + (M31_1));
             *lookup_data.memory_address_to_id_2 = [
-                M31_1444891767,
+                memory_address_to_id_relation_id,
                 (((PackedM31::broadcast(M31::from(bitwise_builtin_segment_start)))
                     + ((seq) * (M31_5)))
                     + (M31_1)),
@@ -335,7 +339,7 @@ fn write_trace_simd(
             *row[57] = op1_limb_27_col57;
             *sub_component_inputs.memory_id_to_big[1] = op1_id_col29;
             *lookup_data.memory_id_to_big_3 = [
-                M31_1662111297,
+                memory_id_to_big_relation_id,
                 op1_id_col29,
                 op1_limb_0_col30,
                 op1_limb_1_col31,
@@ -410,7 +414,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[0] =
                 [op0_limb_0_col1, op1_limb_0_col30, xor_col58];
             *lookup_data.verify_bitwise_xor_9_4 =
-                [M31_95781001, op0_limb_0_col1, op1_limb_0_col30, xor_col58];
+                [verify_bitwise_xor_9_relation_id, op0_limb_0_col1, op1_limb_0_col30, xor_col58];
 
             let and_tmp_b8fb8_12 =
                 ((M31_1073741824) * (((op0_limb_0_col1) + (op1_limb_0_col30)) - (xor_col58)));
@@ -424,7 +428,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[1] =
                 [op0_limb_1_col2, op1_limb_1_col31, xor_col59];
             *lookup_data.verify_bitwise_xor_9_5 =
-                [M31_95781001, op0_limb_1_col2, op1_limb_1_col31, xor_col59];
+                [verify_bitwise_xor_9_relation_id, op0_limb_1_col2, op1_limb_1_col31, xor_col59];
 
             let and_tmp_b8fb8_15 =
                 ((M31_1073741824) * (((op0_limb_1_col2) + (op1_limb_1_col31)) - (xor_col59)));
@@ -438,7 +442,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[2] =
                 [op0_limb_2_col3, op1_limb_2_col32, xor_col60];
             *lookup_data.verify_bitwise_xor_9_6 =
-                [M31_95781001, op0_limb_2_col3, op1_limb_2_col32, xor_col60];
+                [verify_bitwise_xor_9_relation_id, op0_limb_2_col3, op1_limb_2_col32, xor_col60];
 
             let and_tmp_b8fb8_18 =
                 ((M31_1073741824) * (((op0_limb_2_col3) + (op1_limb_2_col32)) - (xor_col60)));
@@ -452,7 +456,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[3] =
                 [op0_limb_3_col4, op1_limb_3_col33, xor_col61];
             *lookup_data.verify_bitwise_xor_9_7 =
-                [M31_95781001, op0_limb_3_col4, op1_limb_3_col33, xor_col61];
+                [verify_bitwise_xor_9_relation_id, op0_limb_3_col4, op1_limb_3_col33, xor_col61];
 
             let and_tmp_b8fb8_21 =
                 ((M31_1073741824) * (((op0_limb_3_col4) + (op1_limb_3_col33)) - (xor_col61)));
@@ -466,7 +470,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[4] =
                 [op0_limb_4_col5, op1_limb_4_col34, xor_col62];
             *lookup_data.verify_bitwise_xor_9_8 =
-                [M31_95781001, op0_limb_4_col5, op1_limb_4_col34, xor_col62];
+                [verify_bitwise_xor_9_relation_id, op0_limb_4_col5, op1_limb_4_col34, xor_col62];
 
             let and_tmp_b8fb8_24 =
                 ((M31_1073741824) * (((op0_limb_4_col5) + (op1_limb_4_col34)) - (xor_col62)));
@@ -480,7 +484,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[5] =
                 [op0_limb_5_col6, op1_limb_5_col35, xor_col63];
             *lookup_data.verify_bitwise_xor_9_9 =
-                [M31_95781001, op0_limb_5_col6, op1_limb_5_col35, xor_col63];
+                [verify_bitwise_xor_9_relation_id, op0_limb_5_col6, op1_limb_5_col35, xor_col63];
 
             let and_tmp_b8fb8_27 =
                 ((M31_1073741824) * (((op0_limb_5_col6) + (op1_limb_5_col35)) - (xor_col63)));
@@ -494,7 +498,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[6] =
                 [op0_limb_6_col7, op1_limb_6_col36, xor_col64];
             *lookup_data.verify_bitwise_xor_9_10 =
-                [M31_95781001, op0_limb_6_col7, op1_limb_6_col36, xor_col64];
+                [verify_bitwise_xor_9_relation_id, op0_limb_6_col7, op1_limb_6_col36, xor_col64];
 
             let and_tmp_b8fb8_30 =
                 ((M31_1073741824) * (((op0_limb_6_col7) + (op1_limb_6_col36)) - (xor_col64)));
@@ -508,7 +512,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[7] =
                 [op0_limb_7_col8, op1_limb_7_col37, xor_col65];
             *lookup_data.verify_bitwise_xor_9_11 =
-                [M31_95781001, op0_limb_7_col8, op1_limb_7_col37, xor_col65];
+                [verify_bitwise_xor_9_relation_id, op0_limb_7_col8, op1_limb_7_col37, xor_col65];
 
             let and_tmp_b8fb8_33 =
                 ((M31_1073741824) * (((op0_limb_7_col8) + (op1_limb_7_col37)) - (xor_col65)));
@@ -522,7 +526,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[8] =
                 [op0_limb_8_col9, op1_limb_8_col38, xor_col66];
             *lookup_data.verify_bitwise_xor_9_12 =
-                [M31_95781001, op0_limb_8_col9, op1_limb_8_col38, xor_col66];
+                [verify_bitwise_xor_9_relation_id, op0_limb_8_col9, op1_limb_8_col38, xor_col66];
 
             let and_tmp_b8fb8_36 =
                 ((M31_1073741824) * (((op0_limb_8_col9) + (op1_limb_8_col38)) - (xor_col66)));
@@ -536,7 +540,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[9] =
                 [op0_limb_9_col10, op1_limb_9_col39, xor_col67];
             *lookup_data.verify_bitwise_xor_9_13 =
-                [M31_95781001, op0_limb_9_col10, op1_limb_9_col39, xor_col67];
+                [verify_bitwise_xor_9_relation_id, op0_limb_9_col10, op1_limb_9_col39, xor_col67];
 
             let and_tmp_b8fb8_39 =
                 ((M31_1073741824) * (((op0_limb_9_col10) + (op1_limb_9_col39)) - (xor_col67)));
@@ -550,7 +554,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[10] =
                 [op0_limb_10_col11, op1_limb_10_col40, xor_col68];
             *lookup_data.verify_bitwise_xor_9_14 =
-                [M31_95781001, op0_limb_10_col11, op1_limb_10_col40, xor_col68];
+                [verify_bitwise_xor_9_relation_id, op0_limb_10_col11, op1_limb_10_col40, xor_col68];
 
             let and_tmp_b8fb8_42 =
                 ((M31_1073741824) * (((op0_limb_10_col11) + (op1_limb_10_col40)) - (xor_col68)));
@@ -564,7 +568,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[11] =
                 [op0_limb_11_col12, op1_limb_11_col41, xor_col69];
             *lookup_data.verify_bitwise_xor_9_15 =
-                [M31_95781001, op0_limb_11_col12, op1_limb_11_col41, xor_col69];
+                [verify_bitwise_xor_9_relation_id, op0_limb_11_col12, op1_limb_11_col41, xor_col69];
 
             let and_tmp_b8fb8_45 =
                 ((M31_1073741824) * (((op0_limb_11_col12) + (op1_limb_11_col41)) - (xor_col69)));
@@ -578,7 +582,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[12] =
                 [op0_limb_12_col13, op1_limb_12_col42, xor_col70];
             *lookup_data.verify_bitwise_xor_9_16 =
-                [M31_95781001, op0_limb_12_col13, op1_limb_12_col42, xor_col70];
+                [verify_bitwise_xor_9_relation_id, op0_limb_12_col13, op1_limb_12_col42, xor_col70];
 
             let and_tmp_b8fb8_48 =
                 ((M31_1073741824) * (((op0_limb_12_col13) + (op1_limb_12_col42)) - (xor_col70)));
@@ -592,7 +596,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[13] =
                 [op0_limb_13_col14, op1_limb_13_col43, xor_col71];
             *lookup_data.verify_bitwise_xor_9_17 =
-                [M31_95781001, op0_limb_13_col14, op1_limb_13_col43, xor_col71];
+                [verify_bitwise_xor_9_relation_id, op0_limb_13_col14, op1_limb_13_col43, xor_col71];
 
             let and_tmp_b8fb8_51 =
                 ((M31_1073741824) * (((op0_limb_13_col14) + (op1_limb_13_col43)) - (xor_col71)));
@@ -606,7 +610,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[14] =
                 [op0_limb_14_col15, op1_limb_14_col44, xor_col72];
             *lookup_data.verify_bitwise_xor_9_18 =
-                [M31_95781001, op0_limb_14_col15, op1_limb_14_col44, xor_col72];
+                [verify_bitwise_xor_9_relation_id, op0_limb_14_col15, op1_limb_14_col44, xor_col72];
 
             let and_tmp_b8fb8_54 =
                 ((M31_1073741824) * (((op0_limb_14_col15) + (op1_limb_14_col44)) - (xor_col72)));
@@ -620,7 +624,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[15] =
                 [op0_limb_15_col16, op1_limb_15_col45, xor_col73];
             *lookup_data.verify_bitwise_xor_9_19 =
-                [M31_95781001, op0_limb_15_col16, op1_limb_15_col45, xor_col73];
+                [verify_bitwise_xor_9_relation_id, op0_limb_15_col16, op1_limb_15_col45, xor_col73];
 
             let and_tmp_b8fb8_57 =
                 ((M31_1073741824) * (((op0_limb_15_col16) + (op1_limb_15_col45)) - (xor_col73)));
@@ -634,7 +638,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[16] =
                 [op0_limb_16_col17, op1_limb_16_col46, xor_col74];
             *lookup_data.verify_bitwise_xor_9_20 =
-                [M31_95781001, op0_limb_16_col17, op1_limb_16_col46, xor_col74];
+                [verify_bitwise_xor_9_relation_id, op0_limb_16_col17, op1_limb_16_col46, xor_col74];
 
             let and_tmp_b8fb8_60 =
                 ((M31_1073741824) * (((op0_limb_16_col17) + (op1_limb_16_col46)) - (xor_col74)));
@@ -648,7 +652,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[17] =
                 [op0_limb_17_col18, op1_limb_17_col47, xor_col75];
             *lookup_data.verify_bitwise_xor_9_21 =
-                [M31_95781001, op0_limb_17_col18, op1_limb_17_col47, xor_col75];
+                [verify_bitwise_xor_9_relation_id, op0_limb_17_col18, op1_limb_17_col47, xor_col75];
 
             let and_tmp_b8fb8_63 =
                 ((M31_1073741824) * (((op0_limb_17_col18) + (op1_limb_17_col47)) - (xor_col75)));
@@ -662,7 +666,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[18] =
                 [op0_limb_18_col19, op1_limb_18_col48, xor_col76];
             *lookup_data.verify_bitwise_xor_9_22 =
-                [M31_95781001, op0_limb_18_col19, op1_limb_18_col48, xor_col76];
+                [verify_bitwise_xor_9_relation_id, op0_limb_18_col19, op1_limb_18_col48, xor_col76];
 
             let and_tmp_b8fb8_66 =
                 ((M31_1073741824) * (((op0_limb_18_col19) + (op1_limb_18_col48)) - (xor_col76)));
@@ -676,7 +680,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[19] =
                 [op0_limb_19_col20, op1_limb_19_col49, xor_col77];
             *lookup_data.verify_bitwise_xor_9_23 =
-                [M31_95781001, op0_limb_19_col20, op1_limb_19_col49, xor_col77];
+                [verify_bitwise_xor_9_relation_id, op0_limb_19_col20, op1_limb_19_col49, xor_col77];
 
             let and_tmp_b8fb8_69 =
                 ((M31_1073741824) * (((op0_limb_19_col20) + (op1_limb_19_col49)) - (xor_col77)));
@@ -690,7 +694,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[20] =
                 [op0_limb_20_col21, op1_limb_20_col50, xor_col78];
             *lookup_data.verify_bitwise_xor_9_24 =
-                [M31_95781001, op0_limb_20_col21, op1_limb_20_col50, xor_col78];
+                [verify_bitwise_xor_9_relation_id, op0_limb_20_col21, op1_limb_20_col50, xor_col78];
 
             let and_tmp_b8fb8_72 =
                 ((M31_1073741824) * (((op0_limb_20_col21) + (op1_limb_20_col50)) - (xor_col78)));
@@ -704,7 +708,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[21] =
                 [op0_limb_21_col22, op1_limb_21_col51, xor_col79];
             *lookup_data.verify_bitwise_xor_9_25 =
-                [M31_95781001, op0_limb_21_col22, op1_limb_21_col51, xor_col79];
+                [verify_bitwise_xor_9_relation_id, op0_limb_21_col22, op1_limb_21_col51, xor_col79];
 
             let and_tmp_b8fb8_75 =
                 ((M31_1073741824) * (((op0_limb_21_col22) + (op1_limb_21_col51)) - (xor_col79)));
@@ -718,7 +722,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[22] =
                 [op0_limb_22_col23, op1_limb_22_col52, xor_col80];
             *lookup_data.verify_bitwise_xor_9_26 =
-                [M31_95781001, op0_limb_22_col23, op1_limb_22_col52, xor_col80];
+                [verify_bitwise_xor_9_relation_id, op0_limb_22_col23, op1_limb_22_col52, xor_col80];
 
             let and_tmp_b8fb8_78 =
                 ((M31_1073741824) * (((op0_limb_22_col23) + (op1_limb_22_col52)) - (xor_col80)));
@@ -732,7 +736,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[23] =
                 [op0_limb_23_col24, op1_limb_23_col53, xor_col81];
             *lookup_data.verify_bitwise_xor_9_27 =
-                [M31_95781001, op0_limb_23_col24, op1_limb_23_col53, xor_col81];
+                [verify_bitwise_xor_9_relation_id, op0_limb_23_col24, op1_limb_23_col53, xor_col81];
 
             let and_tmp_b8fb8_81 =
                 ((M31_1073741824) * (((op0_limb_23_col24) + (op1_limb_23_col53)) - (xor_col81)));
@@ -746,7 +750,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[24] =
                 [op0_limb_24_col25, op1_limb_24_col54, xor_col82];
             *lookup_data.verify_bitwise_xor_9_28 =
-                [M31_95781001, op0_limb_24_col25, op1_limb_24_col54, xor_col82];
+                [verify_bitwise_xor_9_relation_id, op0_limb_24_col25, op1_limb_24_col54, xor_col82];
 
             let and_tmp_b8fb8_84 =
                 ((M31_1073741824) * (((op0_limb_24_col25) + (op1_limb_24_col54)) - (xor_col82)));
@@ -760,7 +764,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[25] =
                 [op0_limb_25_col26, op1_limb_25_col55, xor_col83];
             *lookup_data.verify_bitwise_xor_9_29 =
-                [M31_95781001, op0_limb_25_col26, op1_limb_25_col55, xor_col83];
+                [verify_bitwise_xor_9_relation_id, op0_limb_25_col26, op1_limb_25_col55, xor_col83];
 
             let and_tmp_b8fb8_87 =
                 ((M31_1073741824) * (((op0_limb_25_col26) + (op1_limb_25_col55)) - (xor_col83)));
@@ -774,7 +778,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_9[26] =
                 [op0_limb_26_col27, op1_limb_26_col56, xor_col84];
             *lookup_data.verify_bitwise_xor_9_30 =
-                [M31_95781001, op0_limb_26_col27, op1_limb_26_col56, xor_col84];
+                [verify_bitwise_xor_9_relation_id, op0_limb_26_col27, op1_limb_26_col56, xor_col84];
 
             let and_tmp_b8fb8_90 =
                 ((M31_1073741824) * (((op0_limb_26_col27) + (op1_limb_26_col56)) - (xor_col84)));
@@ -788,7 +792,7 @@ fn write_trace_simd(
             *sub_component_inputs.verify_bitwise_xor_8[0] =
                 [op0_limb_27_col28, op1_limb_27_col57, xor_col85];
             *lookup_data.verify_bitwise_xor_8_31 =
-                [M31_112558620, op0_limb_27_col28, op1_limb_27_col57, xor_col85];
+                [verify_bitwise_xor_8_relation_id, op0_limb_27_col28, op1_limb_27_col57, xor_col85];
 
             let and_tmp_b8fb8_93 =
                 ((M31_1073741824) * (((op0_limb_27_col28) + (op1_limb_27_col57)) - (xor_col85)));
@@ -809,7 +813,7 @@ fn write_trace_simd(
                     + ((seq) * (M31_5)))
                     + (M31_2));
             *lookup_data.memory_address_to_id_32 = [
-                M31_1444891767,
+                memory_address_to_id_relation_id,
                 (((PackedM31::broadcast(M31::from(bitwise_builtin_segment_start)))
                     + ((seq) * (M31_5)))
                     + (M31_2)),
@@ -818,7 +822,7 @@ fn write_trace_simd(
 
             *sub_component_inputs.memory_id_to_big[2] = and_id_col86;
             *lookup_data.memory_id_to_big_33 = [
-                M31_1662111297,
+                memory_id_to_big_relation_id,
                 and_id_col86,
                 and_tmp_b8fb8_12,
                 and_tmp_b8fb8_15,
@@ -866,7 +870,7 @@ fn write_trace_simd(
                     + ((seq) * (M31_5)))
                     + (M31_3));
             *lookup_data.memory_address_to_id_34 = [
-                M31_1444891767,
+                memory_address_to_id_relation_id,
                 (((PackedM31::broadcast(M31::from(bitwise_builtin_segment_start)))
                     + ((seq) * (M31_5)))
                     + (M31_3)),
@@ -875,7 +879,7 @@ fn write_trace_simd(
 
             *sub_component_inputs.memory_id_to_big[3] = xor_id_col87;
             *lookup_data.memory_id_to_big_35 = [
-                M31_1662111297,
+                memory_id_to_big_relation_id,
                 xor_id_col87,
                 xor_col58,
                 xor_col59,
@@ -923,7 +927,7 @@ fn write_trace_simd(
                     + ((seq) * (M31_5)))
                     + (M31_4));
             *lookup_data.memory_address_to_id_36 = [
-                M31_1444891767,
+                memory_address_to_id_relation_id,
                 (((PackedM31::broadcast(M31::from(bitwise_builtin_segment_start)))
                     + ((seq) * (M31_5)))
                     + (M31_4)),
@@ -932,7 +936,7 @@ fn write_trace_simd(
 
             *sub_component_inputs.memory_id_to_big[4] = or_id_col88;
             *lookup_data.memory_id_to_big_37 = [
-                M31_1662111297,
+                memory_id_to_big_relation_id,
                 or_id_col88,
                 ((and_tmp_b8fb8_12) + (xor_col58)),
                 ((and_tmp_b8fb8_15) + (xor_col59)),

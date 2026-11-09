@@ -77,9 +77,11 @@ fn write_trace_simd(
 
     let M31_0 = PackedM31::broadcast(M31::from(0));
     let M31_1 = PackedM31::broadcast(M31::from(1));
-    let M31_1185356339 = PackedM31::broadcast(M31::from(1185356339));
-    let M31_1444891767 = PackedM31::broadcast(M31::from(1444891767));
-    let M31_1662111297 = PackedM31::broadcast(M31::from(1662111297));
+    let memory_address_to_id_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID);
+    let memory_id_to_big_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ID_TO_BIG_RELATION_ID);
+    let range_check_6_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_6_RELATION_ID);
     let seq = Seq::new(log_size);
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut(), sub_component_inputs.par_iter_mut())
@@ -100,7 +102,7 @@ fn write_trace_simd(
             *sub_component_inputs.memory_address_to_id[0] =
                 ((PackedM31::broadcast(M31::from(range_check96_builtin_segment_start))) + (seq));
             *lookup_data.memory_address_to_id_0 = [
-                M31_1444891767,
+                memory_address_to_id_relation_id,
                 ((PackedM31::broadcast(M31::from(range_check96_builtin_segment_start))) + (seq)),
                 value_id_col0,
             ];
@@ -135,11 +137,11 @@ fn write_trace_simd(
             // Range Check Last Limb Bits In Ms Limb 6.
 
             *sub_component_inputs.range_check_6[0] = [value_limb_10_col11];
-            *lookup_data.range_check_6_1 = [M31_1185356339, value_limb_10_col11];
+            *lookup_data.range_check_6_1 = [range_check_6_relation_id, value_limb_10_col11];
 
             *sub_component_inputs.memory_id_to_big[0] = value_id_col0;
             *lookup_data.memory_id_to_big_2 = [
-                M31_1662111297,
+                memory_id_to_big_relation_id,
                 value_id_col0,
                 value_limb_0_col1,
                 value_limb_1_col2,

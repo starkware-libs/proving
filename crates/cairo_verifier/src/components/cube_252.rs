@@ -473,7 +473,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Cube252.
     let tuple_4 = &[
-        eval!(context, 1987997202),
+        context.constant(relations::CUBE_252_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, input_limb_1_col2),
         eval!(context, input_limb_2_col3),

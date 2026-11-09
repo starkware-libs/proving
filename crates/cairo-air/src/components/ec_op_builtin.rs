@@ -54,7 +54,6 @@ impl FrameworkEval for Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));
-        let M31_183619546 = E::F::from(M31::from(183619546));
         let M31_2 = E::F::from(M31::from(2));
         let M31_252 = E::F::from(M31::from(252));
         let M31_26 = E::F::from(M31::from(26));
@@ -65,6 +64,8 @@ impl FrameworkEval for Eval {
         let M31_512 = E::F::from(M31::from(512));
         let M31_6 = E::F::from(M31::from(6));
         let M31_7 = E::F::from(M31::from(7));
+        let partial_ec_mul_generic_relation_id =
+            E::F::from(relations::PARTIAL_EC_MUL_GENERIC_RELATION_ID);
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let p_x_id_col0 = eval.next_trace_mask();
         let p_x_limb_0_col1 = eval.next_trace_mask();
@@ -561,7 +562,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(M31_1.clone()),
             &[
-                M31_183619546.clone(),
+                partial_ec_mul_generic_relation_id.clone(),
                 seq.clone(),
                 M31_0.clone(),
                 ((m_limb_0_col117.clone() + (m_limb_1_col118.clone() * M31_512.clone()))
@@ -703,7 +704,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_183619546.clone(),
+                partial_ec_mul_generic_relation_id.clone(),
                 seq.clone(),
                 M31_252.clone(),
                 partial_ec_mul_generic_output_m_limb_0_col148.clone(),

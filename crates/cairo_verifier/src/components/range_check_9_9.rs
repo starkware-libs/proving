@@ -33,7 +33,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_9_9.
     let tuple_0 = &[
-        eval!(context, 517791011),
+        context.constant(relations::RANGE_CHECK_9_9_RELATION_ID.into()),
         eval!(context, range_check_9_9_column_0),
         eval!(context, range_check_9_9_column_1),
     ];
@@ -42,7 +42,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_9_9_B.
     let tuple_1 = &[
-        eval!(context, 1897792095),
+        context.constant(relations::RANGE_CHECK_9_9_B_RELATION_ID.into()),
         eval!(context, range_check_9_9_column_0),
         eval!(context, range_check_9_9_column_1),
     ];
@@ -51,7 +51,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_9_9_C.
     let tuple_2 = &[
-        eval!(context, 1881014476),
+        context.constant(relations::RANGE_CHECK_9_9_C_RELATION_ID.into()),
         eval!(context, range_check_9_9_column_0),
         eval!(context, range_check_9_9_column_1),
     ];
@@ -60,7 +60,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_9_9_D.
     let tuple_3 = &[
-        eval!(context, 1864236857),
+        context.constant(relations::RANGE_CHECK_9_9_D_RELATION_ID.into()),
         eval!(context, range_check_9_9_column_0),
         eval!(context, range_check_9_9_column_1),
     ];
@@ -69,7 +69,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_9_9_E.
     let tuple_4 = &[
-        eval!(context, 1847459238),
+        context.constant(relations::RANGE_CHECK_9_9_E_RELATION_ID.into()),
         eval!(context, range_check_9_9_column_0),
         eval!(context, range_check_9_9_column_1),
     ];
@@ -78,7 +78,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_9_9_F.
     let tuple_5 = &[
-        eval!(context, 1830681619),
+        context.constant(relations::RANGE_CHECK_9_9_F_RELATION_ID.into()),
         eval!(context, range_check_9_9_column_0),
         eval!(context, range_check_9_9_column_1),
     ];
@@ -87,7 +87,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_9_9_G.
     let tuple_6 = &[
-        eval!(context, 1813904000),
+        context.constant(relations::RANGE_CHECK_9_9_G_RELATION_ID.into()),
         eval!(context, range_check_9_9_column_0),
         eval!(context, range_check_9_9_column_1),
     ];
@@ -96,7 +96,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_9_9_H.
     let tuple_7 = &[
-        eval!(context, 2065568285),
+        context.constant(relations::RANGE_CHECK_9_9_H_RELATION_ID.into()),
         eval!(context, range_check_9_9_column_0),
         eval!(context, range_check_9_9_column_1),
     ];

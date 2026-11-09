@@ -70,10 +70,12 @@ fn write_trace_simd(
     };
 
     let M31_1 = PackedM31::broadcast(M31::from(1));
-    let M31_1444891767 = PackedM31::broadcast(M31::from(1444891767));
     let M31_2 = PackedM31::broadcast(M31::from(2));
     let M31_3 = PackedM31::broadcast(M31::from(3));
-    let M31_520578465 = PackedM31::broadcast(M31::from(520578465));
+    let memory_address_to_id_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID);
+    let pedersen_aggregator_window_bits_18_relation_id =
+        PackedM31::broadcast(relations::PEDERSEN_AGGREGATOR_WINDOW_BITS_18_RELATION_ID);
     let seq = Seq::new(log_size);
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut(), sub_component_inputs.par_iter_mut())
@@ -91,8 +93,11 @@ fn write_trace_simd(
             let input_state_0_id_col0 = memory_address_to_id_value_tmp_7cd2f_1;
             *row[0] = input_state_0_id_col0;
             *sub_component_inputs.memory_address_to_id[0] = instance_addr_tmp_7cd2f_0;
-            *lookup_data.memory_address_to_id_0 =
-                [M31_1444891767, instance_addr_tmp_7cd2f_0, input_state_0_id_col0];
+            *lookup_data.memory_address_to_id_0 = [
+                memory_address_to_id_relation_id,
+                instance_addr_tmp_7cd2f_0,
+                input_state_0_id_col0,
+            ];
 
             // Read Id.
 
@@ -101,8 +106,11 @@ fn write_trace_simd(
             let input_state_1_id_col1 = memory_address_to_id_value_tmp_7cd2f_3;
             *row[1] = input_state_1_id_col1;
             *sub_component_inputs.memory_address_to_id[1] = ((instance_addr_tmp_7cd2f_0) + (M31_1));
-            *lookup_data.memory_address_to_id_1 =
-                [M31_1444891767, ((instance_addr_tmp_7cd2f_0) + (M31_1)), input_state_1_id_col1];
+            *lookup_data.memory_address_to_id_1 = [
+                memory_address_to_id_relation_id,
+                ((instance_addr_tmp_7cd2f_0) + (M31_1)),
+                input_state_1_id_col1,
+            ];
 
             // Read Id.
 
@@ -111,13 +119,20 @@ fn write_trace_simd(
             let output_state_id_col2 = memory_address_to_id_value_tmp_7cd2f_5;
             *row[2] = output_state_id_col2;
             *sub_component_inputs.memory_address_to_id[2] = ((instance_addr_tmp_7cd2f_0) + (M31_2));
-            *lookup_data.memory_address_to_id_2 =
-                [M31_1444891767, ((instance_addr_tmp_7cd2f_0) + (M31_2)), output_state_id_col2];
+            *lookup_data.memory_address_to_id_2 = [
+                memory_address_to_id_relation_id,
+                ((instance_addr_tmp_7cd2f_0) + (M31_2)),
+                output_state_id_col2,
+            ];
 
             *sub_component_inputs.pedersen_aggregator_window_bits_18[0] =
                 ([input_state_0_id_col0, input_state_1_id_col1], output_state_id_col2);
-            *lookup_data.pedersen_aggregator_window_bits_18_3 =
-                [M31_520578465, input_state_0_id_col0, input_state_1_id_col1, output_state_id_col2];
+            *lookup_data.pedersen_aggregator_window_bits_18_3 = [
+                pedersen_aggregator_window_bits_18_relation_id,
+                input_state_0_id_col0,
+                input_state_1_id_col1,
+                output_state_id_col2,
+            ];
             *lookup_data.mults_0 = M31_1;
         });
 

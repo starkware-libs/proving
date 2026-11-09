@@ -67,8 +67,9 @@ impl FrameworkEval for Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
         let M31_1073741824 = E::F::from(M31::from(1073741824));
-        let M31_183619546 = E::F::from(M31::from(183619546));
         let M31_26 = E::F::from(M31::from(26));
+        let partial_ec_mul_generic_relation_id =
+            E::F::from(relations::PARTIAL_EC_MUL_GENERIC_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_chain_id_col1 = eval.next_trace_mask();
         let input_round_num_col2 = eval.next_trace_mask();
@@ -2045,7 +2046,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_183619546.clone(),
+                partial_ec_mul_generic_relation_id.clone(),
                 input_chain_id_col1.clone(),
                 input_round_num_col2.clone(),
                 input_m_limb_0_col3.clone(),
@@ -2178,7 +2179,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_183619546.clone(),
+                partial_ec_mul_generic_relation_id.clone(),
                 input_chain_id_col1.clone(),
                 (input_round_num_col2.clone() + M31_1.clone()),
                 next_m_0_col129.clone(),

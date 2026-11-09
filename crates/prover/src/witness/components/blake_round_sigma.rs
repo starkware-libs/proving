@@ -72,7 +72,8 @@ fn write_trace_simd(
         )
     };
 
-    let M31_1805967942 = PackedM31::broadcast(M31::from(1805967942));
+    let blake_round_sigma_relation_id =
+        PackedM31::broadcast(relations::BLAKE_ROUND_SIGMA_RELATION_ID);
     let seq_4 = preprocessed_trace.get_column(&PreProcessedColumnId { id: "seq_4".to_owned() });
     let blake_sigma_0 =
         preprocessed_trace.get_column(&PreProcessedColumnId { id: "blake_sigma_0".to_owned() });
@@ -129,7 +130,7 @@ fn write_trace_simd(
             let multiplicity_0_col0 = *mults[0].get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = multiplicity_0_col0;
             *lookup_data.blake_round_sigma_0 = [
-                M31_1805967942,
+                blake_round_sigma_relation_id,
                 seq_4,
                 blake_sigma_0,
                 blake_sigma_1,

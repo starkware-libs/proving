@@ -58,7 +58,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_8.
     let tuple_2 = &[
-        eval!(context, 1420243005),
+        context.constant(relations::RANGE_CHECK_8_RELATION_ID.into()),
         eval!(context, (verify_reduced_252_input_limb_27) - (ms_limb_is_max_col0)),
     ];
     let numerator_2 = eval!(context, enabler);
@@ -85,7 +85,10 @@ pub fn accumulate_constraints<Value: IValue>(
     acc.add_constraint(context, constraint_4_value);
 
     // Use RangeCheck_8.
-    let tuple_5 = &[eval!(context, 1420243005), eval!(context, rc_input_col2)];
+    let tuple_5 = &[
+        context.constant(relations::RANGE_CHECK_8_RELATION_ID.into()),
+        eval!(context, rc_input_col2),
+    ];
     let numerator_5 = eval!(context, enabler);
     acc.add_to_relation(context, numerator_5, tuple_5);
 

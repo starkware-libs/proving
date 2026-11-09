@@ -154,7 +154,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Cube252.
     let tuple_1 = &[
-        eval!(context, 1987997202),
+        context.constant(relations::CUBE_252_RELATION_ID.into()),
         eval!(context, input_limb_2_col3),
         eval!(context, input_limb_3_col4),
         eval!(context, input_limb_4_col5),
@@ -181,7 +181,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Cube252.
     let tuple_2 = &[
-        eval!(context, 1987997202),
+        context.constant(relations::CUBE_252_RELATION_ID.into()),
         eval!(context, input_limb_12_col13),
         eval!(context, input_limb_13_col14),
         eval!(context, input_limb_14_col15),
@@ -208,7 +208,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Cube252.
     let tuple_3 = &[
-        eval!(context, 1987997202),
+        context.constant(relations::CUBE_252_RELATION_ID.into()),
         eval!(context, input_limb_22_col23),
         eval!(context, input_limb_23_col24),
         eval!(context, input_limb_24_col25),
@@ -235,7 +235,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PoseidonRoundKeys.
     let tuple_4 = &[
-        eval!(context, 1024310512),
+        context.constant(relations::POSEIDON_ROUND_KEYS_RELATION_ID.into()),
         eval!(context, input_limb_1_col2),
         eval!(context, poseidon_round_keys_output_limb_0_col63),
         eval!(context, poseidon_round_keys_output_limb_1_col64),
@@ -453,7 +453,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PoseidonFullRoundChain.
     let tuple_8 = &[
-        eval!(context, 1480369132),
+        context.constant(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, input_limb_1_col2),
         eval!(context, input_limb_2_col3),
@@ -492,7 +492,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PoseidonFullRoundChain.
     let tuple_9 = &[
-        eval!(context, 1480369132),
+        context.constant(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, (input_limb_1_col2) + (1)),
         eval!(context, combination_limb_0_col93),

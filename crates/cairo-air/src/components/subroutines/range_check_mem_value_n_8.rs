@@ -27,16 +27,16 @@ impl RangeCheckMemValueN8 {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_1864236857 = E::F::from(M31::from(1864236857));
-        let M31_1881014476 = E::F::from(M31::from(1881014476));
-        let M31_1897792095 = E::F::from(M31::from(1897792095));
-        let M31_517791011 = E::F::from(M31::from(517791011));
+        let range_check_9_9_b_relation_id = E::F::from(relations::RANGE_CHECK_9_9_B_RELATION_ID);
+        let range_check_9_9_c_relation_id = E::F::from(relations::RANGE_CHECK_9_9_C_RELATION_ID);
+        let range_check_9_9_d_relation_id = E::F::from(relations::RANGE_CHECK_9_9_D_RELATION_ID);
+        let range_check_9_9_relation_id = E::F::from(relations::RANGE_CHECK_9_9_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_517791011.clone(),
+                range_check_9_9_relation_id.clone(),
                 range_check_mem_value_n_8_input_limb_0.clone(),
                 range_check_mem_value_n_8_input_limb_1.clone(),
             ],
@@ -46,7 +46,7 @@ impl RangeCheckMemValueN8 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1897792095.clone(),
+                range_check_9_9_b_relation_id.clone(),
                 range_check_mem_value_n_8_input_limb_2.clone(),
                 range_check_mem_value_n_8_input_limb_3.clone(),
             ],
@@ -56,7 +56,7 @@ impl RangeCheckMemValueN8 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1881014476.clone(),
+                range_check_9_9_c_relation_id.clone(),
                 range_check_mem_value_n_8_input_limb_4.clone(),
                 range_check_mem_value_n_8_input_limb_5.clone(),
             ],
@@ -66,7 +66,7 @@ impl RangeCheckMemValueN8 {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1864236857.clone(),
+                range_check_9_9_d_relation_id.clone(),
                 range_check_mem_value_n_8_input_limb_6.clone(),
                 range_check_mem_value_n_8_input_limb_7.clone(),
             ],

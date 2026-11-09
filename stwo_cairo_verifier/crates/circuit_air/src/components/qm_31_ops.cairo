@@ -121,7 +121,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_0: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_in_0_address,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), qm_31_ops_in_0_address,
                     input_op0_limb0_col0, input_op0_limb1_col1, input_op0_limb2_col2,
                     input_op0_limb3_col3,
                 ]
@@ -132,7 +132,7 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_1: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_in_1_address,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), qm_31_ops_in_1_address,
                     input_op1_limb0_col4, input_op1_limb1_col5, input_op1_limb2_col6,
                     input_op1_limb3_col7,
                 ]
@@ -143,8 +143,9 @@ pub impl AirComponentImpl of AirComponent {
         let gate_sum_2: QM31 = common_lookup_elements
             .combine(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_out_address, input_dst_limb0_col8,
-                    input_dst_limb1_col9, input_dst_limb2_col10, input_dst_limb3_col11,
+                    qm31_const::<relations::GATE_RELATION_ID, 0, 0, 0>(), qm_31_ops_out_address,
+                    input_dst_limb0_col8, input_dst_limb1_col9, input_dst_limb2_col10,
+                    input_dst_limb3_col11,
                 ]
                     .span(),
             );

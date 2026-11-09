@@ -104,14 +104,15 @@ impl PoseidonPartialRound {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_1090315331 = E::F::from(M31::from(1090315331));
-        let M31_1987997202 = E::F::from(M31::from(1987997202));
+        let cube_252_relation_id = E::F::from(relations::CUBE_252_RELATION_ID);
+        let range_check_252_width_27_relation_id =
+            E::F::from(relations::RANGE_CHECK_252_WIDTH_27_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1987997202.clone(),
+                cube_252_relation_id.clone(),
                 poseidon_partial_round_input_z2_limb_0.clone(),
                 poseidon_partial_round_input_z2_limb_1.clone(),
                 poseidon_partial_round_input_z2_limb_2.clone(),
@@ -217,7 +218,7 @@ impl PoseidonPartialRound {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1090315331.clone(),
+                range_check_252_width_27_relation_id.clone(),
                 combination_limb_0_col10.clone(),
                 combination_limb_1_col11.clone(),
                 combination_limb_2_col12.clone(),

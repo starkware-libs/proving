@@ -27,14 +27,14 @@ impl EncodeOffsets {
         eval: &mut E,
     ) -> [E::F; 2] {
         let M31_128 = E::F::from(M31::from(128));
-        let M31_1567323731 = E::F::from(M31::from(1567323731));
         let M31_16 = E::F::from(M31::from(16));
         let M31_2048 = E::F::from(M31::from(2048));
         let M31_32 = E::F::from(M31::from(32));
-        let M31_371240602 = E::F::from(M31::from(371240602));
         let M31_4 = E::F::from(M31::from(4));
         let M31_512 = E::F::from(M31::from(512));
         let M31_8192 = E::F::from(M31::from(8192));
+        let range_check_4_3_relation_id = E::F::from(relations::RANGE_CHECK_4_3_RELATION_ID);
+        let range_check_7_2_5_relation_id = E::F::from(relations::RANGE_CHECK_7_2_5_RELATION_ID);
 
         // Reconstructed offset0 is correct.
         eval.add_constraint(
@@ -57,7 +57,7 @@ impl EncodeOffsets {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_371240602.clone(),
+                range_check_7_2_5_relation_id.clone(),
                 offset0_mid_col1.clone(),
                 offset1_low_col2.clone(),
                 offset1_high_col4.clone(),
@@ -67,7 +67,11 @@ impl EncodeOffsets {
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
-            &[M31_1567323731.clone(), offset2_low_col5.clone(), offset2_high_col7.clone()],
+            &[
+                range_check_4_3_relation_id.clone(),
+                offset2_low_col5.clone(),
+                offset2_high_col7.clone(),
+            ],
         ));
 
         [

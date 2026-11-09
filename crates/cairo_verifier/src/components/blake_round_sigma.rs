@@ -51,7 +51,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield BlakeRoundSigma.
     let tuple_0 = &[
-        eval!(context, 1805967942),
+        context.constant(relations::BLAKE_ROUND_SIGMA_RELATION_ID.into()),
         eval!(context, seq_4),
         eval!(context, blake_sigma_0),
         eval!(context, blake_sigma_1),

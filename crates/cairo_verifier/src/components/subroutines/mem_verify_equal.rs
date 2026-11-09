@@ -28,7 +28,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use MemoryAddressToId.
     let tuple_1 = &[
-        eval!(context, 1444891767),
+        context.constant(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID.into()),
         eval!(context, mem_verify_equal_input_address2),
         eval!(context, id_col0),
     ];

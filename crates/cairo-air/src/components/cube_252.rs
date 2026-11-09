@@ -62,9 +62,9 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1987997202 = E::F::from(M31::from(1987997202));
         let M31_262144 = E::F::from(M31::from(262144));
         let M31_512 = E::F::from(M31::from(512));
+        let cube_252_relation_id = E::F::from(relations::CUBE_252_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_limb_0_col1 = eval.next_trace_mask();
         let input_limb_1_col2 = eval.next_trace_mask();
@@ -499,7 +499,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_1987997202.clone(),
+                cube_252_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 input_limb_1_col2.clone(),
                 input_limb_2_col3.clone(),

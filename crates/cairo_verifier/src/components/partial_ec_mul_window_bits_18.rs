@@ -339,7 +339,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PedersenPointsTableWindowBits18.
     let tuple_1 = &[
-        eval!(context, 1444721856),
+        context.constant(relations::PEDERSEN_POINTS_TABLE_WINDOW_BITS_18_RELATION_ID.into()),
         eval!(context, ((262144) * (input_limb_1_col2)) + (input_limb_2_col3)),
         eval!(context, pedersen_points_table_window_bits_18_output_limb_0_col73),
         eval!(context, pedersen_points_table_window_bits_18_output_limb_1_col74),
@@ -692,7 +692,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PartialEcMulWindowBits18.
     let tuple_3 = &[
-        eval!(context, 1621226978),
+        context.constant(relations::PARTIAL_EC_MUL_WINDOW_BITS_18_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, input_limb_1_col2),
         eval!(context, input_limb_2_col3),
@@ -771,7 +771,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PartialEcMulWindowBits18.
     let tuple_4 = &[
-        eval!(context, 1621226978),
+        context.constant(relations::PARTIAL_EC_MUL_WINDOW_BITS_18_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, (input_limb_1_col2) + (1)),
         eval!(context, input_limb_3_col4),

@@ -52,9 +52,11 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1024310512 = E::F::from(M31::from(1024310512));
-        let M31_1480369132 = E::F::from(M31::from(1480369132));
-        let M31_1987997202 = E::F::from(M31::from(1987997202));
+        let cube_252_relation_id = E::F::from(relations::CUBE_252_RELATION_ID);
+        let poseidon_full_round_chain_relation_id =
+            E::F::from(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID);
+        let poseidon_round_keys_relation_id =
+            E::F::from(relations::POSEIDON_ROUND_KEYS_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_limb_0_col1 = eval.next_trace_mask();
         let input_limb_1_col2 = eval.next_trace_mask();
@@ -188,7 +190,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1987997202.clone(),
+                cube_252_relation_id.clone(),
                 input_limb_2_col3.clone(),
                 input_limb_3_col4.clone(),
                 input_limb_4_col5.clone(),
@@ -216,7 +218,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1987997202.clone(),
+                cube_252_relation_id.clone(),
                 input_limb_12_col13.clone(),
                 input_limb_13_col14.clone(),
                 input_limb_14_col15.clone(),
@@ -244,7 +246,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1987997202.clone(),
+                cube_252_relation_id.clone(),
                 input_limb_22_col23.clone(),
                 input_limb_23_col24.clone(),
                 input_limb_24_col25.clone(),
@@ -272,7 +274,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1024310512.clone(),
+                poseidon_round_keys_relation_id.clone(),
                 input_limb_1_col2.clone(),
                 poseidon_round_keys_output_limb_0_col63.clone(),
                 poseidon_round_keys_output_limb_1_col64.clone(),
@@ -485,7 +487,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1480369132.clone(),
+                poseidon_full_round_chain_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 input_limb_1_col2.clone(),
                 input_limb_2_col3.clone(),
@@ -525,7 +527,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_1480369132.clone(),
+                poseidon_full_round_chain_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 (input_limb_1_col2.clone() + M31_1.clone()),
                 combination_limb_0_col93.clone(),

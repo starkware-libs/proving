@@ -184,7 +184,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_4_4_4_4.
     let tuple_10 = &[
-        eval!(context, 1027333874),
+        context.constant(relations::RANGE_CHECK_4_4_4_4_RELATION_ID.into()),
         eval!(context, (p_coef_col10) + (3)),
         eval!(context, (carry_0_tmp_5073a_2) + (3)),
         eval!(context, (carry_1_tmp_5073a_3) + (3)),
@@ -195,7 +195,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_4_4_4_4.
     let tuple_11 = &[
-        eval!(context, 1027333874),
+        context.constant(relations::RANGE_CHECK_4_4_4_4_RELATION_ID.into()),
         eval!(context, (carry_3_tmp_5073a_5) + (3)),
         eval!(context, (carry_4_tmp_5073a_6) + (3)),
         eval!(context, (carry_5_tmp_5073a_7) + (3)),
@@ -206,7 +206,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_4_4.
     let tuple_12 = &[
-        eval!(context, 1651211826),
+        context.constant(relations::RANGE_CHECK_4_4_RELATION_ID.into()),
         eval!(context, (carry_7_tmp_5073a_9) + (3)),
         eval!(context, (carry_8_tmp_5073a_10) + (3)),
     ];

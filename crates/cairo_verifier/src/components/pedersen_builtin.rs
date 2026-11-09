@@ -61,7 +61,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PedersenAggregatorWindowBits18.
     let tuple_4 = &[
-        eval!(context, 520578465),
+        context.constant(relations::PEDERSEN_AGGREGATOR_WINDOW_BITS_18_RELATION_ID.into()),
         eval!(context, input_state_0_id_col0),
         eval!(context, input_state_1_id_col1),
         eval!(context, output_state_id_col2),

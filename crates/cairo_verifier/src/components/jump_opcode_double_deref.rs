@@ -118,7 +118,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Opcodes.
     let tuple_5 = &[
-        eval!(context, 428564188),
+        context.constant(relations::OPCODES_RELATION_ID.into()),
         eval!(context, input_pc_col1),
         eval!(context, input_ap_col2),
         eval!(context, input_fp_col3),
@@ -128,7 +128,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Opcodes.
     let tuple_6 = &[
-        eval!(context, 428564188),
+        context.constant(relations::OPCODES_RELATION_ID.into()),
         eval!(
             context,
             (((next_pc_limb_0_col16) + ((next_pc_limb_1_col17) * (512)))

@@ -6,6 +6,8 @@ use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 
+use crate::utils::named_const_path;
+
 /// Returns the code evaluating the constraints of `air_fn`, and the indices of its direct lookups
 /// (not from subroutine calls), as positions in `[0, air_fn.constraint_lookups.len())`.
 pub fn parse_constraints(air_fn: &CompiledAirFn) -> (rust::Tokens, Vec<usize>) {
@@ -76,8 +78,9 @@ pub fn parse_var(
     relation_offset: &mut usize,
 ) -> String {
     match var {
-        CompiledAirVar::Const(_, value) | CompiledAirVar::NamedConst { value, .. } => {
-            format!("qm31_const::<{value}, 0, 0, 0>()")
+        CompiledAirVar::Const(_ty, value) => format!("qm31_const::<{value}, 0, 0, 0>()"),
+        CompiledAirVar::NamedConst { name, .. } => {
+            format!("qm31_const::<{}, 0, 0, 0>()", named_const_path(name))
         }
         CompiledAirVar::Var(_ty, name) => name.clone(),
         CompiledAirVar::State(name) => name.clone(),

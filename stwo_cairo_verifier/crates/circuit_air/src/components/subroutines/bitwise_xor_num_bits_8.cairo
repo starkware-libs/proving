@@ -18,8 +18,8 @@ pub fn bitwise_xor_num_bits_8_evaluate(
     verify_bitwise_xor_8_sum_0 = common_lookup_elements
         .combine(
             [
-                qm31_const::<112558620, 0, 0, 0>(), bitwise_xor_num_bits_8_input_limb_0,
-                bitwise_xor_num_bits_8_input_limb_1, xor_col0,
+                qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(),
+                bitwise_xor_num_bits_8_input_limb_0, bitwise_xor_num_bits_8_input_limb_1, xor_col0,
             ]
                 .span(),
         );

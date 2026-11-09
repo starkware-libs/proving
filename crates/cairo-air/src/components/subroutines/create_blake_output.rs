@@ -83,13 +83,13 @@ impl CreateBlakeOutput {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_990559919 = E::F::from(M31::from(990559919));
+        let triple_xor_32_relation_id = E::F::from(relations::TRIPLE_XOR_32_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_990559919.clone(),
+                triple_xor_32_relation_id.clone(),
                 create_blake_output_input_limb_16.clone(),
                 create_blake_output_input_limb_17.clone(),
                 create_blake_output_input_limb_32.clone(),
@@ -105,7 +105,7 @@ impl CreateBlakeOutput {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_990559919.clone(),
+                triple_xor_32_relation_id.clone(),
                 create_blake_output_input_limb_18.clone(),
                 create_blake_output_input_limb_19.clone(),
                 create_blake_output_input_limb_34.clone(),
@@ -121,7 +121,7 @@ impl CreateBlakeOutput {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_990559919.clone(),
+                triple_xor_32_relation_id.clone(),
                 create_blake_output_input_limb_20.clone(),
                 create_blake_output_input_limb_21.clone(),
                 create_blake_output_input_limb_36.clone(),
@@ -137,7 +137,7 @@ impl CreateBlakeOutput {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_990559919.clone(),
+                triple_xor_32_relation_id.clone(),
                 create_blake_output_input_limb_22.clone(),
                 create_blake_output_input_limb_23.clone(),
                 create_blake_output_input_limb_38.clone(),
@@ -153,7 +153,7 @@ impl CreateBlakeOutput {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_990559919.clone(),
+                triple_xor_32_relation_id.clone(),
                 create_blake_output_input_limb_24.clone(),
                 create_blake_output_input_limb_25.clone(),
                 create_blake_output_input_limb_40.clone(),
@@ -169,7 +169,7 @@ impl CreateBlakeOutput {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_990559919.clone(),
+                triple_xor_32_relation_id.clone(),
                 create_blake_output_input_limb_26.clone(),
                 create_blake_output_input_limb_27.clone(),
                 create_blake_output_input_limb_42.clone(),
@@ -185,7 +185,7 @@ impl CreateBlakeOutput {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_990559919.clone(),
+                triple_xor_32_relation_id.clone(),
                 create_blake_output_input_limb_28.clone(),
                 create_blake_output_input_limb_29.clone(),
                 create_blake_output_input_limb_44.clone(),
@@ -201,7 +201,7 @@ impl CreateBlakeOutput {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_990559919.clone(),
+                triple_xor_32_relation_id.clone(),
                 create_blake_output_input_limb_30.clone(),
                 create_blake_output_input_limb_31.clone(),
                 create_blake_output_input_limb_46.clone(),

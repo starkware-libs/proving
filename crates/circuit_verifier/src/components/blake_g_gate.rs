@@ -270,7 +270,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_8 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_input_addr_a),
         eval!(context, input_a_limb_0_col0),
         eval!(context, input_a_limb_1_col1),
@@ -280,7 +280,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_9 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_input_addr_b),
         eval!(context, input_b_limb_0_col2),
         eval!(context, input_b_limb_1_col3),
@@ -290,7 +290,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_10 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_input_addr_c),
         eval!(context, input_c_limb_0_col4),
         eval!(context, input_c_limb_1_col5),
@@ -300,7 +300,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_11 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_input_addr_d),
         eval!(context, input_d_limb_0_col6),
         eval!(context, input_d_limb_1_col7),
@@ -310,7 +310,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_12 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_input_addr_f0),
         eval!(context, input_f0_limb_0_col8),
         eval!(context, input_f0_limb_1_col9),
@@ -320,7 +320,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_13 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_input_addr_f1),
         eval!(context, input_f1_limb_0_col10),
         eval!(context, input_f1_limb_1_col11),
@@ -330,7 +330,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Gate.
     let tuple_14 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_output_addr_a),
         eval!(context, input_a_out_limb_0_col12),
         eval!(context, input_a_out_limb_1_col13),
@@ -340,7 +340,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Gate.
     let tuple_15 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_output_addr_b),
         eval!(context, input_b_out_limb_0_col14),
         eval!(context, input_b_out_limb_1_col15),
@@ -350,7 +350,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Gate.
     let tuple_16 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_output_addr_c),
         eval!(context, input_c_out_limb_0_col16),
         eval!(context, input_c_out_limb_1_col17),
@@ -360,7 +360,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Gate.
     let tuple_17 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, blake_g_gate_output_addr_d),
         eval!(context, input_d_out_limb_0_col18),
         eval!(context, input_d_out_limb_1_col19),

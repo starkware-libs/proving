@@ -41,14 +41,14 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1008385708 = E::F::from(M31::from(1008385708));
+        let range_check_16_relation_id = E::F::from(relations::RANGE_CHECK_16_RELATION_ID);
         let seq_16 = eval.get_preprocessed_column(PreProcessedColumnId { id: "seq_16".to_owned() });
         let multiplicity_0_col0 = eval.next_trace_mask();
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
-            &[M31_1008385708.clone(), seq_16.clone()],
+            &[range_check_16_relation_id.clone(), seq_16.clone()],
         ));
 
         eval.finalize_logup_in_pairs();

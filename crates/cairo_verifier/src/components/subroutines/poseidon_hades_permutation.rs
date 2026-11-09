@@ -375,7 +375,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PoseidonFullRoundChain.
     let tuple_4 = &[
-        eval!(context, 1480369132),
+        context.constant(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID.into()),
         eval!(context, poseidon_full_round_chain_chain_tmp_tmp_da3c7_63),
         eval!(context, 0),
         eval!(context, combination_limb_0_col0),
@@ -414,7 +414,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PoseidonFullRoundChain.
     let tuple_5 = &[
-        eval!(context, 1480369132),
+        context.constant(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID.into()),
         eval!(context, poseidon_full_round_chain_chain_tmp_tmp_da3c7_63),
         eval!(context, 4),
         eval!(context, poseidon_full_round_chain_output_limb_0_col33),
@@ -453,7 +453,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck252Width27.
     let tuple_6 = &[
-        eval!(context, 1090315331),
+        context.constant(relations::RANGE_CHECK_252_WIDTH_27_RELATION_ID.into()),
         eval!(context, poseidon_full_round_chain_output_limb_0_col33),
         eval!(context, poseidon_full_round_chain_output_limb_1_col34),
         eval!(context, poseidon_full_round_chain_output_limb_2_col35),
@@ -470,7 +470,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck252Width27.
     let tuple_7 = &[
-        eval!(context, 1090315331),
+        context.constant(relations::RANGE_CHECK_252_WIDTH_27_RELATION_ID.into()),
         eval!(context, poseidon_full_round_chain_output_limb_10_col43),
         eval!(context, poseidon_full_round_chain_output_limb_11_col44),
         eval!(context, poseidon_full_round_chain_output_limb_12_col45),
@@ -487,7 +487,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Cube252.
     let tuple_8 = &[
-        eval!(context, 1987997202),
+        context.constant(relations::CUBE_252_RELATION_ID.into()),
         eval!(context, poseidon_full_round_chain_output_limb_20_col53),
         eval!(context, poseidon_full_round_chain_output_limb_21_col54),
         eval!(context, poseidon_full_round_chain_output_limb_22_col55),
@@ -574,7 +574,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Cube252.
     let tuple_10 = &[
-        eval!(context, 1987997202),
+        context.constant(relations::CUBE_252_RELATION_ID.into()),
         eval!(context, combination_limb_0_col73),
         eval!(context, combination_limb_1_col74),
         eval!(context, combination_limb_2_col75),
@@ -661,7 +661,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Poseidon3PartialRoundsChain.
     let tuple_12 = &[
-        eval!(context, 1343313504),
+        context.constant(relations::POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID.into()),
         eval!(context, seq),
         eval!(context, 4),
         eval!(context, cube_252_output_limb_0_col63),
@@ -710,7 +710,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Poseidon3PartialRoundsChain.
     let tuple_13 = &[
-        eval!(context, 1343313504),
+        context.constant(relations::POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID.into()),
         eval!(context, seq),
         eval!(context, 31),
         eval!(context, poseidon_3_partial_rounds_chain_output_limb_0_col105),
@@ -882,7 +882,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PoseidonFullRoundChain.
     let tuple_17 = &[
-        eval!(context, 1480369132),
+        context.constant(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID.into()),
         eval!(context, poseidon_full_round_chain_chain_id_tmp_da3c7_146),
         eval!(context, 31),
         eval!(context, combination_limb_0_col156),
@@ -921,7 +921,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PoseidonFullRoundChain.
     let tuple_18 = &[
-        eval!(context, 1480369132),
+        context.constant(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID.into()),
         eval!(context, poseidon_full_round_chain_chain_id_tmp_da3c7_146),
         eval!(context, 35),
         eval!(context, poseidon_full_round_chain_output_limb_0_col167),

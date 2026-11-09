@@ -114,7 +114,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_4 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, qm_31_ops_in_0_address),
         eval!(context, input_op0_limb0_col0),
         eval!(context, input_op0_limb1_col1),
@@ -126,7 +126,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Gate.
     let tuple_5 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, qm_31_ops_in_1_address),
         eval!(context, input_op1_limb0_col4),
         eval!(context, input_op1_limb1_col5),
@@ -138,7 +138,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Gate.
     let tuple_6 = &[
-        eval!(context, 378353459),
+        context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, qm_31_ops_out_address),
         eval!(context, input_dst_limb0_col8),
         eval!(context, input_dst_limb1_col9),

@@ -56,10 +56,11 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1551892206 = E::F::from(M31::from(1551892206));
-        let M31_1662111297 = E::F::from(M31::from(1662111297));
         let M31_262144 = E::F::from(M31::from(262144));
         let M31_512 = E::F::from(M31::from(512));
+        let memory_id_to_big_relation_id = E::F::from(relations::MEMORY_ID_TO_BIG_RELATION_ID);
+        let poseidon_aggregator_relation_id =
+            E::F::from(relations::POSEIDON_AGGREGATOR_RELATION_ID);
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let multiplicity_0_col0 = eval.next_trace_mask();
         let input_limb_0_col1 = eval.next_trace_mask();
@@ -901,7 +902,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 input_limb_3_col4.clone(),
                 unpacked_limb_0_col288.clone(),
                 unpacked_limb_1_col289.clone(),
@@ -986,7 +987,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 input_limb_4_col5.clone(),
                 unpacked_limb_0_col306.clone(),
                 unpacked_limb_1_col307.clone(),
@@ -1071,7 +1072,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 input_limb_5_col6.clone(),
                 unpacked_limb_0_col324.clone(),
                 unpacked_limb_1_col325.clone(),
@@ -1108,7 +1109,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_1551892206.clone(),
+                poseidon_aggregator_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 input_limb_1_col2.clone(),
                 input_limb_2_col3.clone(),

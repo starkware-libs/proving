@@ -19,16 +19,16 @@ impl DecodeInstructionA4D88 {
         eval: &mut E,
     ) -> [E::F; 0] {
         let M31_130 = E::F::from(M31::from(130));
-        let M31_1719106205 = E::F::from(M31::from(1719106205));
         let M31_32766 = E::F::from(M31::from(32766));
         let M31_32767 = E::F::from(M31::from(32767));
         let M31_88 = E::F::from(M31::from(88));
+        let verify_instruction_relation_id = E::F::from(relations::VERIFY_INSTRUCTION_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1719106205.clone(),
+                verify_instruction_relation_id.clone(),
                 decode_instruction_a4d88_input_pc.clone(),
                 M31_32766.clone(),
                 M31_32767.clone(),

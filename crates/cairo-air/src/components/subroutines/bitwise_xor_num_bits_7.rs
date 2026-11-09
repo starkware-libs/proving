@@ -19,13 +19,14 @@ impl BitwiseXorNumBits7 {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_62225763 = E::F::from(M31::from(62225763));
+        let verify_bitwise_xor_7_relation_id =
+            E::F::from(relations::VERIFY_BITWISE_XOR_7_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_62225763.clone(),
+                verify_bitwise_xor_7_relation_id.clone(),
                 bitwise_xor_num_bits_7_input_limb_0.clone(),
                 bitwise_xor_num_bits_7_input_limb_1.clone(),
                 xor_col0.clone(),

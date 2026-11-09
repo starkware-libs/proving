@@ -102,17 +102,20 @@ fn write_trace_simd(
     let Felt252_2_0_0_0 = PackedFelt252::broadcast(Felt252::from([2, 0, 0, 0]));
     let Felt252_3_0_0_0 = PackedFelt252::broadcast(Felt252::from([3, 0, 0, 0]));
     let M31_1 = PackedM31::broadcast(M31::from(1));
-    let M31_1024310512 = PackedM31::broadcast(M31::from(1024310512));
     let M31_134217729 = PackedM31::broadcast(M31::from(134217729));
     let M31_136 = PackedM31::broadcast(M31::from(136));
-    let M31_1480369132 = PackedM31::broadcast(M31::from(1480369132));
     let M31_16 = PackedM31::broadcast(M31::from(16));
-    let M31_1987997202 = PackedM31::broadcast(M31::from(1987997202));
     let M31_2 = PackedM31::broadcast(M31::from(2));
     let M31_268435458 = PackedM31::broadcast(M31::from(268435458));
     let M31_3 = PackedM31::broadcast(M31::from(3));
     let M31_402653187 = PackedM31::broadcast(M31::from(402653187));
-    let M31_502259093 = PackedM31::broadcast(M31::from(502259093));
+    let cube_252_relation_id = PackedM31::broadcast(relations::CUBE_252_RELATION_ID);
+    let poseidon_full_round_chain_relation_id =
+        PackedM31::broadcast(relations::POSEIDON_FULL_ROUND_CHAIN_RELATION_ID);
+    let poseidon_round_keys_relation_id =
+        PackedM31::broadcast(relations::POSEIDON_ROUND_KEYS_RELATION_ID);
+    let range_check_3_3_3_3_3_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_3_3_3_3_3_RELATION_ID);
     let enabler_col = Enabler::new(n_rows);
 
     (
@@ -218,7 +221,7 @@ fn write_trace_simd(
                 let cube_252_output_limb_9_col42 = cube_252_output_tmp_1400f_0.get_m31(9);
                 *row[42] = cube_252_output_limb_9_col42;
                 *lookup_data.cube_252_0 = [
-                    M31_1987997202,
+                    cube_252_relation_id,
                     input_limb_2_col3,
                     input_limb_3_col4,
                     input_limb_4_col5,
@@ -264,7 +267,7 @@ fn write_trace_simd(
                 let cube_252_output_limb_9_col52 = cube_252_output_tmp_1400f_1.get_m31(9);
                 *row[52] = cube_252_output_limb_9_col52;
                 *lookup_data.cube_252_1 = [
-                    M31_1987997202,
+                    cube_252_relation_id,
                     input_limb_12_col13,
                     input_limb_13_col14,
                     input_limb_14_col15,
@@ -310,7 +313,7 @@ fn write_trace_simd(
                 let cube_252_output_limb_9_col62 = cube_252_output_tmp_1400f_2.get_m31(9);
                 *row[62] = cube_252_output_limb_9_col62;
                 *lookup_data.cube_252_2 = [
-                    M31_1987997202,
+                    cube_252_relation_id,
                     input_limb_22_col23,
                     input_limb_23_col24,
                     input_limb_24_col25,
@@ -426,7 +429,7 @@ fn write_trace_simd(
                     poseidon_round_keys_output_tmp_1400f_3[2].get_m31(9);
                 *row[92] = poseidon_round_keys_output_limb_29_col92;
                 *lookup_data.poseidon_round_keys_3 = [
-                    M31_1024310512,
+                    poseidon_round_keys_relation_id,
                     input_limb_1_col2,
                     poseidon_round_keys_output_limb_0_col63,
                     poseidon_round_keys_output_limb_1_col64,
@@ -584,7 +587,7 @@ fn write_trace_simd(
                     ((carry_3_tmp_1400f_9) + (M31_1)),
                 ];
                 *lookup_data.range_check_3_3_3_3_3_4 = [
-                    M31_502259093,
+                    range_check_3_3_3_3_3_relation_id,
                     ((p_coef_col103) + (M31_1)),
                     ((carry_0_tmp_1400f_6) + (M31_1)),
                     ((carry_1_tmp_1400f_7) + (M31_1)),
@@ -599,7 +602,7 @@ fn write_trace_simd(
                     ((carry_8_tmp_1400f_14) + (M31_1)),
                 ];
                 *lookup_data.range_check_3_3_3_3_3_5 = [
-                    M31_502259093,
+                    range_check_3_3_3_3_3_relation_id,
                     ((carry_4_tmp_1400f_10) + (M31_1)),
                     ((carry_5_tmp_1400f_11) + (M31_1)),
                     ((carry_6_tmp_1400f_12) + (M31_1)),
@@ -732,7 +735,7 @@ fn write_trace_simd(
                     ((carry_3_tmp_1400f_21) + (M31_2)),
                 ];
                 *lookup_data.range_check_3_3_3_3_3_6 = [
-                    M31_502259093,
+                    range_check_3_3_3_3_3_relation_id,
                     ((p_coef_col114) + (M31_2)),
                     ((carry_0_tmp_1400f_18) + (M31_2)),
                     ((carry_1_tmp_1400f_19) + (M31_2)),
@@ -747,7 +750,7 @@ fn write_trace_simd(
                     ((carry_8_tmp_1400f_26) + (M31_2)),
                 ];
                 *lookup_data.range_check_3_3_3_3_3_7 = [
-                    M31_502259093,
+                    range_check_3_3_3_3_3_relation_id,
                     ((carry_4_tmp_1400f_22) + (M31_2)),
                     ((carry_5_tmp_1400f_23) + (M31_2)),
                     ((carry_6_tmp_1400f_24) + (M31_2)),
@@ -880,7 +883,7 @@ fn write_trace_simd(
                     ((carry_3_tmp_1400f_33) + (M31_3)),
                 ];
                 *lookup_data.range_check_3_3_3_3_3_8 = [
-                    M31_502259093,
+                    range_check_3_3_3_3_3_relation_id,
                     ((p_coef_col125) + (M31_3)),
                     ((carry_0_tmp_1400f_30) + (M31_3)),
                     ((carry_1_tmp_1400f_31) + (M31_3)),
@@ -895,7 +898,7 @@ fn write_trace_simd(
                     ((carry_8_tmp_1400f_38) + (M31_3)),
                 ];
                 *lookup_data.range_check_3_3_3_3_3_9 = [
-                    M31_502259093,
+                    range_check_3_3_3_3_3_relation_id,
                     ((carry_4_tmp_1400f_34) + (M31_3)),
                     ((carry_5_tmp_1400f_35) + (M31_3)),
                     ((carry_6_tmp_1400f_36) + (M31_3)),
@@ -906,7 +909,7 @@ fn write_trace_simd(
                     combination_tmp_1400f_28;
 
                 *lookup_data.poseidon_full_round_chain_10 = [
-                    M31_1480369132,
+                    poseidon_full_round_chain_relation_id,
                     input_limb_0_col1,
                     input_limb_1_col2,
                     input_limb_2_col3,
@@ -941,7 +944,7 @@ fn write_trace_simd(
                     input_limb_31_col32,
                 ];
                 *lookup_data.poseidon_full_round_chain_11 = [
-                    M31_1480369132,
+                    poseidon_full_round_chain_relation_id,
                     input_limb_0_col1,
                     ((input_limb_1_col2) + (M31_1)),
                     combination_limb_0_col93,

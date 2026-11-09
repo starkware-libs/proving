@@ -64,8 +64,6 @@ impl FrameworkEval for Eval {
         let M31_156 = E::F::from(M31::from(156));
         let M31_160 = E::F::from(M31::from(160));
         let M31_162 = E::F::from(M31::from(162));
-        let M31_1621226978 = E::F::from(M31::from(1621226978));
-        let M31_1662111297 = E::F::from(M31::from(1662111297));
         let M31_169 = E::F::from(M31::from(169));
         let M31_191 = E::F::from(M31::from(191));
         let M31_199 = E::F::from(M31::from(199));
@@ -105,7 +103,6 @@ impl FrameworkEval for Eval {
         let M31_498 = E::F::from(M31::from(498));
         let M31_510 = E::F::from(M31::from(510));
         let M31_512 = E::F::from(M31::from(512));
-        let M31_520578465 = E::F::from(M31::from(520578465));
         let M31_54 = E::F::from(M31::from(54));
         let M31_64 = E::F::from(M31::from(64));
         let M31_68 = E::F::from(M31::from(68));
@@ -113,6 +110,11 @@ impl FrameworkEval for Eval {
         let M31_79 = E::F::from(M31::from(79));
         let M31_97 = E::F::from(M31::from(97));
         let M31_98 = E::F::from(M31::from(98));
+        let memory_id_to_big_relation_id = E::F::from(relations::MEMORY_ID_TO_BIG_RELATION_ID);
+        let partial_ec_mul_window_bits_18_relation_id =
+            E::F::from(relations::PARTIAL_EC_MUL_WINDOW_BITS_18_RELATION_ID);
+        let pedersen_aggregator_window_bits_18_relation_id =
+            E::F::from(relations::PEDERSEN_AGGREGATOR_WINDOW_BITS_18_RELATION_ID);
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let multiplicity_0_col0 = eval.next_trace_mask();
         let input_limb_0_col1 = eval.next_trace_mask();
@@ -471,7 +473,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(M31_1.clone()),
             &[
-                M31_1621226978.clone(),
+                partial_ec_mul_window_bits_18_relation_id.clone(),
                 partial_ec_mul_window_bits_18_chain_tmp_tmp_9e218_8.clone(),
                 M31_0.clone(),
                 (value_limb_0_col4.clone() + (value_limb_1_col5.clone() * M31_512.clone())),
@@ -551,7 +553,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_1621226978.clone(),
+                partial_ec_mul_window_bits_18_relation_id.clone(),
                 partial_ec_mul_window_bits_18_chain_tmp_tmp_9e218_8.clone(),
                 M31_14.clone(),
                 partial_ec_mul_window_bits_18_output_limb_0_col66.clone(),
@@ -634,7 +636,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(M31_1.clone()),
             &[
-                M31_1621226978.clone(),
+                partial_ec_mul_window_bits_18_relation_id.clone(),
                 partial_ec_mul_window_bits_18_chain_id_tmp_9e218_23.clone(),
                 M31_14.clone(),
                 (value_limb_0_col32.clone() + (value_limb_1_col33.clone() * M31_512.clone())),
@@ -714,7 +716,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_1621226978.clone(),
+                partial_ec_mul_window_bits_18_relation_id.clone(),
                 partial_ec_mul_window_bits_18_chain_id_tmp_9e218_23.clone(),
                 M31_28.clone(),
                 partial_ec_mul_window_bits_18_output_limb_0_col136.clone(),
@@ -794,7 +796,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 input_limb_2_col3.clone(),
                 partial_ec_mul_window_bits_18_output_limb_14_col150.clone(),
                 partial_ec_mul_window_bits_18_output_limb_15_col151.clone(),
@@ -831,7 +833,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_520578465.clone(),
+                pedersen_aggregator_window_bits_18_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 input_limb_1_col2.clone(),
                 input_limb_2_col3.clone(),

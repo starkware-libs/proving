@@ -18,7 +18,8 @@ pub fn accumulate_constraints<Value: IValue>(
     let seq_6 = acc.get_preprocessed_column(&PreProcessedColumnId { id: "seq_6".to_owned() });
 
     // Yield RangeCheck_6.
-    let tuple_0 = &[eval!(context, 1185356339), eval!(context, seq_6)];
+    let tuple_0 =
+        &[context.constant(relations::RANGE_CHECK_6_RELATION_ID.into()), eval!(context, seq_6)];
     let numerator_0 = eval!(context, -(multiplicity_0_col0));
     acc.add_to_relation(context, numerator_0, tuple_0);
 }

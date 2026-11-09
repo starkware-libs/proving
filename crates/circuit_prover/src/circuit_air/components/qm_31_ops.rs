@@ -44,7 +44,7 @@ impl FrameworkEval for Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
         let M31_2 = E::F::from(M31::from(2));
-        let M31_378353459 = E::F::from(M31::from(378353459));
+        let gate_relation_id = E::F::from(relations::GATE_RELATION_ID);
         let qm_31_ops_add_flag = eval
             .get_preprocessed_column(PreProcessedColumnId { id: "qm_31_ops_add_flag".to_owned() });
         let qm_31_ops_mul_flag = eval
@@ -146,7 +146,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 qm_31_ops_in_0_address.clone(),
                 input_op0_limb0_col0.clone(),
                 input_op0_limb1_col1.clone(),
@@ -159,7 +159,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 qm_31_ops_in_1_address.clone(),
                 input_op1_limb0_col4.clone(),
                 input_op1_limb1_col5.clone(),
@@ -172,7 +172,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(qm_31_ops_mults.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 qm_31_ops_out_address.clone(),
                 input_dst_limb0_col8.clone(),
                 input_dst_limb1_col9.clone(),

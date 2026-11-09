@@ -41,8 +41,8 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1109051422 = E::F::from(M31::from(1109051422));
-        let M31_1424798916 = E::F::from(M31::from(1424798916));
+        let range_check_18_b_relation_id = E::F::from(relations::RANGE_CHECK_18_B_RELATION_ID);
+        let range_check_18_relation_id = E::F::from(relations::RANGE_CHECK_18_RELATION_ID);
         let seq_18 = eval.get_preprocessed_column(PreProcessedColumnId { id: "seq_18".to_owned() });
         let multiplicity_0_col0 = eval.next_trace_mask();
         let multiplicity_1_col1 = eval.next_trace_mask();
@@ -50,13 +50,13 @@ impl FrameworkEval for Eval {
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
-            &[M31_1109051422.clone(), seq_18.clone()],
+            &[range_check_18_relation_id.clone(), seq_18.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_1_col1.clone()),
-            &[M31_1424798916.clone(), seq_18.clone()],
+            &[range_check_18_b_relation_id.clone(), seq_18.clone()],
         ));
 
         eval.finalize_logup_in_pairs();

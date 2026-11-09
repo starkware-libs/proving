@@ -19,12 +19,13 @@ impl ReadId {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_1444891767 = E::F::from(M31::from(1444891767));
+        let memory_address_to_id_relation_id =
+            E::F::from(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
-            &[M31_1444891767.clone(), read_id_input.clone(), id_col0.clone()],
+            &[memory_address_to_id_relation_id.clone(), read_id_input.clone(), id_col0.clone()],
         ));
 
         []

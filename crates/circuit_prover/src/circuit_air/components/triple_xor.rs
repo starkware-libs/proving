@@ -49,8 +49,9 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_112558620 = E::F::from(M31::from(112558620));
-        let M31_378353459 = E::F::from(M31::from(378353459));
+        let gate_relation_id = E::F::from(relations::GATE_RELATION_ID);
+        let verify_bitwise_xor_8_relation_id =
+            E::F::from(relations::VERIFY_BITWISE_XOR_8_RELATION_ID);
         let triple_xor_input_addr_0 = eval.get_preprocessed_column(PreProcessedColumnId {
             id: "triple_xor_input_addr_0".to_owned(),
         });
@@ -197,7 +198,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 xor_col16.clone(),
                 split_16_low_part_size_8_output_tmp_4ec2c_9_limb_0.clone(),
                 split_16_low_part_size_8_output_tmp_4ec2c_13_limb_0.clone(),
@@ -208,7 +209,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 xor_col17.clone(),
                 ms_8_bits_col12.clone(),
                 ms_8_bits_col14.clone(),
@@ -219,7 +220,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 xor_col18.clone(),
                 split_16_low_part_size_8_output_tmp_4ec2c_11_limb_0.clone(),
                 split_16_low_part_size_8_output_tmp_4ec2c_15_limb_0.clone(),
@@ -230,7 +231,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_112558620.clone(),
+                verify_bitwise_xor_8_relation_id.clone(),
                 xor_col19.clone(),
                 ms_8_bits_col13.clone(),
                 ms_8_bits_col15.clone(),
@@ -241,7 +242,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 triple_xor_input_addr_0.clone(),
                 input_a_limb_0_col0.clone(),
                 input_a_limb_1_col1.clone(),
@@ -252,7 +253,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 triple_xor_input_addr_1.clone(),
                 input_b_limb_0_col2.clone(),
                 input_b_limb_1_col3.clone(),
@@ -263,7 +264,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 triple_xor_input_addr_2.clone(),
                 input_c_limb_0_col4.clone(),
                 input_c_limb_1_col5.clone(),
@@ -274,7 +275,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(triple_xor_multiplicity.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 triple_xor_output_addr.clone(),
                 input_a_xor_b_xor_c_limb_0_col6.clone(),
                 input_a_xor_b_xor_c_limb_1_col7.clone(),

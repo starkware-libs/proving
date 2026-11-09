@@ -51,10 +51,11 @@ impl ModWordsTo12BitArray {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 16] {
-        let M31_1005786011 = E::F::from(M31::from(1005786011));
         let M31_512 = E::F::from(M31::from(512));
         let M31_64 = E::F::from(M31::from(64));
         let M31_8 = E::F::from(M31::from(8));
+        let range_check_3_6_6_3_relation_id =
+            E::F::from(relations::RANGE_CHECK_3_6_6_3_RELATION_ID);
 
         let limb1a_0_tmp_2aff4_1 = eval.add_intermediate(
             (mod_words_to_12_bit_array_input_limb_1.clone()
@@ -68,7 +69,7 @@ impl ModWordsTo12BitArray {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1005786011.clone(),
+                range_check_3_6_6_3_relation_id.clone(),
                 limb1a_0_tmp_2aff4_1.clone(),
                 limb1b_0_col0.clone(),
                 limb2a_0_tmp_2aff4_3.clone(),
@@ -88,7 +89,7 @@ impl ModWordsTo12BitArray {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1005786011.clone(),
+                range_check_3_6_6_3_relation_id.clone(),
                 limb5a_0_tmp_2aff4_5.clone(),
                 limb5b_0_col2.clone(),
                 limb6a_0_tmp_2aff4_7.clone(),
@@ -112,7 +113,7 @@ impl ModWordsTo12BitArray {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1005786011.clone(),
+                range_check_3_6_6_3_relation_id.clone(),
                 limb1a_1_tmp_2aff4_11.clone(),
                 limb1b_1_col5.clone(),
                 limb2a_1_tmp_2aff4_13.clone(),
@@ -132,7 +133,7 @@ impl ModWordsTo12BitArray {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1005786011.clone(),
+                range_check_3_6_6_3_relation_id.clone(),
                 limb5a_1_tmp_2aff4_15.clone(),
                 limb5b_1_col7.clone(),
                 limb6a_1_tmp_2aff4_17.clone(),
@@ -148,7 +149,7 @@ impl ModWordsTo12BitArray {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1005786011.clone(),
+                range_check_3_6_6_3_relation_id.clone(),
                 limb9a_0_tmp_2aff4_9.clone(),
                 limb9b_0_col4.clone(),
                 limb9b_1_col9.clone(),

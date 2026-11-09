@@ -100,7 +100,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PoseidonAggregator.
     let tuple_7 = &[
-        eval!(context, 1551892206),
+        context.constant(relations::POSEIDON_AGGREGATOR_RELATION_ID.into()),
         eval!(context, input_state_0_id_col0),
         eval!(context, input_state_1_id_col1),
         eval!(context, input_state_2_id_col2),

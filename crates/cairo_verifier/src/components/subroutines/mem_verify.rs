@@ -61,7 +61,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use MemoryIdToBig.
     let tuple_1 = &[
-        eval!(context, 1662111297),
+        context.constant(relations::MEMORY_ID_TO_BIG_RELATION_ID.into()),
         eval!(context, id_col0),
         eval!(context, mem_verify_input_value_limb_0),
         eval!(context, mem_verify_input_value_limb_1),

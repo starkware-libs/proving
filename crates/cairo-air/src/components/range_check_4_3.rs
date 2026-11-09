@@ -41,7 +41,7 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1567323731 = E::F::from(M31::from(1567323731));
+        let range_check_4_3_relation_id = E::F::from(relations::RANGE_CHECK_4_3_RELATION_ID);
         let range_check_4_3_column_0 = eval.get_preprocessed_column(PreProcessedColumnId {
             id: "range_check_4_3_column_0".to_owned(),
         });
@@ -54,7 +54,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity_0_col0.clone()),
             &[
-                M31_1567323731.clone(),
+                range_check_4_3_relation_id.clone(),
                 range_check_4_3_column_0.clone(),
                 range_check_4_3_column_1.clone(),
             ],

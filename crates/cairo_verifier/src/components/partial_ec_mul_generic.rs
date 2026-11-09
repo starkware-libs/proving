@@ -2174,7 +2174,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PartialEcMulGeneric.
     let tuple_109 = &[
-        eval!(context, 183619546),
+        context.constant(relations::PARTIAL_EC_MUL_GENERIC_RELATION_ID.into()),
         eval!(context, input_chain_id_col1),
         eval!(context, input_round_num_col2),
         eval!(context, input_m_limb_0_col3),
@@ -2306,7 +2306,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PartialEcMulGeneric.
     let tuple_110 = &[
-        eval!(context, 183619546),
+        context.constant(relations::PARTIAL_EC_MUL_GENERIC_RELATION_ID.into()),
         eval!(context, input_chain_id_col1),
         eval!(context, (input_round_num_col2) + (1)),
         eval!(context, next_m_0_col129),

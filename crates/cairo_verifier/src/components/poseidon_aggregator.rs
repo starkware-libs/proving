@@ -923,7 +923,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use MemoryIdToBig.
     let tuple_32 = &[
-        eval!(context, 1662111297),
+        context.constant(relations::MEMORY_ID_TO_BIG_RELATION_ID.into()),
         eval!(context, input_limb_3_col4),
         eval!(context, unpacked_limb_0_col288),
         eval!(context, unpacked_limb_1_col289),
@@ -1009,7 +1009,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use MemoryIdToBig.
     let tuple_34 = &[
-        eval!(context, 1662111297),
+        context.constant(relations::MEMORY_ID_TO_BIG_RELATION_ID.into()),
         eval!(context, input_limb_4_col5),
         eval!(context, unpacked_limb_0_col306),
         eval!(context, unpacked_limb_1_col307),
@@ -1095,7 +1095,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use MemoryIdToBig.
     let tuple_36 = &[
-        eval!(context, 1662111297),
+        context.constant(relations::MEMORY_ID_TO_BIG_RELATION_ID.into()),
         eval!(context, input_limb_5_col6),
         eval!(context, unpacked_limb_0_col324),
         eval!(context, unpacked_limb_1_col325),
@@ -1131,7 +1131,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PoseidonAggregator.
     let tuple_37 = &[
-        eval!(context, 1551892206),
+        context.constant(relations::POSEIDON_AGGREGATOR_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, input_limb_1_col2),
         eval!(context, input_limb_2_col3),

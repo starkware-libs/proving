@@ -104,7 +104,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Cube252.
     let tuple_0 = &[
-        eval!(context, 1987997202),
+        context.constant(relations::CUBE_252_RELATION_ID.into()),
         eval!(context, poseidon_partial_round_input_z2_limb_0),
         eval!(context, poseidon_partial_round_input_z2_limb_1),
         eval!(context, poseidon_partial_round_input_z2_limb_2),
@@ -211,7 +211,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck252Width27.
     let tuple_2 = &[
-        eval!(context, 1090315331),
+        context.constant(relations::RANGE_CHECK_252_WIDTH_27_RELATION_ID.into()),
         eval!(context, combination_limb_0_col10),
         eval!(context, combination_limb_1_col11),
         eval!(context, combination_limb_2_col12),

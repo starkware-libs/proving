@@ -67,9 +67,7 @@ impl FrameworkEval for Eval {
         let M31_3 = E::F::from(M31::from(3));
         let M31_39685 = E::F::from(M31::from(39685));
         let M31_4 = E::F::from(M31::from(4));
-        let M31_40528774 = E::F::from(M31::from(40528774));
         let M31_42319 = E::F::from(M31::from(42319));
-        let M31_428564188 = E::F::from(M31::from(428564188));
         let M31_44677 = E::F::from(M31::from(44677));
         let M31_47975 = E::F::from(M31::from(47975));
         let M31_5 = E::F::from(M31::from(5));
@@ -79,6 +77,8 @@ impl FrameworkEval for Eval {
         let M31_62322 = E::F::from(M31::from(62322));
         let M31_62778 = E::F::from(M31::from(62778));
         let M31_7 = E::F::from(M31::from(7));
+        let blake_round_relation_id = E::F::from(relations::BLAKE_ROUND_RELATION_ID);
+        let opcodes_relation_id = E::F::from(relations::OPCODES_RELATION_ID);
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let enabler_col0 = eval.next_trace_mask();
         let input_pc_col1 = eval.next_trace_mask();
@@ -381,7 +381,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_40528774.clone(),
+                blake_round_relation_id.clone(),
                 seq.clone(),
                 M31_0.clone(),
                 low_16_bits_col39.clone(),
@@ -424,7 +424,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_40528774.clone(),
+                blake_round_relation_id.clone(),
                 seq.clone(),
                 M31_10.clone(),
                 blake_round_output_limb_0_col93.clone(),
@@ -650,7 +650,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_428564188.clone(),
+                opcodes_relation_id.clone(),
                 input_pc_col1.clone(),
                 input_ap_col2.clone(),
                 input_fp_col3.clone(),
@@ -661,7 +661,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_428564188.clone(),
+                opcodes_relation_id.clone(),
                 (input_pc_col1.clone() + M31_1.clone()),
                 (input_ap_col2.clone() + ap_update_add_1_col10.clone()),
                 input_fp_col3.clone(),

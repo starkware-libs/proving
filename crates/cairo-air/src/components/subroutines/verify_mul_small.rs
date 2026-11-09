@@ -40,12 +40,12 @@ impl VerifyMulSmall {
     ) -> [E::F; 0] {
         let M31_262144 = E::F::from(M31::from(262144));
         let M31_512 = E::F::from(M31::from(512));
-        let M31_991608089 = E::F::from(M31::from(991608089));
+        let range_check_11_relation_id = E::F::from(relations::RANGE_CHECK_11_RELATION_ID);
 
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
-            &[M31_991608089.clone(), carry_1_col0.clone()],
+            &[range_check_11_relation_id.clone(), carry_1_col0.clone()],
         ));
 
         // carry 1 definition.
@@ -64,7 +64,7 @@ impl VerifyMulSmall {
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
-            &[M31_991608089.clone(), carry_3_col1.clone()],
+            &[range_check_11_relation_id.clone(), carry_3_col1.clone()],
         ));
 
         // carry 3 definition.
@@ -92,7 +92,7 @@ impl VerifyMulSmall {
         eval.add_to_relation(RelationEntry::new(
             common_lookup_elements,
             E::EF::from(enabler.clone()),
-            &[M31_991608089.clone(), carry_5_col2.clone()],
+            &[range_check_11_relation_id.clone(), carry_5_col2.clone()],
         ));
 
         // carry 5 definition.

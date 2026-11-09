@@ -46,10 +46,10 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1008385708 = E::F::from(M31::from(1008385708));
         let M31_32767 = E::F::from(M31::from(32767));
-        let M31_378353459 = E::F::from(M31::from(378353459));
         let M31_65536 = E::F::from(M31::from(65536));
+        let gate_relation_id = E::F::from(relations::GATE_RELATION_ID);
+        let range_check_16_relation_id = E::F::from(relations::RANGE_CHECK_16_RELATION_ID);
         let m31_to_u32_input_addr = eval.get_preprocessed_column(PreProcessedColumnId {
             id: "m31_to_u32_input_addr".to_owned(),
         });
@@ -67,19 +67,22 @@ impl FrameworkEval for Eval {
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
-            &[M31_1008385708.clone(), input_u32_limb_0_col1.clone()],
+            &[range_check_16_relation_id.clone(), input_u32_limb_0_col1.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
-            &[M31_1008385708.clone(), input_u32_limb_1_col2.clone()],
+            &[range_check_16_relation_id.clone(), input_u32_limb_1_col2.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
-            &[M31_1008385708.clone(), (M31_32767.clone() - input_u32_limb_1_col2.clone())],
+            &[
+                range_check_16_relation_id.clone(),
+                (M31_32767.clone() - input_u32_limb_1_col2.clone()),
+            ],
         ));
 
         // input is zero then limb_low is zero.
@@ -96,14 +99,14 @@ impl FrameworkEval for Eval {
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
-            &[M31_378353459.clone(), m31_to_u32_input_addr.clone(), input_m31_col0.clone()],
+            &[gate_relation_id.clone(), m31_to_u32_input_addr.clone(), input_m31_col0.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             -E::EF::from(m31_to_u32_multiplicity.clone()),
             &[
-                M31_378353459.clone(),
+                gate_relation_id.clone(),
                 m31_to_u32_output_addr.clone(),
                 input_u32_limb_0_col1.clone(),
                 input_u32_limb_1_col2.clone(),

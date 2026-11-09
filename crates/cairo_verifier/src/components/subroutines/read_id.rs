@@ -15,8 +15,11 @@ pub fn accumulate_constraints<Value: IValue>(
     let [read_id_input, enabler, id_col0] = input.try_into().unwrap();
 
     // Use MemoryAddressToId.
-    let tuple_0 =
-        &[eval!(context, 1444891767), eval!(context, read_id_input), eval!(context, id_col0)];
+    let tuple_0 = &[
+        context.constant(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID.into()),
+        eval!(context, read_id_input),
+        eval!(context, id_col0),
+    ];
     let numerator_0 = eval!(context, enabler);
     acc.add_to_relation(context, numerator_0, tuple_0);
     vec![]

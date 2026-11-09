@@ -92,8 +92,8 @@ pub fn verify_xor_rot_32_r_8_evaluate(
     verify_bitwise_xor_8_sum_0 = common_lookup_elements
         .combine(
             [
-                qm31_const::<112558620, 0, 0, 0>(), ms_8_bits_col0, ms_8_bits_col2,
-                split_16_low_part_size_8_output_tmp_e2dc4_9_limb_0,
+                qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(),
+                ms_8_bits_col0, ms_8_bits_col2, split_16_low_part_size_8_output_tmp_e2dc4_9_limb_0,
             ]
                 .span(),
         );
@@ -102,7 +102,7 @@ pub fn verify_xor_rot_32_r_8_evaluate(
     verify_bitwise_xor_8_sum_1 = common_lookup_elements
         .combine(
             [
-                qm31_const::<112558620, 0, 0, 0>(),
+                qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(),
                 split_16_low_part_size_8_output_tmp_e2dc4_3_limb_0,
                 split_16_low_part_size_8_output_tmp_e2dc4_7_limb_0, ms_8_bits_col4,
             ]
@@ -113,8 +113,8 @@ pub fn verify_xor_rot_32_r_8_evaluate(
     verify_bitwise_xor_8_sum_2 = common_lookup_elements
         .combine(
             [
-                qm31_const::<112558620, 0, 0, 0>(), ms_8_bits_col1, ms_8_bits_col3,
-                split_16_low_part_size_8_output_tmp_e2dc4_11_limb_0,
+                qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(),
+                ms_8_bits_col1, ms_8_bits_col3, split_16_low_part_size_8_output_tmp_e2dc4_11_limb_0,
             ]
                 .span(),
         );
@@ -123,7 +123,7 @@ pub fn verify_xor_rot_32_r_8_evaluate(
     verify_bitwise_xor_8_sum_3 = common_lookup_elements
         .combine(
             [
-                qm31_const::<112558620, 0, 0, 0>(),
+                qm31_const::<relations::VERIFY_BITWISE_XOR_8_RELATION_ID, 0, 0, 0>(),
                 split_16_low_part_size_8_output_tmp_e2dc4_1_limb_0,
                 split_16_low_part_size_8_output_tmp_e2dc4_5_limb_0, ms_8_bits_col5,
             ]

@@ -55,8 +55,8 @@ impl FrameworkEval for Eval {
         let M31_134217728 = E::F::from(M31::from(134217728));
         let M31_2 = E::F::from(M31::from(2));
         let M31_262144 = E::F::from(M31::from(262144));
-        let M31_428564188 = E::F::from(M31::from(428564188));
         let M31_512 = E::F::from(M31::from(512));
+        let opcodes_relation_id = E::F::from(relations::OPCODES_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_pc_col1 = eval.next_trace_mask();
         let input_ap_col2 = eval.next_trace_mask();
@@ -150,7 +150,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_428564188.clone(),
+                opcodes_relation_id.clone(),
                 input_pc_col1.clone(),
                 input_ap_col2.clone(),
                 input_fp_col3.clone(),
@@ -161,7 +161,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_428564188.clone(),
+                opcodes_relation_id.clone(),
                 (input_pc_col1.clone() + read_small_output_tmp_82d62_26_limb_0.clone()),
                 (input_ap_col2.clone() + M31_2.clone()),
                 (input_ap_col2.clone() + M31_2.clone()),

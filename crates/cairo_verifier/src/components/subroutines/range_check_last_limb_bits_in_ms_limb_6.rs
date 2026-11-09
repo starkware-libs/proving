@@ -16,7 +16,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use RangeCheck_6.
     let tuple_0 = &[
-        eval!(context, 1185356339),
+        context.constant(relations::RANGE_CHECK_6_RELATION_ID.into()),
         eval!(context, range_check_last_limb_bits_in_ms_limb_6_input),
     ];
     let numerator_0 = eval!(context, enabler);

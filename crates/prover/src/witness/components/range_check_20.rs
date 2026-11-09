@@ -62,14 +62,21 @@ fn write_trace_simd(
         )
     };
 
-    let M31_1410849886 = PackedM31::broadcast(M31::from(1410849886));
-    let M31_447122465 = PackedM31::broadcast(M31::from(447122465));
-    let M31_463900084 = PackedM31::broadcast(M31::from(463900084));
-    let M31_480677703 = PackedM31::broadcast(M31::from(480677703));
-    let M31_497455322 = PackedM31::broadcast(M31::from(497455322));
-    let M31_514232941 = PackedM31::broadcast(M31::from(514232941));
-    let M31_531010560 = PackedM31::broadcast(M31::from(531010560));
-    let M31_682009131 = PackedM31::broadcast(M31::from(682009131));
+    let range_check_20_b_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_B_RELATION_ID);
+    let range_check_20_c_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_C_RELATION_ID);
+    let range_check_20_d_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_D_RELATION_ID);
+    let range_check_20_e_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_E_RELATION_ID);
+    let range_check_20_f_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_F_RELATION_ID);
+    let range_check_20_g_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_G_RELATION_ID);
+    let range_check_20_h_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_H_RELATION_ID);
+    let range_check_20_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_20_RELATION_ID);
     let seq_20 = preprocessed_trace.get_column(&PreProcessedColumnId { id: "seq_20".to_owned() });
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut()).into_par_iter().enumerate().for_each(
@@ -91,14 +98,14 @@ fn write_trace_simd(
             *row[6] = multiplicity_6_col6;
             let multiplicity_7_col7 = *mults[7].get(row_index).unwrap_or(&PackedM31::zero());
             *row[7] = multiplicity_7_col7;
-            *lookup_data.range_check_20_0 = [M31_1410849886, seq_20];
-            *lookup_data.range_check_20_b_1 = [M31_514232941, seq_20];
-            *lookup_data.range_check_20_c_2 = [M31_531010560, seq_20];
-            *lookup_data.range_check_20_d_3 = [M31_480677703, seq_20];
-            *lookup_data.range_check_20_e_4 = [M31_497455322, seq_20];
-            *lookup_data.range_check_20_f_5 = [M31_447122465, seq_20];
-            *lookup_data.range_check_20_g_6 = [M31_463900084, seq_20];
-            *lookup_data.range_check_20_h_7 = [M31_682009131, seq_20];
+            *lookup_data.range_check_20_0 = [range_check_20_relation_id, seq_20];
+            *lookup_data.range_check_20_b_1 = [range_check_20_b_relation_id, seq_20];
+            *lookup_data.range_check_20_c_2 = [range_check_20_c_relation_id, seq_20];
+            *lookup_data.range_check_20_d_3 = [range_check_20_d_relation_id, seq_20];
+            *lookup_data.range_check_20_e_4 = [range_check_20_e_relation_id, seq_20];
+            *lookup_data.range_check_20_f_5 = [range_check_20_f_relation_id, seq_20];
+            *lookup_data.range_check_20_g_6 = [range_check_20_g_relation_id, seq_20];
+            *lookup_data.range_check_20_h_7 = [range_check_20_h_relation_id, seq_20];
             *lookup_data.mults_0 = multiplicity_0_col0;
             *lookup_data.mults_1 = multiplicity_1_col1;
             *lookup_data.mults_2 = multiplicity_2_col2;

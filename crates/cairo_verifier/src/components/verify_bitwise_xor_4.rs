@@ -24,7 +24,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield VerifyBitwiseXor_4.
     let tuple_0 = &[
-        eval!(context, 45448144),
+        context.constant(relations::VERIFY_BITWISE_XOR_4_RELATION_ID.into()),
         eval!(context, bitwise_xor_4_0),
         eval!(context, bitwise_xor_4_1),
         eval!(context, bitwise_xor_4_2),

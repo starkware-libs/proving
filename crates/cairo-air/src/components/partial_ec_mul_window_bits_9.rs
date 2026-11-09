@@ -65,9 +65,11 @@ impl FrameworkEval for Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1791500038 = E::F::from(M31::from(1791500038));
-        let M31_2038149019 = E::F::from(M31::from(2038149019));
         let M31_512 = E::F::from(M31::from(512));
+        let partial_ec_mul_window_bits_9_relation_id =
+            E::F::from(relations::PARTIAL_EC_MUL_WINDOW_BITS_9_RELATION_ID);
+        let pedersen_points_table_window_bits_9_relation_id =
+            E::F::from(relations::PEDERSEN_POINTS_TABLE_WINDOW_BITS_9_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_limb_0_col1 = eval.next_trace_mask();
         let input_limb_1_col2 = eval.next_trace_mask();
@@ -386,7 +388,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_1791500038.clone(),
+                pedersen_points_table_window_bits_9_relation_id.clone(),
                 ((M31_512.clone() * input_limb_1_col2.clone()) + input_limb_2_col3.clone()),
                 pedersen_points_table_window_bits_9_output_limb_0_col87.clone(),
                 pedersen_points_table_window_bits_9_output_limb_1_col88.clone(),
@@ -738,7 +740,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             E::EF::from(enabler_col0.clone()),
             &[
-                M31_2038149019.clone(),
+                partial_ec_mul_window_bits_9_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 input_limb_1_col2.clone(),
                 input_limb_2_col3.clone(),
@@ -832,7 +834,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             -E::EF::from(enabler_col0.clone()),
             &[
-                M31_2038149019.clone(),
+                partial_ec_mul_window_bits_9_relation_id.clone(),
                 input_limb_0_col1.clone(),
                 (input_limb_1_col2.clone() + M31_1.clone()),
                 input_limb_3_col4.clone(),

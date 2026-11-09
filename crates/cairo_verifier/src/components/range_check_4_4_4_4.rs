@@ -30,7 +30,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield RangeCheck_4_4_4_4.
     let tuple_0 = &[
-        eval!(context, 1027333874),
+        context.constant(relations::RANGE_CHECK_4_4_4_4_RELATION_ID.into()),
         eval!(context, range_check_4_4_4_4_column_0),
         eval!(context, range_check_4_4_4_4_column_1),
         eval!(context, range_check_4_4_4_4_column_2),

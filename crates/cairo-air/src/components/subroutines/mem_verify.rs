@@ -51,7 +51,7 @@ impl MemVerify {
         common_lookup_elements: &relations::CommonLookupElements,
         eval: &mut E,
     ) -> [E::F; 0] {
-        let M31_1662111297 = E::F::from(M31::from(1662111297));
+        let memory_id_to_big_relation_id = E::F::from(relations::MEMORY_ID_TO_BIG_RELATION_ID);
 
         ReadId::evaluate(
             [mem_verify_input_address.clone()],
@@ -64,7 +64,7 @@ impl MemVerify {
             common_lookup_elements,
             E::EF::from(enabler.clone()),
             &[
-                M31_1662111297.clone(),
+                memory_id_to_big_relation_id.clone(),
                 id_col0.clone(),
                 mem_verify_input_value_limb_0.clone(),
                 mem_verify_input_value_limb_1.clone(),

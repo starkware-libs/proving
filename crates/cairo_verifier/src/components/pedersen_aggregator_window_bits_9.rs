@@ -416,7 +416,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PartialEcMulWindowBits9.
     let tuple_5 = &[
-        eval!(context, 2038149019),
+        context.constant(relations::PARTIAL_EC_MUL_WINDOW_BITS_9_RELATION_ID.into()),
         eval!(context, partial_ec_mul_window_bits_9_chain_tmp_tmp_e17b2_8),
         eval!(context, 0),
         eval!(context, value_limb_0_col4),
@@ -509,7 +509,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PartialEcMulWindowBits9.
     let tuple_6 = &[
-        eval!(context, 2038149019),
+        context.constant(relations::PARTIAL_EC_MUL_WINDOW_BITS_9_RELATION_ID.into()),
         eval!(context, partial_ec_mul_window_bits_9_chain_tmp_tmp_e17b2_8),
         eval!(context, 28),
         eval!(context, partial_ec_mul_window_bits_9_output_limb_0_col66),
@@ -605,7 +605,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PartialEcMulWindowBits9.
     let tuple_8 = &[
-        eval!(context, 2038149019),
+        context.constant(relations::PARTIAL_EC_MUL_WINDOW_BITS_9_RELATION_ID.into()),
         eval!(context, partial_ec_mul_window_bits_9_chain_id_tmp_e17b2_37),
         eval!(context, 28),
         eval!(context, value_limb_0_col32),
@@ -698,7 +698,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PartialEcMulWindowBits9.
     let tuple_9 = &[
-        eval!(context, 2038149019),
+        context.constant(relations::PARTIAL_EC_MUL_WINDOW_BITS_9_RELATION_ID.into()),
         eval!(context, partial_ec_mul_window_bits_9_chain_id_tmp_e17b2_37),
         eval!(context, 56),
         eval!(context, partial_ec_mul_window_bits_9_output_limb_0_col150),
@@ -791,7 +791,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use MemoryIdToBig.
     let tuple_10 = &[
-        eval!(context, 1662111297),
+        context.constant(relations::MEMORY_ID_TO_BIG_RELATION_ID.into()),
         eval!(context, input_limb_2_col3),
         eval!(context, partial_ec_mul_window_bits_9_output_limb_28_col178),
         eval!(context, partial_ec_mul_window_bits_9_output_limb_29_col179),
@@ -827,7 +827,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield PedersenAggregatorWindowBits9.
     let tuple_11 = &[
-        eval!(context, 194336987),
+        context.constant(relations::PEDERSEN_AGGREGATOR_WINDOW_BITS_9_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, input_limb_1_col2),
         eval!(context, input_limb_2_col3),

@@ -199,7 +199,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use PoseidonRoundKeys.
     let tuple_1 = &[
-        eval!(context, 1024310512),
+        context.constant(relations::POSEIDON_ROUND_KEYS_RELATION_ID.into()),
         eval!(context, input_limb_1_col2),
         eval!(context, poseidon_round_keys_output_limb_0_col43),
         eval!(context, poseidon_round_keys_output_limb_1_col44),
@@ -510,7 +510,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Use Poseidon3PartialRoundsChain.
     let tuple_5 = &[
-        eval!(context, 1343313504),
+        context.constant(relations::POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, input_limb_1_col2),
         eval!(context, input_limb_2_col3),
@@ -559,7 +559,7 @@ pub fn accumulate_constraints<Value: IValue>(
 
     // Yield Poseidon3PartialRoundsChain.
     let tuple_6 = &[
-        eval!(context, 1343313504),
+        context.constant(relations::POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID.into()),
         eval!(context, input_limb_0_col1),
         eval!(context, (input_limb_1_col2) + (1)),
         eval!(context, cube_252_output_limb_0_col105),
