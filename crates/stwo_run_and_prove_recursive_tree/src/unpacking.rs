@@ -9,7 +9,6 @@ use applicative_unpacking_verifier::aggregator::CAPACITY;
 use applicative_unpacking_verifier::unpacking_verifier::{
     UnpackingCircuitParams, build_applicative_unpacking_verifier_circuit,
 };
-use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_to_targets;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{
@@ -17,7 +16,7 @@ use circuit_prover::prover::{
 };
 use circuit_registry::{CircuitRegistry, UnpackingVerifier};
 use circuit_serialize::serialize::CircuitSerialize;
-use circuits::blake::HashValue;
+use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::Node;
 use itertools::chain;
@@ -37,8 +36,8 @@ use crate::leaf_io::{LeafInput, LeafOutputHashType, LeafOutputPreimage};
 #[derive(Debug)]
 pub(crate) struct WrapperLeaf {
     program_hash: Felt,
-    task_slot_digests: Vec<[u32; N_RESERVED]>,
-    aggregated_output_digest: [u32; N_RESERVED],
+    task_slot_digests: Vec<[u32; DIGEST_N_WORDS]>,
+    aggregated_output_digest: [u32; DIGEST_N_WORDS],
 }
 
 impl WrapperLeaf {
@@ -50,7 +49,7 @@ impl WrapperLeaf {
             });
         }
         let preimage = &output.preimage;
-        let expected_len = 1 + CAPACITY * N_RESERVED;
+        let expected_len = 1 + CAPACITY * DIGEST_N_WORDS;
         if preimage.len() != expected_len {
             return Err(RecursiveTreeError::BadWrapperLeaf {
                 reason: format!(
@@ -69,13 +68,13 @@ impl WrapperLeaf {
                 })
             })
             .collect::<Result<Vec<u32>, _>>()?;
-        let (task_slot_words, aggregated_words) = words.split_at((CAPACITY - 1) * N_RESERVED);
+        let (task_slot_words, aggregated_words) = words.split_at((CAPACITY - 1) * DIGEST_N_WORDS);
         let task_slot_digests = task_slot_words
-            .chunks_exact(N_RESERVED)
-            .map(|digest| digest.try_into().expect("a chunk of N_RESERVED words"))
+            .chunks_exact(DIGEST_N_WORDS)
+            .map(|digest| digest.try_into().expect("a chunk of DIGEST_N_WORDS words"))
             .collect();
         let aggregated_output_digest =
-            aggregated_words.try_into().expect("exactly N_RESERVED words");
+            aggregated_words.try_into().expect("exactly DIGEST_N_WORDS words");
         Ok(Self { program_hash, task_slot_digests, aggregated_output_digest })
     }
 }
@@ -131,7 +130,7 @@ pub(crate) fn validate_applicative_inputs<'a>(
     // output over the task leaves' digests in fold order, then zero digests in the unused slots,
     // so an order mismatch would otherwise fail only after the fold and the verifier's prove.
     let task_digests =
-        chain!(leaves[1..].iter().map(|leaf| leaf.output_digest().0), repeat([0; N_RESERVED]));
+        chain!(leaves[1..].iter().map(|leaf| leaf.output_digest().0), repeat([0; DIGEST_N_WORDS]));
     let mismatch = wrapper
         .task_slot_digests
         .iter()
@@ -169,7 +168,7 @@ pub(crate) struct UnpackingLeaf {
 pub(crate) fn prove_unpacking_verifier(
     root: NodeProofData,
     packed_node: &PackedNode,
-    leaf_digests: &[[u32; N_RESERVED]],
+    leaf_digests: &[[u32; DIGEST_N_WORDS]],
     inputs: &ApplicativeInputs<'_>,
     registry: &CircuitRegistry,
     canonical: &CanonicalCircuit,
@@ -258,7 +257,7 @@ pub(crate) fn prove_unpacking_verifier(
 /// children is an internal node. Both carry their circuit hash.
 fn witness_tree(
     node: &PackedNode,
-    leaf_digests: &mut impl Iterator<Item = [u32; N_RESERVED]>,
+    leaf_digests: &mut impl Iterator<Item = [u32; DIGEST_N_WORDS]>,
 ) -> Result<BinaryTree<Node<QM31>, HashValue<QM31>>, RecursiveTreeError> {
     let bad = |reason: &str| RecursiveTreeError::BadPackedTree { reason: reason.to_string() };
     match node {

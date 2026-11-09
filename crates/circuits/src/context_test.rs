@@ -1,6 +1,6 @@
 use itertools::{Itertools, chain};
 
-use crate::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
+use crate::blake::{DIGEST_N_WORDS, HashValue};
 use crate::context::{Context, GuessVar, OUTPUT_START, TraceContext, U_VAR_IDX, Var};
 use crate::ivalue::qm31_from_u32s;
 use crate::wrappers::U32Wrapper;
@@ -25,10 +25,9 @@ fn test_constants() {
 #[test]
 fn test_set_outputs() {
     let mut context = TraceContext::new();
-    let reserved: [Var; BLAKE2S_DIGEST_N_WORDS] =
-        std::array::from_fn(|i| Var { idx: OUTPUT_START + i });
+    let reserved: [Var; DIGEST_N_WORDS] = std::array::from_fn(|i| Var { idx: OUTPUT_START + i });
 
-    let words: [U32Wrapper<Var>; BLAKE2S_DIGEST_N_WORDS] =
+    let words: [U32Wrapper<Var>; DIGEST_N_WORDS] =
         std::array::from_fn(|i| U32Wrapper::const_u32(&mut context, i as u32));
     context.set_outputs(&HashValue(words));
     for (i, var) in reserved.into_iter().enumerate() {

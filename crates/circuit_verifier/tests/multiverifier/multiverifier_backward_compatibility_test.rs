@@ -1,10 +1,10 @@
-use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_to_targets;
 use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_verifier::multiverifier::{
     CircuitVerifierInput, SharedConfig, build_multiverifier_circuit,
 };
 use circuit_verifier::statement::circuit_verifier_proof_config;
+use circuits::blake::DIGEST_N_WORDS;
 use itertools::chain;
 use stwo::core::fields::qm31::QM31;
 
@@ -64,7 +64,7 @@ fn test_backward_compatibility() {
             .collect();
     let payload_words: Vec<u32> =
         chain!(&cairo_input_preimage_words, &cairo_input_preimage_words).copied().collect();
-    let current_output_digest: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
+    let current_output_digest: [u32; DIGEST_N_WORDS] = native_blake_u32s(&payload_words);
 
     let current_bytes = std::fs::read(MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH).unwrap();
     let mut current_bytes = current_bytes.as_slice();

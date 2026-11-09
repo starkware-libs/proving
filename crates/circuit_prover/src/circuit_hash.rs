@@ -70,7 +70,7 @@ pub fn circuit_hash_and_preprocessed_root(
 #[cfg(test)]
 mod tests {
     use circuit_verifier::circuit_hash::compute_circuit_hash as compute_circuit_hash_in_circuit;
-    use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
+    use circuits::blake::{DIGEST_N_WORDS, HashValue};
     use circuits::context::TraceContext;
     use circuits::ivalue::IValue;
     use circuits::ops::Guess;
@@ -102,7 +102,7 @@ mod tests {
         let preprocessed_root = Blake2sHash(std::array::from_fn(|i| i as u8));
 
         // Host version, unpacked into eight little-endian u32 words.
-        let host: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(
+        let host: [u32; DIGEST_N_WORDS] = le_u32s_from_bytes(
             compute_circuit_hash::<Blake2sMerkleHasher>(
                 &component_log_sizes,
                 log_blowup_factor,
@@ -120,7 +120,7 @@ mod tests {
             log_blowup_factor,
             &root,
         );
-        let in_circuit: [u32; BLAKE2S_DIGEST_N_WORDS] =
+        let in_circuit: [u32; DIGEST_N_WORDS] =
             std::array::from_fn(|i| hash[i].get_value(&context).raw().unpack_u32());
 
         assert_eq!(host, in_circuit);

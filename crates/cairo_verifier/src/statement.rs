@@ -8,7 +8,7 @@ use cairo_air::flat_claims::FlatClaim;
 use cairo_air::relations::{
     MEMORY_ADDRESS_TO_ID_RELATION_ID, MEMORY_ID_TO_BIG_RELATION_ID, OPCODES_RELATION_ID,
 };
-use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake2s_u32s, m31_to_u32};
+use circuits::blake::{DIGEST_N_WORDS, HashValue, blake2s_u32s, m31_to_u32};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::extract_bits::{combine_bits, extract_bits};
@@ -50,7 +50,7 @@ const N_SAFE_CALL_IDS: usize = 2;
 // A memory value is stored as 28 9bit limbs.
 pub const MEMORY_VALUES_LIMBS: usize = 28;
 
-/// Number of public output cells. The program emits its output as a single Blake2s digest split
+/// Number of public output cells. The program emits its output as a single 256-bit digest split
 /// into two memory cells, each holding one 128-bit half of the digest.
 pub const N_OUTPUTS: usize = 2;
 const PUB_MEMORY_VALUE_M31_LEN: usize = 2;
@@ -64,11 +64,11 @@ pub const AUX_DATA_FIXED_LEN: usize =
 const LIMB_BITS: usize = 9;
 
 /// Number of 32-bit words in a 128-bit output cell value, i.e. how many `u32`s fit in a `u128`.
-/// The program's output is a Blake2s digest ([`BLAKE2S_DIGEST_N_WORDS`] words) split across
+/// The program's output is a 256-bit digest ([`DIGEST_N_WORDS`] words) split across
 /// [`N_OUTPUTS`] cells, one 128-bit half each.
 pub const N_WORDS_PER_OUTPUT_CELL: usize = 128 / 32;
 // The whole digest must map exactly onto the output cells.
-const _: () = assert!(N_OUTPUTS * N_WORDS_PER_OUTPUT_CELL == BLAKE2S_DIGEST_N_WORDS);
+const _: () = assert!(N_OUTPUTS * N_WORDS_PER_OUTPUT_CELL == DIGEST_N_WORDS);
 const MEMORY_ADDRESS_BITS: u32 = 29;
 const BUILTIN_USAGE_BITS: u32 = 27;
 

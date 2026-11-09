@@ -1,4 +1,4 @@
-use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
+use circuits::blake::DIGEST_N_WORDS;
 use circuits::context::Context;
 use circuits::eval;
 use circuits::extract_bits::extract_bits;
@@ -22,13 +22,13 @@ pub fn get_query_bits_from_channel(
     n_queries: usize,
     log_domain_size: u32,
 ) -> Vec<Simd> {
-    let n_hashes = n_queries.div_ceil(BLAKE2S_DIGEST_N_WORDS);
+    let n_hashes = n_queries.div_ceil(DIGEST_N_WORDS);
     let mut queries_simd_vec = Vec::with_capacity(n_queries);
     for i in 0..n_hashes {
         let u32s = channel.draw_u32s(context);
-        for j in 0..BLAKE2S_DIGEST_N_WORDS {
-            if BLAKE2S_DIGEST_N_WORDS * i + j == n_queries {
-                for k in j..BLAKE2S_DIGEST_N_WORDS {
+        for j in 0..DIGEST_N_WORDS {
+            if DIGEST_N_WORDS * i + j == n_queries {
+                for k in j..DIGEST_N_WORDS {
                     context.mark_as_unused(*u32s[k].raw());
                 }
                 // Note that this is already necessarily the last iteration of the outer loop,

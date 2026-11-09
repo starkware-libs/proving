@@ -41,7 +41,7 @@ pub enum LeafOutputHashType {
 }
 
 impl LeafInput {
-    /// This leaf circuit's `N_RESERVED`-word output digest: the digest of its output preimage, as
+    /// This leaf circuit's output digest: the digest of its output preimage, as
     /// eight little-endian u32 words.
     ///
     /// A blake leaf's is `blake2s(cairo0-encode(preimage))`, which the leaf bootloader writes to

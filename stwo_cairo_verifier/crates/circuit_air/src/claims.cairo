@@ -20,7 +20,7 @@ const U16_SHIFT: NonZero<u32> = 0x10000;
 
 #[derive(Drop)]
 pub struct CircuitClaim {
-    /// The circuit's public output: the eight words of a Blake2s digest.
+    /// The circuit's public output: the eight words of a 256-bit digest.
     pub output_digest: Box<[u32; 8]>,
 }
 

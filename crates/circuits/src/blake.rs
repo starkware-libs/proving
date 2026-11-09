@@ -15,19 +15,19 @@ use crate::wrappers::{M31Wrapper, U32Wrapper};
 #[path = "blake_test.rs"]
 pub mod test;
 
-/// Number of 32-bit words in a Blake2s-256 digest (256 bits / 32).
-pub const BLAKE2S_DIGEST_N_WORDS: usize = 8;
+/// The number of `u32` words of a 256-bit digest (e.g. Blake2s).
+pub const DIGEST_N_WORDS: usize = 8;
 
-/// A Blake2s digest kept as its eight raw 32-bit output words (the result of [`blake2s_u32s`]),
-/// each encoded as a QM31 `(low_u16, high_u16, 0, 0)`.
+/// A 256-bit digest (e.g. Blake2s, see [`blake2s_u32s`]) kept as its eight raw 32-bit words, each
+/// encoded as a QM31 `(low_u16, high_u16, 0, 0)`.
 ///
 /// This is the primary in-circuit representation of a hash: the eight words are the faithful
-/// Blake2s output and are *not* reduced mod `M31::P`.
+/// digest and are *not* reduced mod `M31::P`.
 ///
 /// `T` is the per-element representation: `QM31` for concrete witness values, or [`Var`] for
 /// variables inside a [`Context`].
 #[derive(Clone, Debug, PartialEq)]
-pub struct HashValue<T>(pub [U32Wrapper<T>; BLAKE2S_DIGEST_N_WORDS]);
+pub struct HashValue<T>(pub [U32Wrapper<T>; DIGEST_N_WORDS]);
 
 impl<Value: IValue> Guess<Value> for HashValue<Value> {
     type Target = HashValue<Var>;
@@ -62,7 +62,7 @@ impl<Value: Copy> HashValue<Value> {
     }
 
     /// Returns the 8 u32 elements of the hash value as an array.
-    pub fn as_array(&self) -> &[U32Wrapper<Value>; BLAKE2S_DIGEST_N_WORDS] {
+    pub fn as_array(&self) -> &[U32Wrapper<Value>; DIGEST_N_WORDS] {
         &self.0
     }
 
@@ -74,7 +74,7 @@ impl<Value: Copy> HashValue<Value> {
 
 impl<T> IntoIterator for HashValue<T> {
     type Item = U32Wrapper<T>;
-    type IntoIter = std::array::IntoIter<U32Wrapper<T>, BLAKE2S_DIGEST_N_WORDS>;
+    type IntoIter = std::array::IntoIter<U32Wrapper<T>, DIGEST_N_WORDS>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
@@ -92,15 +92,15 @@ impl From<Blake2sHash> for HashValue<QM31> {
     /// Encodes the [`Blake2sHash`] into eight [`U32Wrapper`]s, one per 32-bit (little-endian)
     /// hash word, each word is held as a QM31 `(low_u16, high_u16, 0, 0)`.
     fn from(value: Blake2sHash) -> Self {
-        let words: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(value.0);
+        let words: [u32; DIGEST_N_WORDS] = le_u32s_from_bytes(value.0);
         HashValue::from(words)
     }
 }
 
-impl From<[u32; BLAKE2S_DIGEST_N_WORDS]> for HashValue<QM31> {
+impl From<[u32; DIGEST_N_WORDS]> for HashValue<QM31> {
     /// Encodes the eight raw 32-bit hash words losslessly, each held as a QM31
     /// `(low_u16, high_u16, 0, 0)`. The words are not reduced mod `M31::P`.
-    fn from(value: [u32; BLAKE2S_DIGEST_N_WORDS]) -> Self {
+    fn from(value: [u32; DIGEST_N_WORDS]) -> Self {
         HashValue(value.map(IValue::pack_u32))
     }
 }
@@ -144,7 +144,7 @@ pub fn blake_qm31(input: &[QM31], n_bytes: usize) -> HashValue<QM31> {
     hasher.update(&input_bytes[0..n_bytes]);
     let hash: [u8; 32] = hasher.finalize().into();
 
-    let words: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(hash);
+    let words: [u32; DIGEST_N_WORDS] = le_u32s_from_bytes(hash);
     HashValue::from(words)
 }
 

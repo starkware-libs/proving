@@ -22,16 +22,16 @@ fn compute_circuit_hash_matches_golden() {
     };
 
     let log_blowup_factor = 3;
-    let preprocessed_root: [u32; BLAKE2S_DIGEST_N_WORDS] = std::array::from_fn(|i| i as u32);
+    let preprocessed_root: [u32; DIGEST_N_WORDS] = std::array::from_fn(|i| i as u32);
 
     // Compute the circuit hash in a fresh context and read back the eight concrete output words.
     let mut context = TraceContext::default();
     let root = HashValue::<QM31>::from(preprocessed_root).guess(&mut context);
     let hash = compute_circuit_hash(&mut context, &component_log_sizes, log_blowup_factor, &root);
-    let in_circuit: [u32; BLAKE2S_DIGEST_N_WORDS] =
+    let in_circuit: [u32; DIGEST_N_WORDS] =
         std::array::from_fn(|i| context.get(*hash[i].raw()).unpack_u32());
 
-    let expected: [u32; BLAKE2S_DIGEST_N_WORDS] = [
+    let expected: [u32; DIGEST_N_WORDS] = [
         0xa8810641, 0x52391285, 0x90b37fd2, 0x905b887a, 0x7db7dc81, 0xa7c3a731, 0xd0d46b34,
         0x8fa6a471,
     ];

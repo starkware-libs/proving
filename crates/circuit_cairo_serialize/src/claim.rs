@@ -21,12 +21,14 @@ use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
 /// Mirror of Cairo `CircuitClaim`.
 ///
 /// Cairo layout:
-/// - `output_digest: Blake2sHash`
+/// - `output_digest: Box<[u32; 8]>` (a [`Blake2sHash`] serializes as its eight little-endian `u32`
+///   words)
 #[derive(Clone, Debug, PartialEq, Eq, CairoSerialize, CairoDeserialize)]
 pub struct CairoCircuitClaim {
-    /// The circuit's output: the unreduced Blake2s digest, one 32-bit word per reserved wire. The
-    /// circuit carries each word as a QM31 wire value `(low_u16, high_u16, 0, 0)`; the Cairo
-    /// verifier rebuilds that encoding where it needs it.
+    /// The circuit's output: the unreduced 256-bit digest, one 32-bit word per reserved wire; the
+    /// [`Blake2sHash`] is only its 32-byte container. The circuit carries each word as a QM31 wire
+    /// value `(low_u16, high_u16, 0, 0)`; the Cairo verifier rebuilds that encoding where it needs
+    /// it.
     pub output_digest: Blake2sHash,
 }
 

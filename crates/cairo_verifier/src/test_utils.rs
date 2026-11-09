@@ -101,9 +101,9 @@ pub const fn privacy_pcs_config(trace_log_size: u32, log_blowup_factor: u32) -> 
     PcsConfig::from_fri_config(FriConfig { params: fri_params, trace_log_size })
 }
 
-/// Packs the program's output memory cells into the Blake2s digest they represent.
+/// Packs the program's output memory cells into the 256-bit digest they represent.
 ///
-/// The program emits its output as a single Blake2s digest stored across `N_OUTPUTS` memory cells,
+/// The program emits its output as a single 256-bit digest stored across `N_OUTPUTS` memory cells,
 /// each holding one 128-bit half. Each cell contributes its low `N_WORDS_PER_OUTPUT_CELL` words
 /// (little-endian) to the digest; this is the exact inverse of the reconstruction performed by
 /// `output_limbs_from_output_hash`, so `CairoStatement::new` recovers the same cells from the

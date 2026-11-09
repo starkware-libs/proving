@@ -1,4 +1,4 @@
-use circuit_common::N_RESERVED;
+use circuits::blake::DIGEST_N_WORDS;
 use circuits::utils::le_u32s_from_bytes;
 use privacy_common::consts::{
     CAIRO_LOG_BLOWUP_FACTOR, CAIRO_PCS_CONFIG, CAIRO_TRACE_LOG_SIZE, CIRCUIT_LOG_BLOWUP_FACTOR,
@@ -53,7 +53,7 @@ fn check_circuit_verifier_configs() {
         CIRCUIT_PCS_CONFIG.trace_lifting_log_size
     );
     // The output gates, excluding the `u` constant wire, hold the output digest's words.
-    assert_eq!(preprocessed_circuit.n_outputs, N_RESERVED);
+    assert_eq!(preprocessed_circuit.n_outputs, DIGEST_N_WORDS);
     let actual_columns: Vec<(String, u32)> = preprocessed_circuit
         .preprocessed_trace
         .log_sizes()

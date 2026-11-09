@@ -7,7 +7,6 @@ use circuit_cairo_verifier::test_utils::{
 };
 use circuit_cairo_verifier::utils::get_proof_file_path;
 use circuit_cairo_verifier::verify::build_cairo_verifier_circuit;
-use circuit_common::N_RESERVED;
 use circuit_common::finalize::{ComponentSizes, compute_padded_sizes, pad_to_targets};
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{
@@ -20,7 +19,7 @@ use circuit_verifier::multiverifier::{
 };
 use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
-use circuits::blake::HashValue;
+use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits::context::{FinalizedContext, OUTPUT_START};
 use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
@@ -297,7 +296,7 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
     let payload_words: Vec<u32> =
         chain!(&cairo_input_preimage_words, &cairo_input_preimage_words).copied().collect();
     // The circuit keeps the full unreduced eight-word digest as its output.
-    let hash_of_payload: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
+    let hash_of_payload: [u32; DIGEST_N_WORDS] = native_blake_u32s(&payload_words);
 
     let multiverifier_of_two_cairo_input = CircuitVerifierInput {
         proof: multiverifier_proof,
@@ -353,7 +352,7 @@ fn test_verify_circuit_single_input_output_digest() {
     .unwrap();
 
     // Mirror the single-child preimage `build_multiverifier_circuit` hashes: the eight 32-bit
-    // words of the leaf circuit hash followed by the N_RESERVED output words.
+    // words of the leaf circuit hash followed by the eight output words.
     let shared_config = SharedConfig {
         pcs_config: PCS_CONFIG,
         proof_config,
@@ -364,13 +363,13 @@ fn test_verify_circuit_single_input_output_digest() {
             .into_iter()
             .chain(PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST)
             .collect();
-    let expected_digest: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
+    let expected_digest: [u32; DIGEST_N_WORDS] = native_blake_u32s(&payload_words);
     let expected_wires: Vec<QM31> =
         HashValue::<QM31>::from(expected_digest).into_iter().map(|w| *w.raw()).collect();
 
-    // Reserved output wires occupy indices 3..3+N_RESERVED (zero/one/u at 0..3; see Context::new).
+    // Reserved output wires occupy indices 3..11 (zero/one/u at 0..3; see Context::new).
     assert_eq!(
-        &context.values()[OUTPUT_START..OUTPUT_START + N_RESERVED],
+        &context.values()[OUTPUT_START..OUTPUT_START + DIGEST_N_WORDS],
         expected_wires.as_slice()
     );
 }

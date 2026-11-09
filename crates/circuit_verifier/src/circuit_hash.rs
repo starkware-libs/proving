@@ -1,4 +1,4 @@
-use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake2s_u32s};
+use circuits::blake::{DIGEST_N_WORDS, HashValue, blake2s_u32s};
 use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
 use circuits::ops::Constant;
@@ -59,6 +59,6 @@ pub fn compute_circuit_hash<Value: IValue>(
         .collect();
     let config_and_root =
         chain!(config_words.iter().copied(), preprocessed_root.iter().copied()).collect_vec();
-    let n_bytes = 4 * (config_words.len() + BLAKE2S_DIGEST_N_WORDS);
+    let n_bytes = 4 * (config_words.len() + DIGEST_N_WORDS);
     blake2s_u32s(context, config_and_root, n_bytes)
 }

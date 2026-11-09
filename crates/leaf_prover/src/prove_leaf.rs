@@ -110,9 +110,8 @@ pub fn prove_leaf(
         "The circuit cairo verifier expects exactly {N_OUTPUTS} output cells but the program \
          produced {n_outputs}."
     );
-    // The program emits its output as the raw 256-bit Blake2s digest, one 128-bit half per output
-    // cell. Concatenate the low `N_WORDS_PER_OUTPUT_CELL` words of each cell into the 8-word
-    // digest.
+    // The program emits its output as a raw 256-bit digest, one 128-bit half per output cell.
+    // Concatenate the low `N_WORDS_PER_OUTPUT_CELL` words of each cell into the 8-word digest.
     let mut digest_words = [0u32; N_OUTPUTS * N_WORDS_PER_OUTPUT_CELL];
     for (chunk, cell) in
         digest_words.chunks_exact_mut(N_WORDS_PER_OUTPUT_CELL).zip(program_output_u256s.iter())

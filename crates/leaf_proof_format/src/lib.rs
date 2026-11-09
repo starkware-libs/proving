@@ -6,10 +6,11 @@ use serde_with::base64::Base64;
 use serde_with::serde_as;
 use starknet_types_core::felt::Felt;
 
-/// The number of little-endian u32 words in a Blake2s digest.
+/// The number of little-endian u32 words in a 256-bit digest.
 pub const N_DIGEST_WORDS: usize = 8;
 
-/// A Blake2s digest: eight little-endian u32 words, serialized as an array of `0x`-prefixed hex
+/// A 256-bit digest (a Blake2s circuit hash or preprocessed root, or a leaf's Blake2s or Poseidon
+/// output digest): eight little-endian u32 words, serialized as an array of `0x`-prefixed hex
 /// strings.
 ///
 /// This is also the wire format of the circuit registry's Blake2s digests: leaf-prover output is

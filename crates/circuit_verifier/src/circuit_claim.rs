@@ -1,6 +1,6 @@
 use std::iter::repeat_n;
 
-use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
+use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits::context::{OUTPUT_START, U_VALUE, U_VAR_IDX};
 use circuits::ivalue::NoValue;
 use num_traits::Zero;
@@ -19,9 +19,9 @@ pub type ClaimedSum = QM31;
 
 #[derive(Debug, PartialEq)]
 pub struct CircuitClaim {
-    /// The Blake2s digest the circuit outputs, one `u32` word per output wire (packed in a `QM31`
+    /// The 256-bit digest the circuit outputs, one `u32` word per output wire (packed in a `QM31`
     /// as `(low_u16, high_u16, 0, 0)`).
-    pub output_digest: [u32; BLAKE2S_DIGEST_N_WORDS],
+    pub output_digest: [u32; DIGEST_N_WORDS],
 }
 impl CircuitClaim {
     pub fn mix_into(&self, channel: &mut impl Channel) {

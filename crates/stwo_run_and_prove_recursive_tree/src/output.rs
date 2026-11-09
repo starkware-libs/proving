@@ -2,8 +2,8 @@
 
 use std::borrow::Cow;
 
-use circuit_common::N_RESERVED;
 use circuit_serialize::serialize::CircuitSerialize;
+use circuits::blake::DIGEST_N_WORDS;
 use leaf_proof_format::PackedNode;
 
 use crate::fold::{LayerEntry, NodeProof, ProofFormat};
@@ -39,7 +39,7 @@ pub fn write_root_outputs(
 /// [`RootOutputPaths`]).
 pub fn write_outputs(
     proof_bytes: &[u8],
-    output_digest: &[u32; N_RESERVED],
+    output_digest: &[u32; DIGEST_N_WORDS],
     packed_node: &PackedNode,
     paths: &RootOutputPaths<'_>,
 ) -> Result<(), RecursiveTreeError> {

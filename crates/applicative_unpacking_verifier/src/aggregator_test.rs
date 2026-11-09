@@ -1,5 +1,5 @@
 use circuit_verifier::test_utils::native_blake_u32s;
-use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
+use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits::context::{TraceContext, Var};
 use circuits::ops::Guess;
 use circuits_unpacker::unpacker::Node;
@@ -10,7 +10,7 @@ use stwo::core::fields::qm31::QM31;
 
 use super::{CAPACITY, open_aggregator_output};
 
-/// Arbitrary non-zero leaf digests (a real `subtree_hash` is a Blake2s digest).
+/// Arbitrary non-zero leaf digests (a real leaf's `subtree_hash` is its circuit's output digest).
 fn leaf_hash(i: u32) -> [u32; 8] {
     std::array::from_fn(|j| 0x1000_0000 + i * 8 + j as u32)
 }
@@ -26,7 +26,7 @@ fn wrapper_program_hash() -> Felt {
 /// padding to `CAPACITY - 1`, and the aggregated-output digest.
 fn wrapper_output_words(leaf_digests: &[[u32; 8]]) -> Vec<u32> {
     let mut words: Vec<u32> = leaf_digests.iter().flatten().copied().collect();
-    words.resize((CAPACITY - 1) * BLAKE2S_DIGEST_N_WORDS, 0);
+    words.resize((CAPACITY - 1) * DIGEST_N_WORDS, 0);
     words.extend(AGGREGATED_OUTPUT_DIGEST);
     words
 }

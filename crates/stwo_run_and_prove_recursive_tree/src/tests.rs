@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 
 use circuit_registry::{CircuitRegistry, RegistryError};
-use circuits::blake::HashValue;
+use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use leaf_proof_format::{DigestHex, PackedNode, SerializedLeafProof};
 use starknet_types_core::felt::Felt;
 use stwo::core::fields::qm31::QM31;
@@ -204,7 +204,7 @@ fn test_applicative_inputs_are_checked_before_the_fold() {
     let wrapper_over = |tasks: &[&LeafInput]| {
         let mut preimage = vec![Felt::ZERO];
         preimage.extend(tasks.iter().flat_map(|task| task.output_digest().0).map(Felt::from));
-        preimage.resize(1 + CAPACITY * circuit_common::N_RESERVED, Felt::ZERO);
+        preimage.resize(1 + CAPACITY * DIGEST_N_WORDS, Felt::ZERO);
         placeholder_leaf(leaf_circuit_hash, preimage)
     };
     let task = placeholder_leaf(leaf_circuit_hash, vec![Felt::ZERO]);
@@ -367,6 +367,7 @@ mod e2e {
 
     use blake2::{Blake2s256, Digest};
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
+    use circuits::blake::DIGEST_N_WORDS;
     use leaf_proof_format::{DigestHex, PackedNode};
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo_cairo_utils::file_utils::repo_root;
@@ -388,7 +389,7 @@ mod e2e {
 
     /// The leaf circuit's `circuit_hash` (its trust-anchor identity) — read straight from the
     /// leaf proof.
-    fn leaf_circuit_hash(leaf: &LeafInput) -> [u32; circuit_common::N_RESERVED] {
+    fn leaf_circuit_hash(leaf: &LeafInput) -> [u32; DIGEST_N_WORDS] {
         leaf.proof.circuit_hash.0
     }
 
@@ -398,7 +399,7 @@ mod e2e {
 
     /// Out-of-circuit `circuits::blake::blake2s_u32s`: Blake2s-256 over the little-endian bytes of
     /// `words`, digest read back as eight little-endian u32 words (mirrors verify_test's helper).
-    fn blake2s_u32s_host(words: &[u32]) -> [u32; circuit_common::N_RESERVED] {
+    fn blake2s_u32s_host(words: &[u32]) -> [u32; DIGEST_N_WORDS] {
         let mut hasher = Blake2s256::new();
         for word in words {
             hasher.update(word.to_le_bytes());
@@ -408,9 +409,7 @@ mod e2e {
     }
 
     /// The canonical multiverifier's `circuit_hash` — the identity every internal node carries.
-    fn multiverifier_circuit_hash(
-        canonical: &CanonicalCircuit,
-    ) -> [u32; circuit_common::N_RESERVED] {
+    fn multiverifier_circuit_hash(canonical: &CanonicalCircuit) -> [u32; DIGEST_N_WORDS] {
         let hash = preprocessed_circuit_hash::<Blake2sMerkleChannel>(
             &canonical.preprocessed_multiverifier,
             canonical.shared_config.pcs_config.fri_params.log_blowup_factor,
@@ -421,8 +420,8 @@ mod e2e {
     /// An expected tree node: the raw u32 output words + `circuit_hash` (both needed to hash a
     /// parent) alongside the `PackedNode` subtree the binary should emit for it.
     struct ExpectedNode {
-        output_digest: [u32; circuit_common::N_RESERVED],
-        circuit_hash: [u32; circuit_common::N_RESERVED],
+        output_digest: [u32; DIGEST_N_WORDS],
+        circuit_hash: [u32; DIGEST_N_WORDS],
         packed: PackedNode,
     }
 
@@ -440,7 +439,7 @@ mod e2e {
     fn expected_reduce(
         left: ExpectedNode,
         right: ExpectedNode,
-        multiverifier_circuit_hash: [u32; circuit_common::N_RESERVED],
+        multiverifier_circuit_hash: [u32; DIGEST_N_WORDS],
     ) -> ExpectedNode {
         let mut preimage = Vec::new();
         for child in [&left, &right] {
@@ -462,7 +461,7 @@ mod e2e {
     /// and the packed node carries the child once.
     fn expected_self_fold(
         child: ExpectedNode,
-        multiverifier_circuit_hash: [u32; circuit_common::N_RESERVED],
+        multiverifier_circuit_hash: [u32; DIGEST_N_WORDS],
     ) -> ExpectedNode {
         let mut preimage = Vec::new();
         for _ in 0..2 {
@@ -484,7 +483,7 @@ mod e2e {
     /// `circuit_hash` every internal node carries (see [`multiverifier_circuit_hash`]).
     fn expected_root(
         leaves: &[LeafInput],
-        multiverifier_circuit_hash: [u32; circuit_common::N_RESERVED],
+        multiverifier_circuit_hash: [u32; DIGEST_N_WORDS],
     ) -> ExpectedNode {
         if leaves.len() == 1 {
             return expected_self_fold(expected_leaf(&leaves[0]), multiverifier_circuit_hash);
@@ -673,16 +672,13 @@ mod e2e {
         // The wrapper's output words: the other tree slots' digests, then the final digest.
         let output_words: Vec<u32> = preimage_felts[1..].iter().map(|f| u32_from_hex(f)).collect();
         let capacity = applicative_unpacking_verifier::aggregator::CAPACITY;
-        assert_eq!(output_words.len(), capacity * circuit_common::N_RESERVED);
+        assert_eq!(output_words.len(), capacity * DIGEST_N_WORDS);
         let leaf_digest = leaf.output_digest().0;
-        for digest in
-            output_words[..n * circuit_common::N_RESERVED].chunks(circuit_common::N_RESERVED)
-        {
+        for digest in output_words[..n * DIGEST_N_WORDS].chunks(DIGEST_N_WORDS) {
             assert_eq!(digest, leaf_digest, "all the leaves should have the same digest");
         }
         assert!(
-            output_words
-                [n * circuit_common::N_RESERVED..(capacity - 1) * circuit_common::N_RESERVED]
+            output_words[n * DIGEST_N_WORDS..(capacity - 1) * DIGEST_N_WORDS]
                 .iter()
                 .all(|w| *w == 0),
             "padding digests must be zero"
@@ -718,7 +714,7 @@ mod e2e {
         let expected_final_digest: Vec<u32> =
             poseidon_bytes.chunks(4).map(|c| u32::from_le_bytes(c.try_into().unwrap())).collect();
         assert_eq!(
-            output_words[(capacity - 1) * circuit_common::N_RESERVED..],
+            output_words[(capacity - 1) * DIGEST_N_WORDS..],
             expected_final_digest,
             "final digest differs from the recomputed poseidon hash"
         );

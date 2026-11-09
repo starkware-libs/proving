@@ -4,7 +4,7 @@ use stwo::core::fields::cm31::CM31;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 
-use crate::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake_qm31};
+use crate::blake::{DIGEST_N_WORDS, HashValue, blake_qm31};
 use crate::wrappers::U32Wrapper;
 
 #[cfg(test)]
@@ -154,7 +154,7 @@ impl IValue for NoValue {
     }
 
     fn blake2s(_: &[Self], _: usize) -> HashValue<Self> {
-        HashValue([U32Wrapper::no_value(); BLAKE2S_DIGEST_N_WORDS])
+        HashValue([U32Wrapper::no_value(); DIGEST_N_WORDS])
     }
 
     fn sort_by_u_coordinate(input: &[Self]) -> Vec<Self> {

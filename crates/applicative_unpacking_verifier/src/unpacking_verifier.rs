@@ -34,7 +34,7 @@ pub struct UnpackingCircuitParams<'a> {
 /// witness `tree` under it ([`unpack_verified_tree`]). The wrapper's own leaf proof is the tree's
 /// first leaf, whose digest [`open_aggregator_output`] recomputes from the other slots.
 ///
-/// The circuit's `N_RESERVED` outputs are the U256-encoded
+/// The circuit's eight output words are the U256-encoded
 /// `poseidon(modified_aggregator_program_hash, aggregated_output...)`, which a consumer opens by
 /// recomputing the poseidon hash.
 pub fn build_applicative_unpacking_verifier_circuit<Value: IValue>(

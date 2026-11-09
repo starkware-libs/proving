@@ -34,8 +34,8 @@ use crate::test_utils::default_circuit_pcs_config;
 // Not a power of 2 so that we can test component padding.
 const N: usize = 1030;
 
-/// Copies `words` into the context's `N_RESERVED` reserved output wires, cycling through them to
-/// fill the digest width. A circuit verified by the circuit verifier outputs a Blake2s digest;
+/// Copies `words` into the context's reserved output wires, cycling through them to
+/// fill the digest width. A circuit verified by the circuit verifier outputs a 256-bit digest;
 /// these test circuits have no digest of their own, so any `u32`-encoded wires will do.
 fn set_digest_outputs(context: &mut Context<QM31>, words: &[U32Wrapper<Var>]) {
     context.set_outputs(&HashValue(std::array::from_fn(|i| words[i % words.len()])));

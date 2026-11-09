@@ -10,8 +10,8 @@ use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 use crate::multiverifier::{CircuitVerifierInput, build_multiverifier_circuit, shared_config};
 
 pub struct CircuitPublicData<Value: IValue> {
-    /// The verified circuit's output: the unreduced Blake2s digest held at its
-    /// [`circuit_common::N_RESERVED`] reserved output wires. The output gate of the `u` constant
+    /// The verified circuit's output: the unreduced 256-bit digest held at its
+    /// eight reserved output wires. The output gate of the `u` constant
     /// (at address [`circuits::context::U_VAR_IDX`]) is appended by the verifier and is not part
     /// of this.
     pub output_digest: HashValue<Value>,

@@ -89,12 +89,13 @@ crates/
    `circuits-stark-verifier-examples` must compile on stable (CI-enforced).
 7. **Optimized test profile** — `circuit-prover` and `stwo` compile at opt-level 3 even in
    test builds to keep Blake tests fast.
-8. **Finalization/preprocessing** — `circuit_common` bridges DSL and prover:
-   `finalize_context()` hashes constants (Blake) and adds their hash as public outputs, then
-   pads Eq/QM31Ops/Blake components to powers of two (min `N_LANES=16`); `add_zk_blinding()`
-   (in `circuit_verifier::zk_blinding`, next to the AIR whose columns it blinds) injects
-   randomness for ZK; `PreprocessedCircuit::preprocess_circuit()` builds the fixed
-   preprocessed trace.
+8. **Finalization/preprocessing** — `Context::finalize()` constrains every constant via
+   arithmetic gates derived from `u` (`finalize_constants`); the public outputs are the
+   `DIGEST_N_WORDS` reserved digest words plus `u`. `circuit_common` then bridges DSL and
+   prover: `pad_context()` pads each component to a power of two (min `N_LANES=16`);
+   `add_zk_blinding()` (in `circuit_verifier::zk_blinding`, next to the AIR whose columns it
+   blinds) injects randomness for ZK; `PreprocessedCircuit::preprocess_circuit()` builds the
+   fixed preprocessed trace.
 
 ## Metrics
 

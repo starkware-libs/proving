@@ -5,7 +5,7 @@ use num_traits::{One, Zero};
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 
-use crate::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, m31_to_u32_into};
+use crate::blake::{DIGEST_N_WORDS, HashValue, m31_to_u32_into};
 use crate::circuit::{Add, Circuit};
 use crate::finalize_constants::finalize_constants;
 use crate::ivalue::{IValue, qm31_from_u32s};
@@ -95,14 +95,14 @@ pub struct Context<Value: IValue> {
 
 impl<Value: IValue> Context<Value> {
     /// Creates a new context whose outputs are a 256-bit digest (e.g. Blake2s), held as
-    /// `BLAKE2S_DIGEST_N_WORDS` `u32` words: reserves the wires at addresses `OUTPUT_START + i`,
-    /// for `i ∈ [0, BLAKE2S_DIGEST_N_WORDS)`, for [`Self::set_outputs`] to fill.
+    /// [`DIGEST_N_WORDS`] `u32` words: reserves the wires at addresses `OUTPUT_START + i`,
+    /// for `i ∈ [0, DIGEST_N_WORDS)`, for [`Self::set_outputs`] to fill.
     ///
     /// [`Self::default`], by contrast, reserves no output wires, so [`Self::set_outputs`] panics
     /// on it.
     pub fn new() -> Self {
         let mut context = Context::default();
-        for _ in 0..BLAKE2S_DIGEST_N_WORDS {
+        for _ in 0..DIGEST_N_WORDS {
             context.reserve();
         }
         context
@@ -164,7 +164,7 @@ impl<Value: IValue> Context<Value> {
     /// The outputs are words since they are the circuit's claim, a 256-bit digest. Each word is a
     /// [`U32Wrapper`](crate::wrappers::U32Wrapper), as a digest word may not fit in an M31.
     ///
-    /// Panics unless the context holds the `BLAKE2S_DIGEST_N_WORDS` unfilled wires that
+    /// Panics unless the context holds the [`DIGEST_N_WORDS`] unfilled wires that
     /// [`Self::new`] reserves.
     pub fn set_outputs(&mut self, digest: &HashValue<Var>) {
         for (reserved, word) in zip_eq(std::mem::take(&mut self.reserved_vars), digest.iter()) {

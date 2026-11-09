@@ -1,9 +1,9 @@
-use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
+use circuits::blake::DIGEST_N_WORDS;
 use itertools::{Itertools, chain};
 
 /// Number of bytes a serialized [`Version`] occupies (major, minor, patch).
 pub const VERSION_BYTES: usize = 3;
-pub const BLAKE2S_DIGEST_N_BYTES: usize = 4 * BLAKE2S_DIGEST_N_WORDS;
+pub const BLAKE2S_DIGEST_N_BYTES: usize = 4 * DIGEST_N_WORDS;
 
 pub struct Version {
     pub major: u8,

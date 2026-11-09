@@ -14,7 +14,7 @@ use crate::verify::CircuitConfig;
 
 /// A circuit proof together with metadata needed to build the [`CircuitStatement`] against which
 /// the proof will be verified. The verifying circuit expects the output gates of a verified
-/// circuit to hold its output digest (`N_RESERVED` QM31, the unreduced Blake2s digest) + 1 QM31
+/// circuit to hold its output digest (8 QM31s, the unreduced 256-bit digest) + 1 QM31
 /// equal to [`circuits::context::U_VALUE`] coming from the constant finalization mechanism (see
 /// [`circuits::finalize_constants`]).
 #[derive(Clone)]
@@ -44,7 +44,7 @@ pub struct SharedConfig {
 /// After all `k` proofs are verified, each circuit's [`CircuitStatement::circuit_hash`] (the hash
 /// of its shared config and preprocessed root) is concatenated with the inner circuit's output
 /// values, and both circuits' words are hashed together. The resulting unreduced Blake2s digest is
-/// written into the outer circuit's `N_RESERVED` reserved output variables.
+/// written into the outer circuit's reserved output variables.
 /// The circuit is then finalized.
 ///
 /// All proofs must have been produced with the same [`SharedConfig`]. `inputs` must be non-empty;
@@ -69,10 +69,10 @@ pub fn build_multiverifier_circuit<Value: IValue>(
         outer_verifier_output_preimage.extend(chain!(circuit_hash, output_digest));
     }
     // The payload to be hashed is, for each of the `k` verified circuits (left to right), the eight
-    // 32-bit words of its circuit hash followed by its `N_RESERVED` raw output words:
+    // 32-bit words of its circuit hash followed by its eight raw output words:
     // [
-    //      circuit_hash_0 (8 words), outputs_0 (N_RESERVED words),
-    //      circuit_hash_1 (8 words), outputs_1 (N_RESERVED words),
+    //      circuit_hash_0 (8 words), outputs_0 (8 words),
+    //      circuit_hash_1 (8 words), outputs_1 (8 words),
     //      ... (k children total, in the order of `inputs`)
     // ].
     let n_bytes = 4 * outer_verifier_output_preimage.len();

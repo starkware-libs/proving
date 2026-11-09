@@ -6,7 +6,7 @@ use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, to_component_array,
 };
 use circuit_verifier::verify::CircuitPublicData;
-use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
+use circuits::blake::DIGEST_N_WORDS;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use circuits_stark_verifier::proof_from_stark_proof::proof_from_stark_proof;
 use num_traits::Zero;
@@ -110,7 +110,7 @@ where
 {
     let PreprocessedCircuit { preprocessed_trace, first_permutation_row, n_outputs } =
         preprocessed_circuit;
-    assert_eq!(*n_outputs, BLAKE2S_DIGEST_N_WORDS, "The circuit must output a Blake2s digest.");
+    assert_eq!(*n_outputs, DIGEST_N_WORDS, "The circuit must output a 256-bit digest.");
     let trace_generator = TraceGenerator {
         qm31_ops_trace_generator: Qm31OpsTraceGenerator {
             first_permutation_row: *first_permutation_row,

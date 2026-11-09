@@ -51,7 +51,7 @@
 //! `right = Z` (so `out = left`). Both sides reduce to ∅ iff the witness describes a valid Merkle
 //! tree over exactly the `n` real leaves.
 
-use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake2s_u32s};
+use circuits::blake::{DIGEST_N_WORDS, HashValue, blake2s_u32s};
 use circuits::context::{Context, Var};
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::{Guess, add, eq, guess, mul};
@@ -193,7 +193,7 @@ fn guess_zero_hash<Value: IValue>(context: &mut Context<Value>) -> HashValue<Var
 
 /// The all-zero `subtree_hash` that marks a padding leaf slot.
 fn zero_hash() -> HashValue<QM31> {
-    HashValue::from([0u32; BLAKE2S_DIGEST_N_WORDS])
+    HashValue::from([0u32; DIGEST_N_WORDS])
 }
 
 /// Guesses a concrete [`HashValue<QM31>`] as witness, lifting each word through
@@ -320,7 +320,7 @@ pub fn constrain_hash_in_set<Value: IValue>(
     let is_match = guess_one_hot(context, allowed.len(), matching);
 
     // Bind each word to the matched candidate's word.
-    for j in 0..BLAKE2S_DIGEST_N_WORDS {
+    for j in 0..DIGEST_N_WORDS {
         let mut selected = {
             let word = context.constant(*allowed[0][j].raw());
             mul(context, is_match[0], word)
@@ -343,14 +343,14 @@ fn constrain_hash_eq<Value: IValue>(
     hash: &HashValue<Var>,
     expected: &HashValue<QM31>,
 ) {
-    for j in 0..BLAKE2S_DIGEST_N_WORDS {
+    for j in 0..DIGEST_N_WORDS {
         let word = context.constant(*expected[j].raw());
         eq(context, *hash[j].raw(), word);
     }
 }
 
 /// Hashes `left.circuit_hash ‖ left.subtree_hash ‖ right.circuit_hash ‖ right.subtree_hash` — four
-/// eight-word hashes, 128 bytes. Each word is already a Blake2s output, so the 32 words feed
+/// eight-word hashes, 128 bytes. Each word is already a raw `u32` digest word, so the 32 words feed
 /// straight in as message words with no unpacking.
 fn hash_node<Value: IValue>(
     context: &mut Context<Value>,

@@ -118,7 +118,7 @@ pub fn permute_tuples<Value: IValue>(
 
 /// Constrains `outputs` to be a multiset permutation of `inputs`, treating each [`HashValue`] as an
 /// atomic tuple. Thin wrapper over [`permute_tuples`] at arity
-/// [`BLAKE2S_DIGEST_N_WORDS`](circuits::blake::BLAKE2S_DIGEST_N_WORDS).
+/// [`DIGEST_N_WORDS`](circuits::blake::DIGEST_N_WORDS).
 pub fn permute_hash_values<Value: IValue>(
     ctx: &mut Context<Value>,
     inputs: &[HashValue<Var>],

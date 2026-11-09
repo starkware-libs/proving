@@ -1,4 +1,4 @@
-use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake2s_u32s, unpack_qm31s_to_u32_words};
+use circuits::blake::{DIGEST_N_WORDS, HashValue, blake2s_u32s, unpack_qm31s_to_u32_words};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::extract_bits::extract_bits;
@@ -36,10 +36,7 @@ impl Channel {
 
     /// Constructs a new channel, with a zero digest.
     pub fn new(context: &mut Context<impl IValue>) -> Self {
-        Self {
-            digest: HashValue([U32Wrapper::const_u32(context, 0); BLAKE2S_DIGEST_N_WORDS]),
-            n_draws: 0,
-        }
+        Self { digest: HashValue([U32Wrapper::const_u32(context, 0); DIGEST_N_WORDS]), n_draws: 0 }
     }
 
     /// Updates the digest with the given new digest, and resets the number of draws to zero.
@@ -102,7 +99,7 @@ impl Channel {
         let mut message = self.digest.to_vec();
         message.push(n_draw_u32_var);
         message.push(U32Wrapper::const_u32(context, 0));
-        blake2s_u32s(context, message, 4 * (BLAKE2S_DIGEST_N_WORDS + 1) + 1)
+        blake2s_u32s(context, message, 4 * (DIGEST_N_WORDS + 1) + 1)
     }
 
     /// Draws one `QM31` random value from the channel.
@@ -150,7 +147,7 @@ impl Channel {
         // Compute `H(prefixed_digest, nonce)`.
         let mut pow_hash_preimage = prefixed_digest.to_vec();
         pow_hash_preimage.extend(nonce);
-        let n_bytes = 4 * (BLAKE2S_DIGEST_N_WORDS + N_POW_NONCE_WORDS);
+        let n_bytes = 4 * (DIGEST_N_WORDS + N_POW_NONCE_WORDS);
         let pow_hash = blake2s_u32s(context, pow_hash_preimage, n_bytes);
         for var in pow_hash.0.iter().skip(1) {
             context.mark_as_unused(*var.raw());
@@ -188,7 +185,7 @@ impl Channel {
 pub fn random_qm31_from_hash<Value: IValue>(ctx: &mut Context<Value>, hash: HashValue<Var>) -> Var {
     // The QM31 constant 1 - 2^16 * i.
     let combiner = ctx.constant(qm31_from_u32s(1, P - (1 << 16), 0, 0));
-    let reduced: [M31Wrapper<Var>; BLAKE2S_DIGEST_N_WORDS / 2] = std::array::from_fn(|i| {
+    let reduced: [M31Wrapper<Var>; DIGEST_N_WORDS / 2] = std::array::from_fn(|i| {
         let low_32 = *hash[2 * i].raw();
         let high_32 = *hash[2 * i + 1].raw();
         let reduced_32 = eval!(ctx, (low_32) + ((high_32) + (high_32)));

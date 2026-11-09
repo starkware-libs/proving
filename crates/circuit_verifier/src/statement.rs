@@ -1,5 +1,4 @@
-use circuit_common::N_RESERVED;
-use circuits::blake::HashValue;
+use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits::context::{Context, OUTPUT_START, U_VAR_IDX, Var};
 use circuits::eval;
 use circuits::ivalue::IValue;
@@ -108,8 +107,8 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
         // Output gates public logup sum contribution.
         let gate_relation_id = context.constant(GATE_RELATION_ID.into());
         // Construct the output addresses. They are located at addresses `[OUTPUT_START,
-        // OUTPUT_START + N_RESERVED)`.
-        let output_addresses = (OUTPUT_START..(OUTPUT_START + N_RESERVED))
+        // OUTPUT_START + DIGEST_N_WORDS)`.
+        let output_addresses = (OUTPUT_START..(OUTPUT_START + DIGEST_N_WORDS))
             .map(|addr| M31Wrapper::const_m31(context, addr.into()))
             .collect_vec();
         // Add the pair `(U_VAR_IDX, U_VALUE)` to the addresses and values, respectively.
