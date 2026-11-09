@@ -1,5 +1,5 @@
-use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
+use circuits::hash::HashValue;
 use circuits::ivalue::IValue;
 use circuits::ops::eq;
 use circuits_unpacker::tree::BinaryTree;

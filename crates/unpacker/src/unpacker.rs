@@ -51,8 +51,9 @@
 //! `right = Z` (so `out = left`). Both sides reduce to ∅ iff the witness describes a valid Merkle
 //! tree over exactly the `n` real leaves.
 
-use circuits::blake::{DIGEST_N_WORDS, HashValue, blake2s_u32s};
+use circuits::blake::blake2s_u32s;
 use circuits::context::{Context, Var};
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::{Guess, add, eq, guess, mul};
 use circuits::wrappers::U32Wrapper;

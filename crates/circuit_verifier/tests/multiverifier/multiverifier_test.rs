@@ -19,8 +19,8 @@ use circuit_verifier::multiverifier::{
 };
 use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
-use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits::context::{FinalizedContext, OUTPUT_START};
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};

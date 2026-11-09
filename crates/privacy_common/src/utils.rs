@@ -1,4 +1,4 @@
-use circuits::blake::DIGEST_N_WORDS;
+use circuits::hash::DIGEST_N_WORDS;
 use itertools::{Itertools, chain};
 
 /// Number of bytes a serialized [`Version`] occupies (major, minor, patch).

@@ -7,9 +7,10 @@ use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
 };
 use circuit_verifier::verify::{CircuitConfig, verify_circuit};
-use circuits::blake::{HashValue, blake_g_gate, blake2s, m31_to_u32, triple_xor};
+use circuits::blake::{blake_g_gate, blake2s, m31_to_u32, triple_xor};
 use circuits::context::{Context, Var};
 use circuits::eval;
+use circuits::hash::HashValue;
 use circuits::ivalue::{IValue, NoValue, qm31_from_u32s};
 use circuits::ops::{Guess, guess, permute};
 use circuits::test_utils::guess_m31_from_u32;

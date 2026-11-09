@@ -1,5 +1,5 @@
-use circuits::blake::HashValue;
 use circuits::context::TraceContext;
+use circuits::hash::HashValue;
 use circuits::ivalue::qm31_from_u32s;
 use circuits::ops::Guess;
 use rstest::rstest;

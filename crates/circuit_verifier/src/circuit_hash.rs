@@ -1,5 +1,6 @@
-use circuits::blake::{DIGEST_N_WORDS, HashValue, blake2s_u32s};
+use circuits::blake::blake2s_u32s;
 use circuits::context::{Context, Var};
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ivalue::IValue;
 use circuits::ops::Constant;
 use circuits::utils::le_u32s_from_bytes;

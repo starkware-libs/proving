@@ -7,8 +7,8 @@
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend, prove_circuit_assignment_with_channel};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
-use circuits::blake::HashValue;
 use circuits::context::Context;
+use circuits::hash::HashValue;
 use circuits::ivalue::{NoValue, qm31_from_u32s};
 use circuits::ops::guess;
 use circuits::wrappers::U32Wrapper;

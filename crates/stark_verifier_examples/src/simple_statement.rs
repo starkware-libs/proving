@@ -1,6 +1,6 @@
-use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::eval;
+use circuits::hash::HashValue;
 use circuits::ivalue::IValue;
 use circuits::ops::{Constant, Guess, inv, mul};
 use circuits::simd::Simd;

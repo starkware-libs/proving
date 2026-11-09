@@ -70,8 +70,8 @@ pub fn circuit_hash_and_preprocessed_root(
 #[cfg(test)]
 mod tests {
     use circuit_verifier::circuit_hash::compute_circuit_hash as compute_circuit_hash_in_circuit;
-    use circuits::blake::{DIGEST_N_WORDS, HashValue};
     use circuits::context::TraceContext;
+    use circuits::hash::{DIGEST_N_WORDS, HashValue};
     use circuits::ivalue::IValue;
     use circuits::ops::Guess;
     use circuits::utils::le_u32s_from_bytes;

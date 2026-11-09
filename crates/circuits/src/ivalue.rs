@@ -4,7 +4,8 @@ use stwo::core::fields::cm31::CM31;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 
-use crate::blake::{DIGEST_N_WORDS, HashValue, blake_qm31};
+use crate::blake::blake_qm31;
+use crate::hash::{DIGEST_N_WORDS, HashValue};
 use crate::wrappers::U32Wrapper;
 
 #[cfg(test)]

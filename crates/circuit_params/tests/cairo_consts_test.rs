@@ -15,7 +15,7 @@ use circuit_cairo_verifier::utils::load_program;
 use circuit_common::finalize::{ComponentSizes, compute_padded_sizes};
 use circuit_common::preprocessed::layout_from_component_sizes;
 use circuit_params::{CircuitsBuilder, RegistryDefinition, padded_shared_target_sizes};
-use circuits::blake::HashValue;
+use circuits::hash::HashValue;
 use stwo::core::fri::FriParams;
 use stwo_cairo_utils::file_utils::repo_root;
 

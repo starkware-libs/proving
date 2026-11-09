@@ -1,8 +1,8 @@
 use std::sync::LazyLock;
 
-use circuits::blake::HashValue;
 use circuits::circuit::Circuit;
 use circuits::context::{Context, TraceContext, Var};
+use circuits::hash::HashValue;
 use circuits::ivalue::{IValue, NoValue, qm31_from_u32s};
 use circuits::ops::{Guess, eq};
 use circuits::wrappers::U32Wrapper;

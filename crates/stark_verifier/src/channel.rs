@@ -1,7 +1,8 @@
-use circuits::blake::{DIGEST_N_WORDS, HashValue, blake2s_u32s, unpack_qm31s_to_u32_words};
+use circuits::blake::{blake2s_u32s, unpack_qm31s_to_u32_words};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::extract_bits::extract_bits;
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::{eq, inv, qm31_from_coords};
 use circuits::simd::Simd;

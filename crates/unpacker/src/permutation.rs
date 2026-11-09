@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 
-use circuits::blake::HashValue;
 use circuits::circuit::Permutation;
 use circuits::context::{Context, Var};
 use circuits::eval;
+use circuits::hash::HashValue;
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::{Guess, eq};
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
@@ -118,7 +118,7 @@ pub fn permute_tuples<Value: IValue>(
 
 /// Constrains `outputs` to be a multiset permutation of `inputs`, treating each [`HashValue`] as an
 /// atomic tuple. Thin wrapper over [`permute_tuples`] at arity
-/// [`DIGEST_N_WORDS`](circuits::blake::DIGEST_N_WORDS).
+/// [`DIGEST_N_WORDS`](circuits::hash::DIGEST_N_WORDS).
 pub fn permute_hash_values<Value: IValue>(
     ctx: &mut Context<Value>,
     inputs: &[HashValue<Var>],

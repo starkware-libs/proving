@@ -6,7 +6,7 @@ use cairo_air::verifier::INTERACTION_POW_BITS;
 use circuit_cairo_verifier::all_components::all_components;
 use circuit_cairo_verifier::statement::{MEMORY_VALUES_LIMBS, to_component_vec};
 use circuit_cairo_verifier::verify::CairoVerifierConfig;
-use circuits::blake::HashValue;
+use circuits::hash::HashValue;
 use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::ProofConfig;
 use indexmap::IndexMap;

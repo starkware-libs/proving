@@ -3,7 +3,7 @@
 use std::borrow::Cow;
 
 use circuit_serialize::serialize::CircuitSerialize;
-use circuits::blake::DIGEST_N_WORDS;
+use circuits::hash::DIGEST_N_WORDS;
 use leaf_proof_format::PackedNode;
 
 use crate::fold::{LayerEntry, NodeProof, ProofFormat};

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
+use circuits::hash::HashValue;
 use circuits::ivalue::IValue;
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};

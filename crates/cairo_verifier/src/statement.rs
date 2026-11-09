@@ -8,10 +8,11 @@ use cairo_air::flat_claims::FlatClaim;
 use cairo_air::relations::{
     MEMORY_ADDRESS_TO_ID_RELATION_ID, MEMORY_ID_TO_BIG_RELATION_ID, OPCODES_RELATION_ID,
 };
-use circuits::blake::{DIGEST_N_WORDS, HashValue, blake2s_u32s, m31_to_u32};
+use circuits::blake::{blake2s_u32s, m31_to_u32};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::extract_bits::{combine_bits, extract_bits};
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ivalue::IValue;
 use circuits::ops::{Constant, Guess, eq};
 use circuits::simd::Simd;

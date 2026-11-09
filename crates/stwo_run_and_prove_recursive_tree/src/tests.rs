@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 
 use circuit_registry::{CircuitRegistry, RegistryError};
-use circuits::blake::{DIGEST_N_WORDS, HashValue};
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use leaf_proof_format::{DigestHex, PackedNode, SerializedLeafProof};
 use starknet_types_core::felt::Felt;
 use stwo::core::fields::qm31::QM31;
@@ -367,7 +367,7 @@ mod e2e {
 
     use blake2::{Blake2s256, Digest};
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
-    use circuits::blake::DIGEST_N_WORDS;
+    use circuits::hash::DIGEST_N_WORDS;
     use leaf_proof_format::{DigestHex, PackedNode};
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo_cairo_utils::file_utils::repo_root;

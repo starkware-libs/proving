@@ -6,7 +6,7 @@ use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, to_component_array,
 };
 use circuit_verifier::verify::CircuitPublicData;
-use circuits::blake::DIGEST_N_WORDS;
+use circuits::hash::DIGEST_N_WORDS;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use circuits_stark_verifier::proof_from_stark_proof::proof_from_stark_proof;
 use num_traits::Zero;

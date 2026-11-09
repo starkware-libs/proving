@@ -1,7 +1,7 @@
 use std::iter::repeat_n;
 
-use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits::context::{OUTPUT_START, U_VALUE, U_VAR_IDX};
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ivalue::NoValue;
 use num_traits::Zero;
 use stwo::core::channel::Channel;

@@ -11,7 +11,7 @@ use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_verifier::circuit_proof::CircuitProof;
 use circuit_verifier::multiverifier::{CircuitVerifierInput, build_multiverifier_circuit};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
-use circuits::blake::HashValue;
+use circuits::hash::HashValue;
 use circuits::ivalue::NoValue;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use leaf_proof_format::{DigestHex, PackedNode};

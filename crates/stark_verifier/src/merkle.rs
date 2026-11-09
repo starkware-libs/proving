@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 
-use circuits::blake::{HashValue, blake2s, blake2s_u32s, m31_to_u32};
+use circuits::blake::{blake2s, blake2s_u32s, m31_to_u32};
 use circuits::context::{Context, Var};
+use circuits::hash::HashValue;
 use circuits::ivalue::IValue;
 use circuits::ops::{Guess, cond_flip_u32, eq};
 use circuits::wrappers::{M31Wrapper, U32Wrapper};

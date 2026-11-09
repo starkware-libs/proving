@@ -1,4 +1,4 @@
-use circuits::blake::HashValue;
+use circuits::hash::HashValue;
 use circuits::ivalue::IValue;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use circuits_stark_verifier::fri_proof::{FriCommitProof, FriProof, FriWitness};

@@ -1,5 +1,5 @@
-use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
+use circuits::hash::HashValue;
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits::wrappers::U32Wrapper;

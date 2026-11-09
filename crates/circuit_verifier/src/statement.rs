@@ -1,6 +1,6 @@
-use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits::context::{Context, OUTPUT_START, U_VAR_IDX, Var};
 use circuits::eval;
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ivalue::IValue;
 use circuits::ops::Constant;
 use circuits::simd::Simd;

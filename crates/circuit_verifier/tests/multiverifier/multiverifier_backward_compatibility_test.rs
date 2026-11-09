@@ -4,7 +4,7 @@ use circuit_verifier::multiverifier::{
     CircuitVerifierInput, SharedConfig, build_multiverifier_circuit,
 };
 use circuit_verifier::statement::circuit_verifier_proof_config;
-use circuits::blake::DIGEST_N_WORDS;
+use circuits::hash::DIGEST_N_WORDS;
 use itertools::chain;
 use stwo::core::fields::qm31::QM31;
 

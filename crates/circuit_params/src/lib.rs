@@ -34,8 +34,8 @@ use circuit_registry::{
 use circuit_verifier::multiverifier::{
     SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
 };
-use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
+use circuits::hash::HashValue;
 use circuits::ivalue::NoValue;
 use leaf_prover::verifier_config::leaf_verifier_config;
 use starknet_types_core::felt::Felt;

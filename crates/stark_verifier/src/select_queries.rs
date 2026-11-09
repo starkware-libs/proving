@@ -1,7 +1,7 @@
-use circuits::blake::DIGEST_N_WORDS;
 use circuits::context::Context;
 use circuits::eval;
 use circuits::extract_bits::extract_bits;
+use circuits::hash::DIGEST_N_WORDS;
 use circuits::ivalue::IValue;
 use circuits::simd::Simd;
 use stwo::core::circle::CirclePoint;

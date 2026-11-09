@@ -1,5 +1,6 @@
-use circuits::blake::{HashValue, blake2s_u32s};
+use circuits::blake::blake2s_u32s;
 use circuits::context::{Context, FinalizedContext, Var};
+use circuits::hash::HashValue;
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;

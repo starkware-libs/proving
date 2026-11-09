@@ -5,9 +5,10 @@ use num_traits::{One, Zero};
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 
-use crate::blake::{DIGEST_N_WORDS, HashValue, m31_to_u32_into};
+use crate::blake::m31_to_u32_into;
 use crate::circuit::{Add, Circuit};
 use crate::finalize_constants::finalize_constants;
+use crate::hash::{DIGEST_N_WORDS, HashValue};
 use crate::ivalue::{IValue, qm31_from_u32s};
 use crate::ops::{add_into, output, pointwise_mul_into};
 use crate::stats::Stats;

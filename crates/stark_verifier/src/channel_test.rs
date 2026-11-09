@@ -1,5 +1,6 @@
-use circuits::blake::{HashValue, unpack_qm31s_to_u32_words};
+use circuits::blake::unpack_qm31s_to_u32_words;
 use circuits::context::TraceContext;
+use circuits::hash::HashValue;
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::Guess;
 use circuits::stats::Stats;

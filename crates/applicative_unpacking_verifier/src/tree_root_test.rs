@@ -7,8 +7,8 @@ use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_verifier::multiverifier::{
     CircuitVerifierInput, SharedConfig, shared_config, verify_child,
 };
-use circuits::blake::HashValue;
 use circuits::context::TraceContext;
+use circuits::hash::HashValue;
 use circuits::ops::Guess;
 use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::{Node, RecursionTreeParams};

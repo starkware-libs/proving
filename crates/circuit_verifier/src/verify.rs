@@ -1,5 +1,5 @@
-use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
+use circuits::hash::HashValue;
 use circuits::ivalue::IValue;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use circuits_stark_verifier::proof::Proof;

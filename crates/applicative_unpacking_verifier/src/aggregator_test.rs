@@ -1,6 +1,6 @@
 use circuit_verifier::test_utils::native_blake_u32s;
-use circuits::blake::{DIGEST_N_WORDS, HashValue};
 use circuits::context::{TraceContext, Var};
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ops::Guess;
 use circuits_unpacker::unpacker::Node;
 use itertools::Itertools;

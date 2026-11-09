@@ -1,6 +1,6 @@
 use std::fmt;
 
-use circuits::blake::HashValue;
+use circuits::hash::HashValue;
 use circuits::ivalue::IValue;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use circuits_stark_verifier::channel::N_POW_NONCE_WORDS;

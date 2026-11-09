@@ -1,6 +1,6 @@
 use circuit_verifier::multiverifier::{CircuitVerifierInput, SharedConfig, verify_child};
-use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
+use circuits::hash::HashValue;
 use circuits::ivalue::{IValue, NoValue};
 use circuits_stark_verifier::proof::empty_proof;
 use circuits_unpacker::tree::BinaryTree;

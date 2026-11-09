@@ -1,7 +1,7 @@
 use itertools::{Itertools, chain};
 
-use crate::blake::{DIGEST_N_WORDS, HashValue};
 use crate::context::{Context, GuessVar, OUTPUT_START, TraceContext, U_VAR_IDX, Var};
+use crate::hash::{DIGEST_N_WORDS, HashValue};
 use crate::ivalue::qm31_from_u32s;
 use crate::wrappers::U32Wrapper;
 

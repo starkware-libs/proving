@@ -16,7 +16,7 @@ use circuit_prover::prover::{
 };
 use circuit_registry::{CircuitRegistry, UnpackingVerifier};
 use circuit_serialize::serialize::CircuitSerialize;
-use circuits::blake::{DIGEST_N_WORDS, HashValue};
+use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::Node;
 use itertools::chain;

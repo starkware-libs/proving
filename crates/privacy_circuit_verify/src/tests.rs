@@ -1,4 +1,4 @@
-use circuits::blake::DIGEST_N_WORDS;
+use circuits::hash::DIGEST_N_WORDS;
 use circuits::utils::le_u32s_from_bytes;
 use privacy_common::consts::{
     CAIRO_LOG_BLOWUP_FACTOR, CAIRO_PCS_CONFIG, CAIRO_TRACE_LOG_SIZE, CIRCUIT_LOG_BLOWUP_FACTOR,

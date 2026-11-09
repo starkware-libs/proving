@@ -5,6 +5,7 @@ pub mod circuit;
 pub mod context;
 pub mod extract_bits;
 pub mod finalize_constants;
+pub mod hash;
 pub mod ivalue;
 pub mod ops;
 pub mod simd;

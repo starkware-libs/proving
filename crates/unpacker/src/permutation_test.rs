@@ -1,6 +1,6 @@
-use circuits::blake::HashValue;
 use circuits::circuit::Circuit;
 use circuits::context::{Context, TraceContext, Var};
+use circuits::hash::HashValue;
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use stwo::core::fields::qm31::QM31;

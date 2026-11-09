@@ -15,7 +15,7 @@ use circuit_verifier::statement::{
     all_circuit_components, circuit_component_log_sizes, circuit_verifier_proof_config,
 };
 use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
-use circuits::blake::HashValue;
+use circuits::hash::HashValue;
 use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::ProofConfig;

@@ -1,6 +1,6 @@
 use circuit_prover::test_utils::{PCS_CONFIG, multiverifier_preprocessed_column_log_sizes};
 use circuit_verifier::multiverifier::{SharedConfig, shared_config};
-use circuits::blake::HashValue;
+use circuits::hash::HashValue;
 use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::Node;
 use starknet_types_core::felt::Felt;

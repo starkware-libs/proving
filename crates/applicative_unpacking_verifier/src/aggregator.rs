@@ -1,5 +1,6 @@
-use circuits::blake::{HashValue, blake2s_u32s};
+use circuits::blake::blake2s_u32s;
 use circuits::context::{Context, Var};
+use circuits::hash::HashValue;
 use circuits::ivalue::IValue;
 use circuits::ops::{Constant, Guess, eq};
 use circuits_unpacker::unpacker::Node;
