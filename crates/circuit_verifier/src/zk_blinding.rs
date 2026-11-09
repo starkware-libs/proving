@@ -63,11 +63,14 @@ fn random_u32_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) ->
 ///
 /// Note that we don't use the guess function here because we want to be able to run this after
 /// finalize_guessed_vars.
-fn random_m31_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) -> M31Wrapper<Var> {
+///
+/// Safety: this function is unsafe as it creates a new unconstrained variable (in particular, it
+/// is not guaranteed to be of the form (x, 0, 0, 0)).
+fn random_m31_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) -> Var {
     let zero = context.zero();
     let x = context.new_var(IValue::from_qm31(qm31_from_u32s(rng.next_u32(), 0, 0, 0)));
     add_into(context, x, zero, x);
-    M31Wrapper::new_unsafe(x)
+    x
 }
 
 /// Adds a random row to the triple_xor component, blinding its trace.
@@ -87,7 +90,13 @@ fn triple_xor_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl Rng
 
 /// Adds a random row to the m31_to_u32 component, blinding its trace.
 fn m31_to_u32_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl RngCore) {
-    let input = random_m31_var(context, rng);
+    // Safety:
+    // - the input to m31_to_u32 is not used anywhere else other than the gate x + 0 = x that yields
+    //   it.
+    // - the output of m31_to_u32 is unused.
+    // Note that the constraints of m31_to_u32 actually enforce that its input is of the form
+    // (m31, 0, 0, 0), so the use of [`M31Wrapper::new_unsafe`] is fine.
+    let input = M31Wrapper::new_unsafe(random_m31_var(context, rng));
     m31_to_u32(context, input);
 }
 
