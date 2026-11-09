@@ -20,7 +20,7 @@ impl FrameworkEval for Eval {
     }
 
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let m31_gate_relation_id = E::F::from(M31::from(378353459));
+        let m31_gate_relation_id = E::F::from(relations::GATE_RELATION_ID);
         let in0_address =
             eval.get_preprocessed_column(PreProcessedColumnId { id: "eq_in0_address".to_owned() });
         let in1_address =

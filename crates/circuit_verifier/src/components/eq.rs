@@ -26,7 +26,7 @@ impl<Value: IValue> CircuitEval<Value> for CircuitEqComponent {
         component_data: &dyn ComponentDataTrait<Value>,
         acc: &mut CompositionConstraintAccumulator,
     ) {
-        let m31_gate_relation_id = context.constant(SecureField::from(M31::from(378353459)));
+        let m31_gate_relation_id = context.constant(SecureField::from(relations::GATE_RELATION_ID));
         let in0_address =
             acc.get_preprocessed_column(&PreProcessedColumnId { id: "eq_in0_address".to_owned() });
         let in1_address =

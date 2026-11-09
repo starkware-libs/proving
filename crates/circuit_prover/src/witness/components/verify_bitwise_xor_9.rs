@@ -69,7 +69,7 @@ fn write_trace_simd(
         )
     };
 
-    let relation_id = PackedM31::broadcast(M31::from(95781001));
+    let relation_id = PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_9_RELATION_ID);
     let bitwise_xor_9_0 =
         preprocessed_trace.get_column(&PreProcessedColumnId { id: "bitwise_xor_9_0".to_owned() });
     let bitwise_xor_9_1 =

@@ -22,7 +22,7 @@ impl<Value: IValue> CircuitEval<Value> for Component {
         component_data: &dyn ComponentDataTrait<Value>,
         acc: &mut CompositionConstraintAccumulator,
     ) {
-        let relation_id = context.constant(M31::from(648362599).into());
+        let relation_id = context.constant(relations::VERIFY_BITWISE_XOR_12_RELATION_ID.into());
 
         let a_low = acc
             .get_preprocessed_column(&PreProcessedColumnId { id: "bitwise_xor_10_0".to_owned() });

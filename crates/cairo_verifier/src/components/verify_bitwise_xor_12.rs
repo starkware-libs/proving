@@ -4,7 +4,6 @@ const EXPAND_BITS: usize = 2;
 const LOW_BITS: usize = 10;
 pub const N_TRACE_COLUMNS: usize = 1 << (EXPAND_BITS * 2);
 pub const N_INTERACTION_COLUMNS: usize = 2 << (EXPAND_BITS * 2);
-pub const VERIFY_BITWISE_XOR_12_RELATION_ID: u32 = 648362599;
 
 pub const RELATION_USES_PER_ROW: [RelationUse; 0] = [];
 
@@ -23,7 +22,7 @@ pub fn accumulate_constraints<Value: IValue>(
         acc.get_preprocessed_column(&PreProcessedColumnId { id: "bitwise_xor_10_2".into() });
 
     let mut multiplicities = input.iter();
-    let relation_id_const = context.constant(VERIFY_BITWISE_XOR_12_RELATION_ID.into());
+    let relation_id_const = context.constant(relations::VERIFY_BITWISE_XOR_12_RELATION_ID.into());
     for i in 0..1 << EXPAND_BITS {
         for j in 0..1 << EXPAND_BITS {
             let a = eval!(context, (a_low) + (context.constant((i << LOW_BITS).into())));

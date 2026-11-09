@@ -168,37 +168,53 @@ fn write_trace_simd(
     let M31_1 = PackedM31::broadcast(M31::from(1));
     let M31_134217728 = PackedM31::broadcast(M31::from(134217728));
     let M31_136 = PackedM31::broadcast(M31::from(136));
-    let M31_1410849886 = PackedM31::broadcast(M31::from(1410849886));
-    let M31_1444721856 = PackedM31::broadcast(M31::from(1444721856));
-    let M31_1621226978 = PackedM31::broadcast(M31::from(1621226978));
-    let M31_1813904000 = PackedM31::broadcast(M31::from(1813904000));
-    let M31_1830681619 = PackedM31::broadcast(M31::from(1830681619));
-    let M31_1847459238 = PackedM31::broadcast(M31::from(1847459238));
-    let M31_1864236857 = PackedM31::broadcast(M31::from(1864236857));
-    let M31_1881014476 = PackedM31::broadcast(M31::from(1881014476));
-    let M31_1897792095 = PackedM31::broadcast(M31::from(1897792095));
     let M31_2 = PackedM31::broadcast(M31::from(2));
-    let M31_2065568285 = PackedM31::broadcast(M31::from(2065568285));
     let M31_262144 = PackedM31::broadcast(M31::from(262144));
     let M31_32 = PackedM31::broadcast(M31::from(32));
     let M31_4 = PackedM31::broadcast(M31::from(4));
     let M31_4194304 = PackedM31::broadcast(M31::from(4194304));
-    let M31_447122465 = PackedM31::broadcast(M31::from(447122465));
-    let M31_463900084 = PackedM31::broadcast(M31::from(463900084));
-    let M31_480677703 = PackedM31::broadcast(M31::from(480677703));
-    let M31_497455322 = PackedM31::broadcast(M31::from(497455322));
-    let M31_514232941 = PackedM31::broadcast(M31::from(514232941));
-    let M31_517791011 = PackedM31::broadcast(M31::from(517791011));
     let M31_524288 = PackedM31::broadcast(M31::from(524288));
-    let M31_531010560 = PackedM31::broadcast(M31::from(531010560));
     let M31_64 = PackedM31::broadcast(M31::from(64));
     let M31_65536 = PackedM31::broadcast(M31::from(65536));
-    let M31_682009131 = PackedM31::broadcast(M31::from(682009131));
     let M31_8 = PackedM31::broadcast(M31::from(8));
     let UInt32_131072 = PackedUInt32::broadcast(UInt32::from(131072));
     let UInt32_262143 = PackedUInt32::broadcast(UInt32::from(262143));
     let UInt32_511 = PackedUInt32::broadcast(UInt32::from(511));
     let UInt32_9 = PackedUInt32::broadcast(UInt32::from(9));
+    let partial_ec_mul_window_bits_18_relation_id =
+        PackedM31::broadcast(relations::PARTIAL_EC_MUL_WINDOW_BITS_18_RELATION_ID);
+    let pedersen_points_table_window_bits_18_relation_id =
+        PackedM31::broadcast(relations::PEDERSEN_POINTS_TABLE_WINDOW_BITS_18_RELATION_ID);
+    let range_check_20_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_20_RELATION_ID);
+    let range_check_20_b_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_B_RELATION_ID);
+    let range_check_20_c_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_C_RELATION_ID);
+    let range_check_20_d_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_D_RELATION_ID);
+    let range_check_20_e_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_E_RELATION_ID);
+    let range_check_20_f_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_F_RELATION_ID);
+    let range_check_20_g_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_G_RELATION_ID);
+    let range_check_20_h_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_20_H_RELATION_ID);
+    let range_check_9_9_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_9_9_RELATION_ID);
+    let range_check_9_9_b_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_B_RELATION_ID);
+    let range_check_9_9_c_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_C_RELATION_ID);
+    let range_check_9_9_d_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_D_RELATION_ID);
+    let range_check_9_9_e_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_E_RELATION_ID);
+    let range_check_9_9_f_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_F_RELATION_ID);
+    let range_check_9_9_g_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_G_RELATION_ID);
+    let range_check_9_9_h_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_9_9_H_RELATION_ID);
     let enabler_col = Enabler::new(n_rows);
 
     (
@@ -591,7 +607,7 @@ fn write_trace_simd(
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31_limb(27);
                 *row[128] = pedersen_points_table_window_bits_18_output_limb_55_col128;
                 *lookup_data.pedersen_points_table_window_bits_18_0 = [
-                    M31_1444721856,
+                    pedersen_points_table_window_bits_18_relation_id,
                     (((M31_262144) * (input_limb_1_col2)) + (input_limb_2_col3)),
                     pedersen_points_table_window_bits_18_output_limb_0_col73,
                     pedersen_points_table_window_bits_18_output_limb_1_col74,
@@ -720,59 +736,59 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_9_9[0] =
                     [slope_limb_0_col129, slope_limb_1_col130];
                 *lookup_data.range_check_9_9_1 =
-                    [M31_517791011, slope_limb_0_col129, slope_limb_1_col130];
+                    [range_check_9_9_relation_id, slope_limb_0_col129, slope_limb_1_col130];
                 *sub_component_inputs.range_check_9_9_b[0] =
                     [slope_limb_2_col131, slope_limb_3_col132];
                 *lookup_data.range_check_9_9_b_2 =
-                    [M31_1897792095, slope_limb_2_col131, slope_limb_3_col132];
+                    [range_check_9_9_b_relation_id, slope_limb_2_col131, slope_limb_3_col132];
                 *sub_component_inputs.range_check_9_9_c[0] =
                     [slope_limb_4_col133, slope_limb_5_col134];
                 *lookup_data.range_check_9_9_c_3 =
-                    [M31_1881014476, slope_limb_4_col133, slope_limb_5_col134];
+                    [range_check_9_9_c_relation_id, slope_limb_4_col133, slope_limb_5_col134];
                 *sub_component_inputs.range_check_9_9_d[0] =
                     [slope_limb_6_col135, slope_limb_7_col136];
                 *lookup_data.range_check_9_9_d_4 =
-                    [M31_1864236857, slope_limb_6_col135, slope_limb_7_col136];
+                    [range_check_9_9_d_relation_id, slope_limb_6_col135, slope_limb_7_col136];
                 *sub_component_inputs.range_check_9_9_e[0] =
                     [slope_limb_8_col137, slope_limb_9_col138];
                 *lookup_data.range_check_9_9_e_5 =
-                    [M31_1847459238, slope_limb_8_col137, slope_limb_9_col138];
+                    [range_check_9_9_e_relation_id, slope_limb_8_col137, slope_limb_9_col138];
                 *sub_component_inputs.range_check_9_9_f[0] =
                     [slope_limb_10_col139, slope_limb_11_col140];
                 *lookup_data.range_check_9_9_f_6 =
-                    [M31_1830681619, slope_limb_10_col139, slope_limb_11_col140];
+                    [range_check_9_9_f_relation_id, slope_limb_10_col139, slope_limb_11_col140];
                 *sub_component_inputs.range_check_9_9_g[0] =
                     [slope_limb_12_col141, slope_limb_13_col142];
                 *lookup_data.range_check_9_9_g_7 =
-                    [M31_1813904000, slope_limb_12_col141, slope_limb_13_col142];
+                    [range_check_9_9_g_relation_id, slope_limb_12_col141, slope_limb_13_col142];
                 *sub_component_inputs.range_check_9_9_h[0] =
                     [slope_limb_14_col143, slope_limb_15_col144];
                 *lookup_data.range_check_9_9_h_8 =
-                    [M31_2065568285, slope_limb_14_col143, slope_limb_15_col144];
+                    [range_check_9_9_h_relation_id, slope_limb_14_col143, slope_limb_15_col144];
                 *sub_component_inputs.range_check_9_9[1] =
                     [slope_limb_16_col145, slope_limb_17_col146];
                 *lookup_data.range_check_9_9_9 =
-                    [M31_517791011, slope_limb_16_col145, slope_limb_17_col146];
+                    [range_check_9_9_relation_id, slope_limb_16_col145, slope_limb_17_col146];
                 *sub_component_inputs.range_check_9_9_b[1] =
                     [slope_limb_18_col147, slope_limb_19_col148];
                 *lookup_data.range_check_9_9_b_10 =
-                    [M31_1897792095, slope_limb_18_col147, slope_limb_19_col148];
+                    [range_check_9_9_b_relation_id, slope_limb_18_col147, slope_limb_19_col148];
                 *sub_component_inputs.range_check_9_9_c[1] =
                     [slope_limb_20_col149, slope_limb_21_col150];
                 *lookup_data.range_check_9_9_c_11 =
-                    [M31_1881014476, slope_limb_20_col149, slope_limb_21_col150];
+                    [range_check_9_9_c_relation_id, slope_limb_20_col149, slope_limb_21_col150];
                 *sub_component_inputs.range_check_9_9_d[1] =
                     [slope_limb_22_col151, slope_limb_23_col152];
                 *lookup_data.range_check_9_9_d_12 =
-                    [M31_1864236857, slope_limb_22_col151, slope_limb_23_col152];
+                    [range_check_9_9_d_relation_id, slope_limb_22_col151, slope_limb_23_col152];
                 *sub_component_inputs.range_check_9_9_e[1] =
                     [slope_limb_24_col153, slope_limb_25_col154];
                 *lookup_data.range_check_9_9_e_13 =
-                    [M31_1847459238, slope_limb_24_col153, slope_limb_25_col154];
+                    [range_check_9_9_e_relation_id, slope_limb_24_col153, slope_limb_25_col154];
                 *sub_component_inputs.range_check_9_9_f[1] =
                     [slope_limb_26_col155, slope_limb_27_col156];
                 *lookup_data.range_check_9_9_f_14 =
-                    [M31_1830681619, slope_limb_26_col155, slope_limb_27_col156];
+                    [range_check_9_9_f_relation_id, slope_limb_26_col155, slope_limb_27_col156];
 
                 let x_diff_0_tmp_d9509_2 =
                     ((pedersen_points_table_window_bits_18_output_limb_0_col73)
@@ -1948,169 +1964,170 @@ fn write_trace_simd(
                     + (((k_mod_2_18_biased_tmp_d9509_78.high().as_m31()) - (M31_2)) * (M31_65536)));
                 *row[157] = k_col157;
                 *sub_component_inputs.range_check_20[0] = [((k_col157) + (M31_524288))];
-                *lookup_data.range_check_20_15 = [M31_1410849886, ((k_col157) + (M31_524288))];
+                *lookup_data.range_check_20_15 =
+                    [range_check_20_relation_id, ((k_col157) + (M31_524288))];
                 let carry_0_col158 = (((conv_mod_tmp_d9509_77[0]) - (k_col157)) * (M31_4194304));
                 *row[158] = carry_0_col158;
                 *sub_component_inputs.range_check_20_b[0] = [((carry_0_col158) + (M31_524288))];
                 *lookup_data.range_check_20_b_16 =
-                    [M31_514232941, ((carry_0_col158) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_0_col158) + (M31_524288))];
                 let carry_1_col159 =
                     (((conv_mod_tmp_d9509_77[1]) + (carry_0_col158)) * (M31_4194304));
                 *row[159] = carry_1_col159;
                 *sub_component_inputs.range_check_20_c[0] = [((carry_1_col159) + (M31_524288))];
                 *lookup_data.range_check_20_c_17 =
-                    [M31_531010560, ((carry_1_col159) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_1_col159) + (M31_524288))];
                 let carry_2_col160 =
                     (((conv_mod_tmp_d9509_77[2]) + (carry_1_col159)) * (M31_4194304));
                 *row[160] = carry_2_col160;
                 *sub_component_inputs.range_check_20_d[0] = [((carry_2_col160) + (M31_524288))];
                 *lookup_data.range_check_20_d_18 =
-                    [M31_480677703, ((carry_2_col160) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_2_col160) + (M31_524288))];
                 let carry_3_col161 =
                     (((conv_mod_tmp_d9509_77[3]) + (carry_2_col160)) * (M31_4194304));
                 *row[161] = carry_3_col161;
                 *sub_component_inputs.range_check_20_e[0] = [((carry_3_col161) + (M31_524288))];
                 *lookup_data.range_check_20_e_19 =
-                    [M31_497455322, ((carry_3_col161) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_3_col161) + (M31_524288))];
                 let carry_4_col162 =
                     (((conv_mod_tmp_d9509_77[4]) + (carry_3_col161)) * (M31_4194304));
                 *row[162] = carry_4_col162;
                 *sub_component_inputs.range_check_20_f[0] = [((carry_4_col162) + (M31_524288))];
                 *lookup_data.range_check_20_f_20 =
-                    [M31_447122465, ((carry_4_col162) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_4_col162) + (M31_524288))];
                 let carry_5_col163 =
                     (((conv_mod_tmp_d9509_77[5]) + (carry_4_col162)) * (M31_4194304));
                 *row[163] = carry_5_col163;
                 *sub_component_inputs.range_check_20_g[0] = [((carry_5_col163) + (M31_524288))];
                 *lookup_data.range_check_20_g_21 =
-                    [M31_463900084, ((carry_5_col163) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_5_col163) + (M31_524288))];
                 let carry_6_col164 =
                     (((conv_mod_tmp_d9509_77[6]) + (carry_5_col163)) * (M31_4194304));
                 *row[164] = carry_6_col164;
                 *sub_component_inputs.range_check_20_h[0] = [((carry_6_col164) + (M31_524288))];
                 *lookup_data.range_check_20_h_22 =
-                    [M31_682009131, ((carry_6_col164) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_6_col164) + (M31_524288))];
                 let carry_7_col165 =
                     (((conv_mod_tmp_d9509_77[7]) + (carry_6_col164)) * (M31_4194304));
                 *row[165] = carry_7_col165;
                 *sub_component_inputs.range_check_20[1] = [((carry_7_col165) + (M31_524288))];
                 *lookup_data.range_check_20_23 =
-                    [M31_1410849886, ((carry_7_col165) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_7_col165) + (M31_524288))];
                 let carry_8_col166 =
                     (((conv_mod_tmp_d9509_77[8]) + (carry_7_col165)) * (M31_4194304));
                 *row[166] = carry_8_col166;
                 *sub_component_inputs.range_check_20_b[1] = [((carry_8_col166) + (M31_524288))];
                 *lookup_data.range_check_20_b_24 =
-                    [M31_514232941, ((carry_8_col166) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_8_col166) + (M31_524288))];
                 let carry_9_col167 =
                     (((conv_mod_tmp_d9509_77[9]) + (carry_8_col166)) * (M31_4194304));
                 *row[167] = carry_9_col167;
                 *sub_component_inputs.range_check_20_c[1] = [((carry_9_col167) + (M31_524288))];
                 *lookup_data.range_check_20_c_25 =
-                    [M31_531010560, ((carry_9_col167) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_9_col167) + (M31_524288))];
                 let carry_10_col168 =
                     (((conv_mod_tmp_d9509_77[10]) + (carry_9_col167)) * (M31_4194304));
                 *row[168] = carry_10_col168;
                 *sub_component_inputs.range_check_20_d[1] = [((carry_10_col168) + (M31_524288))];
                 *lookup_data.range_check_20_d_26 =
-                    [M31_480677703, ((carry_10_col168) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_10_col168) + (M31_524288))];
                 let carry_11_col169 =
                     (((conv_mod_tmp_d9509_77[11]) + (carry_10_col168)) * (M31_4194304));
                 *row[169] = carry_11_col169;
                 *sub_component_inputs.range_check_20_e[1] = [((carry_11_col169) + (M31_524288))];
                 *lookup_data.range_check_20_e_27 =
-                    [M31_497455322, ((carry_11_col169) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_11_col169) + (M31_524288))];
                 let carry_12_col170 =
                     (((conv_mod_tmp_d9509_77[12]) + (carry_11_col169)) * (M31_4194304));
                 *row[170] = carry_12_col170;
                 *sub_component_inputs.range_check_20_f[1] = [((carry_12_col170) + (M31_524288))];
                 *lookup_data.range_check_20_f_28 =
-                    [M31_447122465, ((carry_12_col170) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_12_col170) + (M31_524288))];
                 let carry_13_col171 =
                     (((conv_mod_tmp_d9509_77[13]) + (carry_12_col170)) * (M31_4194304));
                 *row[171] = carry_13_col171;
                 *sub_component_inputs.range_check_20_g[1] = [((carry_13_col171) + (M31_524288))];
                 *lookup_data.range_check_20_g_29 =
-                    [M31_463900084, ((carry_13_col171) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_13_col171) + (M31_524288))];
                 let carry_14_col172 =
                     (((conv_mod_tmp_d9509_77[14]) + (carry_13_col171)) * (M31_4194304));
                 *row[172] = carry_14_col172;
                 *sub_component_inputs.range_check_20_h[1] = [((carry_14_col172) + (M31_524288))];
                 *lookup_data.range_check_20_h_30 =
-                    [M31_682009131, ((carry_14_col172) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_14_col172) + (M31_524288))];
                 let carry_15_col173 =
                     (((conv_mod_tmp_d9509_77[15]) + (carry_14_col172)) * (M31_4194304));
                 *row[173] = carry_15_col173;
                 *sub_component_inputs.range_check_20[2] = [((carry_15_col173) + (M31_524288))];
                 *lookup_data.range_check_20_31 =
-                    [M31_1410849886, ((carry_15_col173) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_15_col173) + (M31_524288))];
                 let carry_16_col174 =
                     (((conv_mod_tmp_d9509_77[16]) + (carry_15_col173)) * (M31_4194304));
                 *row[174] = carry_16_col174;
                 *sub_component_inputs.range_check_20_b[2] = [((carry_16_col174) + (M31_524288))];
                 *lookup_data.range_check_20_b_32 =
-                    [M31_514232941, ((carry_16_col174) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_16_col174) + (M31_524288))];
                 let carry_17_col175 =
                     (((conv_mod_tmp_d9509_77[17]) + (carry_16_col174)) * (M31_4194304));
                 *row[175] = carry_17_col175;
                 *sub_component_inputs.range_check_20_c[2] = [((carry_17_col175) + (M31_524288))];
                 *lookup_data.range_check_20_c_33 =
-                    [M31_531010560, ((carry_17_col175) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_17_col175) + (M31_524288))];
                 let carry_18_col176 =
                     (((conv_mod_tmp_d9509_77[18]) + (carry_17_col175)) * (M31_4194304));
                 *row[176] = carry_18_col176;
                 *sub_component_inputs.range_check_20_d[2] = [((carry_18_col176) + (M31_524288))];
                 *lookup_data.range_check_20_d_34 =
-                    [M31_480677703, ((carry_18_col176) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_18_col176) + (M31_524288))];
                 let carry_19_col177 =
                     (((conv_mod_tmp_d9509_77[19]) + (carry_18_col176)) * (M31_4194304));
                 *row[177] = carry_19_col177;
                 *sub_component_inputs.range_check_20_e[2] = [((carry_19_col177) + (M31_524288))];
                 *lookup_data.range_check_20_e_35 =
-                    [M31_497455322, ((carry_19_col177) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_19_col177) + (M31_524288))];
                 let carry_20_col178 =
                     (((conv_mod_tmp_d9509_77[20]) + (carry_19_col177)) * (M31_4194304));
                 *row[178] = carry_20_col178;
                 *sub_component_inputs.range_check_20_f[2] = [((carry_20_col178) + (M31_524288))];
                 *lookup_data.range_check_20_f_36 =
-                    [M31_447122465, ((carry_20_col178) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_20_col178) + (M31_524288))];
                 let carry_21_col179 = ((((conv_mod_tmp_d9509_77[21]) - ((M31_136) * (k_col157)))
                     + (carry_20_col178))
                     * (M31_4194304));
                 *row[179] = carry_21_col179;
                 *sub_component_inputs.range_check_20_g[2] = [((carry_21_col179) + (M31_524288))];
                 *lookup_data.range_check_20_g_37 =
-                    [M31_463900084, ((carry_21_col179) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_21_col179) + (M31_524288))];
                 let carry_22_col180 =
                     (((conv_mod_tmp_d9509_77[22]) + (carry_21_col179)) * (M31_4194304));
                 *row[180] = carry_22_col180;
                 *sub_component_inputs.range_check_20_h[2] = [((carry_22_col180) + (M31_524288))];
                 *lookup_data.range_check_20_h_38 =
-                    [M31_682009131, ((carry_22_col180) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_22_col180) + (M31_524288))];
                 let carry_23_col181 =
                     (((conv_mod_tmp_d9509_77[23]) + (carry_22_col180)) * (M31_4194304));
                 *row[181] = carry_23_col181;
                 *sub_component_inputs.range_check_20[3] = [((carry_23_col181) + (M31_524288))];
                 *lookup_data.range_check_20_39 =
-                    [M31_1410849886, ((carry_23_col181) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_23_col181) + (M31_524288))];
                 let carry_24_col182 =
                     (((conv_mod_tmp_d9509_77[24]) + (carry_23_col181)) * (M31_4194304));
                 *row[182] = carry_24_col182;
                 *sub_component_inputs.range_check_20_b[3] = [((carry_24_col182) + (M31_524288))];
                 *lookup_data.range_check_20_b_40 =
-                    [M31_514232941, ((carry_24_col182) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_24_col182) + (M31_524288))];
                 let carry_25_col183 =
                     (((conv_mod_tmp_d9509_77[25]) + (carry_24_col182)) * (M31_4194304));
                 *row[183] = carry_25_col183;
                 *sub_component_inputs.range_check_20_c[3] = [((carry_25_col183) + (M31_524288))];
                 *lookup_data.range_check_20_c_41 =
-                    [M31_531010560, ((carry_25_col183) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_25_col183) + (M31_524288))];
                 let carry_26_col184 =
                     (((conv_mod_tmp_d9509_77[26]) + (carry_25_col183)) * (M31_4194304));
                 *row[184] = carry_26_col184;
                 *sub_component_inputs.range_check_20_d[3] = [((carry_26_col184) + (M31_524288))];
                 *lookup_data.range_check_20_d_42 =
-                    [M31_480677703, ((carry_26_col184) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_26_col184) + (M31_524288))];
 
                 let result_x_tmp_d9509_79 = ((((slope_tmp_d9509_1) * (slope_tmp_d9509_1))
                     - (partial_ec_mul_window_bits_18_input.2.1[0]))
@@ -2177,59 +2194,83 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_9_9[2] =
                     [result_x_limb_0_col185, result_x_limb_1_col186];
                 *lookup_data.range_check_9_9_43 =
-                    [M31_517791011, result_x_limb_0_col185, result_x_limb_1_col186];
+                    [range_check_9_9_relation_id, result_x_limb_0_col185, result_x_limb_1_col186];
                 *sub_component_inputs.range_check_9_9_b[2] =
                     [result_x_limb_2_col187, result_x_limb_3_col188];
                 *lookup_data.range_check_9_9_b_44 =
-                    [M31_1897792095, result_x_limb_2_col187, result_x_limb_3_col188];
+                    [range_check_9_9_b_relation_id, result_x_limb_2_col187, result_x_limb_3_col188];
                 *sub_component_inputs.range_check_9_9_c[2] =
                     [result_x_limb_4_col189, result_x_limb_5_col190];
                 *lookup_data.range_check_9_9_c_45 =
-                    [M31_1881014476, result_x_limb_4_col189, result_x_limb_5_col190];
+                    [range_check_9_9_c_relation_id, result_x_limb_4_col189, result_x_limb_5_col190];
                 *sub_component_inputs.range_check_9_9_d[2] =
                     [result_x_limb_6_col191, result_x_limb_7_col192];
                 *lookup_data.range_check_9_9_d_46 =
-                    [M31_1864236857, result_x_limb_6_col191, result_x_limb_7_col192];
+                    [range_check_9_9_d_relation_id, result_x_limb_6_col191, result_x_limb_7_col192];
                 *sub_component_inputs.range_check_9_9_e[2] =
                     [result_x_limb_8_col193, result_x_limb_9_col194];
                 *lookup_data.range_check_9_9_e_47 =
-                    [M31_1847459238, result_x_limb_8_col193, result_x_limb_9_col194];
+                    [range_check_9_9_e_relation_id, result_x_limb_8_col193, result_x_limb_9_col194];
                 *sub_component_inputs.range_check_9_9_f[2] =
                     [result_x_limb_10_col195, result_x_limb_11_col196];
-                *lookup_data.range_check_9_9_f_48 =
-                    [M31_1830681619, result_x_limb_10_col195, result_x_limb_11_col196];
+                *lookup_data.range_check_9_9_f_48 = [
+                    range_check_9_9_f_relation_id,
+                    result_x_limb_10_col195,
+                    result_x_limb_11_col196,
+                ];
                 *sub_component_inputs.range_check_9_9_g[1] =
                     [result_x_limb_12_col197, result_x_limb_13_col198];
-                *lookup_data.range_check_9_9_g_49 =
-                    [M31_1813904000, result_x_limb_12_col197, result_x_limb_13_col198];
+                *lookup_data.range_check_9_9_g_49 = [
+                    range_check_9_9_g_relation_id,
+                    result_x_limb_12_col197,
+                    result_x_limb_13_col198,
+                ];
                 *sub_component_inputs.range_check_9_9_h[1] =
                     [result_x_limb_14_col199, result_x_limb_15_col200];
-                *lookup_data.range_check_9_9_h_50 =
-                    [M31_2065568285, result_x_limb_14_col199, result_x_limb_15_col200];
+                *lookup_data.range_check_9_9_h_50 = [
+                    range_check_9_9_h_relation_id,
+                    result_x_limb_14_col199,
+                    result_x_limb_15_col200,
+                ];
                 *sub_component_inputs.range_check_9_9[3] =
                     [result_x_limb_16_col201, result_x_limb_17_col202];
                 *lookup_data.range_check_9_9_51 =
-                    [M31_517791011, result_x_limb_16_col201, result_x_limb_17_col202];
+                    [range_check_9_9_relation_id, result_x_limb_16_col201, result_x_limb_17_col202];
                 *sub_component_inputs.range_check_9_9_b[3] =
                     [result_x_limb_18_col203, result_x_limb_19_col204];
-                *lookup_data.range_check_9_9_b_52 =
-                    [M31_1897792095, result_x_limb_18_col203, result_x_limb_19_col204];
+                *lookup_data.range_check_9_9_b_52 = [
+                    range_check_9_9_b_relation_id,
+                    result_x_limb_18_col203,
+                    result_x_limb_19_col204,
+                ];
                 *sub_component_inputs.range_check_9_9_c[3] =
                     [result_x_limb_20_col205, result_x_limb_21_col206];
-                *lookup_data.range_check_9_9_c_53 =
-                    [M31_1881014476, result_x_limb_20_col205, result_x_limb_21_col206];
+                *lookup_data.range_check_9_9_c_53 = [
+                    range_check_9_9_c_relation_id,
+                    result_x_limb_20_col205,
+                    result_x_limb_21_col206,
+                ];
                 *sub_component_inputs.range_check_9_9_d[3] =
                     [result_x_limb_22_col207, result_x_limb_23_col208];
-                *lookup_data.range_check_9_9_d_54 =
-                    [M31_1864236857, result_x_limb_22_col207, result_x_limb_23_col208];
+                *lookup_data.range_check_9_9_d_54 = [
+                    range_check_9_9_d_relation_id,
+                    result_x_limb_22_col207,
+                    result_x_limb_23_col208,
+                ];
                 *sub_component_inputs.range_check_9_9_e[3] =
                     [result_x_limb_24_col209, result_x_limb_25_col210];
-                *lookup_data.range_check_9_9_e_55 =
-                    [M31_1847459238, result_x_limb_24_col209, result_x_limb_25_col210];
+                *lookup_data.range_check_9_9_e_55 = [
+                    range_check_9_9_e_relation_id,
+                    result_x_limb_24_col209,
+                    result_x_limb_25_col210,
+                ];
                 *sub_component_inputs.range_check_9_9_f[3] =
                     [result_x_limb_26_col211, result_x_limb_27_col212];
-                *lookup_data.range_check_9_9_f_56 =
-                    [M31_1830681619, result_x_limb_26_col211, result_x_limb_27_col212];
+                *lookup_data.range_check_9_9_f_56 = [
+                    range_check_9_9_f_relation_id,
+                    result_x_limb_26_col211,
+                    result_x_limb_27_col212,
+                ];
 
                 let x_sum_0_tmp_d9509_80 = (((input_limb_16_col17)
                     + (pedersen_points_table_window_bits_18_output_limb_0_col73))
@@ -3327,169 +3368,170 @@ fn write_trace_simd(
                         * (M31_65536)));
                 *row[213] = k_col213;
                 *sub_component_inputs.range_check_20[4] = [((k_col213) + (M31_524288))];
-                *lookup_data.range_check_20_57 = [M31_1410849886, ((k_col213) + (M31_524288))];
+                *lookup_data.range_check_20_57 =
+                    [range_check_20_relation_id, ((k_col213) + (M31_524288))];
                 let carry_0_col214 = (((conv_mod_tmp_d9509_127[0]) - (k_col213)) * (M31_4194304));
                 *row[214] = carry_0_col214;
                 *sub_component_inputs.range_check_20_b[4] = [((carry_0_col214) + (M31_524288))];
                 *lookup_data.range_check_20_b_58 =
-                    [M31_514232941, ((carry_0_col214) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_0_col214) + (M31_524288))];
                 let carry_1_col215 =
                     (((conv_mod_tmp_d9509_127[1]) + (carry_0_col214)) * (M31_4194304));
                 *row[215] = carry_1_col215;
                 *sub_component_inputs.range_check_20_c[4] = [((carry_1_col215) + (M31_524288))];
                 *lookup_data.range_check_20_c_59 =
-                    [M31_531010560, ((carry_1_col215) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_1_col215) + (M31_524288))];
                 let carry_2_col216 =
                     (((conv_mod_tmp_d9509_127[2]) + (carry_1_col215)) * (M31_4194304));
                 *row[216] = carry_2_col216;
                 *sub_component_inputs.range_check_20_d[4] = [((carry_2_col216) + (M31_524288))];
                 *lookup_data.range_check_20_d_60 =
-                    [M31_480677703, ((carry_2_col216) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_2_col216) + (M31_524288))];
                 let carry_3_col217 =
                     (((conv_mod_tmp_d9509_127[3]) + (carry_2_col216)) * (M31_4194304));
                 *row[217] = carry_3_col217;
                 *sub_component_inputs.range_check_20_e[3] = [((carry_3_col217) + (M31_524288))];
                 *lookup_data.range_check_20_e_61 =
-                    [M31_497455322, ((carry_3_col217) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_3_col217) + (M31_524288))];
                 let carry_4_col218 =
                     (((conv_mod_tmp_d9509_127[4]) + (carry_3_col217)) * (M31_4194304));
                 *row[218] = carry_4_col218;
                 *sub_component_inputs.range_check_20_f[3] = [((carry_4_col218) + (M31_524288))];
                 *lookup_data.range_check_20_f_62 =
-                    [M31_447122465, ((carry_4_col218) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_4_col218) + (M31_524288))];
                 let carry_5_col219 =
                     (((conv_mod_tmp_d9509_127[5]) + (carry_4_col218)) * (M31_4194304));
                 *row[219] = carry_5_col219;
                 *sub_component_inputs.range_check_20_g[3] = [((carry_5_col219) + (M31_524288))];
                 *lookup_data.range_check_20_g_63 =
-                    [M31_463900084, ((carry_5_col219) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_5_col219) + (M31_524288))];
                 let carry_6_col220 =
                     (((conv_mod_tmp_d9509_127[6]) + (carry_5_col219)) * (M31_4194304));
                 *row[220] = carry_6_col220;
                 *sub_component_inputs.range_check_20_h[3] = [((carry_6_col220) + (M31_524288))];
                 *lookup_data.range_check_20_h_64 =
-                    [M31_682009131, ((carry_6_col220) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_6_col220) + (M31_524288))];
                 let carry_7_col221 =
                     (((conv_mod_tmp_d9509_127[7]) + (carry_6_col220)) * (M31_4194304));
                 *row[221] = carry_7_col221;
                 *sub_component_inputs.range_check_20[5] = [((carry_7_col221) + (M31_524288))];
                 *lookup_data.range_check_20_65 =
-                    [M31_1410849886, ((carry_7_col221) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_7_col221) + (M31_524288))];
                 let carry_8_col222 =
                     (((conv_mod_tmp_d9509_127[8]) + (carry_7_col221)) * (M31_4194304));
                 *row[222] = carry_8_col222;
                 *sub_component_inputs.range_check_20_b[5] = [((carry_8_col222) + (M31_524288))];
                 *lookup_data.range_check_20_b_66 =
-                    [M31_514232941, ((carry_8_col222) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_8_col222) + (M31_524288))];
                 let carry_9_col223 =
                     (((conv_mod_tmp_d9509_127[9]) + (carry_8_col222)) * (M31_4194304));
                 *row[223] = carry_9_col223;
                 *sub_component_inputs.range_check_20_c[5] = [((carry_9_col223) + (M31_524288))];
                 *lookup_data.range_check_20_c_67 =
-                    [M31_531010560, ((carry_9_col223) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_9_col223) + (M31_524288))];
                 let carry_10_col224 =
                     (((conv_mod_tmp_d9509_127[10]) + (carry_9_col223)) * (M31_4194304));
                 *row[224] = carry_10_col224;
                 *sub_component_inputs.range_check_20_d[5] = [((carry_10_col224) + (M31_524288))];
                 *lookup_data.range_check_20_d_68 =
-                    [M31_480677703, ((carry_10_col224) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_10_col224) + (M31_524288))];
                 let carry_11_col225 =
                     (((conv_mod_tmp_d9509_127[11]) + (carry_10_col224)) * (M31_4194304));
                 *row[225] = carry_11_col225;
                 *sub_component_inputs.range_check_20_e[4] = [((carry_11_col225) + (M31_524288))];
                 *lookup_data.range_check_20_e_69 =
-                    [M31_497455322, ((carry_11_col225) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_11_col225) + (M31_524288))];
                 let carry_12_col226 =
                     (((conv_mod_tmp_d9509_127[12]) + (carry_11_col225)) * (M31_4194304));
                 *row[226] = carry_12_col226;
                 *sub_component_inputs.range_check_20_f[4] = [((carry_12_col226) + (M31_524288))];
                 *lookup_data.range_check_20_f_70 =
-                    [M31_447122465, ((carry_12_col226) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_12_col226) + (M31_524288))];
                 let carry_13_col227 =
                     (((conv_mod_tmp_d9509_127[13]) + (carry_12_col226)) * (M31_4194304));
                 *row[227] = carry_13_col227;
                 *sub_component_inputs.range_check_20_g[4] = [((carry_13_col227) + (M31_524288))];
                 *lookup_data.range_check_20_g_71 =
-                    [M31_463900084, ((carry_13_col227) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_13_col227) + (M31_524288))];
                 let carry_14_col228 =
                     (((conv_mod_tmp_d9509_127[14]) + (carry_13_col227)) * (M31_4194304));
                 *row[228] = carry_14_col228;
                 *sub_component_inputs.range_check_20_h[4] = [((carry_14_col228) + (M31_524288))];
                 *lookup_data.range_check_20_h_72 =
-                    [M31_682009131, ((carry_14_col228) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_14_col228) + (M31_524288))];
                 let carry_15_col229 =
                     (((conv_mod_tmp_d9509_127[15]) + (carry_14_col228)) * (M31_4194304));
                 *row[229] = carry_15_col229;
                 *sub_component_inputs.range_check_20[6] = [((carry_15_col229) + (M31_524288))];
                 *lookup_data.range_check_20_73 =
-                    [M31_1410849886, ((carry_15_col229) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_15_col229) + (M31_524288))];
                 let carry_16_col230 =
                     (((conv_mod_tmp_d9509_127[16]) + (carry_15_col229)) * (M31_4194304));
                 *row[230] = carry_16_col230;
                 *sub_component_inputs.range_check_20_b[6] = [((carry_16_col230) + (M31_524288))];
                 *lookup_data.range_check_20_b_74 =
-                    [M31_514232941, ((carry_16_col230) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_16_col230) + (M31_524288))];
                 let carry_17_col231 =
                     (((conv_mod_tmp_d9509_127[17]) + (carry_16_col230)) * (M31_4194304));
                 *row[231] = carry_17_col231;
                 *sub_component_inputs.range_check_20_c[6] = [((carry_17_col231) + (M31_524288))];
                 *lookup_data.range_check_20_c_75 =
-                    [M31_531010560, ((carry_17_col231) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_17_col231) + (M31_524288))];
                 let carry_18_col232 =
                     (((conv_mod_tmp_d9509_127[18]) + (carry_17_col231)) * (M31_4194304));
                 *row[232] = carry_18_col232;
                 *sub_component_inputs.range_check_20_d[6] = [((carry_18_col232) + (M31_524288))];
                 *lookup_data.range_check_20_d_76 =
-                    [M31_480677703, ((carry_18_col232) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_18_col232) + (M31_524288))];
                 let carry_19_col233 =
                     (((conv_mod_tmp_d9509_127[19]) + (carry_18_col232)) * (M31_4194304));
                 *row[233] = carry_19_col233;
                 *sub_component_inputs.range_check_20_e[5] = [((carry_19_col233) + (M31_524288))];
                 *lookup_data.range_check_20_e_77 =
-                    [M31_497455322, ((carry_19_col233) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_19_col233) + (M31_524288))];
                 let carry_20_col234 =
                     (((conv_mod_tmp_d9509_127[20]) + (carry_19_col233)) * (M31_4194304));
                 *row[234] = carry_20_col234;
                 *sub_component_inputs.range_check_20_f[5] = [((carry_20_col234) + (M31_524288))];
                 *lookup_data.range_check_20_f_78 =
-                    [M31_447122465, ((carry_20_col234) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_20_col234) + (M31_524288))];
                 let carry_21_col235 = ((((conv_mod_tmp_d9509_127[21]) - ((M31_136) * (k_col213)))
                     + (carry_20_col234))
                     * (M31_4194304));
                 *row[235] = carry_21_col235;
                 *sub_component_inputs.range_check_20_g[5] = [((carry_21_col235) + (M31_524288))];
                 *lookup_data.range_check_20_g_79 =
-                    [M31_463900084, ((carry_21_col235) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_21_col235) + (M31_524288))];
                 let carry_22_col236 =
                     (((conv_mod_tmp_d9509_127[22]) + (carry_21_col235)) * (M31_4194304));
                 *row[236] = carry_22_col236;
                 *sub_component_inputs.range_check_20_h[5] = [((carry_22_col236) + (M31_524288))];
                 *lookup_data.range_check_20_h_80 =
-                    [M31_682009131, ((carry_22_col236) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_22_col236) + (M31_524288))];
                 let carry_23_col237 =
                     (((conv_mod_tmp_d9509_127[23]) + (carry_22_col236)) * (M31_4194304));
                 *row[237] = carry_23_col237;
                 *sub_component_inputs.range_check_20[7] = [((carry_23_col237) + (M31_524288))];
                 *lookup_data.range_check_20_81 =
-                    [M31_1410849886, ((carry_23_col237) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_23_col237) + (M31_524288))];
                 let carry_24_col238 =
                     (((conv_mod_tmp_d9509_127[24]) + (carry_23_col237)) * (M31_4194304));
                 *row[238] = carry_24_col238;
                 *sub_component_inputs.range_check_20_b[7] = [((carry_24_col238) + (M31_524288))];
                 *lookup_data.range_check_20_b_82 =
-                    [M31_514232941, ((carry_24_col238) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_24_col238) + (M31_524288))];
                 let carry_25_col239 =
                     (((conv_mod_tmp_d9509_127[25]) + (carry_24_col238)) * (M31_4194304));
                 *row[239] = carry_25_col239;
                 *sub_component_inputs.range_check_20_c[7] = [((carry_25_col239) + (M31_524288))];
                 *lookup_data.range_check_20_c_83 =
-                    [M31_531010560, ((carry_25_col239) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_25_col239) + (M31_524288))];
                 let carry_26_col240 =
                     (((conv_mod_tmp_d9509_127[26]) + (carry_25_col239)) * (M31_4194304));
                 *row[240] = carry_26_col240;
                 *sub_component_inputs.range_check_20_d[7] = [((carry_26_col240) + (M31_524288))];
                 *lookup_data.range_check_20_d_84 =
-                    [M31_480677703, ((carry_26_col240) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_26_col240) + (M31_524288))];
 
                 let result_y_tmp_d9509_129 = (((slope_tmp_d9509_1)
                     * ((partial_ec_mul_window_bits_18_input.2.1[0]) - (result_x_tmp_d9509_79)))
@@ -3556,59 +3598,83 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_9_9[4] =
                     [result_y_limb_0_col241, result_y_limb_1_col242];
                 *lookup_data.range_check_9_9_85 =
-                    [M31_517791011, result_y_limb_0_col241, result_y_limb_1_col242];
+                    [range_check_9_9_relation_id, result_y_limb_0_col241, result_y_limb_1_col242];
                 *sub_component_inputs.range_check_9_9_b[4] =
                     [result_y_limb_2_col243, result_y_limb_3_col244];
                 *lookup_data.range_check_9_9_b_86 =
-                    [M31_1897792095, result_y_limb_2_col243, result_y_limb_3_col244];
+                    [range_check_9_9_b_relation_id, result_y_limb_2_col243, result_y_limb_3_col244];
                 *sub_component_inputs.range_check_9_9_c[4] =
                     [result_y_limb_4_col245, result_y_limb_5_col246];
                 *lookup_data.range_check_9_9_c_87 =
-                    [M31_1881014476, result_y_limb_4_col245, result_y_limb_5_col246];
+                    [range_check_9_9_c_relation_id, result_y_limb_4_col245, result_y_limb_5_col246];
                 *sub_component_inputs.range_check_9_9_d[4] =
                     [result_y_limb_6_col247, result_y_limb_7_col248];
                 *lookup_data.range_check_9_9_d_88 =
-                    [M31_1864236857, result_y_limb_6_col247, result_y_limb_7_col248];
+                    [range_check_9_9_d_relation_id, result_y_limb_6_col247, result_y_limb_7_col248];
                 *sub_component_inputs.range_check_9_9_e[4] =
                     [result_y_limb_8_col249, result_y_limb_9_col250];
                 *lookup_data.range_check_9_9_e_89 =
-                    [M31_1847459238, result_y_limb_8_col249, result_y_limb_9_col250];
+                    [range_check_9_9_e_relation_id, result_y_limb_8_col249, result_y_limb_9_col250];
                 *sub_component_inputs.range_check_9_9_f[4] =
                     [result_y_limb_10_col251, result_y_limb_11_col252];
-                *lookup_data.range_check_9_9_f_90 =
-                    [M31_1830681619, result_y_limb_10_col251, result_y_limb_11_col252];
+                *lookup_data.range_check_9_9_f_90 = [
+                    range_check_9_9_f_relation_id,
+                    result_y_limb_10_col251,
+                    result_y_limb_11_col252,
+                ];
                 *sub_component_inputs.range_check_9_9_g[2] =
                     [result_y_limb_12_col253, result_y_limb_13_col254];
-                *lookup_data.range_check_9_9_g_91 =
-                    [M31_1813904000, result_y_limb_12_col253, result_y_limb_13_col254];
+                *lookup_data.range_check_9_9_g_91 = [
+                    range_check_9_9_g_relation_id,
+                    result_y_limb_12_col253,
+                    result_y_limb_13_col254,
+                ];
                 *sub_component_inputs.range_check_9_9_h[2] =
                     [result_y_limb_14_col255, result_y_limb_15_col256];
-                *lookup_data.range_check_9_9_h_92 =
-                    [M31_2065568285, result_y_limb_14_col255, result_y_limb_15_col256];
+                *lookup_data.range_check_9_9_h_92 = [
+                    range_check_9_9_h_relation_id,
+                    result_y_limb_14_col255,
+                    result_y_limb_15_col256,
+                ];
                 *sub_component_inputs.range_check_9_9[5] =
                     [result_y_limb_16_col257, result_y_limb_17_col258];
                 *lookup_data.range_check_9_9_93 =
-                    [M31_517791011, result_y_limb_16_col257, result_y_limb_17_col258];
+                    [range_check_9_9_relation_id, result_y_limb_16_col257, result_y_limb_17_col258];
                 *sub_component_inputs.range_check_9_9_b[5] =
                     [result_y_limb_18_col259, result_y_limb_19_col260];
-                *lookup_data.range_check_9_9_b_94 =
-                    [M31_1897792095, result_y_limb_18_col259, result_y_limb_19_col260];
+                *lookup_data.range_check_9_9_b_94 = [
+                    range_check_9_9_b_relation_id,
+                    result_y_limb_18_col259,
+                    result_y_limb_19_col260,
+                ];
                 *sub_component_inputs.range_check_9_9_c[5] =
                     [result_y_limb_20_col261, result_y_limb_21_col262];
-                *lookup_data.range_check_9_9_c_95 =
-                    [M31_1881014476, result_y_limb_20_col261, result_y_limb_21_col262];
+                *lookup_data.range_check_9_9_c_95 = [
+                    range_check_9_9_c_relation_id,
+                    result_y_limb_20_col261,
+                    result_y_limb_21_col262,
+                ];
                 *sub_component_inputs.range_check_9_9_d[5] =
                     [result_y_limb_22_col263, result_y_limb_23_col264];
-                *lookup_data.range_check_9_9_d_96 =
-                    [M31_1864236857, result_y_limb_22_col263, result_y_limb_23_col264];
+                *lookup_data.range_check_9_9_d_96 = [
+                    range_check_9_9_d_relation_id,
+                    result_y_limb_22_col263,
+                    result_y_limb_23_col264,
+                ];
                 *sub_component_inputs.range_check_9_9_e[5] =
                     [result_y_limb_24_col265, result_y_limb_25_col266];
-                *lookup_data.range_check_9_9_e_97 =
-                    [M31_1847459238, result_y_limb_24_col265, result_y_limb_25_col266];
+                *lookup_data.range_check_9_9_e_97 = [
+                    range_check_9_9_e_relation_id,
+                    result_y_limb_24_col265,
+                    result_y_limb_25_col266,
+                ];
                 *sub_component_inputs.range_check_9_9_f[5] =
                     [result_y_limb_26_col267, result_y_limb_27_col268];
-                *lookup_data.range_check_9_9_f_98 =
-                    [M31_1830681619, result_y_limb_26_col267, result_y_limb_27_col268];
+                *lookup_data.range_check_9_9_f_98 = [
+                    range_check_9_9_f_relation_id,
+                    result_y_limb_26_col267,
+                    result_y_limb_27_col268,
+                ];
 
                 let x_diff2_0_tmp_d9509_130 = ((input_limb_16_col17) - (result_x_limb_0_col185));
                 let x_diff2_1_tmp_d9509_131 = ((input_limb_17_col18) - (result_x_limb_1_col186));
@@ -4678,174 +4744,175 @@ fn write_trace_simd(
                         * (M31_65536)));
                 *row[269] = k_col269;
                 *sub_component_inputs.range_check_20[8] = [((k_col269) + (M31_524288))];
-                *lookup_data.range_check_20_99 = [M31_1410849886, ((k_col269) + (M31_524288))];
+                *lookup_data.range_check_20_99 =
+                    [range_check_20_relation_id, ((k_col269) + (M31_524288))];
                 let carry_0_col270 = (((conv_mod_tmp_d9509_205[0]) - (k_col269)) * (M31_4194304));
                 *row[270] = carry_0_col270;
                 *sub_component_inputs.range_check_20_b[8] = [((carry_0_col270) + (M31_524288))];
                 *lookup_data.range_check_20_b_100 =
-                    [M31_514232941, ((carry_0_col270) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_0_col270) + (M31_524288))];
                 let carry_1_col271 =
                     (((conv_mod_tmp_d9509_205[1]) + (carry_0_col270)) * (M31_4194304));
                 *row[271] = carry_1_col271;
                 *sub_component_inputs.range_check_20_c[8] = [((carry_1_col271) + (M31_524288))];
                 *lookup_data.range_check_20_c_101 =
-                    [M31_531010560, ((carry_1_col271) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_1_col271) + (M31_524288))];
                 let carry_2_col272 =
                     (((conv_mod_tmp_d9509_205[2]) + (carry_1_col271)) * (M31_4194304));
                 *row[272] = carry_2_col272;
                 *sub_component_inputs.range_check_20_d[8] = [((carry_2_col272) + (M31_524288))];
                 *lookup_data.range_check_20_d_102 =
-                    [M31_480677703, ((carry_2_col272) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_2_col272) + (M31_524288))];
                 let carry_3_col273 =
                     (((conv_mod_tmp_d9509_205[3]) + (carry_2_col272)) * (M31_4194304));
                 *row[273] = carry_3_col273;
                 *sub_component_inputs.range_check_20_e[6] = [((carry_3_col273) + (M31_524288))];
                 *lookup_data.range_check_20_e_103 =
-                    [M31_497455322, ((carry_3_col273) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_3_col273) + (M31_524288))];
                 let carry_4_col274 =
                     (((conv_mod_tmp_d9509_205[4]) + (carry_3_col273)) * (M31_4194304));
                 *row[274] = carry_4_col274;
                 *sub_component_inputs.range_check_20_f[6] = [((carry_4_col274) + (M31_524288))];
                 *lookup_data.range_check_20_f_104 =
-                    [M31_447122465, ((carry_4_col274) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_4_col274) + (M31_524288))];
                 let carry_5_col275 =
                     (((conv_mod_tmp_d9509_205[5]) + (carry_4_col274)) * (M31_4194304));
                 *row[275] = carry_5_col275;
                 *sub_component_inputs.range_check_20_g[6] = [((carry_5_col275) + (M31_524288))];
                 *lookup_data.range_check_20_g_105 =
-                    [M31_463900084, ((carry_5_col275) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_5_col275) + (M31_524288))];
                 let carry_6_col276 =
                     (((conv_mod_tmp_d9509_205[6]) + (carry_5_col275)) * (M31_4194304));
                 *row[276] = carry_6_col276;
                 *sub_component_inputs.range_check_20_h[6] = [((carry_6_col276) + (M31_524288))];
                 *lookup_data.range_check_20_h_106 =
-                    [M31_682009131, ((carry_6_col276) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_6_col276) + (M31_524288))];
                 let carry_7_col277 =
                     (((conv_mod_tmp_d9509_205[7]) + (carry_6_col276)) * (M31_4194304));
                 *row[277] = carry_7_col277;
                 *sub_component_inputs.range_check_20[9] = [((carry_7_col277) + (M31_524288))];
                 *lookup_data.range_check_20_107 =
-                    [M31_1410849886, ((carry_7_col277) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_7_col277) + (M31_524288))];
                 let carry_8_col278 =
                     (((conv_mod_tmp_d9509_205[8]) + (carry_7_col277)) * (M31_4194304));
                 *row[278] = carry_8_col278;
                 *sub_component_inputs.range_check_20_b[9] = [((carry_8_col278) + (M31_524288))];
                 *lookup_data.range_check_20_b_108 =
-                    [M31_514232941, ((carry_8_col278) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_8_col278) + (M31_524288))];
                 let carry_9_col279 =
                     (((conv_mod_tmp_d9509_205[9]) + (carry_8_col278)) * (M31_4194304));
                 *row[279] = carry_9_col279;
                 *sub_component_inputs.range_check_20_c[9] = [((carry_9_col279) + (M31_524288))];
                 *lookup_data.range_check_20_c_109 =
-                    [M31_531010560, ((carry_9_col279) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_9_col279) + (M31_524288))];
                 let carry_10_col280 =
                     (((conv_mod_tmp_d9509_205[10]) + (carry_9_col279)) * (M31_4194304));
                 *row[280] = carry_10_col280;
                 *sub_component_inputs.range_check_20_d[9] = [((carry_10_col280) + (M31_524288))];
                 *lookup_data.range_check_20_d_110 =
-                    [M31_480677703, ((carry_10_col280) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_10_col280) + (M31_524288))];
                 let carry_11_col281 =
                     (((conv_mod_tmp_d9509_205[11]) + (carry_10_col280)) * (M31_4194304));
                 *row[281] = carry_11_col281;
                 *sub_component_inputs.range_check_20_e[7] = [((carry_11_col281) + (M31_524288))];
                 *lookup_data.range_check_20_e_111 =
-                    [M31_497455322, ((carry_11_col281) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_11_col281) + (M31_524288))];
                 let carry_12_col282 =
                     (((conv_mod_tmp_d9509_205[12]) + (carry_11_col281)) * (M31_4194304));
                 *row[282] = carry_12_col282;
                 *sub_component_inputs.range_check_20_f[7] = [((carry_12_col282) + (M31_524288))];
                 *lookup_data.range_check_20_f_112 =
-                    [M31_447122465, ((carry_12_col282) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_12_col282) + (M31_524288))];
                 let carry_13_col283 =
                     (((conv_mod_tmp_d9509_205[13]) + (carry_12_col282)) * (M31_4194304));
                 *row[283] = carry_13_col283;
                 *sub_component_inputs.range_check_20_g[7] = [((carry_13_col283) + (M31_524288))];
                 *lookup_data.range_check_20_g_113 =
-                    [M31_463900084, ((carry_13_col283) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_13_col283) + (M31_524288))];
                 let carry_14_col284 =
                     (((conv_mod_tmp_d9509_205[14]) + (carry_13_col283)) * (M31_4194304));
                 *row[284] = carry_14_col284;
                 *sub_component_inputs.range_check_20_h[7] = [((carry_14_col284) + (M31_524288))];
                 *lookup_data.range_check_20_h_114 =
-                    [M31_682009131, ((carry_14_col284) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_14_col284) + (M31_524288))];
                 let carry_15_col285 =
                     (((conv_mod_tmp_d9509_205[15]) + (carry_14_col284)) * (M31_4194304));
                 *row[285] = carry_15_col285;
                 *sub_component_inputs.range_check_20[10] = [((carry_15_col285) + (M31_524288))];
                 *lookup_data.range_check_20_115 =
-                    [M31_1410849886, ((carry_15_col285) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_15_col285) + (M31_524288))];
                 let carry_16_col286 =
                     (((conv_mod_tmp_d9509_205[16]) + (carry_15_col285)) * (M31_4194304));
                 *row[286] = carry_16_col286;
                 *sub_component_inputs.range_check_20_b[10] = [((carry_16_col286) + (M31_524288))];
                 *lookup_data.range_check_20_b_116 =
-                    [M31_514232941, ((carry_16_col286) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_16_col286) + (M31_524288))];
                 let carry_17_col287 =
                     (((conv_mod_tmp_d9509_205[17]) + (carry_16_col286)) * (M31_4194304));
                 *row[287] = carry_17_col287;
                 *sub_component_inputs.range_check_20_c[10] = [((carry_17_col287) + (M31_524288))];
                 *lookup_data.range_check_20_c_117 =
-                    [M31_531010560, ((carry_17_col287) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_17_col287) + (M31_524288))];
                 let carry_18_col288 =
                     (((conv_mod_tmp_d9509_205[18]) + (carry_17_col287)) * (M31_4194304));
                 *row[288] = carry_18_col288;
                 *sub_component_inputs.range_check_20_d[10] = [((carry_18_col288) + (M31_524288))];
                 *lookup_data.range_check_20_d_118 =
-                    [M31_480677703, ((carry_18_col288) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_18_col288) + (M31_524288))];
                 let carry_19_col289 =
                     (((conv_mod_tmp_d9509_205[19]) + (carry_18_col288)) * (M31_4194304));
                 *row[289] = carry_19_col289;
                 *sub_component_inputs.range_check_20_e[8] = [((carry_19_col289) + (M31_524288))];
                 *lookup_data.range_check_20_e_119 =
-                    [M31_497455322, ((carry_19_col289) + (M31_524288))];
+                    [range_check_20_e_relation_id, ((carry_19_col289) + (M31_524288))];
                 let carry_20_col290 =
                     (((conv_mod_tmp_d9509_205[20]) + (carry_19_col289)) * (M31_4194304));
                 *row[290] = carry_20_col290;
                 *sub_component_inputs.range_check_20_f[8] = [((carry_20_col290) + (M31_524288))];
                 *lookup_data.range_check_20_f_120 =
-                    [M31_447122465, ((carry_20_col290) + (M31_524288))];
+                    [range_check_20_f_relation_id, ((carry_20_col290) + (M31_524288))];
                 let carry_21_col291 = ((((conv_mod_tmp_d9509_205[21]) - ((M31_136) * (k_col269)))
                     + (carry_20_col290))
                     * (M31_4194304));
                 *row[291] = carry_21_col291;
                 *sub_component_inputs.range_check_20_g[8] = [((carry_21_col291) + (M31_524288))];
                 *lookup_data.range_check_20_g_121 =
-                    [M31_463900084, ((carry_21_col291) + (M31_524288))];
+                    [range_check_20_g_relation_id, ((carry_21_col291) + (M31_524288))];
                 let carry_22_col292 =
                     (((conv_mod_tmp_d9509_205[22]) + (carry_21_col291)) * (M31_4194304));
                 *row[292] = carry_22_col292;
                 *sub_component_inputs.range_check_20_h[8] = [((carry_22_col292) + (M31_524288))];
                 *lookup_data.range_check_20_h_122 =
-                    [M31_682009131, ((carry_22_col292) + (M31_524288))];
+                    [range_check_20_h_relation_id, ((carry_22_col292) + (M31_524288))];
                 let carry_23_col293 =
                     (((conv_mod_tmp_d9509_205[23]) + (carry_22_col292)) * (M31_4194304));
                 *row[293] = carry_23_col293;
                 *sub_component_inputs.range_check_20[11] = [((carry_23_col293) + (M31_524288))];
                 *lookup_data.range_check_20_123 =
-                    [M31_1410849886, ((carry_23_col293) + (M31_524288))];
+                    [range_check_20_relation_id, ((carry_23_col293) + (M31_524288))];
                 let carry_24_col294 =
                     (((conv_mod_tmp_d9509_205[24]) + (carry_23_col293)) * (M31_4194304));
                 *row[294] = carry_24_col294;
                 *sub_component_inputs.range_check_20_b[11] = [((carry_24_col294) + (M31_524288))];
                 *lookup_data.range_check_20_b_124 =
-                    [M31_514232941, ((carry_24_col294) + (M31_524288))];
+                    [range_check_20_b_relation_id, ((carry_24_col294) + (M31_524288))];
                 let carry_25_col295 =
                     (((conv_mod_tmp_d9509_205[25]) + (carry_24_col294)) * (M31_4194304));
                 *row[295] = carry_25_col295;
                 *sub_component_inputs.range_check_20_c[11] = [((carry_25_col295) + (M31_524288))];
                 *lookup_data.range_check_20_c_125 =
-                    [M31_531010560, ((carry_25_col295) + (M31_524288))];
+                    [range_check_20_c_relation_id, ((carry_25_col295) + (M31_524288))];
                 let carry_26_col296 =
                     (((conv_mod_tmp_d9509_205[26]) + (carry_25_col295)) * (M31_4194304));
                 *row[296] = carry_26_col296;
                 *sub_component_inputs.range_check_20_d[11] = [((carry_26_col296) + (M31_524288))];
                 *lookup_data.range_check_20_d_126 =
-                    [M31_480677703, ((carry_26_col296) + (M31_524288))];
+                    [range_check_20_d_relation_id, ((carry_26_col296) + (M31_524288))];
 
                 let ec_add_output_tmp_d9509_207 = [result_x_tmp_d9509_79, result_y_tmp_d9509_129];
 
                 *lookup_data.partial_ec_mul_window_bits_18_127 = [
-                    M31_1621226978,
+                    partial_ec_mul_window_bits_18_relation_id,
                     input_limb_0_col1,
                     input_limb_1_col2,
                     input_limb_2_col3,
@@ -4920,7 +4987,7 @@ fn write_trace_simd(
                     input_limb_71_col72,
                 ];
                 *lookup_data.partial_ec_mul_window_bits_18_128 = [
-                    M31_1621226978,
+                    partial_ec_mul_window_bits_18_relation_id,
                     input_limb_0_col1,
                     ((input_limb_1_col2) + (M31_1)),
                     input_limb_3_col4,

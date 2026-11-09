@@ -68,7 +68,7 @@ impl InteractionClaimGenerator {
         self,
         common_lookup_elements: &relations::CommonLookupElements,
     ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>, InteractionClaim) {
-        let relation_id = PackedM31::broadcast(M31::from(648362599));
+        let relation_id = PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_12_RELATION_ID);
         let mut logup_gen = unsafe { LogupTraceGenerator::uninitialized(LOG_SIZE) };
 
         // [0, 1, 2, ..., N_LANES - 1].

@@ -54,14 +54,14 @@ fn write_trace_simd(
         )
     };
 
-    let M31_1008385708 = PackedM31::broadcast(M31::from(1008385708));
+    let range_check_16_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_16_RELATION_ID);
     let seq_16 =
         preprocessed_trace.get_packed_column(&PreProcessedColumnId { id: "seq_16".to_owned() });
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut()).into_par_iter().enumerate().for_each(
         |(row_index, (row, lookup_data))| {
             let seq_16 = seq_16[row_index];
-            *lookup_data.range_check_16_0 = [M31_1008385708, seq_16];
+            *lookup_data.range_check_16_0 = [range_check_16_relation_id, seq_16];
             let mult = &mults[0];
             let mult_at_row = *mult.get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = mult_at_row;

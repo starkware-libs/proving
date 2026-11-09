@@ -46,7 +46,7 @@ impl FrameworkEval for Eval {
     }
 
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let relation_id = E::F::from(M31::from(648362599));
+        let relation_id = E::F::from(relations::VERIFY_BITWISE_XOR_12_RELATION_ID);
         // al, bl are the constant columns for the inputs: All pairs of elements in [0,
         // 2^LIMB_BITS).
         // cl is the constant column for the xor: al ^ bl.

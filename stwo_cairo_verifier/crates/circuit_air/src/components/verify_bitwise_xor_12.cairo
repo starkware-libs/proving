@@ -85,7 +85,7 @@ pub impl AirComponentImpl of AirComponent {
 
         // For each lookup `n = 4*i + j`, the relation combines:
         //   (relation_id, a_low + i*1024, b_low + j*1024, c_low + (i^j)*1024)
-        let relation_id = qm31_const::<648362599, 0, 0, 0>();
+        let relation_id = qm31_const::<relations::VERIFY_BITWISE_XOR_12_RELATION_ID, 0, 0, 0>();
         let limb_off: QM31 = m31(LIMB_OFFSET).into();
         let limb_off_2: QM31 = m31(LIMB_OFFSET * 2).into();
         let limb_off_3: QM31 = m31(LIMB_OFFSET * 3).into();

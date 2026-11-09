@@ -100,7 +100,7 @@ pub fn accumulate_constraints<Value: IValue>(
     // Yield MemoryIdToBig.
     let offset = LARGE_MEMORY_VALUE_ID_BASE + index * ID_TO_BIG_MAX_ROWS;
     let tuple_1 = &[
-        eval!(context, 1662111297),
+        context.constant(relations::MEMORY_ID_TO_BIG_RELATION_ID.into()),
         eval!(context, (seq) + (context.constant(offset.into()))),
         eval!(context, memory_id_to_big_output_col1),
         eval!(context, memory_id_to_big_output_col2),

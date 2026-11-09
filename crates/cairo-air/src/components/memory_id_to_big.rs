@@ -70,7 +70,6 @@ impl FrameworkEval for BigEval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_1662111297 = E::F::from(M31::from(1662111297));
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let multiplicity = eval.next_trace_mask();
         let memory_id_to_big_output_col0 = eval.next_trace_mask();
@@ -141,7 +140,7 @@ impl FrameworkEval for BigEval {
             &self.common_lookup_elements,
             -E::EF::from(multiplicity),
             &[
-                M31_1662111297.clone(),
+                E::F::from(relations::MEMORY_ID_TO_BIG_RELATION_ID),
                 seq.clone()
                     + E::F::from(M31::from(LARGE_MEMORY_VALUE_ID_BASE))
                     + E::F::from(M31::from(self.offset)),

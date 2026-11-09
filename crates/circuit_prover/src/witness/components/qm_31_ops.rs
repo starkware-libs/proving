@@ -123,7 +123,7 @@ fn write_trace_simd(
     inputs: Vec<PackedInputType>,
     preprocessed_columns: Vec<Vec<PackedM31>>,
 ) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
-    let m31_gate_relation_id = PackedM31::broadcast(M31::from(378353459));
+    let m31_gate_relation_id = PackedM31::broadcast(relations::GATE_RELATION_ID);
     let log_n_packed_rows = inputs.len().ilog2();
     let log_size = log_n_packed_rows + LOG_N_LANES;
     let (mut trace, mut lookup_data) = unsafe {

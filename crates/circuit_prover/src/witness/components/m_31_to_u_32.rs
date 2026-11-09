@@ -91,9 +91,9 @@ fn write_trace_simd(
 
     let M31_0 = PackedM31::broadcast(M31::from(0));
     let M31_1 = PackedM31::broadcast(M31::from(1));
-    let M31_1008385708 = PackedM31::broadcast(M31::from(1008385708));
     let M31_32767 = PackedM31::broadcast(M31::from(32767));
-    let M31_378353459 = PackedM31::broadcast(M31::from(378353459));
+    let gate_relation_id = PackedM31::broadcast(relations::GATE_RELATION_ID);
+    let range_check_16_relation_id = PackedM31::broadcast(relations::RANGE_CHECK_16_RELATION_ID);
     let [m31_to_u32_input_addr, m31_to_u32_output_addr, m31_to_u32_multiplicity]: [Vec<PackedM31>;
         3] = preprocessed_columns.try_into().unwrap();
 
@@ -117,19 +117,19 @@ fn write_trace_simd(
                 let input_u32_limb_1_col2 = m_31_to_u_32_input.1.high().as_m31();
                 *row[2] = input_u32_limb_1_col2;
                 *sub_component_inputs.range_check_16[0] = [input_u32_limb_0_col1];
-                *lookup_data.range_check_16_0 = [M31_1008385708, input_u32_limb_0_col1];
+                *lookup_data.range_check_16_0 = [range_check_16_relation_id, input_u32_limb_0_col1];
                 *sub_component_inputs.range_check_16[1] = [input_u32_limb_1_col2];
-                *lookup_data.range_check_16_1 = [M31_1008385708, input_u32_limb_1_col2];
+                *lookup_data.range_check_16_1 = [range_check_16_relation_id, input_u32_limb_1_col2];
                 *sub_component_inputs.range_check_16[2] = [((M31_32767) - (input_u32_limb_1_col2))];
                 *lookup_data.range_check_16_2 =
-                    [M31_1008385708, ((M31_32767) - (input_u32_limb_1_col2))];
+                    [range_check_16_relation_id, ((M31_32767) - (input_u32_limb_1_col2))];
                 let input_is_zero_tmp_c1f7a_0 = M31_0.eq(input_m31_col0);
                 let inv_or_one_col3 =
                     ((input_is_zero_tmp_c1f7a_0.as_m31()) + (input_m31_col0)).inverse();
                 *row[3] = inv_or_one_col3;
-                *lookup_data.gate_0 = [M31_378353459, m31_to_u32_input_addr, input_m31_col0];
+                *lookup_data.gate_0 = [gate_relation_id, m31_to_u32_input_addr, input_m31_col0];
                 *lookup_data.gate_1 = [
-                    M31_378353459,
+                    gate_relation_id,
                     m31_to_u32_output_addr,
                     input_u32_limb_0_col1,
                     input_u32_limb_1_col2,

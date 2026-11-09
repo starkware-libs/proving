@@ -122,19 +122,23 @@ fn write_trace_simd(
 
     let M31_0 = PackedM31::broadcast(M31::from(0));
     let M31_1 = PackedM31::broadcast(M31::from(1));
-    let M31_1139985212 = PackedM31::broadcast(M31::from(1139985212));
     let M31_128 = PackedM31::broadcast(M31::from(128));
-    let M31_1444891767 = PackedM31::broadcast(M31::from(1444891767));
-    let M31_1662111297 = PackedM31::broadcast(M31::from(1662111297));
-    let M31_1805967942 = PackedM31::broadcast(M31::from(1805967942));
     let M31_2048 = PackedM31::broadcast(M31::from(2048));
-    let M31_371240602 = PackedM31::broadcast(M31::from(371240602));
     let M31_4 = PackedM31::broadcast(M31::from(4));
-    let M31_40528774 = PackedM31::broadcast(M31::from(40528774));
     let M31_512 = PackedM31::broadcast(M31::from(512));
     let UInt16_2 = PackedUInt16::broadcast(UInt16::from(2));
     let UInt16_7 = PackedUInt16::broadcast(UInt16::from(7));
     let UInt16_9 = PackedUInt16::broadcast(UInt16::from(9));
+    let blake_g_relation_id = PackedM31::broadcast(relations::BLAKE_G_RELATION_ID);
+    let blake_round_relation_id = PackedM31::broadcast(relations::BLAKE_ROUND_RELATION_ID);
+    let blake_round_sigma_relation_id =
+        PackedM31::broadcast(relations::BLAKE_ROUND_SIGMA_RELATION_ID);
+    let memory_address_to_id_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID);
+    let memory_id_to_big_relation_id =
+        PackedM31::broadcast(relations::MEMORY_ID_TO_BIG_RELATION_ID);
+    let range_check_7_2_5_relation_id =
+        PackedM31::broadcast(relations::RANGE_CHECK_7_2_5_RELATION_ID);
     let enabler_col = Enabler::new(n_rows);
 
     (
@@ -261,7 +265,7 @@ fn write_trace_simd(
                     blake_round_sigma_output_tmp_9aaf1_0[15];
                 *row[51] = blake_round_sigma_output_limb_15_col51;
                 *lookup_data.blake_round_sigma_0 = [
-                    M31_1805967942,
+                    blake_round_sigma_relation_id,
                     input_limb_1_col2,
                     blake_round_sigma_output_limb_0_col36,
                     blake_round_sigma_output_limb_1_col37,
@@ -322,7 +326,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[0] =
                     [low_7_ms_bits_col54, high_2_ls_bits_tmp_9aaf1_7, high_5_ms_bits_col56];
                 *lookup_data.range_check_7_2_5_1 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col54,
                     high_2_ls_bits_tmp_9aaf1_7,
                     high_5_ms_bits_col56,
@@ -341,14 +345,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[0] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_0_col36));
                 *lookup_data.memory_address_to_id_2 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_0_col36)),
                     message_word_0_id_col57,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[0] = message_word_0_id_col57;
                 *lookup_data.memory_id_to_big_3 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_0_id_col57,
                     ((low_16_bits_col52) - ((low_7_ms_bits_col54) * (M31_512))),
                     ((low_7_ms_bits_col54) + ((high_2_ls_bits_tmp_9aaf1_7) * (M31_128))),
@@ -423,7 +427,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[1] =
                     [low_7_ms_bits_col60, high_2_ls_bits_tmp_9aaf1_18, high_5_ms_bits_col62];
                 *lookup_data.range_check_7_2_5_4 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col60,
                     high_2_ls_bits_tmp_9aaf1_18,
                     high_5_ms_bits_col62,
@@ -442,14 +446,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[1] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_1_col37));
                 *lookup_data.memory_address_to_id_5 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_1_col37)),
                     message_word_1_id_col63,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[1] = message_word_1_id_col63;
                 *lookup_data.memory_id_to_big_6 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_1_id_col63,
                     ((low_16_bits_col58) - ((low_7_ms_bits_col60) * (M31_512))),
                     ((low_7_ms_bits_col60) + ((high_2_ls_bits_tmp_9aaf1_18) * (M31_128))),
@@ -524,7 +528,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[2] =
                     [low_7_ms_bits_col66, high_2_ls_bits_tmp_9aaf1_29, high_5_ms_bits_col68];
                 *lookup_data.range_check_7_2_5_7 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col66,
                     high_2_ls_bits_tmp_9aaf1_29,
                     high_5_ms_bits_col68,
@@ -543,14 +547,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[2] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_2_col38));
                 *lookup_data.memory_address_to_id_8 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_2_col38)),
                     message_word_2_id_col69,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[2] = message_word_2_id_col69;
                 *lookup_data.memory_id_to_big_9 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_2_id_col69,
                     ((low_16_bits_col64) - ((low_7_ms_bits_col66) * (M31_512))),
                     ((low_7_ms_bits_col66) + ((high_2_ls_bits_tmp_9aaf1_29) * (M31_128))),
@@ -625,7 +629,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[3] =
                     [low_7_ms_bits_col72, high_2_ls_bits_tmp_9aaf1_40, high_5_ms_bits_col74];
                 *lookup_data.range_check_7_2_5_10 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col72,
                     high_2_ls_bits_tmp_9aaf1_40,
                     high_5_ms_bits_col74,
@@ -644,14 +648,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[3] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_3_col39));
                 *lookup_data.memory_address_to_id_11 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_3_col39)),
                     message_word_3_id_col75,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[3] = message_word_3_id_col75;
                 *lookup_data.memory_id_to_big_12 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_3_id_col75,
                     ((low_16_bits_col70) - ((low_7_ms_bits_col72) * (M31_512))),
                     ((low_7_ms_bits_col72) + ((high_2_ls_bits_tmp_9aaf1_40) * (M31_128))),
@@ -726,7 +730,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[4] =
                     [low_7_ms_bits_col78, high_2_ls_bits_tmp_9aaf1_51, high_5_ms_bits_col80];
                 *lookup_data.range_check_7_2_5_13 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col78,
                     high_2_ls_bits_tmp_9aaf1_51,
                     high_5_ms_bits_col80,
@@ -745,14 +749,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[4] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_4_col40));
                 *lookup_data.memory_address_to_id_14 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_4_col40)),
                     message_word_4_id_col81,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[4] = message_word_4_id_col81;
                 *lookup_data.memory_id_to_big_15 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_4_id_col81,
                     ((low_16_bits_col76) - ((low_7_ms_bits_col78) * (M31_512))),
                     ((low_7_ms_bits_col78) + ((high_2_ls_bits_tmp_9aaf1_51) * (M31_128))),
@@ -827,7 +831,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[5] =
                     [low_7_ms_bits_col84, high_2_ls_bits_tmp_9aaf1_62, high_5_ms_bits_col86];
                 *lookup_data.range_check_7_2_5_16 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col84,
                     high_2_ls_bits_tmp_9aaf1_62,
                     high_5_ms_bits_col86,
@@ -846,14 +850,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[5] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_5_col41));
                 *lookup_data.memory_address_to_id_17 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_5_col41)),
                     message_word_5_id_col87,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[5] = message_word_5_id_col87;
                 *lookup_data.memory_id_to_big_18 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_5_id_col87,
                     ((low_16_bits_col82) - ((low_7_ms_bits_col84) * (M31_512))),
                     ((low_7_ms_bits_col84) + ((high_2_ls_bits_tmp_9aaf1_62) * (M31_128))),
@@ -928,7 +932,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[6] =
                     [low_7_ms_bits_col90, high_2_ls_bits_tmp_9aaf1_73, high_5_ms_bits_col92];
                 *lookup_data.range_check_7_2_5_19 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col90,
                     high_2_ls_bits_tmp_9aaf1_73,
                     high_5_ms_bits_col92,
@@ -947,14 +951,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[6] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_6_col42));
                 *lookup_data.memory_address_to_id_20 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_6_col42)),
                     message_word_6_id_col93,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[6] = message_word_6_id_col93;
                 *lookup_data.memory_id_to_big_21 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_6_id_col93,
                     ((low_16_bits_col88) - ((low_7_ms_bits_col90) * (M31_512))),
                     ((low_7_ms_bits_col90) + ((high_2_ls_bits_tmp_9aaf1_73) * (M31_128))),
@@ -1029,7 +1033,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[7] =
                     [low_7_ms_bits_col96, high_2_ls_bits_tmp_9aaf1_84, high_5_ms_bits_col98];
                 *lookup_data.range_check_7_2_5_22 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col96,
                     high_2_ls_bits_tmp_9aaf1_84,
                     high_5_ms_bits_col98,
@@ -1048,14 +1052,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[7] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_7_col43));
                 *lookup_data.memory_address_to_id_23 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_7_col43)),
                     message_word_7_id_col99,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[7] = message_word_7_id_col99;
                 *lookup_data.memory_id_to_big_24 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_7_id_col99,
                     ((low_16_bits_col94) - ((low_7_ms_bits_col96) * (M31_512))),
                     ((low_7_ms_bits_col96) + ((high_2_ls_bits_tmp_9aaf1_84) * (M31_128))),
@@ -1131,7 +1135,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[8] =
                     [low_7_ms_bits_col102, high_2_ls_bits_tmp_9aaf1_95, high_5_ms_bits_col104];
                 *lookup_data.range_check_7_2_5_25 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col102,
                     high_2_ls_bits_tmp_9aaf1_95,
                     high_5_ms_bits_col104,
@@ -1150,14 +1154,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[8] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_8_col44));
                 *lookup_data.memory_address_to_id_26 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_8_col44)),
                     message_word_8_id_col105,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[8] = message_word_8_id_col105;
                 *lookup_data.memory_id_to_big_27 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_8_id_col105,
                     ((low_16_bits_col100) - ((low_7_ms_bits_col102) * (M31_512))),
                     ((low_7_ms_bits_col102) + ((high_2_ls_bits_tmp_9aaf1_95) * (M31_128))),
@@ -1234,7 +1238,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[9] =
                     [low_7_ms_bits_col108, high_2_ls_bits_tmp_9aaf1_106, high_5_ms_bits_col110];
                 *lookup_data.range_check_7_2_5_28 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col108,
                     high_2_ls_bits_tmp_9aaf1_106,
                     high_5_ms_bits_col110,
@@ -1253,14 +1257,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[9] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_9_col45));
                 *lookup_data.memory_address_to_id_29 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_9_col45)),
                     message_word_9_id_col111,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[9] = message_word_9_id_col111;
                 *lookup_data.memory_id_to_big_30 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_9_id_col111,
                     ((low_16_bits_col106) - ((low_7_ms_bits_col108) * (M31_512))),
                     ((low_7_ms_bits_col108) + ((high_2_ls_bits_tmp_9aaf1_106) * (M31_128))),
@@ -1337,7 +1341,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[10] =
                     [low_7_ms_bits_col114, high_2_ls_bits_tmp_9aaf1_117, high_5_ms_bits_col116];
                 *lookup_data.range_check_7_2_5_31 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col114,
                     high_2_ls_bits_tmp_9aaf1_117,
                     high_5_ms_bits_col116,
@@ -1356,14 +1360,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[10] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_10_col46));
                 *lookup_data.memory_address_to_id_32 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_10_col46)),
                     message_word_10_id_col117,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[10] = message_word_10_id_col117;
                 *lookup_data.memory_id_to_big_33 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_10_id_col117,
                     ((low_16_bits_col112) - ((low_7_ms_bits_col114) * (M31_512))),
                     ((low_7_ms_bits_col114) + ((high_2_ls_bits_tmp_9aaf1_117) * (M31_128))),
@@ -1440,7 +1444,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[11] =
                     [low_7_ms_bits_col120, high_2_ls_bits_tmp_9aaf1_128, high_5_ms_bits_col122];
                 *lookup_data.range_check_7_2_5_34 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col120,
                     high_2_ls_bits_tmp_9aaf1_128,
                     high_5_ms_bits_col122,
@@ -1459,14 +1463,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[11] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_11_col47));
                 *lookup_data.memory_address_to_id_35 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_11_col47)),
                     message_word_11_id_col123,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[11] = message_word_11_id_col123;
                 *lookup_data.memory_id_to_big_36 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_11_id_col123,
                     ((low_16_bits_col118) - ((low_7_ms_bits_col120) * (M31_512))),
                     ((low_7_ms_bits_col120) + ((high_2_ls_bits_tmp_9aaf1_128) * (M31_128))),
@@ -1543,7 +1547,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[12] =
                     [low_7_ms_bits_col126, high_2_ls_bits_tmp_9aaf1_139, high_5_ms_bits_col128];
                 *lookup_data.range_check_7_2_5_37 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col126,
                     high_2_ls_bits_tmp_9aaf1_139,
                     high_5_ms_bits_col128,
@@ -1562,14 +1566,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[12] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_12_col48));
                 *lookup_data.memory_address_to_id_38 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_12_col48)),
                     message_word_12_id_col129,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[12] = message_word_12_id_col129;
                 *lookup_data.memory_id_to_big_39 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_12_id_col129,
                     ((low_16_bits_col124) - ((low_7_ms_bits_col126) * (M31_512))),
                     ((low_7_ms_bits_col126) + ((high_2_ls_bits_tmp_9aaf1_139) * (M31_128))),
@@ -1646,7 +1650,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[13] =
                     [low_7_ms_bits_col132, high_2_ls_bits_tmp_9aaf1_150, high_5_ms_bits_col134];
                 *lookup_data.range_check_7_2_5_40 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col132,
                     high_2_ls_bits_tmp_9aaf1_150,
                     high_5_ms_bits_col134,
@@ -1665,14 +1669,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[13] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_13_col49));
                 *lookup_data.memory_address_to_id_41 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_13_col49)),
                     message_word_13_id_col135,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[13] = message_word_13_id_col135;
                 *lookup_data.memory_id_to_big_42 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_13_id_col135,
                     ((low_16_bits_col130) - ((low_7_ms_bits_col132) * (M31_512))),
                     ((low_7_ms_bits_col132) + ((high_2_ls_bits_tmp_9aaf1_150) * (M31_128))),
@@ -1749,7 +1753,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[14] =
                     [low_7_ms_bits_col138, high_2_ls_bits_tmp_9aaf1_161, high_5_ms_bits_col140];
                 *lookup_data.range_check_7_2_5_43 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col138,
                     high_2_ls_bits_tmp_9aaf1_161,
                     high_5_ms_bits_col140,
@@ -1768,14 +1772,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[14] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_14_col50));
                 *lookup_data.memory_address_to_id_44 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_14_col50)),
                     message_word_14_id_col141,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[14] = message_word_14_id_col141;
                 *lookup_data.memory_id_to_big_45 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_14_id_col141,
                     ((low_16_bits_col136) - ((low_7_ms_bits_col138) * (M31_512))),
                     ((low_7_ms_bits_col138) + ((high_2_ls_bits_tmp_9aaf1_161) * (M31_128))),
@@ -1852,7 +1856,7 @@ fn write_trace_simd(
                 *sub_component_inputs.range_check_7_2_5[15] =
                     [low_7_ms_bits_col144, high_2_ls_bits_tmp_9aaf1_172, high_5_ms_bits_col146];
                 *lookup_data.range_check_7_2_5_46 = [
-                    M31_371240602,
+                    range_check_7_2_5_relation_id,
                     low_7_ms_bits_col144,
                     high_2_ls_bits_tmp_9aaf1_172,
                     high_5_ms_bits_col146,
@@ -1871,14 +1875,14 @@ fn write_trace_simd(
                 *sub_component_inputs.memory_address_to_id[15] =
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_15_col51));
                 *lookup_data.memory_address_to_id_47 = [
-                    M31_1444891767,
+                    memory_address_to_id_relation_id,
                     ((input_limb_34_col35) + (blake_round_sigma_output_limb_15_col51)),
                     message_word_15_id_col147,
                 ];
 
                 *sub_component_inputs.memory_id_to_big[15] = message_word_15_id_col147;
                 *lookup_data.memory_id_to_big_48 = [
-                    M31_1662111297,
+                    memory_id_to_big_relation_id,
                     message_word_15_id_col147,
                     ((low_16_bits_col142) - ((low_7_ms_bits_col144) * (M31_512))),
                     ((low_7_ms_bits_col144) + ((high_2_ls_bits_tmp_9aaf1_172) * (M31_128))),
@@ -1945,7 +1949,7 @@ fn write_trace_simd(
                 let blake_g_output_limb_7_col155 = blake_g_output_tmp_9aaf1_177[3].high().as_m31();
                 *row[155] = blake_g_output_limb_7_col155;
                 *lookup_data.blake_g_49 = [
-                    M31_1139985212,
+                    blake_g_relation_id,
                     input_limb_2_col3,
                     input_limb_3_col4,
                     input_limb_10_col11,
@@ -2000,7 +2004,7 @@ fn write_trace_simd(
                 let blake_g_output_limb_7_col163 = blake_g_output_tmp_9aaf1_178[3].high().as_m31();
                 *row[163] = blake_g_output_limb_7_col163;
                 *lookup_data.blake_g_50 = [
-                    M31_1139985212,
+                    blake_g_relation_id,
                     input_limb_4_col5,
                     input_limb_5_col6,
                     input_limb_12_col13,
@@ -2055,7 +2059,7 @@ fn write_trace_simd(
                 let blake_g_output_limb_7_col171 = blake_g_output_tmp_9aaf1_179[3].high().as_m31();
                 *row[171] = blake_g_output_limb_7_col171;
                 *lookup_data.blake_g_51 = [
-                    M31_1139985212,
+                    blake_g_relation_id,
                     input_limb_6_col7,
                     input_limb_7_col8,
                     input_limb_14_col15,
@@ -2110,7 +2114,7 @@ fn write_trace_simd(
                 let blake_g_output_limb_7_col179 = blake_g_output_tmp_9aaf1_180[3].high().as_m31();
                 *row[179] = blake_g_output_limb_7_col179;
                 *lookup_data.blake_g_52 = [
-                    M31_1139985212,
+                    blake_g_relation_id,
                     input_limb_8_col9,
                     input_limb_9_col10,
                     input_limb_16_col17,
@@ -2165,7 +2169,7 @@ fn write_trace_simd(
                 let blake_g_output_limb_7_col187 = blake_g_output_tmp_9aaf1_181[3].high().as_m31();
                 *row[187] = blake_g_output_limb_7_col187;
                 *lookup_data.blake_g_53 = [
-                    M31_1139985212,
+                    blake_g_relation_id,
                     blake_g_output_limb_0_col148,
                     blake_g_output_limb_1_col149,
                     blake_g_output_limb_2_col158,
@@ -2220,7 +2224,7 @@ fn write_trace_simd(
                 let blake_g_output_limb_7_col195 = blake_g_output_tmp_9aaf1_182[3].high().as_m31();
                 *row[195] = blake_g_output_limb_7_col195;
                 *lookup_data.blake_g_54 = [
-                    M31_1139985212,
+                    blake_g_relation_id,
                     blake_g_output_limb_0_col156,
                     blake_g_output_limb_1_col157,
                     blake_g_output_limb_2_col166,
@@ -2275,7 +2279,7 @@ fn write_trace_simd(
                 let blake_g_output_limb_7_col203 = blake_g_output_tmp_9aaf1_183[3].high().as_m31();
                 *row[203] = blake_g_output_limb_7_col203;
                 *lookup_data.blake_g_55 = [
-                    M31_1139985212,
+                    blake_g_relation_id,
                     blake_g_output_limb_0_col164,
                     blake_g_output_limb_1_col165,
                     blake_g_output_limb_2_col174,
@@ -2330,7 +2334,7 @@ fn write_trace_simd(
                 let blake_g_output_limb_7_col211 = blake_g_output_tmp_9aaf1_184[3].high().as_m31();
                 *row[211] = blake_g_output_limb_7_col211;
                 *lookup_data.blake_g_56 = [
-                    M31_1139985212,
+                    blake_g_relation_id,
                     blake_g_output_limb_0_col172,
                     blake_g_output_limb_1_col173,
                     blake_g_output_limb_2_col150,
@@ -2353,7 +2357,7 @@ fn write_trace_simd(
                     blake_g_output_limb_7_col211,
                 ];
                 *lookup_data.blake_round_57 = [
-                    M31_40528774,
+                    blake_round_relation_id,
                     input_limb_0_col1,
                     input_limb_1_col2,
                     input_limb_2_col3,
@@ -2391,7 +2395,7 @@ fn write_trace_simd(
                     input_limb_34_col35,
                 ];
                 *lookup_data.blake_round_58 = [
-                    M31_40528774,
+                    blake_round_relation_id,
                     input_limb_0_col1,
                     ((input_limb_1_col2) + (M31_1)),
                     blake_g_output_limb_0_col180,

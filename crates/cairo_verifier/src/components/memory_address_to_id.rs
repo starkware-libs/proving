@@ -3,7 +3,6 @@ use crate::components::prelude::*;
 const MEMORY_ADDRESS_TO_ID_SPLIT: usize = 16;
 pub const N_TRACE_COLUMNS: usize = MEMORY_ADDRESS_TO_ID_SPLIT * 2;
 pub const N_INTERACTION_COLUMNS: usize = MEMORY_ADDRESS_TO_ID_SPLIT.div_ceil(2) * 4;
-pub const MEMORY_ADDRESS_TO_ID_RELATION_ID: u32 = 1444891767;
 
 pub fn accumulate_constraints<Value: IValue>(
     input: &[Var],
@@ -26,7 +25,7 @@ pub fn accumulate_constraints<Value: IValue>(
         let multiplicity = input[i * 2 + 1];
 
         let tuple: &[Var] =
-            &[context.constant(MEMORY_ADDRESS_TO_ID_RELATION_ID.into()), address, id];
+            &[context.constant(relations::MEMORY_ADDRESS_TO_ID_RELATION_ID.into()), address, id];
         let numerator = eval!(context, -(multiplicity));
         acc.add_to_relation(context, numerator, tuple);
     }

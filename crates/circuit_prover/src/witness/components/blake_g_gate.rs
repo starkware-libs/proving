@@ -221,23 +221,29 @@ fn write_trace_simd(
         )
     };
 
-    let M31_112558620 = PackedM31::broadcast(M31::from(112558620));
     let M31_128 = PackedM31::broadcast(M31::from(128));
     let M31_16 = PackedM31::broadcast(M31::from(16));
     let M31_256 = PackedM31::broadcast(M31::from(256));
-    let M31_378353459 = PackedM31::broadcast(M31::from(378353459));
     let M31_4096 = PackedM31::broadcast(M31::from(4096));
-    let M31_45448144 = PackedM31::broadcast(M31::from(45448144));
     let M31_512 = PackedM31::broadcast(M31::from(512));
-    let M31_521092554 = PackedM31::broadcast(M31::from(521092554));
-    let M31_62225763 = PackedM31::broadcast(M31::from(62225763));
-    let M31_648362599 = PackedM31::broadcast(M31::from(648362599));
-    let M31_95781001 = PackedM31::broadcast(M31::from(95781001));
     let UInt16_12 = PackedUInt16::broadcast(UInt16::from(12));
     let UInt16_7 = PackedUInt16::broadcast(UInt16::from(7));
     let UInt16_8 = PackedUInt16::broadcast(UInt16::from(8));
     let UInt16_9 = PackedUInt16::broadcast(UInt16::from(9));
     let UInt32_0 = PackedUInt32::broadcast(UInt32::from(0));
+    let gate_relation_id = PackedM31::broadcast(relations::GATE_RELATION_ID);
+    let verify_bitwise_xor_12_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_12_RELATION_ID);
+    let verify_bitwise_xor_4_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_4_RELATION_ID);
+    let verify_bitwise_xor_7_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_7_RELATION_ID);
+    let verify_bitwise_xor_8_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_8_RELATION_ID);
+    let verify_bitwise_xor_8_b_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_8_B_RELATION_ID);
+    let verify_bitwise_xor_9_relation_id =
+        PackedM31::broadcast(relations::VERIFY_BITWISE_XOR_9_RELATION_ID);
     let [
         blake_g_gate_input_addr_a,
         blake_g_gate_input_addr_b,
@@ -377,7 +383,7 @@ fn write_trace_simd(
                     xor_col26,
                 ];
                 *lookup_data.verify_bitwise_xor_8_0 = [
-                    M31_112558620,
+                    verify_bitwise_xor_8_relation_id,
                     split_16_low_part_size_8_output_tmp_754f3_5[0],
                     split_16_low_part_size_8_output_tmp_754f3_9[0],
                     xor_col26,
@@ -392,7 +398,7 @@ fn write_trace_simd(
                 *sub_component_inputs.verify_bitwise_xor_8[1] =
                     [ms_8_bits_col22, ms_8_bits_col24, xor_col27];
                 *lookup_data.verify_bitwise_xor_8_1 =
-                    [M31_112558620, ms_8_bits_col22, ms_8_bits_col24, xor_col27];
+                    [verify_bitwise_xor_8_relation_id, ms_8_bits_col22, ms_8_bits_col24, xor_col27];
 
                 // Bitwise Xor Num Bits 8 B.
 
@@ -409,7 +415,7 @@ fn write_trace_simd(
                     xor_col28,
                 ];
                 *lookup_data.verify_bitwise_xor_8_b_0 = [
-                    M31_521092554,
+                    verify_bitwise_xor_8_b_relation_id,
                     split_16_low_part_size_8_output_tmp_754f3_7[0],
                     split_16_low_part_size_8_output_tmp_754f3_11[0],
                     xor_col28,
@@ -423,8 +429,12 @@ fn write_trace_simd(
                 *row[29] = xor_col29;
                 *sub_component_inputs.verify_bitwise_xor_8_b[1] =
                     [ms_8_bits_col23, ms_8_bits_col25, xor_col29];
-                *lookup_data.verify_bitwise_xor_8_b_1 =
-                    [M31_521092554, ms_8_bits_col23, ms_8_bits_col25, xor_col29];
+                *lookup_data.verify_bitwise_xor_8_b_1 = [
+                    verify_bitwise_xor_8_b_relation_id,
+                    ms_8_bits_col23,
+                    ms_8_bits_col25,
+                    xor_col29,
+                ];
 
                 let xor_rot_16_output_tmp_754f3_20 = PackedUInt32::from_limbs([
                     ((xor_col28) + ((xor_col29) * (M31_256))),
@@ -498,7 +508,7 @@ fn write_trace_simd(
                     xor_col36,
                 ];
                 *lookup_data.verify_bitwise_xor_12_0 = [
-                    M31_648362599,
+                    verify_bitwise_xor_12_relation_id,
                     split_16_low_part_size_12_output_tmp_754f3_27[0],
                     split_16_low_part_size_12_output_tmp_754f3_31[0],
                     xor_col36,
@@ -513,7 +523,7 @@ fn write_trace_simd(
                 *sub_component_inputs.verify_bitwise_xor_4[0] =
                     [ms_4_bits_col32, ms_4_bits_col34, xor_col37];
                 *lookup_data.verify_bitwise_xor_4_0 =
-                    [M31_45448144, ms_4_bits_col32, ms_4_bits_col34, xor_col37];
+                    [verify_bitwise_xor_4_relation_id, ms_4_bits_col32, ms_4_bits_col34, xor_col37];
 
                 // Bitwise Xor Num Bits 12.
 
@@ -530,7 +540,7 @@ fn write_trace_simd(
                     xor_col38,
                 ];
                 *lookup_data.verify_bitwise_xor_12_1 = [
-                    M31_648362599,
+                    verify_bitwise_xor_12_relation_id,
                     split_16_low_part_size_12_output_tmp_754f3_29[0],
                     split_16_low_part_size_12_output_tmp_754f3_33[0],
                     xor_col38,
@@ -545,7 +555,7 @@ fn write_trace_simd(
                 *sub_component_inputs.verify_bitwise_xor_4[1] =
                     [ms_4_bits_col33, ms_4_bits_col35, xor_col39];
                 *lookup_data.verify_bitwise_xor_4_1 =
-                    [M31_45448144, ms_4_bits_col33, ms_4_bits_col35, xor_col39];
+                    [verify_bitwise_xor_4_relation_id, ms_4_bits_col33, ms_4_bits_col35, xor_col39];
 
                 let xor_rot_12_output_tmp_754f3_42 = PackedUInt32::from_limbs([
                     ((xor_col37) + ((xor_col38) * (M31_16))),
@@ -625,7 +635,7 @@ fn write_trace_simd(
                     split_16_low_part_size_8_output_tmp_754f3_55[0],
                 ];
                 *lookup_data.verify_bitwise_xor_8_2 = [
-                    M31_112558620,
+                    verify_bitwise_xor_8_relation_id,
                     ms_8_bits_col40,
                     ms_8_bits_col42,
                     split_16_low_part_size_8_output_tmp_754f3_55[0],
@@ -636,7 +646,7 @@ fn write_trace_simd(
                     ms_8_bits_col44,
                 ];
                 *lookup_data.verify_bitwise_xor_8_3 = [
-                    M31_112558620,
+                    verify_bitwise_xor_8_relation_id,
                     split_16_low_part_size_8_output_tmp_754f3_49[0],
                     split_16_low_part_size_8_output_tmp_754f3_53[0],
                     ms_8_bits_col44,
@@ -647,7 +657,7 @@ fn write_trace_simd(
                     split_16_low_part_size_8_output_tmp_754f3_57[0],
                 ];
                 *lookup_data.verify_bitwise_xor_8_4 = [
-                    M31_112558620,
+                    verify_bitwise_xor_8_relation_id,
                     ms_8_bits_col41,
                     ms_8_bits_col43,
                     split_16_low_part_size_8_output_tmp_754f3_57[0],
@@ -658,7 +668,7 @@ fn write_trace_simd(
                     ms_8_bits_col45,
                 ];
                 *lookup_data.verify_bitwise_xor_8_5 = [
-                    M31_112558620,
+                    verify_bitwise_xor_8_relation_id,
                     split_16_low_part_size_8_output_tmp_754f3_47[0],
                     split_16_low_part_size_8_output_tmp_754f3_51[0],
                     ms_8_bits_col45,
@@ -736,7 +746,7 @@ fn write_trace_simd(
                     split_16_low_part_size_9_output_tmp_754f3_69[0],
                 ];
                 *lookup_data.verify_bitwise_xor_9_0 = [
-                    M31_95781001,
+                    verify_bitwise_xor_9_relation_id,
                     ms_9_bits_col46,
                     ms_9_bits_col48,
                     split_16_low_part_size_9_output_tmp_754f3_69[0],
@@ -747,7 +757,7 @@ fn write_trace_simd(
                     ms_7_bits_col50,
                 ];
                 *lookup_data.verify_bitwise_xor_7_0 = [
-                    M31_62225763,
+                    verify_bitwise_xor_7_relation_id,
                     split_16_low_part_size_7_output_tmp_754f3_63[0],
                     split_16_low_part_size_7_output_tmp_754f3_67[0],
                     ms_7_bits_col50,
@@ -758,7 +768,7 @@ fn write_trace_simd(
                     split_16_low_part_size_9_output_tmp_754f3_71[0],
                 ];
                 *lookup_data.verify_bitwise_xor_9_1 = [
-                    M31_95781001,
+                    verify_bitwise_xor_9_relation_id,
                     ms_9_bits_col47,
                     ms_9_bits_col49,
                     split_16_low_part_size_9_output_tmp_754f3_71[0],
@@ -769,68 +779,68 @@ fn write_trace_simd(
                     ms_7_bits_col51,
                 ];
                 *lookup_data.verify_bitwise_xor_7_1 = [
-                    M31_62225763,
+                    verify_bitwise_xor_7_relation_id,
                     split_16_low_part_size_7_output_tmp_754f3_61[0],
                     split_16_low_part_size_7_output_tmp_754f3_65[0],
                     ms_7_bits_col51,
                 ];
 
                 *lookup_data.gate_0 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_input_addr_a,
                     input_a_limb_0_col0,
                     input_a_limb_1_col1,
                 ];
                 *lookup_data.gate_1 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_input_addr_b,
                     input_b_limb_0_col2,
                     input_b_limb_1_col3,
                 ];
                 *lookup_data.gate_2 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_input_addr_c,
                     input_c_limb_0_col4,
                     input_c_limb_1_col5,
                 ];
                 *lookup_data.gate_3 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_input_addr_d,
                     input_d_limb_0_col6,
                     input_d_limb_1_col7,
                 ];
                 *lookup_data.gate_4 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_input_addr_f0,
                     input_f0_limb_0_col8,
                     input_f0_limb_1_col9,
                 ];
                 *lookup_data.gate_5 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_input_addr_f1,
                     input_f1_limb_0_col10,
                     input_f1_limb_1_col11,
                 ];
                 *lookup_data.gate_6 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_output_addr_a,
                     input_a_tag_limb_0_col12,
                     input_a_tag_limb_1_col13,
                 ];
                 *lookup_data.gate_7 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_output_addr_b,
                     input_b_tag_limb_0_col14,
                     input_b_tag_limb_1_col15,
                 ];
                 *lookup_data.gate_8 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_output_addr_c,
                     input_c_tag_limb_0_col16,
                     input_c_tag_limb_1_col17,
                 ];
                 *lookup_data.gate_9 = [
-                    M31_378353459,
+                    gate_relation_id,
                     blake_g_gate_output_addr_d,
                     input_d_tag_limb_0_col18,
                     input_d_tag_limb_1_col19,
