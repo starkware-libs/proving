@@ -164,9 +164,9 @@ impl Channel {
             let high = Simd::unpack_idx(context, &simd, 1);
             (high, n_bits - 16)
         };
-        let bits = extract_bits(context, &Simd::pack_single(var_to_extract), 16);
+        let bits = extract_bits(context, &var_to_extract, 16);
         for bit in &bits[0..bits_to_extract.try_into().unwrap()] {
-            eq(context, bit.get_packed()[0], context.zero());
+            eq(context, *bit.raw(), context.zero());
         }
 
         // Mix the nonce into the channel.

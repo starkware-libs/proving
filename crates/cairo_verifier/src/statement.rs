@@ -101,13 +101,10 @@ pub fn split_address_to_9bit_limbs(
     context: &mut Context<impl IValue>,
     value: M31Wrapper<Var>,
 ) -> [Var; 4] {
-    let simd = Simd::pack_single(value);
-    let extracted_bits = extract_bits(context, &simd, MEMORY_ADDRESS_BITS);
+    let extracted_bits = extract_bits(context, &value, MEMORY_ADDRESS_BITS);
 
-    let mut limbs_iter = extracted_bits.chunks(LIMB_BITS).map(|limb_bits| {
-        let limb = combine_bits(context, limb_bits);
-        *Simd::unpack_single(context, &limb).raw()
-    });
+    let mut limbs_iter =
+        extracted_bits.chunks(LIMB_BITS).map(|limb_bits| *combine_bits(context, limb_bits).raw());
     array::from_fn(|_| limbs_iter.next().unwrap())
 }
 
@@ -337,15 +334,15 @@ impl<Value: IValue> CairoStatement<Value> {
     }
 }
 
-/// Returns the little-endian bit decomposition (LSB first) of a 32-bit `word`, as 32 single-bit
-/// [`Simd`]s. The word is stored as two 16-bit limbs `(low, high, 0, 0)`; each is decomposed and
+/// Returns the little-endian bit decomposition (LSB first) of a 32-bit `word`, as 32 single-bits.
+/// The word is stored as two 16-bit limbs `(low, high, 0, 0)`; each is decomposed and
 /// range-checked to 16 bits by [`extract_bits`].
 fn word_to_le_bits<Value: IValue>(
     context: &mut Context<Value>,
     word: &U32Wrapper<Var>,
-) -> [Simd; 32] {
-    let low = Simd::pack_single(word.low(context));
-    let high = Simd::pack_single(word.high(context));
+) -> [M31Wrapper<Var>; 32] {
+    let low = word.low(context);
+    let high = word.high(context);
     let bits =
         chain!(extract_bits(context, &low, 16), extract_bits(context, &high, 16)).collect_vec();
     bits.try_into().unwrap()
@@ -368,8 +365,7 @@ fn output_limbs_from_hash<Value: IValue>(
         // limbs (the last only partially), and the high limbs stay zero.
         let mut cell_vec = Vec::with_capacity(MEMORY_VALUES_LIMBS);
         for limb_bits in bits.chunks(LIMB_BITS) {
-            let limb = combine_bits(context, limb_bits);
-            cell_vec.push(Simd::unpack_single(context, &limb));
+            cell_vec.push(combine_bits(context, limb_bits));
         }
 
         assert!(cell_vec.len() <= MEMORY_VALUES_LIMBS); // Otherwise .resize() would crop it
@@ -650,10 +646,9 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
             assert!((1 << MAX_SEQUENCE_LOG_SIZE) <= LARGE_MEMORY_VALUE_ID_BASE);
         };
 
-        let shifted_opcode_relation_uses = Simd::pack_single(shifted_relation_uses["Opcodes"]);
         extract_bits(
             context,
-            &shifted_opcode_relation_uses,
+            &shifted_relation_uses["Opcodes"],
             MEMORY_ADDRESS_BITS - u32::try_from(RELATION_USES_NUM_ROWS_SHIFT).unwrap(),
         );
     }

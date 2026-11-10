@@ -213,15 +213,15 @@ enum Idiom {
 }
 
 /// Returns every bit-constrained variable: variable with a constraint forcing `v == v²`
-/// (hence v in {0, 1}). One constraint of the form `[s] = [v] x [v]` and another constraint which
-/// is either:
+/// (hence v in {0, 1}). One constraint of the form `[s] = [v] x [v]` (Simd lanes) or
+/// `[s] = [v] * [v]` (a single M31 value) and another constraint which is either:
 ///   (a) a direct equality `[v] = [s]`; or
 ///   (b) the difference `[d] = [v] - [s]`, pointwise-masked by a constant, constrained to zero.
 ///
 /// As some of the coordinates of the constant in (b) may be zero, the check here is not full.
 /// This is acceptable for this test.
 fn find_bits(c: &CircuitEx<'_>, const_values: &HashMap<usize, QM31>) -> HashSet<usize> {
-    // A map `v` -> `s` from `[s] = [v] x [v]`.
+    // A map `v` -> `s` from `[s] = [v] x [v]` or `[s] = [v] * [v]`.
     let mut square_of: HashMap<usize, usize> = HashMap::new();
     // A map `(a, b)` -> `[a] - [b]`.
     let mut sub_out: HashMap<(usize, usize), usize> = HashMap::new();
@@ -230,7 +230,7 @@ fn find_bits(c: &CircuitEx<'_>, const_values: &HashMap<usize, QM31>) -> HashSet<
 
     for arith in &c.arith {
         match arith.op {
-            Op::Pointwise if arith.a == arith.b => {
+            Op::Pointwise | Op::Mul if arith.a == arith.b => {
                 square_of.entry(arith.a).or_insert(arith.out);
             }
             Op::Pointwise if const_values.get(&arith.b).is_some_and(|c| !c.is_zero()) => {
