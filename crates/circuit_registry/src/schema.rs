@@ -136,6 +136,9 @@ pub struct CircuitRegistry {
     pub cairo_components: Vec<String>,
     pub circuit_proof_configs: BTreeMap<String, CircuitProofConfig>,
     pub leaf_verifiers: Vec<LeafVerifier>,
+    /// Empty, and absent from the JSON, when the definition sets `include_multiverifier` to false,
+    /// as the privacy registry does.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub multiverifiers: Vec<Multiverifier>,
     /// Present only in registries of the applicative flow; the privacy registry has none.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
