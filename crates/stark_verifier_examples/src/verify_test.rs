@@ -12,11 +12,14 @@ use rstest::rstest;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 
-use crate::simple_air::{create_proof, create_proof_with_fold_step};
+use crate::simple_air::{create_proof, create_proof_with_fri_params};
 use crate::simple_statement::{
     PREPROCESSED_COLUMN_LOG_SIZES, SimpleStatement, simple_statement_components,
 };
 
+// TODO(dan): Add a WrongFriLastLayerPoly modifier. Note that it requires correcting the nonce in
+// the proof-of-work, otherwise the proof will fail at the proof-of-work check before reaching the
+// last layer polynomial check.
 enum ProofModifier {
     /// Keep the proof unchanged.
     None,
@@ -80,7 +83,7 @@ fn test_verify(#[case] proof_modifier: ProofModifier) {
             }
         }
         ProofModifier::WrongFriPowNonce => {
-            proof.proof.0.fri_proof.proof_of_work ^= 1 << 32;
+            proof.proof.fri_proof.proof_of_work ^= 1 << 32;
         }
     }
 
@@ -151,7 +154,7 @@ fn test_verify(#[case] proof_modifier: ProofModifier) {
 #[case::fold_step_5(5)]
 fn test_proof_info(#[case] fold_step: u32) {
     let (_components, claim, pcs_config, proof, interaction_pow_nonce, channel_salt) =
-        create_proof_with_fold_step(fold_step);
+        create_proof_with_fri_params(fold_step, 0);
 
     let components = simple_statement_components::<NoValue>();
     let config = ProofConfig::new(
@@ -167,4 +170,42 @@ fn test_proof_info(#[case] fold_step: u32) {
     circuit_proof.serialize(&mut serialized);
     assert_eq!(serialized.len(), info.total_bytes());
     println!("fold_step={fold_step}:\n{info}");
+}
+
+/// End-to-end verification across FRI last layer degree bounds.
+#[rstest]
+#[case::last_layer_0(0)]
+#[case::last_layer_1(1)]
+#[case::last_layer_2(2)]
+#[case::last_layer_3(3)]
+fn test_verify_last_layer_degree_bound(#[case] log_last_layer_degree_bound: u32) {
+    let (_components, claim, pcs_config, proof, interaction_pow_nonce, channel_salt) =
+        create_proof_with_fri_params(1, log_last_layer_degree_bound);
+
+    let components = simple_statement_components::<NoValue>();
+    let config = ProofConfig::new(
+        &components.values().map(Box::as_ref).collect::<Vec<_>>(),
+        PREPROCESSED_COLUMN_LOG_SIZES.len(),
+        &pcs_config,
+        8,
+    );
+    let novalue_circuit = {
+        let empty_proof = empty_proof(&config);
+        let mut novalue_context = Context::<NoValue>::default();
+        let proof_vars = empty_proof.guess(&mut novalue_context);
+        let statement = SimpleStatement::default();
+        verify(&mut novalue_context, &proof_vars, &config, &statement);
+        novalue_context.finalize(false).context.circuit
+    };
+
+    let mut context = TraceContext::default();
+    let proof = proof_from_stark_proof(&proof, &config, claim, interaction_pow_nonce, channel_salt);
+    let proof_vars = proof.guess(&mut context);
+    let statement = SimpleStatement::default();
+    verify(&mut context, &proof_vars, &config, &statement);
+    let context = context.finalize(true);
+
+    novalue_circuit.check(context.values()).unwrap();
+    assert_eq!(context.circuit(), &novalue_circuit);
+    novalue_circuit.check_yields();
 }
