@@ -292,12 +292,7 @@ pub(super) struct ParentExpr {
 
 impl ParentExpr {
     pub(super) fn get_compiled_child(self) -> CompiledAirVar {
-        let args = if let Some(i) = self.index {
-            let index_var = CompiledAirVar::Const("usize".to_string(), i.to_string());
-            vec![index_var]
-        } else {
-            vec![]
-        };
+        let args = self.index.map(CompiledAirVar::Index).into_iter().collect();
 
         CompiledAirVar::MethodCall(Box::new(self.clone().into()), self.child_name, args)
     }

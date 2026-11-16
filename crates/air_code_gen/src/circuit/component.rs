@@ -332,6 +332,7 @@ fn make_eval_body_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
         CompiledAirVar::Enabler => quote! { enabler },
         CompiledAirVar::Struct { .. }
         | CompiledAirVar::MethodCall(..)
+        | CompiledAirVar::Index(_)
         | CompiledAirVar::Multiplicity(_) => {
             panic!("Unsupported expression in constraint evaluation: {expr}")
         }

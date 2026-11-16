@@ -26,6 +26,7 @@ impl Display for CompiledAirVar {
                 write!(f, ")")
             }
             CompiledAirVar::Const(_, id) => write!(f, "{id}"),
+            CompiledAirVar::Index(index) => write!(f, "{index}"),
             CompiledAirVar::NamedConst { name, .. } => write!(f, "{name}"),
             CompiledAirVar::Var(_, id) => {
                 write!(f, "{id}")

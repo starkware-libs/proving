@@ -286,6 +286,7 @@ where
 
     match expr {
         CompiledAirVar::Const(..) => f(expr),
+        CompiledAirVar::Index(_) => f(expr),
         CompiledAirVar::NamedConst { .. } => f(expr),
         CompiledAirVar::Var(..) => f(expr),
         CompiledAirVar::State(..) => f(expr),
