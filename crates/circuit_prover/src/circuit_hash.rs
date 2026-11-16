@@ -128,7 +128,7 @@ mod tests {
 
     #[test]
     fn poseidon252_root() {
-        use starknet_ff::FieldElement as FieldElement252;
+        use starknet_types_core::felt::Felt as FieldElement252;
         use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleHasher;
 
         let component_log_sizes = PerComponent {
@@ -147,7 +147,7 @@ mod tests {
         let hash = compute_circuit_hash::<Poseidon252MerkleHasher>(
             &component_log_sizes,
             1,
-            FieldElement252::from_hex_be(
+            FieldElement252::from_hex(
                 "0x0172b6763ef45133e1d1d1a507f14fe24702c221cdbbc7ca7c0e5d654b008d27",
             )
             .unwrap(),

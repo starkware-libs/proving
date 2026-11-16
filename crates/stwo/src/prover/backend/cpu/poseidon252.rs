@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use starknet_ff::FieldElement as FieldElement252;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::CpuBackend;
 use crate::core::fields::m31::BaseField;

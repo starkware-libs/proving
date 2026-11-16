@@ -139,7 +139,7 @@ impl GrindOps<Keccak256Channel> for SimdBackend {
 #[cfg(not(target_arch = "wasm32"))]
 pub mod poseidon252 {
     use starknet_crypto::poseidon_hash_many;
-    use starknet_ff::FieldElement as FieldElement252;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::core::channel::Poseidon252Channel;

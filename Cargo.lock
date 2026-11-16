@@ -841,7 +841,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sonic-rs",
- "starknet-ff",
+ "starknet-types-core",
  "stwo",
  "stwo-cairo-common",
  "stwo-cairo-serialize",
@@ -1489,7 +1489,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sonic-rs",
- "starknet-crypto 0.8.1",
+ "starknet-crypto",
  "starknet-types-core",
  "stwo-cairo-utils",
  "tempfile",
@@ -1522,7 +1522,7 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "sha3 0.10.9",
- "starknet-crypto 0.8.1",
+ "starknet-crypto",
  "starknet-types-core",
  "thiserror",
  "tracing",
@@ -1619,7 +1619,7 @@ dependencies = [
  "circuit-verifier",
  "circuits",
  "num-traits",
- "starknet-ff",
+ "starknet-types-core",
  "stwo",
  "stwo-cairo-serialize",
 ]
@@ -1701,7 +1701,7 @@ dependencies = [
  "rand 0.9.5",
  "rayon",
  "serde",
- "starknet-ff",
+ "starknet-types-core",
  "stwo",
  "stwo-air-utils",
  "stwo-air-utils-derive",
@@ -4610,26 +4610,6 @@ checksum = "6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596"
 
 [[package]]
 name = "starknet-crypto"
-version = "0.6.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e2c30c01e8eb0fc913c4ee3cf676389fffc1d1182bfe5bb9670e4e72e968064"
-dependencies = [
- "crypto-bigint",
- "hex",
- "hmac",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rfc6979",
- "sha2 0.10.9",
- "starknet-crypto-codegen",
- "starknet-curve 0.4.2",
- "starknet-ff",
- "zeroize",
-]
-
-[[package]]
-name = "starknet-crypto"
 version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1004a16c25dc6113c19d4f9d0c19ff97d85804829894bba22c0d0e9e7b249812"
@@ -4642,29 +4622,9 @@ dependencies = [
  "num-traits",
  "rfc6979",
  "sha2 0.10.9",
- "starknet-curve 0.6.0",
+ "starknet-curve",
  "starknet-types-core",
  "zeroize",
-]
-
-[[package]]
-name = "starknet-crypto-codegen"
-version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbc159a1934c7be9761c237333a57febe060ace2bc9e3b337a59a37af206d19f"
-dependencies = [
- "starknet-curve 0.4.2",
- "starknet-ff",
- "syn 2.0.119",
-]
-
-[[package]]
-name = "starknet-curve"
-version = "0.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1c383518bb312751e4be80f53e8644034aa99a0afb29d7ac41b89a997db875b"
-dependencies = [
- "starknet-ff",
 ]
 
 [[package]]
@@ -4760,8 +4720,8 @@ dependencies = [
  "rayon",
  "serde",
  "sha3 0.11.0",
- "starknet-crypto 0.6.2",
- "starknet-ff",
+ "starknet-crypto",
+ "starknet-types-core",
  "stwo-std-shims",
  "test-log",
  "thiserror",
@@ -4823,7 +4783,7 @@ dependencies = [
  "serde",
  "serde_arrays",
  "serde_json",
- "starknet-curve 0.6.0",
+ "starknet-curve",
  "starknet-ff",
  "starknet-types-core",
  "stwo",
@@ -4875,7 +4835,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sonic-rs",
- "starknet-curve 0.6.0",
+ "starknet-curve",
  "starknet-ff",
  "starknet-types-core",
  "stwo",
@@ -4895,7 +4855,7 @@ dependencies = [
 name = "stwo-cairo-serialize"
 version = "2.4.0"
 dependencies = [
- "starknet-ff",
+ "starknet-types-core",
  "stwo",
  "stwo-cairo-serialize-derive",
 ]
@@ -5009,7 +4969,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sonic-rs",
- "starknet-crypto 0.8.1",
+ "starknet-crypto",
  "starknet-types-core",
  "stwo",
  "stwo-cairo-utils",

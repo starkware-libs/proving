@@ -1,7 +1,7 @@
 use itertools::Itertools;
 #[cfg(feature = "parallel")]
 use rayon::prelude::*;
-use starknet_ff::FieldElement as FieldElement252;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use crate::core::fields::m31::{BaseField, M31};
 use crate::core::utils::uninit_vec;

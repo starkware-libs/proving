@@ -11,6 +11,7 @@ use itertools::Itertools;
 use num_traits::Zero;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
+use starknet_types_core::felt::Felt;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::{SECURE_EXTENSION_DEGREE, SecureField};
 use stwo::core::pcs::TreeVec;
@@ -102,7 +103,7 @@ where
             proof_file.write_all(json::to_string_pretty(&proof_for_rust_verifier)?.as_bytes())?;
         }
         ProofFormat::CairoSerde => {
-            let mut serialized: Vec<starknet_ff::FieldElement> = Vec::new();
+            let mut serialized: Vec<Felt> = Vec::new();
             CairoSerialize::serialize(proof, &mut serialized);
 
             let hex_strings: Vec<String> =
@@ -155,9 +156,9 @@ where
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VerificationOutput {
     /// Program hash.
-    pub program_hash: starknet_ff::FieldElement,
+    pub program_hash: Felt,
     /// Public output.
-    pub output: Vec<starknet_ff::FieldElement>,
+    pub output: Vec<Felt>,
 }
 
 /// Extract program hash (blake2s) and public output from the public memory.
@@ -190,11 +191,11 @@ pub fn encode_and_hash_memory_section(section: &MemorySection) -> [u32; 8] {
 
 /// Convert digest to a field element, adding every limb to the result (shifted) to reduce modulo
 /// stark prime.
-pub fn construct_f252(limbs: &[u32; 8]) -> starknet_ff::FieldElement {
-    let mut result = starknet_ff::FieldElement::ZERO;
-    let offset = starknet_ff::FieldElement::from(0x100000000_u64);
+pub fn construct_f252(limbs: &[u32; 8]) -> Felt {
+    let mut result = Felt::ZERO;
+    let offset = Felt::from(0x100000000_u64);
     for limb in limbs.iter().rev() {
-        result = result * offset + (*limb).into();
+        result = result * offset + Felt::from(*limb);
     }
     result
 }
@@ -319,7 +320,7 @@ mod tests {
             4274188691,
             2957079540,
         ];
-        let expected = starknet_ff::FieldElement::from_dec_str(
+        let expected = Felt::from_dec_str(
             "115645365096977585374207223166120623839439046970571781411593222716768222992",
         )
         .unwrap();

@@ -1,6 +1,6 @@
 use core::iter::Peekable;
 
-use starknet_ff::FieldElement as FieldElement252;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 /// Fetches the next node that needs to be decommited in the current Merkle layer.
 pub fn next_decommitment_node(

@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use starknet_crypto::{poseidon_hash, poseidon_hash_many, poseidon_permute_comp};
-use starknet_ff::FieldElement as FieldElement252;
+use starknet_types_core::felt::Felt as FieldElement252;
 use std_shims::Vec;
 
 use crate::core::channel::{MerkleChannel, Poseidon252Channel};

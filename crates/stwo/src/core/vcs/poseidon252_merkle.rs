@@ -3,7 +3,7 @@ use itertools::Itertools;
 use num_traits::Zero;
 use serde::{Deserialize, Serialize};
 use starknet_crypto::{poseidon_hash, poseidon_hash_many};
-use starknet_ff::FieldElement as FieldElement252;
+use starknet_types_core::felt::Felt as FieldElement252;
 use std_shims::Vec;
 
 use crate::core::channel::{MerkleChannel, Poseidon252Channel};
@@ -60,7 +60,7 @@ pub fn construct_felt252_from_m31s(word: &[M31]) -> FieldElement252 {
 
     let felt_bytes = [felt_as_u256[1].to_be_bytes(), felt_as_u256[0].to_be_bytes()];
     let felt_bytes = unsafe { core::mem::transmute::<[[u8; 16]; 2], [u8; 32]>(felt_bytes) };
-    let mut felt = FieldElement252::from_bytes_be(&felt_bytes).unwrap();
+    let mut felt = FieldElement252::from_bytes_be(&felt_bytes);
 
     // If this is the remainder, store its length in bits 248, 249 and 250.
     // Note, you can also look at these 3 bits as word length modulo 8.
@@ -76,7 +76,7 @@ pub fn construct_felt252_from_m31s(word: &[M31]) -> FieldElement252 {
 /// so that different-length inputs cannot pack to the same felts.
 pub fn construct_felt252s_from_u32s(words: &[u32]) -> Vec<FieldElement252> {
     let shift: FieldElement252 = (1u64 << 32).into();
-    let append_u32 = |cur: FieldElement252, word: u32| cur * shift + word.into();
+    let append_u32 = |cur: FieldElement252, word: u32| cur * shift + FieldElement252::from(word);
     let mut felts = words
         .chunks(U32S_IN_BLOCK)
         .map(|chunk| chunk.iter().copied().fold(FieldElement252::default(), append_u32))
@@ -104,7 +104,7 @@ mod tests {
     use num_traits::Zero;
     use rand::rngs::SmallRng;
     use rand::{Rng, SeedableRng};
-    use starknet_ff::FieldElement as FieldElement252;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use crate::core::fields::m31::{BaseField, M31};
     use crate::core::vcs::MerkleHasher;

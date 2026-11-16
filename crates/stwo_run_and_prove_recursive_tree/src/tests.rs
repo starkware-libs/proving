@@ -369,6 +369,7 @@ mod e2e {
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
     use circuits::hash::DIGEST_N_WORDS;
     use leaf_proof_format::{DigestHex, PackedNode};
+    use starknet_types_core::felt::Felt;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo_cairo_utils::file_utils::repo_root;
 
@@ -667,10 +668,10 @@ mod e2e {
         //    poseidon-encoded aggregated output.
         let preimage_felts: Vec<String> =
             serde_json::from_str(&std::fs::read_to_string(&preimage_dump_path).unwrap()).unwrap();
-        let wrapper_program_hash = starknet_crypto::Felt::from_hex(&preimage_felts[0]).unwrap();
+        let wrapper_program_hash = Felt::from_hex(&preimage_felts[0]).unwrap();
         assert_eq!(
             wrapper_program_hash,
-            starknet_crypto::Felt::from_dec_str(&super::program_hash(
+            Felt::from_dec_str(&super::program_hash(
                 &repo_root().join("compiled_cairo_programs/aggregator_wrapper_compiled.json"),
             ))
             .unwrap(),
@@ -692,11 +693,11 @@ mod e2e {
         );
         let dumped_poseidon: Vec<String> =
             serde_json::from_str(&std::fs::read_to_string(&poseidon_dump_path).unwrap()).unwrap();
-        let poseidon_felts: Vec<starknet_crypto::Felt> =
-            dumped_poseidon.iter().map(|f| starknet_crypto::Felt::from_hex(f).unwrap()).collect();
+        let poseidon_felts: Vec<Felt> =
+            dumped_poseidon.iter().map(|f| Felt::from_hex(f).unwrap()).collect();
         // It opens with the concat aggregator's modified program hash, blake("AGGREGATOR",
         // program hash), as its task is blake-hashed.
-        let aggregator_program_hash = starknet_crypto::Felt::from_dec_str(&super::program_hash(
+        let aggregator_program_hash = Felt::from_dec_str(&super::program_hash(
             &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
                 .join("test_data/concat_aggregator_compiled.json"),
         ))
@@ -704,12 +705,12 @@ mod e2e {
         assert_eq!(
             poseidon_felts[0],
             starknet_types_core::hash::Blake2Felt252::encode_felt252_data_and_calc_blake_hash(&[
-                starknet_crypto::Felt::from_bytes_be_slice(b"AGGREGATOR"),
+                Felt::from_bytes_be_slice(b"AGGREGATOR"),
                 aggregator_program_hash,
             ]),
             "aggregated output opens with another aggregator's program hash"
         );
-        let expected_records: Vec<starknet_crypto::Felt> =
+        let expected_records: Vec<Felt> =
             std::iter::repeat_n(&leaf.output.preimage, n).flatten().copied().collect();
         assert_eq!(
             poseidon_felts[1..],
@@ -733,10 +734,7 @@ mod e2e {
             proof: wrapper,
             output: LeafOutputPreimage {
                 hash_type: LeafOutputHashType::Blake2s,
-                preimage: preimage_felts
-                    .iter()
-                    .map(|f| starknet_crypto::Felt::from_hex(f).unwrap())
-                    .collect(),
+                preimage: preimage_felts.iter().map(|f| Felt::from_hex(f).unwrap()).collect(),
             },
         };
         let mut leaves = vec![wrapper_leaf];

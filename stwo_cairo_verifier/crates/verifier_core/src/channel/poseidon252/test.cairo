@@ -1,6 +1,7 @@
 use crate::channel::poseidon252::{
-    ChannelTrait, Poseidon252Channel, Poseidon252ChannelImpl, check_leading_zeros,
+    ChannelTrait, Poseidon252Channel, Poseidon252ChannelImpl, check_leading_zeros, draw_base_felts,
 };
+use crate::fields::m31::m31;
 use crate::fields::qm31::qm31_const;
 
 #[test]
@@ -120,6 +121,19 @@ pub fn test_draw_u32s_2() {
         2109664634, 1571772607, 2663772549, 3445588239, 2724310011, 1181437731, 926214439,
     ]
         .span();
+    assert_eq!(expected_result, result);
+}
+
+#[test]
+pub fn test_draw_base_felts() {
+    let initial_digest = 0;
+    let mut channel = new_channel(initial_digest);
+    let result = draw_base_felts(ref channel);
+    // The expected result is computed from the Rust stwo code.
+    let expected_result = [
+        m31(886766026), m31(955359648), m31(2136741868), m31(316409861), m31(397979733),
+        m31(2001583392), m31(1356828834), m31(782812229),
+    ];
     assert_eq!(expected_result, result);
 }
 

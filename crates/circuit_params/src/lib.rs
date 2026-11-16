@@ -243,9 +243,7 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
                 input_configs: [CONFIG_ID.to_string(), CONFIG_ID.to_string()],
                 circuit_hash: DigestHex::from(mv_circuit_hash.0),
                 preprocessed_root: DigestHex::from(mv_preprocessed_root.0),
-                // The hash is stwo's `starknet_ff::FieldElement`. It has no conversion to the
-                // `starknet_types_core` `Felt` the registry stores, so it goes through its bytes.
-                poseidon_circuit_hash: Felt::from_bytes_be(&mv_poseidon_circuit_hash.to_bytes_be()),
+                poseidon_circuit_hash: mv_poseidon_circuit_hash,
             }]
         }
         None => vec![],

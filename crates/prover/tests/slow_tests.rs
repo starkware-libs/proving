@@ -8,6 +8,7 @@ use cairo_air::CairoProofForRustVerifier;
 use cairo_air::verifier::verify_cairo;
 use cairo_vm::types::layout_name::LayoutName;
 use itertools::Itertools;
+use starknet_types_core::felt::Felt;
 use stwo::core::fri::FriParams;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
@@ -437,7 +438,7 @@ fn test_prove_all_opcode_components_proof_regression() {
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
     let mut proof_file = NamedTempFile::new().unwrap();
-    let mut serialized: Vec<starknet_ff::FieldElement> = Vec::new();
+    let mut serialized: Vec<Felt> = Vec::new();
     CairoSerialize::serialize(&cairo_proof, &mut serialized);
     let proof_hex: Vec<String> = serialized.into_iter().map(|felt| format!("0x{felt:x}")).collect();
     proof_file.write_all(sonic_rs::to_string_pretty(&proof_hex).unwrap().as_bytes()).unwrap();

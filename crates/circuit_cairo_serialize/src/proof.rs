@@ -14,7 +14,7 @@ use cairo_air::utils::sort_and_transpose_queried_values;
 use circuit_verifier::circuit_claim::column_log_sizes_per_tree;
 use circuit_verifier::circuit_components::PerComponent;
 use circuit_verifier::circuit_proof::CircuitProof;
-use starknet_ff::FieldElement;
+use starknet_types_core::felt::Felt;
 use stwo::core::ColumnVec;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
@@ -75,7 +75,7 @@ where
 pub fn prepare_circuit_proof_for_cairo_verifier<H: MerkleHasherLifted>(
     circuit_proof: CircuitProof<H>,
     component_log_sizes: &PerComponent<u32>,
-) -> Vec<FieldElement>
+) -> Vec<Felt>
 where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
