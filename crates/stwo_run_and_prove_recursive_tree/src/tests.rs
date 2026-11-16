@@ -512,6 +512,7 @@ mod e2e {
         dir: &Path,
         canonical: &CanonicalCircuit,
         root_proof_format: ProofFormat,
+        max_concurrency: NonZeroUsize,
     ) {
         init_tracing();
         let n = leaves.len();
@@ -523,7 +524,7 @@ mod e2e {
                 program_output: &dir.join("root_outputs.json"),
                 packed_node_tree: &dir.join("root_packed.json"),
             },
-            NonZeroUsize::new(1).unwrap(),
+            max_concurrency,
             root_proof_format,
         )
         .unwrap();
@@ -568,9 +569,15 @@ mod e2e {
     }
 
     /// Folds `n` identical copies of `leaf` (see [`fold_and_check`]).
-    fn dupe_and_fold(leaf: &LeafInput, n: usize, dir: &Path, root_proof_format: ProofFormat) {
+    fn dupe_and_fold(
+        leaf: &LeafInput,
+        n: usize,
+        dir: &Path,
+        root_proof_format: ProofFormat,
+        max_concurrency: NonZeroUsize,
+    ) {
         let canonical = CanonicalCircuit::build(&circuit_registry()).unwrap();
-        fold_and_check(&vec![leaf.clone(); n], dir, &canonical, root_proof_format);
+        fold_and_check(&vec![leaf.clone(); n], dir, &canonical, root_proof_format, max_concurrency);
     }
 
     /// The leaf simple bootloader's input for the aggregator wrapper task. The wrapper runs one
@@ -734,7 +741,13 @@ mod e2e {
         };
         let mut leaves = vec![wrapper_leaf];
         leaves.extend(std::iter::repeat_n(leaf.clone(), n));
-        fold_and_check(&leaves, dir, canonical, ProofFormat::ApplicativeCircuit);
+        fold_and_check(
+            &leaves,
+            dir,
+            canonical,
+            ProofFormat::ApplicativeCircuit,
+            NonZeroUsize::new(1).unwrap(),
+        );
 
         // 4. In the applicative format the fold continues into the unpacking verifier, so
         //    root.proof is that circuit's proof in the `leaf_prover` output format, carrying the
@@ -821,7 +834,13 @@ mod e2e {
     #[test]
     fn test_fold_one_leaf() {
         let tmp = tempfile::tempdir().unwrap();
-        dupe_and_fold(&GENERATED_LEAF, 1, tmp.path(), ProofFormat::CairoVerifier);
+        dupe_and_fold(
+            &GENERATED_LEAF,
+            1,
+            tmp.path(),
+            ProofFormat::CairoVerifier,
+            NonZeroUsize::new(1).unwrap(),
+        );
     }
 
     /// The applicative flow over three task leaves (see [`applicative_fold_and_unpack`]).
@@ -832,9 +851,10 @@ mod e2e {
     }
 
     /// Structural fence for the fold's child-order preservation. With distinct leaves `A` and `B`
-    /// laid out `[A, B, B]`, the produced packed tree is `Composite(Composite(A, B), B)`. Folded in
-    /// the Cairo-verifier format, so a root over two distinct children also runs through the Cairo
-    /// circuit verifier.
+    /// laid out `[A, B, B, A, A, A]`, the produced packed tree is
+    /// `Composite(Composite(Composite(A, B), Composite(B, A)), Composite(A, A))`.
+    /// Folded in the Cairo-verifier format, so a root over two distinct children also runs through
+    /// the Cairo circuit verifier.
     #[test]
     fn test_fold_preserves_child_order_with_distinct_leaves() {
         let tmp = tempfile::tempdir().unwrap();
@@ -852,10 +872,11 @@ mod e2e {
 
         let canonical = CanonicalCircuit::build(&circuit_registry()).unwrap();
         fold_and_check(
-            &[leaf_a, leaf_b.clone(), leaf_b],
+            &[leaf_a.clone(), leaf_b.clone(), leaf_b, leaf_a.clone(), leaf_a.clone(), leaf_a],
             tmp_dir,
             &canonical,
             ProofFormat::CairoVerifier,
+            NonZeroUsize::new(2).unwrap(),
         );
     }
 }
