@@ -5,6 +5,7 @@ use starknet_types_core::felt::Felt as FieldElement252;
 
 use crate::core::fields::m31::{BaseField, M31};
 use crate::core::utils::uninit_vec;
+use crate::core::vcs::poseidon252_hash::Poseidon252Hash;
 use crate::core::vcs::poseidon252_merkle::{ELEMENTS_IN_BLOCK, construct_felt252_from_m31s};
 use crate::core::vcs_lifted::hasher::Hasher;
 use crate::core::vcs_lifted::poseidon252_merkle::{
@@ -88,7 +89,8 @@ impl MerkleOpsLifted<Poseidon252MerkleHasher> for SimdBackend {
             }
             *curr_state = poseidon_finalize_m31s(&msgs[..last_chunk.len()], prev_state);
         });
-        let res: Vec<FieldElement252> = next_layer_states.iter().map(|[fin, ..]| *fin).collect();
+        let res: Vec<Poseidon252Hash> =
+            next_layer_states.iter().map(|[fin, ..]| Poseidon252Hash(*fin)).collect();
         // Lift if necessary.
         if lifting_log_size > max_log_size {
             let mut lifted_res = unsafe { uninit_vec(1 << lifting_log_size) };
@@ -132,6 +134,7 @@ mod tests {
 
     use super::FieldElement252;
     use crate::core::fields::m31::{BaseField, M31};
+    use crate::core::vcs::poseidon252_hash::Poseidon252Hash;
     use crate::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleHasher;
     use crate::prover::backend::CpuBackend;
     use crate::prover::backend::simd::SimdBackend;
@@ -142,15 +145,16 @@ mod tests {
     #[test]
     fn test_build_next_layer() {
         const LOG_SIZE: u32 = 6;
-        let layer: Vec<FieldElement252> =
-            (0u32..1 << (LOG_SIZE + 1)).map(FieldElement252::from).collect();
+        let layer: Vec<Poseidon252Hash> = (0u32..1 << (LOG_SIZE + 1))
+            .map(|i| Poseidon252Hash(FieldElement252::from(i)))
+            .collect();
         assert_eq!(
             <CpuBackend as MerkleOpsLifted<Poseidon252MerkleHasher>>::build_next_layer(&layer),
             <SimdBackend as MerkleOpsLifted<Poseidon252MerkleHasher>>::build_next_layer(&layer)
         );
     }
 
-    fn prepare_poseidon_merkle_commit() -> (FieldElement252, FieldElement252) {
+    fn prepare_poseidon_merkle_commit() -> (Poseidon252Hash, Poseidon252Hash) {
         const MAX_LOG_N_ROWS: u32 = 9;
         const N_COLS: u32 = 95;
         let mut cols: Vec<Vec<BaseField>> = (0..N_COLS)

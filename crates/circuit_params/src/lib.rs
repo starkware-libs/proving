@@ -259,7 +259,7 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
                 CairoVerifierRoot {
                     config: CAIRO_VERIFIER_ROOT_CONFIG_ID.to_string(),
                     blake_circuit_hash: DigestHex::from(blake_circuit_hash.0),
-                    poseidon_circuit_hash,
+                    poseidon_circuit_hash: poseidon_circuit_hash.0,
                 }
             });
             vec![Multiverifier {

@@ -7,6 +7,7 @@ use stwo::core::pcs::quotients::CommitmentSchemeProof;
 use stwo::core::poly::line::LinePoly;
 use stwo::core::proof::StarkProof;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
+use stwo::core::vcs::poseidon252_hash::Poseidon252Hash;
 use stwo::core::vcs_lifted::MerkleHasherLifted;
 use stwo::core::vcs_lifted::verifier::MerkleDecommitmentLifted;
 // Make derive macro available.
@@ -206,5 +207,11 @@ impl CairoSerialize for Blake2sHash {
             let v = u32::from_le_bytes(bytes);
             CairoSerialize::serialize(&v, output);
         }
+    }
+}
+
+impl CairoSerialize for Poseidon252Hash {
+    fn serialize(&self, output: &mut Vec<Felt>) {
+        self.0.serialize(output);
     }
 }

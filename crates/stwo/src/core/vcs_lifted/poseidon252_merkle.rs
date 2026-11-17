@@ -6,6 +6,7 @@ use std_shims::Vec;
 
 use crate::core::channel::{MerkleChannel, Poseidon252Channel};
 use crate::core::fields::m31::BaseField;
+use crate::core::vcs::poseidon252_hash::Poseidon252Hash;
 use crate::core::vcs::poseidon252_merkle::{
     ELEMENTS_IN_BLOCK, construct_felt252_from_m31s, construct_felt252s_from_u32s,
 };
@@ -13,11 +14,6 @@ use crate::core::vcs_lifted::hasher::Hasher;
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 
 pub const ELEMENTS_IN_BUFFER: usize = 2 * ELEMENTS_IN_BLOCK;
-
-/// The hash a [`Poseidon252MerkleHasher`] produces.
-// TODO(yairv): Make this a wrapper struct, as `Blake2sHash` is, so that users of the hash don't
-// depend on the felt type underneath.
-pub type Poseidon252Hash = FieldElement252;
 
 /// A stateful Poseidon hasher.
 ///
@@ -31,21 +27,21 @@ pub struct Poseidon252MerkleHasher {
 }
 
 impl Hasher for Poseidon252MerkleHasher {
-    type Hash = FieldElement252;
+    type Hash = Poseidon252Hash;
 
     fn hash_u32s(words: &[u32]) -> Self::Hash {
-        poseidon_hash_many(&construct_felt252s_from_u32s(words))
+        Poseidon252Hash(poseidon_hash_many(&construct_felt252s_from_u32s(words)))
     }
 
     fn hash_u32s_followed_by_digest(words: &[u32], digest: Self::Hash) -> Self::Hash {
         let felts = construct_felt252s_from_u32s(words);
-        poseidon_hash_many(&felts.iter().chain(&[digest]).copied().collect_vec())
+        Poseidon252Hash(poseidon_hash_many(&felts.iter().chain(&[digest.0]).copied().collect_vec()))
     }
 }
 
 impl MerkleHasherLifted for Poseidon252MerkleHasher {
     fn hash_children((left, right): (Self::Hash, Self::Hash)) -> Self::Hash {
-        poseidon_hash(left, right)
+        Poseidon252Hash(poseidon_hash(left.0, right.0))
     }
 
     fn update_leaf(&mut self, column_values: &[BaseField]) {
@@ -73,7 +69,7 @@ impl MerkleHasherLifted for Poseidon252MerkleHasher {
         let remainder: Vec<FieldElement252> =
             self.buffer.chunks(ELEMENTS_IN_BLOCK).map(construct_felt252_from_m31s).collect();
         let state = poseidon_finalize(&remainder, self.state);
-        state[0]
+        Poseidon252Hash(state[0])
     }
 }
 
@@ -113,6 +109,6 @@ impl MerkleChannel for Poseidon252MerkleChannel {
     type H = Poseidon252MerkleHasher;
 
     fn mix_hash(channel: &mut Self::C, hash: <Self::H as Hasher>::Hash) {
-        channel.update_digest(poseidon_hash(channel.digest(), hash));
+        channel.update_digest(poseidon_hash(channel.digest(), hash.0));
     }
 }

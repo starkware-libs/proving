@@ -36,7 +36,7 @@ fn poseidon252_hash_u32s() {
 
     // Seven words per felt252, as `Poseidon252Channel::mix_u32s` packs them.
     assert_eq!(
-        Poseidon252MerkleHasher::hash_u32s(&WORDS),
+        Poseidon252MerkleHasher::hash_u32s(&WORDS).0,
         FieldElement252::from_hex(
             "0x0172b6763ef45133e1d1d1a507f14fe24702c221cdbbc7ca7c0e5d654b008d27"
         )
@@ -78,6 +78,7 @@ fn keccak256_hash_u32s_followed_by_digest() {
 fn poseidon252_hash_u32s_followed_by_digest() {
     use starknet_types_core::felt::Felt as FieldElement252;
 
+    use crate::core::vcs::poseidon252_hash::Poseidon252Hash;
     use crate::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleHasher;
 
     let digest = FieldElement252::from_hex(
@@ -88,7 +89,7 @@ fn poseidon252_hash_u32s_followed_by_digest() {
     // The felt252 digest is absorbed as one more element after the packed words, never
     // decomposed into `u32`s.
     assert_eq!(
-        Poseidon252MerkleHasher::hash_u32s_followed_by_digest(&WORDS, digest),
+        Poseidon252MerkleHasher::hash_u32s_followed_by_digest(&WORDS, Poseidon252Hash(digest)).0,
         FieldElement252::from_hex(
             "0x037ca7a4626aa8c89673f4d524492432a2234d024746a28e861328a79b9301a0"
         )
@@ -176,7 +177,7 @@ fn poseidon252_hash_u32s_matches_mix_u32s() {
 
     assert_eq!(
         channel.digest(),
-        Poseidon252MerkleHasher::hash_u32s(&[prefix.as_slice(), &WORDS].concat())
+        Poseidon252MerkleHasher::hash_u32s(&[prefix.as_slice(), &WORDS].concat()).0
     );
 }
 

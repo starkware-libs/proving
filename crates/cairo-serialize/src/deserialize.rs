@@ -6,6 +6,7 @@ use stwo::core::fields::qm31::SecureField;
 use stwo::core::fri::{FriLayerProof, FriParams, FriProof};
 use stwo::core::poly::line::LinePoly;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
+use stwo::core::vcs::poseidon252_hash::Poseidon252Hash;
 use stwo::core::vcs_lifted::MerkleHasherLifted;
 use stwo::core::vcs_lifted::verifier::MerkleDecommitmentLifted;
 pub use stwo_cairo_serialize_derive::CairoDeserialize;
@@ -185,5 +186,11 @@ impl CairoDeserialize for Blake2sHash {
             *byte_chunk = v.to_le_bytes();
         }
         Blake2sHash(bytes)
+    }
+}
+
+impl CairoDeserialize for Poseidon252Hash {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a Felt>) -> Self {
+        Poseidon252Hash(Felt::deserialize(data))
     }
 }
