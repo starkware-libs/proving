@@ -15,11 +15,14 @@
 //! verifiable by the same multiverifier circuit (see [`canonical`]).
 //!
 //! The tree's final reduction is special: its proof is the one the fold's consumer verifies, not
-//! another fold, so it is proven and serialized in the requested [`ProofFormat`] — by default the
-//! Cairo circuit verifier's, as the applicative root task. Internal folds use the M31 channel the
-//! multiverifier circuit verifies. A single-leaf tree folds its leaf with itself (the
-//! multiverifier verifies the same proof in both slots), so the root is always a multiverifier
-//! proof in the requested format.
+//! another fold, so it is proven and serialized in the requested [`ProofFormat`]. That is the
+//! Cairo circuit verifier's by default, as the applicative root task, or its
+//! `poseidon252_verifier` build's, as the outer bootloader's verifier task. Internal folds use the
+//! Blake2s channel the multiverifier circuit verifies. A single-leaf tree folds its leaf with
+//! itself (the multiverifier verifies the same proof in both slots), so the root is always a
+//! multiverifier proof in the requested format. Every fold proof's circuit hash is compared to the
+//! registry's multiverifier entry: the Blake2s one internal nodes carry, or the Poseidon252 felt
+//! of the outer root.
 //!
 //! Outputs written for the root layer: the root proof (see above), a flat JSON file with the
 //! root node's circuit output values, and a nested packed JSON tree mirroring the fold, with
@@ -85,6 +88,12 @@ pub enum RecursiveTreeError {
          describes {expected:?}; the registry does not match the circuits this binary builds."
     )]
     MultiverifierCircuitHash { expected: DigestHex, got: DigestHex },
+    #[error(
+        "The root fold proven here hashes to {got:#x} under Poseidon252, but the circuit \
+         registry's multiverifier `poseidon_circuit_hash` is {expected:#x}; the registry does not \
+         match the circuits this binary builds."
+    )]
+    RootCircuitHash { expected: Felt, got: Felt },
     #[error(transparent)]
     Registry(#[from] RegistryError),
     #[error("The applicative flow folds two to {capacity} leaves, the wrapper included; got {n}.")]

@@ -168,8 +168,8 @@ fn test_packed_node_serializes_leaf_and_internal() {
 }
 
 /// Building the canonical circuit must succeed; in particular the leaf and multiverifier circuits,
-/// padded to the registry's target sizes, must share a preprocessed root, and the multiverifier
-/// must hash to the registry's entry (both checked inside `build`).
+/// padded to the registry's target sizes, must share a preprocessed root (checked inside `build`;
+/// the registry's circuit hashes are checked against the fold proofs by the e2e tests).
 #[test]
 fn test_canonical_circuit_builds_with_matching_preprocessed_root() {
     CanonicalCircuit::build(&circuit_registry())
@@ -371,6 +371,7 @@ mod e2e {
     use leaf_proof_format::{DigestHex, PackedNode};
     use starknet_types_core::felt::Felt;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
+    use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
     use stwo_cairo_utils::file_utils::repo_root;
 
     use super::circuit_registry;
@@ -416,6 +417,15 @@ mod e2e {
             canonical.shared_config.pcs_config.fri_params.log_blowup_factor,
         );
         DigestHex::from(hash.0).0
+    }
+
+    /// The canonical multiverifier's Poseidon252 identity.
+    fn multiverifier_poseidon_circuit_hash(canonical: &CanonicalCircuit) -> [u32; DIGEST_N_WORDS] {
+        let hash = preprocessed_circuit_hash::<Poseidon252MerkleChannel>(
+            &canonical.preprocessed_multiverifier,
+            canonical.shared_config.pcs_config.fri_params.log_blowup_factor,
+        );
+        DigestHex::from(Felt::from_bytes_be(&hash.to_bytes_be()).to_bytes_le()).0
     }
 
     /// An expected tree node: the raw u32 output words + `circuit_hash` (both needed to hash a
@@ -480,24 +490,26 @@ mod e2e {
     }
 
     /// Folds `leaves` exactly as the binary does (pair adjacent, carry the odd one up; a single
-    /// leaf self-folds) and returns the expected root node. `multiverifier_circuit_hash` is the
-    /// `circuit_hash` every internal node carries (see [`multiverifier_circuit_hash`]).
+    /// leaf self-folds) and returns the expected root node. `fold_circuit_hash` is the
+    /// `circuit_hash` every internal node carries (see [`multiverifier_circuit_hash`]) and
+    /// `root_circuit_hash` the root's, which differs under the Poseidon252 channel.
     fn expected_root(
         leaves: &[LeafInput],
-        multiverifier_circuit_hash: [u32; DIGEST_N_WORDS],
+        fold_circuit_hash: [u32; DIGEST_N_WORDS],
+        root_circuit_hash: [u32; DIGEST_N_WORDS],
     ) -> ExpectedNode {
         if leaves.len() == 1 {
-            return expected_self_fold(expected_leaf(&leaves[0]), multiverifier_circuit_hash);
+            return expected_self_fold(expected_leaf(&leaves[0]), root_circuit_hash);
         }
         let mut layer: Vec<ExpectedNode> = leaves.iter().map(expected_leaf).collect();
         while layer.len() > 1 {
+            // A two-node layer's reduction is the root's.
+            let circuit_hash = if layer.len() == 2 { root_circuit_hash } else { fold_circuit_hash };
             let mut next = Vec::with_capacity(layer.len().div_ceil(2));
             let mut pairs = layer.into_iter();
             while let Some(left) = pairs.next() {
                 match pairs.next() {
-                    Some(right) => {
-                        next.push(expected_reduce(left, right, multiverifier_circuit_hash))
-                    }
+                    Some(right) => next.push(expected_reduce(left, right, circuit_hash)),
                     None => next.push(left),
                 }
             }
@@ -538,13 +550,23 @@ mod e2e {
         assert_eq!(stats.n_layers, expected_layers, "layer count mismatch");
         assert_eq!(stats.n_pair_reductions, expected_reductions, "reduction count mismatch");
 
-        if root_proof_format == ProofFormat::CairoVerifier {
-            scarb_verify(&dir.join("root.proof"));
+        let cairo_verifier_features = match root_proof_format {
+            ProofFormat::CairoVerifier => Some("qm31_opcode"),
+            ProofFormat::PoseidonCairoVerifier => Some("poseidon252_verifier"),
+            ProofFormat::Circuit | ProofFormat::ApplicativeCircuit => None,
+        };
+        if let Some(features) = cairo_verifier_features {
+            scarb_verify(&dir.join("root.proof"), features);
         }
 
         // Independently recompute the whole tree (topology + hashed output values) from the leaves.
-        let multiverifier_circuit_hash = multiverifier_circuit_hash(canonical);
-        let expected = expected_root(leaves, multiverifier_circuit_hash);
+        // A Poseidon252 root carries the multiverifier's felt identity instead of its Blake2s one.
+        let fold_circuit_hash = multiverifier_circuit_hash(canonical);
+        let root_circuit_hash = match root_proof_format {
+            ProofFormat::PoseidonCairoVerifier => multiverifier_poseidon_circuit_hash(canonical),
+            _ => fold_circuit_hash,
+        };
+        let expected = expected_root(leaves, fold_circuit_hash, root_circuit_hash);
 
         // In the applicative format the written outputs are the unpacking verifier's, which the
         // caller checks.
@@ -767,11 +789,11 @@ mod e2e {
         );
 
         // 5. Fold the unpacking verifier's proof as the single leaf of a new tree with
-        //    `stwo_run_and_prove_recursive_tree`, which self-folds it into a Cairo-verifier-format
-        //    root proof; its outputs are checked against a recomputation, and the Cairo circuit
-        //    verifier in `stwo_cairo_verifier/` executes it.
+        //    `stwo_run_and_prove_recursive_tree`, which self-folds it into a root proof in the
+        //    `PoseidonCairoVerifier` format; its packed tree and outputs are checked against a
+        //    recomputation, and the Cairo circuit verifier in `stwo_cairo_verifier/` executes it.
         let outer_leaf = LeafInput {
-            proof: unpacking_proof.clone(),
+            proof: unpacking_proof,
             output: LeafOutputPreimage {
                 hash_type: LeafOutputHashType::Poseidon,
                 preimage: poseidon_felts.clone(),
@@ -779,47 +801,22 @@ mod e2e {
         };
         let outer_dir = dir.join("outer");
         std::fs::create_dir(&outer_dir).unwrap();
-        let stats = stwo_run_and_prove_recursive_tree(
-            vec![outer_leaf],
-            &registry,
-            &RootOutputPaths {
-                proof: &outer_dir.join("root.proof"),
-                program_output: &outer_dir.join("root_outputs.json"),
-                packed_node_tree: &outer_dir.join("root_packed.json"),
-            },
+        fold_and_check(
+            &[outer_leaf],
+            &outer_dir,
+            canonical,
+            ProofFormat::PoseidonCairoVerifier,
             NonZeroUsize::new(1).unwrap(),
-            ProofFormat::CairoVerifier,
-        )
-        .unwrap();
-        assert_eq!(
-            (stats.n_leaves, stats.n_layers, stats.n_pair_reductions),
-            (1, 1, 1),
-            "the unpacking proof's tree must be a single self-fold"
         );
-
-        // A self-fold's root digest is the blake of its only child's contribution, twice.
-        let outer_outputs: Vec<u32> = serde_json::from_str(
-            &std::fs::read_to_string(outer_dir.join("root_outputs.json")).unwrap(),
-        )
-        .unwrap();
-        let contribution: Vec<u32> =
-            [unpacking_proof.circuit_hash.0.to_vec(), expected_final_digest].concat();
-        assert_eq!(
-            outer_outputs,
-            blake2s_u32s_host(&[contribution.clone(), contribution].concat()),
-            "outer root outputs differ from the recomputed self-fold digest"
-        );
-
-        scarb_verify(&outer_dir.join("root.proof"));
     }
 
-    /// Runs the Cairo circuit verifier in `stwo_cairo_verifier/` on a Cairo-verifier-format root
-    /// proof. Needs `scarb` on PATH (see `.tool-versions`). This is what catches a circuit change
-    /// the Cairo verifier cannot verify.
-    fn scarb_verify(root_proof: &Path) {
+    /// Runs the Cairo circuit verifier in `stwo_cairo_verifier/`, built with `features`, on a
+    /// Cairo-verifier-format root proof. Needs `scarb` on PATH (see `.tool-versions`). This is what
+    /// catches a circuit change the Cairo verifier cannot verify.
+    fn scarb_verify(root_proof: &Path, features: &str) {
         let status = std::process::Command::new("scarb")
             .args(["--profile", "proving", "execute", "-p", "stwo_circuit_verifier"])
-            .args(["--features", "qm31_opcode", "--output", "none", "--arguments-file"])
+            .args(["--features", features, "--output", "none", "--arguments-file"])
             .arg(root_proof)
             .current_dir(concat!(env!("CARGO_MANIFEST_DIR"), "/../../stwo_cairo_verifier"))
             .status()

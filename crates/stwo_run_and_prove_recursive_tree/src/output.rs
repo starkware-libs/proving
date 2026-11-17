@@ -30,7 +30,9 @@ pub fn write_root_outputs(
             proof.serialize(&mut bytes);
             Cow::Owned(bytes)
         }
-        NodeProof::CairoVerifierJson(json) => Cow::Borrowed(json.as_bytes()),
+        NodeProof::CairoVerifierJson(json) | NodeProof::PoseidonCairoVerifierJson(json) => {
+            Cow::Borrowed(json.as_bytes())
+        }
     };
     write_outputs(&proof_bytes, &root.proof_data.output_digest.0, &root.packed_node, paths)
 }

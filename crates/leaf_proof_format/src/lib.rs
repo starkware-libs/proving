@@ -82,7 +82,9 @@ pub enum PackedNode {
     /// slots), or the leaf circuit over its single `Plain` child. Carries the `circuit_hash` of
     /// this node's proof (a [`DigestHex`]) — the full circuit identity
     /// (`blake2s(log_blowup ‖ component_log_sizes ‖ preprocessed_root)`) that the unpacker mixes
-    /// into this node's fold contribution and looks up in its supported trust list.
+    /// into this node's fold contribution and looks up in its supported trust list. A root proven
+    /// with the Poseidon252 channel carries that channel's identity instead, a felt252 as eight
+    /// little-endian words, which its consumer holds to the felt in its config.
     Composite { circuit_hash: DigestHex, subtasks: Vec<PackedNode> },
 }
 

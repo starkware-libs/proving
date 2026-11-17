@@ -9,13 +9,12 @@
 
 use circuit_common::finalize::{ComponentSizes, pad_to_targets};
 use circuit_common::preprocessed::{PreprocessedCircuit, layout_and_pcs_config};
-use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend};
 use circuit_registry::{CircuitRegistry, DigestHex};
 use circuit_verifier::multiverifier::{
     SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
 };
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
+use starknet_types_core::felt::Felt;
 use tracing::{Level, info, span};
 
 use crate::RecursiveTreeError;
@@ -32,6 +31,10 @@ pub struct CanonicalCircuit {
     /// The registry's padding target, applied to both the leaf and multiverifier circuits so one
     /// proof shape verifies every layer.
     pub target_sizes: ComponentSizes,
+    /// The registry's identities of the multiverifier circuit, which every fold proof is held to:
+    /// the Blake2s digest internal nodes carry, and the felt a Poseidon252 root carries.
+    pub multiverifier_circuit_hash: DigestHex,
+    pub poseidon_circuit_hash: Felt,
     /// Reused across all `prove_circuit_assignment` calls.
     pub base_column_pool: BaseColumnPool<SimdBackend>,
 }
@@ -41,7 +44,7 @@ impl CanonicalCircuit {
     ///
     /// `registry` is the only input: its multiverifier's config supplies the FRI params the leaf
     /// circuit proofs were produced with and the padding target every circuit here is built to,
-    /// and its entry supplies the hash the built multiverifier is checked against.
+    /// and its entry supplies the hashes the fold proofs are checked against.
     pub fn build(registry: &CircuitRegistry) -> Result<Self, RecursiveTreeError> {
         let _span = span!(Level::INFO, "CanonicalCircuit::build").entered();
 
@@ -74,25 +77,6 @@ impl CanonicalCircuit {
         {
             return Err(RecursiveTreeError::PaddingParity);
         }
-
-        // 4. The built multiverifier must hash to the registry's entry — the trust anchor every
-        //    internal node is held to. Catches registry/circuit drift before any proving.
-        // TODO(yairv): consider reading the hash off the first fold's proof instead (the prover
-        // computes it anyway), trading this preprocessed-trace commitment for a later failure.
-        let circuit_hash = DigestHex::from(
-            preprocessed_circuit_hash::<Blake2sMerkleChannel>(
-                &preprocessed_multiverifier,
-                circuit_pcs_config.fri_params.log_blowup_factor,
-            )
-            .0,
-        );
-        if circuit_hash != multiverifier_entry.circuit_hash {
-            return Err(RecursiveTreeError::MultiverifierCircuitHash {
-                expected: multiverifier_entry.circuit_hash,
-                got: circuit_hash,
-            });
-        }
-
         info!(
             trace_log_size = preprocessed_multiverifier.trace_log_size(),
             "Canonical multiverifier circuit ready."
@@ -101,6 +85,8 @@ impl CanonicalCircuit {
             preprocessed_multiverifier,
             shared_config,
             target_sizes,
+            multiverifier_circuit_hash: multiverifier_entry.circuit_hash,
+            poseidon_circuit_hash: multiverifier_entry.poseidon_circuit_hash,
             base_column_pool: BaseColumnPool::new(),
         })
     }

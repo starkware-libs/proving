@@ -46,7 +46,7 @@ struct Args {
 
     /// The circuit registry of the circuits being folded — the same file the leaf prover ran with.
     /// Supplies the circuit proofs' prover params, the registry's padding target and the
-    /// multiverifier hash the canonical circuit is checked against.
+    /// multiverifier circuit hashes every fold proof is held to.
     #[clap(long = "circuit_registry_json")]
     circuit_registry_json: PathBuf,
 
@@ -54,13 +54,23 @@ struct Args {
     #[clap(long = "max_concurrency", default_value_t = NonZeroUsize::new(1).unwrap())]
     max_concurrency: NonZeroUsize,
 
-    /// Who consumes the root proof: `cairo_verifier` (the default) emits the Cairo circuit
-    /// verifier's felt252 arguments stream; `circuit` emits CircuitSerialize bytes for an
-    /// enclosing circuit; `applicative_circuit` takes the first leaf as the aggregator
-    /// wrapper's and the others as its tasks', in the wrapper's task order, proves the
-    /// applicative unpacking verifier over the folded tree, and emits that proof in the
-    /// `leaf_prover` output format, as the outer tree's leaf.
-    #[clap(long = "proof_format", value_enum, default_value_t = ProofFormat::CairoVerifier)]
+    /// Who consumes the root proof:
+    /// - `cairo_verifier` (the default) emits the Cairo circuit verifier's felt252 arguments
+    ///   stream.
+    /// - `poseidon_cairo_verifier` emits the same for the verifier built with
+    ///   `poseidon252_verifier` (the outer bootloader's), the root proven with the Poseidon252
+    ///   Merkle channel.
+    /// - `circuit` emits CircuitSerialize bytes for an enclosing circuit.
+    /// - `applicative_circuit` takes the first leaf as the aggregator wrapper's and the others as
+    ///   its tasks', in the wrapper's task order, proves the applicative unpacking verifier over
+    ///   the folded tree, and emits that proof in the `leaf_prover` output format, as the outer
+    ///   tree's leaf.
+    #[clap(
+        long = "proof_format",
+        value_enum,
+        default_value_t = ProofFormat::CairoVerifier,
+        verbatim_doc_comment
+    )]
     proof_format: ProofFormat,
 }
 

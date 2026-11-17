@@ -14,6 +14,11 @@ use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 
 pub const ELEMENTS_IN_BUFFER: usize = 2 * ELEMENTS_IN_BLOCK;
 
+/// The hash a [`Poseidon252MerkleHasher`] produces.
+// TODO(yairv): Make this a wrapper struct, as `Blake2sHash` is, so that users of the hash don't
+// depend on the felt type underneath.
+pub type Poseidon252Hash = FieldElement252;
+
 /// A stateful Poseidon hasher.
 ///
 /// Note that in the case of Blake2s hash we import an external library that implements
