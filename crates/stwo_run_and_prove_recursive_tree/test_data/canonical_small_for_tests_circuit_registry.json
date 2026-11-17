@@ -97,6 +97,22 @@
     "verify_bitwise_xor_9"
   ],
   "circuit_proof_configs": {
+    "cairo_verifier_root": {
+      "fri_params": {
+        "pow_bits": 24,
+        "log_blowup_factor": 3,
+        "log_last_layer_degree_bound": 0,
+        "n_queries": 24,
+        "fold_step": 4
+      },
+      "component_log_sizes": {
+        "eq": 20,
+        "qm31_ops": 23,
+        "m31_to_u32": 20,
+        "triple_xor": 19,
+        "blake_g_gate": 23
+      }
+    },
     "default": {
       "fri_params": {
         "pow_bits": 26,
@@ -168,7 +184,20 @@
         "0xd6138a35",
         "0xa26cdd73"
       ],
-      "poseidon_circuit_hash": "0x39a7a599dd92c00bc1fb8774a9c9b8de21b489268aec447f6240802afe5b6f6"
+      "cairo_verifier_root": {
+        "config": "cairo_verifier_root",
+        "blake_circuit_hash": [
+          "0xc7fa6841",
+          "0xe3183800",
+          "0x2546eb38",
+          "0x9c60f68c",
+          "0x9e6dd25a",
+          "0xe4e7d4d6",
+          "0xc2804224",
+          "0xcc117612"
+        ],
+        "poseidon_circuit_hash": "0x4c9d9ad190c4f76900527b4c162130009b413b107482a6050d30703185015a9"
+      }
     }
   ],
   "unpacking_verifiers": [

@@ -1,3 +1,4 @@
+use std::num::NonZeroUsize;
 use std::path::{Path, PathBuf};
 
 use circuit_registry::{CircuitRegistry, RegistryError};
@@ -10,7 +11,10 @@ use stwo_cairo_utils::file_utils::repo_root;
 
 use crate::canonical::CanonicalCircuit;
 use crate::test_data::canonical_small_for_tests_circuit_registry_path;
-use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, RecursiveTreeError, load_leaves};
+use crate::{
+    LeafInput, LeafOutputHashType, LeafOutputPreimage, ProofFormat, RecursiveTreeError,
+    RootOutputPaths, load_leaves, stwo_run_and_prove_recursive_tree,
+};
 
 // ------------------------------------------------------------------------------------------------
 // Serde shapes.
@@ -174,6 +178,59 @@ fn test_packed_node_serializes_leaf_and_internal() {
 fn test_canonical_circuit_builds_with_matching_preprocessed_root() {
     CanonicalCircuit::build(&circuit_registry())
         .expect("canonical circuit should build and match the registry");
+}
+
+/// A root for a Cairo circuit verifier proves the multiverifier circuit itself, so a
+/// `cairo_verifier_root` config with other component sizes is rejected.
+#[test]
+fn test_canonical_circuit_rejects_cairo_verifier_root_config_of_other_sizes() {
+    let mut registry = circuit_registry();
+    let multiverifier = registry.multiverifier().unwrap();
+    let root_config_id = multiverifier.cairo_verifier_root.as_ref().unwrap().config.clone();
+    let multiverifier_sizes =
+        registry.config(&multiverifier.config).unwrap().component_log_sizes.clone();
+    let root_config = registry.circuit_proof_configs.get_mut(&root_config_id).unwrap();
+    root_config.component_log_sizes.eq += 1;
+    let root_sizes = root_config.component_log_sizes.clone();
+
+    match CanonicalCircuit::build(&registry).err().expect("the sizes differ") {
+        RecursiveTreeError::CairoVerifierRootSizes { expected, got } => {
+            assert_eq!(expected, multiverifier_sizes);
+            assert_eq!(got, root_sizes);
+        }
+        err => panic!("{err}"),
+    }
+}
+
+/// A root for either Cairo verifier build needs the registry's `cairo_verifier_root`; without one
+/// the fold fails before any proving, so the leaf's proof is a placeholder.
+#[test]
+fn test_cairo_verifier_root_formats_need_a_registry_cairo_verifier_root() {
+    let mut registry = circuit_registry();
+    registry.multiverifiers[0].cairo_verifier_root = None;
+    let leaf = LeafInput {
+        proof: SerializedLeafProof {
+            circuit_preprocessed_root: registry.leaf_verifiers[0].preprocessed_root,
+            circuit_hash: registry.leaf_verifiers[0].circuit_hash,
+            proof: vec![],
+        },
+        output: LeafOutputPreimage {
+            hash_type: LeafOutputHashType::Blake2s,
+            preimage: vec![Felt::ZERO],
+        },
+    };
+    let unused = Path::new("unused");
+    for format in [ProofFormat::CairoVerifier, ProofFormat::PoseidonCairoVerifier] {
+        let err = stwo_run_and_prove_recursive_tree(
+            vec![leaf.clone()],
+            &registry,
+            &RootOutputPaths { proof: unused, program_output: unused, packed_node_tree: unused },
+            NonZeroUsize::new(1).unwrap(),
+            format,
+        )
+        .unwrap_err();
+        assert!(matches!(err, RecursiveTreeError::NoCairoVerifierRoot), "{format:?}: {err}");
+    }
 }
 
 /// The applicative flow rejects, before any proving, what its unpacking verifier could not take:
@@ -419,11 +476,29 @@ mod e2e {
         DigestHex::from(hash.0).0
     }
 
-    /// The canonical multiverifier's Poseidon252 identity.
+    /// The blowup a root for a Cairo circuit verifier is proven at, the registry's
+    /// `cairo_verifier_root` config's.
+    fn cairo_verifier_root_log_blowup_factor(canonical: &CanonicalCircuit) -> u32 {
+        let root = canonical.cairo_verifier_root.as_ref().expect("the registry has a root");
+        root.pcs_config.fri_params.log_blowup_factor
+    }
+
+    /// The canonical multiverifier's Blake2s identity at the root config's blowup, the
+    /// registry's `cairo_verifier_root.blake_circuit_hash`: what a root for the default Cairo
+    /// verifier build carries.
+    fn multiverifier_root_circuit_hash(canonical: &CanonicalCircuit) -> [u32; DIGEST_N_WORDS] {
+        let hash = preprocessed_circuit_hash::<Blake2sMerkleChannel>(
+            &canonical.preprocessed_multiverifier,
+            cairo_verifier_root_log_blowup_factor(canonical),
+        );
+        DigestHex::from(hash.0).0
+    }
+
+    /// The canonical multiverifier's Poseidon252 identity at the root config's blowup.
     fn multiverifier_poseidon_circuit_hash(canonical: &CanonicalCircuit) -> [u32; DIGEST_N_WORDS] {
         let hash = preprocessed_circuit_hash::<Poseidon252MerkleChannel>(
             &canonical.preprocessed_multiverifier,
-            canonical.shared_config.pcs_config.fri_params.log_blowup_factor,
+            cairo_verifier_root_log_blowup_factor(canonical),
         );
         DigestHex::from(Felt::from_bytes_be(&hash.to_bytes_be()).to_bytes_le()).0
     }
@@ -560,11 +635,14 @@ mod e2e {
         }
 
         // Independently recompute the whole tree (topology + hashed output values) from the leaves.
-        // A Poseidon252 root carries the multiverifier's felt identity instead of its Blake2s one.
+        // A root for a Cairo circuit verifier is proven under its own config, so it carries the
+        // multiverifier's identity at that config's blowup: the Blake2s one, or the felt one under
+        // Poseidon252.
         let fold_circuit_hash = multiverifier_circuit_hash(canonical);
         let root_circuit_hash = match root_proof_format {
+            ProofFormat::CairoVerifier => multiverifier_root_circuit_hash(canonical),
             ProofFormat::PoseidonCairoVerifier => multiverifier_poseidon_circuit_hash(canonical),
-            _ => fold_circuit_hash,
+            ProofFormat::Circuit | ProofFormat::ApplicativeCircuit => fold_circuit_hash,
         };
         let expected = expected_root(leaves, fold_circuit_hash, root_circuit_hash);
 

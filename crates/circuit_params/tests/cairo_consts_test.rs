@@ -122,7 +122,8 @@ fn idx_const_name(id: &str) -> String {
     format!("{}_IDX", renamed.to_uppercase())
 }
 
-/// Renders the generated section of `multiverifier_consts.cairo`: the pinned PCS config and the
+/// Renders the generated section of `multiverifier_consts.cairo`: the pinned FRI params, the
+/// registry's `cairo_verifier_root` config, which both builds verify roots under, and the
 /// component / preprocessed-column log sizes.
 fn render_multiverifier_consts(fri_params: FriParams, target_sizes: &ComponentSizes) -> String {
     let layout = layout(target_sizes);
@@ -140,16 +141,16 @@ fn render_multiverifier_consts(fri_params: FriParams, target_sizes: &ComponentSi
     let mut out = String::new();
     let w = &mut out;
     writeln!(w, "{MULTIVERIFIER_CONSTS_HEADER}\n").unwrap();
-    writeln!(w, "/// Expected FRI params of the multiverifier circuit's proof.").unwrap();
-    writeln!(w, "///").unwrap();
-    writeln!(w, "/// Pinned to the production registry's proof config, so the verifier accepts")
-        .unwrap();
-    writeln!(w, "/// only proofs produced with that canonical configuration. This pins").unwrap();
-    writeln!(w, "/// every FRI security parameter (a weaker config — fewer queries, smaller")
-        .unwrap();
-    writeln!(w, "/// blowup, or less proof-of-work — is rejected, independently of stwo's")
-        .unwrap();
-    writeln!(w, "/// `security_bits >= SECURITY_BITS` floor).").unwrap();
+    for line in [
+        "Expected FRI params of the multiverifier circuit's proof, a tree's root.",
+        "",
+        "Pinned to the production registry's `cairo_verifier_root` config, so only roots",
+        "produced with that configuration are accepted. This pins every FRI security",
+        "parameter: a weaker config, with fewer queries, a smaller blowup or less proof-of-work,",
+        "is rejected, independently of stwo's `security_bits >= SECURITY_BITS` floor.",
+    ] {
+        writeln!(w, "{}", format!("/// {line}").trim_end()).unwrap();
+    }
     writeln!(
         w,
         "/// Note `pow_bits + log_blowup_factor * n_queries = {pow_bits} + {log_blowup_factor} * \
@@ -273,10 +274,13 @@ fn test_cairo_verifier_consts_match_production_registry() {
         "circuit_registry_definitions/production/definition.json",
     );
     let target_sizes = shared_target_sizes(&production);
-    let fri_params = production.circuit_fri_params;
+    let root_fri_params = production.cairo_verifier_root_fri_params.expect(
+        "the production registry must state the parameters for the root proof that a Cairo \
+         verifier verifies",
+    );
     assert_generated_file(
         "multiverifier_consts.cairo",
-        &render_multiverifier_consts(fri_params, &target_sizes),
+        &render_multiverifier_consts(root_fri_params, &target_sizes),
     );
     assert_generated_file(
         "preprocessed_columns.cairo",
@@ -284,7 +288,8 @@ fn test_cairo_verifier_consts_match_production_registry() {
     );
 
     // The recursive-tree e2e runs the Cairo verifier on roots proven with
-    // canonical_small_for_tests, so canonical_small_for_tests must pad to the production sizes.
+    // canonical_small_for_tests, so canonical_small_for_tests must pad to the production sizes and
+    // prove its roots under the production root config.
     let tests_registry_def = RegistryDefinition::load(
         &repo_root(),
         "circuit_registry_definitions/canonical_small_for_tests/definition.json",
@@ -295,7 +300,8 @@ fn test_cairo_verifier_consts_match_production_registry() {
         "canonical_small_for_tests's pad_to_component_log_sizes must equal the production target"
     );
     assert_eq!(
-        tests_registry_def.circuit_fri_params, fri_params,
-        "canonical_small_for_tests's circuit FRI params must equal production's"
+        tests_registry_def.cairo_verifier_root_fri_params,
+        Some(root_fri_params),
+        "canonical_small_for_tests's Cairo verifier root FRI params must equal production's"
     );
 }

@@ -22,6 +22,13 @@
         "n_queries": 70,
         "fold_step": 4
     },
+    "cairo_verifier_root_fri_params": {
+        "pow_bits": 24,
+        "log_blowup_factor": 3,
+        "log_last_layer_degree_bound": 0,
+        "n_queries": 24,
+        "fold_step": 4
+    },
     "program": "compiled_cairo_programs/leaf_simple_bootloader_compiled.json",
     "min_trace_log_size": 25,
     "max_trace_log_size": 29,

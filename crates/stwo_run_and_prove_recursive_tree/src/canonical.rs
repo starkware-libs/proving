@@ -15,6 +15,7 @@ use circuit_verifier::multiverifier::{
     SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
 };
 use starknet_types_core::felt::Felt;
+use stwo::core::pcs::PcsConfig;
 use tracing::{Level, info, span};
 
 use crate::RecursiveTreeError;
@@ -31,12 +32,26 @@ pub struct CanonicalCircuit {
     /// The registry's padding target, applied to both the leaf and multiverifier circuits so one
     /// proof shape verifies every layer.
     pub target_sizes: ComponentSizes,
-    /// The registry's identities of the multiverifier circuit, which every fold proof is held to:
-    /// the Blake2s digest internal nodes carry, and the felt a Poseidon252 root carries.
+    /// The registry's Blake2s identity of the multiverifier circuit, which every Blake2s fold
+    /// proof is held to.
     pub multiverifier_circuit_hash: DigestHex,
-    pub poseidon_circuit_hash: Felt,
+    /// How a root is proven for a Cairo circuit verifier. `None` when the registry's multiverifier
+    /// has no `cairo_verifier_root`, and then a tree cannot be folded into such a root.
+    pub cairo_verifier_root: Option<CairoVerifierRootConfig>,
     /// Reused across all `prove_circuit_assignment` calls.
     pub base_column_pool: BaseColumnPool<SimdBackend>,
+}
+
+/// A root for a Cairo circuit verifier: the same multiverifier circuit, proven under the
+/// registry's `cairo_verifier_root` config.
+pub struct CairoVerifierRootConfig {
+    /// The PCS config the root is proven with, which both builds of the Cairo circuit verifier
+    /// pin.
+    pub pcs_config: PcsConfig,
+    /// The Blake2s identity a root for the default build is held to.
+    pub blake_circuit_hash: DigestHex,
+    /// The felt identity a root for the `poseidon252_verifier` build is held to.
+    pub poseidon_circuit_hash: Felt,
 }
 
 impl CanonicalCircuit {
@@ -44,7 +59,8 @@ impl CanonicalCircuit {
     ///
     /// `registry` is the only input: its multiverifier's config supplies the FRI params the leaf
     /// circuit proofs were produced with and the padding target every circuit here is built to,
-    /// and its entry supplies the hashes the fold proofs are checked against.
+    /// and its entry supplies the hashes the fold proofs are checked against and, when it has a
+    /// root for a Cairo circuit verifier, that root's config.
     pub fn build(registry: &CircuitRegistry) -> Result<Self, RecursiveTreeError> {
         let _span = span!(Level::INFO, "CanonicalCircuit::build").entered();
 
@@ -81,12 +97,36 @@ impl CanonicalCircuit {
             trace_log_size = preprocessed_multiverifier.trace_log_size(),
             "Canonical multiverifier circuit ready."
         );
+
+        // 4. A root for a Cairo circuit verifier proves the same padded circuit, so its config must
+        //    have the multiverifier's sizes. Only its FRI params may differ.
+        let cairo_verifier_root = match &multiverifier_entry.cairo_verifier_root {
+            Some(root) => {
+                let root_proof_config = registry.config(&root.config)?;
+                if root_proof_config.component_log_sizes != circuit_proof_config.component_log_sizes
+                {
+                    return Err(RecursiveTreeError::CairoVerifierRootSizes {
+                        expected: circuit_proof_config.component_log_sizes.clone(),
+                        got: root_proof_config.component_log_sizes.clone(),
+                    });
+                }
+                let (_, pcs_config) =
+                    layout_and_pcs_config(&target_sizes, root_proof_config.fri_params);
+                Some(CairoVerifierRootConfig {
+                    pcs_config,
+                    blake_circuit_hash: root.blake_circuit_hash,
+                    poseidon_circuit_hash: root.poseidon_circuit_hash,
+                })
+            }
+            None => None,
+        };
+
         Ok(Self {
             preprocessed_multiverifier,
             shared_config,
             target_sizes,
             multiverifier_circuit_hash: multiverifier_entry.circuit_hash,
-            poseidon_circuit_hash: multiverifier_entry.poseidon_circuit_hash,
+            cairo_verifier_root,
             base_column_pool: BaseColumnPool::new(),
         })
     }

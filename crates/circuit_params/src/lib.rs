@@ -28,8 +28,8 @@ use circuit_common::preprocessed::{
 };
 use circuit_prover::circuit_hash::{circuit_hash_and_preprocessed_root, preprocessed_circuit_hash};
 use circuit_registry::{
-    CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, LogSizes, Multiverifier,
-    UnpackingVerifier,
+    CairoVerifierRoot, CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, LogSizes,
+    Multiverifier, UnpackingVerifier,
 };
 use circuit_verifier::multiverifier::{
     SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
@@ -198,10 +198,23 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
     // All circuits are padded to `target_sizes` and proven with
     // `circuit_log_blowup_factor`, so they share a single config.
     const CONFIG_ID: &str = "default";
+    // A root proven for a Cairo circuit verifier, when the definition has one, is the same
+    // multiverifier circuit proven under a second config: the same sizes, its own FRI params.
+    const CAIRO_VERIFIER_ROOT_CONFIG_ID: &str = "cairo_verifier_root";
     let circuit_proof_config =
         CircuitProofConfig::new(circuits_builder.circuit_fri_params, &target_sizes);
-    let circuit_proof_configs =
+    let mut circuit_proof_configs =
         BTreeMap::from([(CONFIG_ID.to_string(), circuit_proof_config.clone())]);
+    if let Some(fri_params) = definition.cairo_verifier_root_fri_params {
+        assert!(
+            definition.include_multiverifier,
+            "Cannot prove a Cairo verifier root without a multiverifier"
+        );
+        circuit_proof_configs.insert(
+            CAIRO_VERIFIER_ROOT_CONFIG_ID.to_string(),
+            CircuitProofConfig::new(fri_params, &target_sizes),
+        );
+    }
     // Rebuild each leaf circuit, pad it to the shared target and record the hashes
     // that identify it.
     let leaf_verifiers = trace_log_sizes
@@ -231,19 +244,30 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
                 &preprocessed_multiverifier,
                 circuit_log_blowup_factor,
             );
-            // The multiverifier's identity when proven for the `poseidon252_verifier` Cairo
-            // verifier. Both the preprocessed root and the circuit hash use the
-            // Poseidon channel.
-            let mv_poseidon_circuit_hash = preprocessed_circuit_hash::<Poseidon252MerkleChannel>(
-                &preprocessed_multiverifier,
-                circuit_log_blowup_factor,
-            );
+            // The multiverifier's circuit hashes when it's proven for the Cairo verifier, at the
+            // root config's blowup. The `poseidon252_verifier` Cairo verifier checks the
+            // Poseidon252 one, and the default Cairo verifier the Blake2s one.
+            let cairo_verifier_root = definition.cairo_verifier_root_fri_params.map(|fri_params| {
+                let blake_circuit_hash = preprocessed_circuit_hash::<Blake2sMerkleChannel>(
+                    &preprocessed_multiverifier,
+                    fri_params.log_blowup_factor,
+                );
+                let poseidon_circuit_hash = preprocessed_circuit_hash::<Poseidon252MerkleChannel>(
+                    &preprocessed_multiverifier,
+                    fri_params.log_blowup_factor,
+                );
+                CairoVerifierRoot {
+                    config: CAIRO_VERIFIER_ROOT_CONFIG_ID.to_string(),
+                    blake_circuit_hash: DigestHex::from(blake_circuit_hash.0),
+                    poseidon_circuit_hash,
+                }
+            });
             vec![Multiverifier {
                 config: CONFIG_ID.to_string(),
                 input_configs: [CONFIG_ID.to_string(), CONFIG_ID.to_string()],
                 circuit_hash: DigestHex::from(mv_circuit_hash.0),
                 preprocessed_root: DigestHex::from(mv_preprocessed_root.0),
-                poseidon_circuit_hash: mv_poseidon_circuit_hash,
+                cairo_verifier_root,
             }]
         }
         None => vec![],
@@ -431,6 +455,11 @@ pub struct RegistryDefinition {
     /// recursive tree to run with. Their lifting size is not configurable: each circuit is built
     /// as if lifted to `trace_size + blowup`.
     pub circuit_fri_params: FriParams,
+    // TODO(yairv): Consider a root config per build of the Cairo circuit verifier, Blake2s and
+    // Poseidon252 (feature = "poseidon252_verifier").
+    /// The FRI params of the root proof a Cairo circuit verifier verifies (`None` for registries
+    /// without this flow).
+    pub cairo_verifier_root_fri_params: Option<FriParams>,
     /// The compiled program the leaf circuit verifies (the leaf prover's `--program`).
     pub program: std::path::PathBuf,
     /// The set of components used by the program. The circuit will assume the Cairo AIR contains

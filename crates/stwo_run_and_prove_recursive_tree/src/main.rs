@@ -56,10 +56,11 @@ struct Args {
 
     /// Who consumes the root proof:
     /// - `cairo_verifier` (the default) emits the Cairo circuit verifier's felt252 arguments
-    ///   stream.
+    ///   stream, the root proven under the registry's `cairo_verifier_root` config. The registry
+    ///   must have one.
     /// - `poseidon_cairo_verifier` emits the same for the verifier built with
     ///   `poseidon252_verifier` (the outer bootloader's), the root proven with the Poseidon252
-    ///   Merkle channel.
+    ///   Merkle channel under the same config.
     /// - `circuit` emits CircuitSerialize bytes for an enclosing circuit.
     /// - `applicative_circuit` takes the first leaf as the aggregator wrapper's and the others as
     ///   its tasks', in the wrapper's task order, proves the applicative unpacking verifier over

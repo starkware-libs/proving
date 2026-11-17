@@ -20,9 +20,11 @@
 //! `poseidon252_verifier` build's, as the outer bootloader's verifier task. Internal folds use the
 //! Blake2s channel the multiverifier circuit verifies. A single-leaf tree folds its leaf with
 //! itself (the multiverifier verifies the same proof in both slots), so the root is always a
-//! multiverifier proof in the requested format. Every fold proof's circuit hash is compared to the
-//! registry's multiverifier entry: the Blake2s one internal nodes carry, or the Poseidon252 felt
-//! of the outer root.
+//! multiverifier proof in the requested format. A root for either Cairo verifier build is proven
+//! under the registry's `cairo_verifier_root` config, whose FRI params can differ from the folds'.
+//! Every fold proof's circuit hash is compared to the registry's multiverifier entry: an internal
+//! node's to its Blake2s identity, such a root's to the root's own, Blake2s or the Poseidon252
+//! felt of the outer root.
 //!
 //! Outputs written for the root layer: the root proof (see above), a flat JSON file with the
 //! root node's circuit output values, and a nested packed JSON tree mirroring the fold, with
@@ -40,7 +42,7 @@
 use std::num::NonZeroUsize;
 use std::path::{Path, PathBuf};
 
-use circuit_registry::{CircuitRegistry, DigestHex, RegistryError};
+use circuit_registry::{CircuitRegistry, DigestHex, LogSizes, RegistryError};
 use starknet_types_core::felt::Felt;
 use thiserror::Error;
 use tracing::{Level, info, span};
@@ -89,11 +91,27 @@ pub enum RecursiveTreeError {
     )]
     MultiverifierCircuitHash { expected: DigestHex, got: DigestHex },
     #[error(
-        "The root fold proven here hashes to {got:#x} under Poseidon252, but the circuit \
-         registry's multiverifier `poseidon_circuit_hash` is {expected:#x}; the registry does not \
-         match the circuits this binary builds."
+        "The root fold proven here hashes to {got:?}, but the circuit registry's multiverifier \
+         `cairo_verifier_root.blake_circuit_hash` is {expected:?}; the registry does not match \
+         the circuits this binary builds."
     )]
-    RootCircuitHash { expected: Felt, got: Felt },
+    RootCircuitHash { expected: DigestHex, got: DigestHex },
+    #[error(
+        "The root fold proven here hashes to {got:#x} under Poseidon252, but the circuit \
+         registry's multiverifier `cairo_verifier_root.poseidon_circuit_hash` is {expected:#x}; \
+         the registry does not match the circuits this binary builds."
+    )]
+    PoseidonRootCircuitHash { expected: Felt, got: Felt },
+    #[error(
+        "The circuit registry's multiverifier has no `cairo_verifier_root`, so the tree cannot be \
+         folded into a root for the Cairo circuit verifier."
+    )]
+    NoCairoVerifierRoot,
+    #[error(
+        "The circuit registry's `cairo_verifier_root` config has component log sizes {got:?}, but \
+         the multiverifier's are {expected:?}; the root must prove the same padded circuit."
+    )]
+    CairoVerifierRootSizes { expected: LogSizes, got: LogSizes },
     #[error(transparent)]
     Registry(#[from] RegistryError),
     #[error("The applicative flow folds two to {capacity} leaves, the wrapper included; got {n}.")]
@@ -195,6 +213,12 @@ pub fn stwo_run_and_prove_recursive_tree(
     let applicative_inputs = (root_proof_format == ProofFormat::ApplicativeCircuit)
         .then(|| unpacking::validate_applicative_inputs(&leaves, registry))
         .transpose()?;
+    // Likewise a root for a Cairo circuit verifier that the registry does not describe.
+    if matches!(root_proof_format, ProofFormat::CairoVerifier | ProofFormat::PoseidonCairoVerifier)
+        && registry.multiverifier()?.cairo_verifier_root.is_none()
+    {
+        return Err(RecursiveTreeError::NoCairoVerifierRoot);
+    }
 
     let canonical = CanonicalCircuit::build(registry)?;
     let proof_config = &canonical.shared_config.proof_config;

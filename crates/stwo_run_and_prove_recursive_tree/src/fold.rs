@@ -111,12 +111,15 @@ impl LayerEntry {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
 #[clap(rename_all = "snake_case")]
 pub enum ProofFormat {
-    /// For the Cairo circuit verifier program: the Blake2s Merkle channel, serialized as the
-    /// felt252 hex-string JSON stream `scarb execute --arguments-file` expects.
+    /// For the Cairo circuit verifier program: the Blake2s Merkle channel under the registry's
+    /// `cairo_verifier_root` config, serialized as the felt252 hex-string JSON stream
+    /// `scarb execute --arguments-file` expects. The root's identity is the registry's
+    /// `cairo_verifier_root.blake_circuit_hash`.
     CairoVerifier,
     /// For the Cairo circuit verifier built with `poseidon252_verifier`, the outer bootloader's
-    /// verifier task: the Poseidon252 Merkle channel, in the same stream. The root's identity is
-    /// then a felt, the registry's `poseidon_circuit_hash`.
+    /// verifier task: the Poseidon252 Merkle channel under the same config, in the same stream.
+    /// The root's identity is then a felt, the registry's
+    /// `cairo_verifier_root.poseidon_circuit_hash`.
     PoseidonCairoVerifier,
     /// For an enclosing circuit (the applicative unpacking verifier): proven like the internal
     /// folds and written as the serialized `Proof<QM31>`, consumable as a `CircuitVerifierInput`.
@@ -186,7 +189,8 @@ pub(crate) fn build_circuit_verifier_input(
 
 /// Shared reduction body: proves a multiverifier over the two inputs and wraps the result in the
 /// parent entry, with `subtasks` as its packed children. The proof's circuit hash is held to the
-/// registry's multiverifier entry, the identity the unpackers hold every fold node to.
+/// registry's multiverifier entry, the identity the unpackers hold every fold node to, or for a
+/// root proven for a Cairo circuit verifier, to that root's identity.
 fn reduce(
     input0: CircuitVerifierInput<QM31>,
     input1: CircuitVerifierInput<QM31>,
@@ -207,28 +211,49 @@ fn reduce(
     );
 
     let values = context.values();
-    let pcs_config = canonical.shared_config.pcs_config;
     let (proof, extracted) = match proof_format {
         ProofFormat::CairoVerifier => {
+            let root = canonical
+                .cairo_verifier_root
+                .as_ref()
+                .ok_or(RecursiveTreeError::NoCairoVerifierRoot)?;
+            // The root's own config, not the one its children were proven with: the multiverifier
+            // circuit verifies the children under `shared_config`, whatever config proves it.
             let (circuit_proof, extracted) = prove_fold::<Blake2sMerkleChannel>(
-                values, canonical, pcs_config, layer_idx, pair_idx,
+                values,
+                canonical,
+                root.pcs_config,
+                layer_idx,
+                pair_idx,
             )?;
-            check_blake2s_multiverifier_circuit_hash(
-                extracted.circuit_hash,
-                canonical.multiverifier_circuit_hash,
-            )?;
+            // The circuit hash covers the blowup, so the root's differs from the folds'.
+            if extracted.circuit_hash != root.blake_circuit_hash {
+                return Err(RecursiveTreeError::RootCircuitHash {
+                    expected: root.blake_circuit_hash,
+                    got: extracted.circuit_hash,
+                });
+            }
             let json =
                 cairo_verifier_proof_json(circuit_proof, &canonical.preprocessed_multiverifier)?;
             (NodeProof::CairoVerifierJson(json), extracted)
         }
         ProofFormat::PoseidonCairoVerifier => {
+            let root = canonical
+                .cairo_verifier_root
+                .as_ref()
+                .ok_or(RecursiveTreeError::NoCairoVerifierRoot)?;
+            // Under the root's own config, as in the `CairoVerifier` arm.
             let (circuit_proof, extracted) = prove_fold::<Poseidon252MerkleChannel>(
-                values, canonical, pcs_config, layer_idx, pair_idx,
+                values,
+                canonical,
+                root.pcs_config,
+                layer_idx,
+                pair_idx,
             )?;
             let circuit_hash = Felt::from_bytes_be(&circuit_proof.circuit_hash.to_bytes_be());
-            if circuit_hash != canonical.poseidon_circuit_hash {
-                return Err(RecursiveTreeError::RootCircuitHash {
-                    expected: canonical.poseidon_circuit_hash,
+            if circuit_hash != root.poseidon_circuit_hash {
+                return Err(RecursiveTreeError::PoseidonRootCircuitHash {
+                    expected: root.poseidon_circuit_hash,
                     got: circuit_hash,
                 });
             }
@@ -238,12 +263,20 @@ fn reduce(
         }
         ProofFormat::Circuit | ProofFormat::ApplicativeCircuit => {
             let (circuit_proof, extracted) = prove_fold::<Blake2sMerkleChannel>(
-                values, canonical, pcs_config, layer_idx, pair_idx,
+                values,
+                canonical,
+                canonical.shared_config.pcs_config,
+                layer_idx,
+                pair_idx,
             )?;
-            check_blake2s_multiverifier_circuit_hash(
-                extracted.circuit_hash,
-                canonical.multiverifier_circuit_hash,
-            )?;
+            // A fold must prove the registry's multiverifier circuit. The prover computes the hash
+            // anyway, so the check costs nothing.
+            if extracted.circuit_hash != canonical.multiverifier_circuit_hash {
+                return Err(RecursiveTreeError::MultiverifierCircuitHash {
+                    expected: canonical.multiverifier_circuit_hash,
+                    got: extracted.circuit_hash,
+                });
+            }
             // The public data is the output digest, which `extracted` already holds.
             let (proof, _public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
             (NodeProof::Circuit(Box::new(proof)), extracted)
@@ -287,21 +320,6 @@ where
     .map_err(proving_error)?;
     let extracted = extract_root_and_outputs(&circuit_proof);
     Ok((circuit_proof, extracted))
-}
-
-/// A Blake2s-channel fold proof must prove the registry's multiverifier circuit; the prover
-/// computes the hash anyway, so the check costs nothing.
-fn check_blake2s_multiverifier_circuit_hash(
-    circuit_hash: DigestHex,
-    registry_circuit_hash: DigestHex,
-) -> Result<(), RecursiveTreeError> {
-    if circuit_hash != registry_circuit_hash {
-        return Err(RecursiveTreeError::MultiverifierCircuitHash {
-            expected: registry_circuit_hash,
-            got: circuit_hash,
-        });
-    }
-    Ok(())
 }
 
 /// Serializes a fold proof into the Cairo circuit verifier's arguments file; see

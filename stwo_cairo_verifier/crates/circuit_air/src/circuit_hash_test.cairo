@@ -4,8 +4,8 @@ mod blake2s_tests {
     use stwo_verifier_core::vcs::blake2s_hasher::Blake2sHash;
     use crate::circuit_hash::{BLAKE2S_DIGEST_N_WORDS, compute_circuit_hash};
 
-    /// Known-answer test: `blake2s` over the production `log_blowup_factor` (1) and component log
-    /// sizes, and `preprocessed_root = [0, 1, .., 7]`, cross-checked against
+    /// Known-answer test: `blake2s` over a `log_blowup_factor` of 1, the production component log
+    /// sizes and `preprocessed_root = [0, 1, .., 7]`, cross-checked against
     /// `circuit_prover::circuit_hash::compute_circuit_hash`. This pins the byte packing against
     /// the host-side implementation the prover mixes into the channel.
     #[test]
@@ -27,7 +27,7 @@ mod poseidon_tests {
     use crate::circuit_hash::compute_circuit_hash;
 
     /// Known-answer test mirroring `compute_circuit_hash_matches_reference` for the Poseidon252
-    /// build: the production `log_blowup_factor` (1) and component log sizes, cross-checked
+    /// build: a `log_blowup_factor` of 1 and the production component log sizes, cross-checked
     /// against `circuit_prover::circuit_hash::compute_circuit_hash::<Poseidon252MerkleHasher>`.
     /// Pins the felt packing (words seven to a felt, the root absorbed last) against the host
     /// the prover mixes in.
