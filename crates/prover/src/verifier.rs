@@ -138,9 +138,9 @@ mod tests {
         let good_proof = cairo_proof.clone().into();
         verify_cairo_bound::<Blake2sMerkleChannel>(good_proof).unwrap();
 
-        // Swap the committed preprocessed root for a non-canonical value, as a prover that committed
-        // a modified preprocessed trace would. Flipping one byte of the real root guarantees a
-        // different, non-canonical hash.
+        // Swap the committed preprocessed root for a non-canonical value, as a prover that
+        // committed a modified preprocessed trace would. Flipping one byte of the real root
+        // guarantees a different, non-canonical hash.
         let mut tampered = cairo_proof.into();
         let real_root: Blake2sHash = {
             let proof: &CairoProofForRustVerifier<_> = &tampered;
