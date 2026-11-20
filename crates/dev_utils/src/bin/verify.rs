@@ -2,13 +2,13 @@ use std::path::PathBuf;
 
 use anyhow::Result;
 use cairo_air::CairoProofForRustVerifier;
-use cairo_air::verifier::verify_cairo;
 use clap::Parser;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 use stwo::core::vcs_lifted::poseidon252_merkle::{
     Poseidon252MerkleChannel, Poseidon252MerkleHasher,
 };
 use stwo_cairo_prover::prover::ChannelHash;
+use stwo_cairo_prover::verifier::verify_cairo_bound;
 use tracing::{Level, span};
 use tracing_subscriber::fmt::format::FmtSpan;
 
@@ -40,13 +40,13 @@ fn parse_channel_hash(hash_str: &str) -> Result<ChannelHash> {
 
 fn verify_blake2s_proof(proof: String) -> Result<()> {
     let proof: CairoProofForRustVerifier<Blake2sMerkleHasher> = sonic_rs::from_str(&proof)?;
-    verify_cairo::<Blake2sMerkleChannel>(proof)?;
+    verify_cairo_bound::<Blake2sMerkleChannel>(proof)?;
     Ok(())
 }
 
 fn verify_poseidon252_proof(proof: String) -> Result<()> {
     let proof: CairoProofForRustVerifier<Poseidon252MerkleHasher> = sonic_rs::from_str(&proof)?;
-    verify_cairo::<Poseidon252MerkleChannel>(proof)?;
+    verify_cairo_bound::<Poseidon252MerkleChannel>(proof)?;
     Ok(())
 }
 
