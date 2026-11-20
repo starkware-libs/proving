@@ -47,10 +47,6 @@ pub fn all_components<Value: IValue>() -> IndexMap<&'static str, Box<dyn Circuit
             Box::new(components::call_opcode_rel_imm::Component {}) as Box<dyn CircuitEval<Value>>,
         ),
         (
-            "generic_opcode",
-            Box::new(components::generic_opcode::Component {}) as Box<dyn CircuitEval<Value>>,
-        ),
-        (
             "jnz_opcode_non_taken",
             Box::new(components::jnz_opcode_non_taken::Component {}) as Box<dyn CircuitEval<Value>>,
         ),

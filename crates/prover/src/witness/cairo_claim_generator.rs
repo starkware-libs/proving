@@ -32,7 +32,6 @@ pub struct CairoClaimGenerator {
     pub blake_compress_opcode: Option<blake_compress_opcode::ClaimGenerator>,
     pub call_opcode_abs: Option<call_opcode_abs::ClaimGenerator>,
     pub call_opcode_rel_imm: Option<call_opcode_rel_imm::ClaimGenerator>,
-    pub generic_opcode: Option<generic_opcode::ClaimGenerator>,
     pub jnz_opcode_non_taken: Option<jnz_opcode_non_taken::ClaimGenerator>,
     pub jnz_opcode_taken: Option<jnz_opcode_taken::ClaimGenerator>,
     pub jump_opcode_abs: Option<jump_opcode_abs::ClaimGenerator>,
@@ -116,7 +115,6 @@ impl CairoClaimGenerator {
             blake_compress_opcode: blake_compress_opcode_ref,
             call_opcode_abs: call_opcode_abs_ref,
             call_opcode_rel_imm: call_opcode_rel_imm_ref,
-            generic_opcode: generic_opcode_ref,
             jnz_opcode_non_taken: jnz_opcode_non_taken_ref,
             jnz_opcode_taken: jnz_opcode_taken_ref,
             jump_opcode_abs: jump_opcode_abs_ref,
@@ -238,13 +236,6 @@ impl CairoClaimGenerator {
                 s.spawn(|_| {
                     *call_opcode_rel_imm_ref = Some(call_opcode_rel_imm::ClaimGenerator::new(
                         casm_states_by_opcode.call_opcode_rel_imm,
-                    ));
-                });
-            }
-            if components.contains(&"generic_opcode") {
-                s.spawn(|_| {
-                    *generic_opcode_ref = Some(generic_opcode::ClaimGenerator::new(
-                        casm_states_by_opcode.generic_opcode,
                     ));
                 });
             }
@@ -750,7 +741,6 @@ impl CairoClaimGenerator {
         let mut blake_compress_opcode_result = None;
         let mut call_opcode_abs_result = None;
         let mut call_opcode_rel_imm_result = None;
-        let mut generic_opcode_result = None;
         let mut jnz_opcode_non_taken_result = None;
         let mut jnz_opcode_taken_result = None;
         let mut jump_opcode_abs_result = None;
@@ -847,19 +837,6 @@ impl CairoClaimGenerator {
                         self.memory_address_to_id.as_ref().unwrap(),
                         self.memory_id_to_big.as_ref().unwrap(),
                         self.verify_instruction.as_ref().unwrap(),
-                    ));
-                });
-            }
-            if let Some(generator) = self.generic_opcode {
-                s.spawn(|_| {
-                    generic_opcode_result = Some(generator.write_trace(
-                        self.memory_address_to_id.as_ref().unwrap(),
-                        self.memory_id_to_big.as_ref().unwrap(),
-                        self.verify_instruction.as_ref().unwrap(),
-                        self.range_check_9_9.as_ref().unwrap(),
-                        self.range_check_20.as_ref().unwrap(),
-                        self.range_check_18.as_ref().unwrap(),
-                        self.range_check_11.as_ref().unwrap(),
                     ));
                 });
             }
@@ -1016,12 +993,6 @@ impl CairoClaimGenerator {
                     (claim, interaction_gen)
                 })
                 .unzip();
-        let (generic_opcode_claim, generic_opcode_interaction_gen) = generic_opcode_result
-            .map(|(trace, claim, interaction_gen)| {
-                evals.extend(trace.to_evals());
-                (claim, interaction_gen)
-            })
-            .unzip();
         let (jnz_opcode_non_taken_claim, jnz_opcode_non_taken_interaction_gen) =
             jnz_opcode_non_taken_result
                 .map(|(trace, claim, interaction_gen)| {
@@ -1602,7 +1573,6 @@ impl CairoClaimGenerator {
                 blake_compress_opcode: blake_compress_opcode_claim,
                 call_opcode_abs: call_opcode_abs_claim,
                 call_opcode_rel_imm: call_opcode_rel_imm_claim,
-                generic_opcode: generic_opcode_claim,
                 jnz_opcode_non_taken: jnz_opcode_non_taken_claim,
                 jnz_opcode_taken: jnz_opcode_taken_claim,
                 jump_opcode_abs: jump_opcode_abs_claim,
@@ -1672,7 +1642,6 @@ impl CairoClaimGenerator {
                 blake_compress_opcode: blake_compress_opcode_interaction_gen,
                 call_opcode_abs: call_opcode_abs_interaction_gen,
                 call_opcode_rel_imm: call_opcode_rel_imm_interaction_gen,
-                generic_opcode: generic_opcode_interaction_gen,
                 jnz_opcode_non_taken: jnz_opcode_non_taken_interaction_gen,
                 jnz_opcode_taken: jnz_opcode_taken_interaction_gen,
                 jump_opcode_abs: jump_opcode_abs_interaction_gen,
@@ -1751,7 +1720,6 @@ pub struct CairoInteractionClaimGenerator {
     pub blake_compress_opcode: Option<blake_compress_opcode::InteractionClaimGenerator>,
     pub call_opcode_abs: Option<call_opcode_abs::InteractionClaimGenerator>,
     pub call_opcode_rel_imm: Option<call_opcode_rel_imm::InteractionClaimGenerator>,
-    pub generic_opcode: Option<generic_opcode::InteractionClaimGenerator>,
     pub jnz_opcode_non_taken: Option<jnz_opcode_non_taken::InteractionClaimGenerator>,
     pub jnz_opcode_taken: Option<jnz_opcode_taken::InteractionClaimGenerator>,
     pub jump_opcode_abs: Option<jump_opcode_abs::InteractionClaimGenerator>,
@@ -1835,7 +1803,6 @@ impl CairoInteractionClaimGenerator {
         let mut blake_compress_opcode_result = None;
         let mut call_opcode_abs_result = None;
         let mut call_opcode_rel_imm_result = None;
-        let mut generic_opcode_result = None;
         let mut jnz_opcode_non_taken_result = None;
         let mut jnz_opcode_taken_result = None;
         let mut jump_opcode_abs_result = None;
@@ -1946,12 +1913,6 @@ impl CairoInteractionClaimGenerator {
             if let Some(generator) = self.call_opcode_rel_imm {
                 s.spawn(|_| {
                     call_opcode_rel_imm_result =
-                        Some(generator.write_interaction_trace(common_lookup_elements));
-                });
-            }
-            if let Some(generator) = self.generic_opcode {
-                s.spawn(|_| {
-                    generic_opcode_result =
                         Some(generator.write_interaction_trace(common_lookup_elements));
                 });
             }
@@ -2343,11 +2304,6 @@ impl CairoInteractionClaimGenerator {
                 evals.extend(trace);
                 interaction_claim
             });
-        let generic_opcode_interaction_claim =
-            generic_opcode_result.map(|(trace, interaction_claim)| {
-                evals.extend(trace);
-                interaction_claim
-            });
         let jnz_opcode_non_taken_interaction_claim =
             jnz_opcode_non_taken_result.map(|(trace, interaction_claim)| {
                 evals.extend(trace);
@@ -2646,7 +2602,6 @@ impl CairoInteractionClaimGenerator {
                 blake_compress_opcode: blake_compress_opcode_interaction_claim,
                 call_opcode_abs: call_opcode_abs_interaction_claim,
                 call_opcode_rel_imm: call_opcode_rel_imm_interaction_claim,
-                generic_opcode: generic_opcode_interaction_claim,
                 jnz_opcode_non_taken: jnz_opcode_non_taken_interaction_claim,
                 jnz_opcode_taken: jnz_opcode_taken_interaction_claim,
                 jump_opcode_abs: jump_opcode_abs_interaction_claim,
@@ -2715,20 +2670,6 @@ impl CairoInteractionClaimGenerator {
 }
 pub fn get_sub_components(component_name: &str) -> Vec<&'static str> {
     match component_name {
-        "generic_opcode" => {
-            vec![
-                "memory_address_to_id",
-                "range_check_9_9",
-                "memory_id_to_big",
-                "range_check_7_2_5",
-                "range_check_4_3",
-                "verify_instruction",
-                "range_check_20",
-                "range_check_18",
-                "range_check_11",
-                "generic_opcode",
-            ]
-        }
         "add_ap_opcode" => {
             vec![
                 "memory_address_to_id",

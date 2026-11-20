@@ -23,7 +23,6 @@ use super::opcodes::add_opcode::AddOpcode;
 use super::opcodes::assert_eq_opcode::AssertEqOpcode;
 use super::opcodes::blake::blake_compress_opcode::BlakeCompressOpcode;
 use super::opcodes::call_opcode::CallOpcode;
-use super::opcodes::generic_opcode::generic_opcode::GenericOpcode;
 use super::opcodes::jnz_opcode::JnzOpcode;
 use super::opcodes::jump_opcode::JumpOpcode;
 use super::opcodes::mul_opcode::MulOpcode;
@@ -95,7 +94,6 @@ pub fn create_casm_registry_ordered_by_stwo_cairo(
         "blake_compress_opcode",
         "call_opcode_abs",
         "call_opcode_rel_imm",
-        "generic_opcode",
         "jnz_opcode_non_taken",
         "jnz_opcode_taken",
         "jump_opcode_abs",
@@ -184,8 +182,6 @@ pub fn create_casm_registry_ordered_by_stwo_cairo(
 /// Returns an array of all the air functions of opcodes.
 pub fn get_all_opcodes() -> Vec<Box<dyn AirFn<ExtIn = (), In = CasmStateVar, Out = CasmStateVar>>> {
     vec![
-        // Generic opcode
-        Box::new(GenericOpcode::default()),
         // AddAp opcode
         Box::new(AddApOpcode { memory: Felt252IdMemory::default() }),
         // Add opcode

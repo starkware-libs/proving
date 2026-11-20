@@ -11,7 +11,6 @@ pub mod blake;
 pub mod call_opcode;
 #[cfg(test)]
 pub mod call_opcode_test;
-pub mod generic_opcode;
 pub mod jnz_opcode;
 #[cfg(test)]
 pub mod jnz_opcode_test;

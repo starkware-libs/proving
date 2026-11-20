@@ -11,11 +11,11 @@ use crate::components::{
     add_ap_opcode, add_mod_builtin, add_opcode, add_opcode_small, assert_eq_opcode,
     assert_eq_opcode_double_deref, assert_eq_opcode_imm, bitwise_builtin, blake_compress_opcode,
     blake_g, blake_round, blake_round_sigma, call_opcode_abs, call_opcode_rel_imm, cube_252,
-    ec_op_builtin, generic_opcode, indented_component_display, jnz_opcode_non_taken,
-    jnz_opcode_taken, jump_opcode_abs, jump_opcode_double_deref, jump_opcode_rel,
-    jump_opcode_rel_imm, memory_address_to_id, memory_id_to_big, memory_id_to_small,
-    mul_mod_builtin, mul_opcode, mul_opcode_small, partial_ec_mul_generic,
-    partial_ec_mul_window_bits_9, partial_ec_mul_window_bits_18, pedersen_aggregator_window_bits_9,
+    ec_op_builtin, indented_component_display, jnz_opcode_non_taken, jnz_opcode_taken,
+    jump_opcode_abs, jump_opcode_double_deref, jump_opcode_rel, jump_opcode_rel_imm,
+    memory_address_to_id, memory_id_to_big, memory_id_to_small, mul_mod_builtin, mul_opcode,
+    mul_opcode_small, partial_ec_mul_generic, partial_ec_mul_window_bits_9,
+    partial_ec_mul_window_bits_18, pedersen_aggregator_window_bits_9,
     pedersen_aggregator_window_bits_18, pedersen_builtin, pedersen_builtin_narrow_windows,
     pedersen_points_table_window_bits_9, pedersen_points_table_window_bits_18,
     poseidon_3_partial_rounds_chain, poseidon_aggregator, poseidon_builtin,
@@ -38,7 +38,6 @@ pub struct CairoComponents {
     pub blake_compress_opcode: Option<blake_compress_opcode::Component>,
     pub call_opcode_abs: Option<call_opcode_abs::Component>,
     pub call_opcode_rel_imm: Option<call_opcode_rel_imm::Component>,
-    pub generic_opcode: Option<generic_opcode::Component>,
     pub jnz_opcode_non_taken: Option<jnz_opcode_non_taken::Component>,
     pub jnz_opcode_taken: Option<jnz_opcode_taken::Component>,
     pub jump_opcode_abs: Option<jump_opcode_abs::Component>,
@@ -205,16 +204,6 @@ impl CairoComponents {
                     interaction_claim.call_opcode_rel_imm.unwrap().claimed_sum,
                 )
             });
-        let generic_opcode_component = cairo_claim.generic_opcode.map(|generic_opcode| {
-            generic_opcode::Component::new(
-                tree_span_provider,
-                generic_opcode::Eval {
-                    claim: generic_opcode,
-                    common_lookup_elements: common_lookup_elements.clone(),
-                },
-                interaction_claim.generic_opcode.unwrap().claimed_sum,
-            )
-        });
         let jnz_opcode_non_taken_component =
             cairo_claim.jnz_opcode_non_taken.map(|jnz_opcode_non_taken| {
                 jnz_opcode_non_taken::Component::new(
@@ -908,7 +897,6 @@ impl CairoComponents {
             blake_compress_opcode: blake_compress_opcode_component,
             call_opcode_abs: call_opcode_abs_component,
             call_opcode_rel_imm: call_opcode_rel_imm_component,
-            generic_opcode: generic_opcode_component,
             jnz_opcode_non_taken: jnz_opcode_non_taken_component,
             jnz_opcode_taken: jnz_opcode_taken_component,
             jump_opcode_abs: jump_opcode_abs_component,
@@ -997,9 +985,6 @@ impl CairoComponents {
             vec.push(component as &dyn Component);
         }
         if let Some(component) = &self.call_opcode_rel_imm {
-            vec.push(component as &dyn Component);
-        }
-        if let Some(component) = &self.generic_opcode {
             vec.push(component as &dyn Component);
         }
         if let Some(component) = &self.jnz_opcode_non_taken {
@@ -1209,9 +1194,6 @@ impl Display for CairoComponents {
         }
         if let Some(ref component) = self.call_opcode_rel_imm {
             writeln!(f, "CallOpcodeRelImm: {}", indented_component_display(component))?;
-        }
-        if let Some(ref component) = self.generic_opcode {
-            writeln!(f, "GenericOpcode: {}", indented_component_display(component))?;
         }
         if let Some(ref component) = self.jnz_opcode_non_taken {
             writeln!(f, "JnzOpcodeNonTaken: {}", indented_component_display(component))?;

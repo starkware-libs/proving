@@ -372,8 +372,6 @@ blake2s();
     ap+=1;
     mul_big();
     ap+=1;
-    generic();
-    ap+=1;
     jump_rel();
     ap+=1;
     jump_abs_double_deref();
@@ -509,14 +507,6 @@ func assert_eq_double_deref(){
     [ap] = 100, ap++;
     [ap] = [[fp - 1] + 2], ap++;  // [fp - 2] is the old fp.
     [ap] = 5;
-    ret;
-}
-
-func generic(){
-    [ap]=1, ap++;
-    [ap]=2, ap++;
-    jmp rel [ap-2] if [ap-1] != 0;
-    [ap]=1, ap++;
     ret;
 }
 

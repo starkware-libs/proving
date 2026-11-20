@@ -33,9 +33,6 @@ pub fn cairo_provers(components: &CairoComponents) -> Vec<&dyn ComponentProver<S
     if let Some(component) = &components.call_opcode_rel_imm {
         vec.push(component as &dyn ComponentProver<SimdBackend>);
     }
-    if let Some(component) = &components.generic_opcode {
-        vec.push(component as &dyn ComponentProver<SimdBackend>);
-    }
     if let Some(component) = &components.jnz_opcode_non_taken {
         vec.push(component as &dyn ComponentProver<SimdBackend>);
     }

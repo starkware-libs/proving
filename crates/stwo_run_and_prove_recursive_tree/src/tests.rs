@@ -350,12 +350,12 @@ fn program_hash(path: &std::path::Path) -> String {
         .to_string()
 }
 
-// The leaf simple bootloader the e2e folds run, built with compiler 0.14.5 from starkware#41421's
+// The leaf simple bootloader the e2e folds run, built with compiler 0.14.5 from starkware#41542's
 // //src/starkware/cairo/bootloaders/simple_bootloader:leaf_simple_bootloader_program.
 #[test]
 fn test_leaf_simple_bootloader_program_hash_snapshot() {
     let expected = expect_test::expect![
-        "2894502831807049149598776947629460485870896363013924947392678727005104054185"
+        "2417503138448600950450376944842245192226738928090396287204601071029634639797"
     ];
     expected.assert_eq(&program_hash(
         &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),

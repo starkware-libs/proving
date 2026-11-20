@@ -26,7 +26,6 @@ pub struct CairoClaim {
     pub blake_compress_opcode: Option<blake_compress_opcode::Claim>,
     pub call_opcode_abs: Option<call_opcode_abs::Claim>,
     pub call_opcode_rel_imm: Option<call_opcode_rel_imm::Claim>,
-    pub generic_opcode: Option<generic_opcode::Claim>,
     pub jnz_opcode_non_taken: Option<jnz_opcode_non_taken::Claim>,
     pub jnz_opcode_taken: Option<jnz_opcode_taken::Claim>,
     pub jump_opcode_abs: Option<jump_opcode_abs::Claim>,
@@ -150,13 +149,6 @@ impl CairoClaim {
             accumulate_relation_uses(
                 relation_uses,
                 call_opcode_rel_imm::RELATION_USES_PER_ROW,
-                c.log_size,
-            )
-        });
-        self.generic_opcode.as_ref().inspect(|c| {
-            accumulate_relation_uses(
-                relation_uses,
-                generic_opcode::RELATION_USES_PER_ROW,
                 c.log_size,
             )
         });
@@ -399,7 +391,6 @@ impl CairoClaim {
         self.blake_compress_opcode.as_ref().inspect(|c| log_sizes_list.push(c.log_sizes()));
         self.call_opcode_abs.as_ref().inspect(|c| log_sizes_list.push(c.log_sizes()));
         self.call_opcode_rel_imm.as_ref().inspect(|c| log_sizes_list.push(c.log_sizes()));
-        self.generic_opcode.as_ref().inspect(|c| log_sizes_list.push(c.log_sizes()));
         self.jnz_opcode_non_taken.as_ref().inspect(|c| log_sizes_list.push(c.log_sizes()));
         self.jnz_opcode_taken.as_ref().inspect(|c| log_sizes_list.push(c.log_sizes()));
         self.jump_opcode_abs.as_ref().inspect(|c| log_sizes_list.push(c.log_sizes()));
@@ -526,12 +517,6 @@ impl CairoClaim {
             component_enable_bits.push(false);
         }
         if let Some(c) = self.call_opcode_rel_imm {
-            component_log_sizes.push(c.log_size);
-            component_enable_bits.push(true);
-        } else {
-            component_enable_bits.push(false);
-        }
-        if let Some(c) = self.generic_opcode {
             component_log_sizes.push(c.log_size);
             component_enable_bits.push(true);
         } else {
@@ -907,7 +892,6 @@ pub struct CairoInteractionClaim {
     pub blake_compress_opcode: Option<blake_compress_opcode::InteractionClaim>,
     pub call_opcode_abs: Option<call_opcode_abs::InteractionClaim>,
     pub call_opcode_rel_imm: Option<call_opcode_rel_imm::InteractionClaim>,
-    pub generic_opcode: Option<generic_opcode::InteractionClaim>,
     pub jnz_opcode_non_taken: Option<jnz_opcode_non_taken::InteractionClaim>,
     pub jnz_opcode_taken: Option<jnz_opcode_taken::InteractionClaim>,
     pub jump_opcode_abs: Option<jump_opcode_abs::InteractionClaim>,
@@ -1010,9 +994,6 @@ impl CairoInteractionClaim {
             claimed_sums.push(c.claimed_sum);
         }
         if let Some(c) = self.call_opcode_rel_imm {
-            claimed_sums.push(c.claimed_sum);
-        }
-        if let Some(c) = self.generic_opcode {
             claimed_sums.push(c.claimed_sum);
         }
         if let Some(c) = self.jnz_opcode_non_taken {
@@ -1229,9 +1210,6 @@ pub fn logup_sum(
         sum += ic.claimed_sum;
     });
     interaction_claim.call_opcode_rel_imm.as_ref().inspect(|ic| {
-        sum += ic.claimed_sum;
-    });
-    interaction_claim.generic_opcode.as_ref().inspect(|ic| {
         sum += ic.claimed_sum;
     });
     interaction_claim.jnz_opcode_non_taken.as_ref().inspect(|ic| {
