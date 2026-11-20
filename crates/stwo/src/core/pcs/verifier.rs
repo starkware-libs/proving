@@ -59,6 +59,12 @@ impl<MC: MerkleChannel> CommitmentSchemeVerifier<MC> {
         proof: CommitmentSchemeProof<MC::H>,
         channel: &mut MC::C,
     ) -> Result<(), VerificationError> {
+        // The decommitments, queried values and sampled values come from the proof. Check their
+        // shape against the verifier's own trees and sample points up front, so that a malformed
+        // proof is rejected with an error instead of panicking in the `zip_eq`s below, and so that
+        // no sample point is silently dropped by `zip`.
+        check_proof_structure(&self.trees, &sampled_points, &proof)?;
+
         channel.mix_felts(&proof.sampled_values.clone().flatten_cols());
         let random_coeff = channel.draw_secure_felt();
         let lifting_log_size = self.trees.last().unwrap().height;
@@ -127,4 +133,33 @@ impl<MC: MerkleChannel> CommitmentSchemeVerifier<MC> {
 
         Ok(())
     }
+}
+
+/// Checks that the proof-supplied decommitments, queried values and sampled values have one entry
+/// per committed tree, and that the sampled values have exactly one value per sample point.
+fn check_proof_structure<H: crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted>(
+    trees: &TreeVec<MerkleVerifierLifted<H>>,
+    sampled_points: &TreeVec<ColumnVec<Vec<CirclePoint<SecureField>>>>,
+    proof: &CommitmentSchemeProof<H>,
+) -> Result<(), VerificationError> {
+    let invalid =
+        |what: &str| Err(VerificationError::InvalidStructure(std_shims::ToString::to_string(what)));
+    if proof.decommitments.len() != trees.len() {
+        return invalid("wrong number of tree decommitments");
+    }
+    if proof.queried_values.len() != trees.len() {
+        return invalid("wrong number of trees of queried values");
+    }
+    if proof.sampled_values.len() != sampled_points.len() {
+        return invalid("wrong number of trees of sampled values");
+    }
+    for (tree_points, tree_values) in zip(sampled_points.iter(), proof.sampled_values.iter()) {
+        if tree_points.len() != tree_values.len() {
+            return invalid("wrong number of columns of sampled values");
+        }
+        if zip(tree_points, tree_values).any(|(points, values)| points.len() != values.len()) {
+            return invalid("wrong number of sampled values in a column");
+        }
+    }
+    Ok(())
 }

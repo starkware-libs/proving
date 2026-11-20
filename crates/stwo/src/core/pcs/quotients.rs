@@ -121,9 +121,13 @@ pub fn fri_answers(
     lifting_log_size: u32,
 ) -> Result<Vec<SecureField>, VerificationError> {
     let queried_values = queried_values.flatten();
-    assert!(
-        queried_values.iter().all(|queries_per_col| queries_per_col.len() == query_positions.len())
-    );
+    // The queried values come from the proof: reject a wrong count instead of panicking.
+    if !queried_values.iter().all(|queries_per_col| queries_per_col.len() == query_positions.len())
+    {
+        return Err(VerificationError::InvalidStructure(std_shims::ToString::to_string(
+            "wrong number of queried values in a column",
+        )));
+    }
     let samples_with_randomness = build_samples_with_randomness_and_periodicity(
         &samples,
         column_log_sizes.0.into_iter().map(|x| x.into_iter()).collect(),
