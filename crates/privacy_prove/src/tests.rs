@@ -12,7 +12,7 @@ fn test_privacy_bootloader_program_hash_snapshot() {
 
     // Source code for this compiled privacy bootloader can be found at:
     // repo: https://github.com/starkware-industries/starkware
-    // commit: "77340066c5423ac928d7b4225eb028d180fe2507"
+    // commit: "58466f57d36c66c7d210946db89f046289860f11"
     // Built (with debug info) via the standard BUILD target, then stripped of debug info to keep
     // the checked-in file small, from the starkware repo root:
     //   bazel build
@@ -23,7 +23,7 @@ fn test_privacy_bootloader_program_hash_snapshot() {
     // privacy_simple_bootloader_compiled.json" \
     //     > privacy_simple_bootloader_compiled.json
     let expected_hash_str =
-        expect!["1815558786189423208589526876773695194008500234469980328976606589050360585751"];
+        expect!["169617072202372577763609192033090615953548145241272420325800262881167904631"];
     expected_hash_str.assert_eq(&program_hash.to_string());
 }
 
@@ -40,6 +40,8 @@ pub mod slow_tests {
         privacy_recursive_prove_large,
     };
 
+    // TODO(noa): Add a flow test with a PIE that declares only the output builtin, to check that
+    // the privacy bootloader's component exercises alone cover every component the circuit needs.
     #[test]
     fn test_privacy_recursive_prove_and_verify() {
         let _ = fmt().with_max_level(tracing::Level::INFO).try_init();
