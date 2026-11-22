@@ -74,6 +74,602 @@
   ],
   "constraints": [
     {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_v0_tmp_9fdbc_0"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op0_limb0_col0"
+                    },
+                    "-",
+                    {
+                      "State": "input_op0_limb1_col1"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_op0_limb1_col1"
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op1_limb0_col4"
+                    },
+                    "-",
+                    {
+                      "State": "input_op1_limb1_col5"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_op1_limb1_col5"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_v1_tmp_9fdbc_1"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op0_limb0_col0"
+                    },
+                    "-",
+                    {
+                      "State": "input_op0_limb1_col1"
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op0_limb2_col2"
+                    },
+                    "-",
+                    {
+                      "State": "input_op0_limb3_col3"
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op1_limb0_col4"
+                    },
+                    "-",
+                    {
+                      "State": "input_op1_limb1_col5"
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op1_limb2_col6"
+                    },
+                    "-",
+                    {
+                      "State": "input_op1_limb3_col7"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_vm1_tmp_9fdbc_2"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op0_limb0_col0"
+                    },
+                    "-",
+                    {
+                      "State": "input_op0_limb1_col1"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op0_limb2_col2"
+                    },
+                    "-",
+                    {
+                      "State": "input_op0_limb3_col3"
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op1_limb0_col4"
+                    },
+                    "-",
+                    {
+                      "State": "input_op1_limb1_col5"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op1_limb2_col6"
+                    },
+                    "-",
+                    {
+                      "State": "input_op1_limb3_col7"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_v2_tmp_9fdbc_3"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op0_limb0_col0"
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op0_limb1_col1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op0_limb2_col2"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "4"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op0_limb3_col3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op1_limb0_col4"
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb1_col5"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb2_col6"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "4"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb3_col7"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_vm2_tmp_9fdbc_4"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op0_limb0_col0"
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op0_limb1_col1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op0_limb2_col2"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "4"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op0_limb3_col3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_op1_limb0_col4"
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb1_col5"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb2_col6"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "4"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb3_col7"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_v3_tmp_9fdbc_5"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "input_op0_limb0_col0"
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "7"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "input_op0_limb1_col1"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "3"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op0_limb2_col2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "21"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "input_op0_limb3_col3"
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "input_op1_limb0_col4"
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "7"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "input_op1_limb1_col5"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "3"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb2_col6"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "21"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "input_op1_limb3_col7"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_vinf_tmp_9fdbc_6"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "input_op0_limb3_col3"
+            },
+            "*",
+            {
+              "State": "input_op1_limb3_col7"
+            }
+          ]
+        }
+      }
+    },
+    {
       "Constraint": [
         {
           "BinaryOp": [
@@ -100,79 +696,76 @@
                                             {
                                               "BinaryOp": [
                                                 {
-                                                  "State": "input_op0_limb0_col0"
+                                                  "Var": [
+                                                    "M31",
+                                                    "qm31_mul_v2_tmp_9fdbc_3"
+                                                  ]
                                                 },
-                                                "*",
+                                                "+",
                                                 {
-                                                  "State": "input_op1_limb0_col4"
+                                                  "Var": [
+                                                    "M31",
+                                                    "qm31_mul_vm2_tmp_9fdbc_4"
+                                                  ]
                                                 }
                                               ]
                                             },
-                                            "-",
+                                            "+",
                                             {
                                               "BinaryOp": [
                                                 {
-                                                  "State": "input_op0_limb1_col1"
+                                                  "Const": [
+                                                    "M31",
+                                                    "20"
+                                                  ]
                                                 },
                                                 "*",
                                                 {
-                                                  "State": "input_op1_limb1_col5"
+                                                  "BinaryOp": [
+                                                    {
+                                                      "Var": [
+                                                        "M31",
+                                                        "qm31_mul_v1_tmp_9fdbc_1"
+                                                      ]
+                                                    },
+                                                    "+",
+                                                    {
+                                                      "Var": [
+                                                        "M31",
+                                                        "qm31_mul_vm1_tmp_9fdbc_2"
+                                                      ]
+                                                    }
+                                                  ]
                                                 }
                                               ]
                                             }
                                           ]
                                         },
-                                        "+",
+                                        "-",
                                         {
                                           "BinaryOp": [
                                             {
                                               "Const": [
                                                 "M31",
-                                                "2"
+                                                "18"
                                               ]
                                             },
                                             "*",
                                             {
-                                              "BinaryOp": [
-                                                {
-                                                  "BinaryOp": [
-                                                    {
-                                                      "State": "input_op0_limb2_col2"
-                                                    },
-                                                    "*",
-                                                    {
-                                                      "State": "input_op1_limb2_col6"
-                                                    }
-                                                  ]
-                                                },
-                                                "-",
-                                                {
-                                                  "BinaryOp": [
-                                                    {
-                                                      "State": "input_op0_limb3_col3"
-                                                    },
-                                                    "*",
-                                                    {
-                                                      "State": "input_op1_limb3_col7"
-                                                    }
-                                                  ]
-                                                }
+                                              "Var": [
+                                                "M31",
+                                                "qm31_mul_v0_tmp_9fdbc_0"
                                               ]
                                             }
                                           ]
                                         }
                                       ]
                                     },
-                                    "-",
+                                    "*",
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "input_op0_limb2_col2"
-                                        },
-                                        "*",
-                                        {
-                                          "State": "input_op1_limb3_col7"
-                                        }
+                                      "Const": [
+                                        "M31",
+                                        "1521134250"
                                       ]
                                     }
                                   ]
@@ -181,11 +774,17 @@
                                 {
                                   "BinaryOp": [
                                     {
-                                      "State": "input_op0_limb3_col3"
+                                      "Const": [
+                                        "M31",
+                                        "5"
+                                      ]
                                     },
                                     "*",
                                     {
-                                      "State": "input_op1_limb2_col6"
+                                      "Var": [
+                                        "M31",
+                                        "qm31_mul_vinf_tmp_9fdbc_6"
+                                      ]
                                     }
                                   ]
                                 }
@@ -293,31 +892,21 @@
                                         {
                                           "BinaryOp": [
                                             {
-                                              "BinaryOp": [
-                                                {
-                                                  "State": "input_op0_limb0_col0"
-                                                },
-                                                "*",
-                                                {
-                                                  "State": "input_op1_limb1_col5"
-                                                }
+                                              "Var": [
+                                                "M31",
+                                                "qm31_mul_v2_tmp_9fdbc_3"
                                               ]
                                             },
                                             "+",
                                             {
-                                              "BinaryOp": [
-                                                {
-                                                  "State": "input_op0_limb1_col1"
-                                                },
-                                                "*",
-                                                {
-                                                  "State": "input_op1_limb0_col4"
-                                                }
+                                              "Var": [
+                                                "M31",
+                                                "qm31_mul_vm2_tmp_9fdbc_4"
                                               ]
                                             }
                                           ]
                                         },
-                                        "+",
+                                        "-",
                                         {
                                           "BinaryOp": [
                                             {
@@ -328,46 +917,20 @@
                                             },
                                             "*",
                                             {
-                                              "BinaryOp": [
-                                                {
-                                                  "BinaryOp": [
-                                                    {
-                                                      "State": "input_op0_limb2_col2"
-                                                    },
-                                                    "*",
-                                                    {
-                                                      "State": "input_op1_limb3_col7"
-                                                    }
-                                                  ]
-                                                },
-                                                "+",
-                                                {
-                                                  "BinaryOp": [
-                                                    {
-                                                      "State": "input_op0_limb3_col3"
-                                                    },
-                                                    "*",
-                                                    {
-                                                      "State": "input_op1_limb2_col6"
-                                                    }
-                                                  ]
-                                                }
+                                              "Var": [
+                                                "M31",
+                                                "qm31_mul_v0_tmp_9fdbc_0"
                                               ]
                                             }
                                           ]
                                         }
                                       ]
                                     },
-                                    "+",
+                                    "*",
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "input_op0_limb2_col2"
-                                        },
-                                        "*",
-                                        {
-                                          "State": "input_op1_limb2_col6"
-                                        }
+                                      "Const": [
+                                        "M31",
+                                        "268435456"
                                       ]
                                     }
                                   ]
@@ -376,11 +939,17 @@
                                 {
                                   "BinaryOp": [
                                     {
-                                      "State": "input_op0_limb3_col3"
+                                      "Const": [
+                                        "M31",
+                                        "5"
+                                      ]
                                     },
                                     "*",
                                     {
-                                      "State": "input_op1_limb3_col7"
+                                      "Var": [
+                                        "M31",
+                                        "qm31_mul_vinf_tmp_9fdbc_6"
+                                      ]
                                     }
                                   ]
                                 }
@@ -488,11 +1057,105 @@
                                         {
                                           "BinaryOp": [
                                             {
-                                              "State": "input_op0_limb0_col0"
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "BinaryOp": [
+                                                            {
+                                                              "Const": [
+                                                                "M31",
+                                                                "30"
+                                                              ]
+                                                            },
+                                                            "*",
+                                                            {
+                                                              "Var": [
+                                                                "M31",
+                                                                "qm31_mul_v0_tmp_9fdbc_0"
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        "+",
+                                                        {
+                                                          "BinaryOp": [
+                                                            {
+                                                              "Const": [
+                                                                "M31",
+                                                                "10"
+                                                              ]
+                                                            },
+                                                            "*",
+                                                            {
+                                                              "Var": [
+                                                                "M31",
+                                                                "qm31_mul_v1_tmp_9fdbc_1"
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    "-",
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "Const": [
+                                                            "M31",
+                                                            "55"
+                                                          ]
+                                                        },
+                                                        "*",
+                                                        {
+                                                          "Var": [
+                                                            "M31",
+                                                            "qm31_mul_vm1_tmp_9fdbc_2"
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                "+",
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "Const": [
+                                                        "M31",
+                                                        "25"
+                                                      ]
+                                                    },
+                                                    "*",
+                                                    {
+                                                      "Var": [
+                                                        "M31",
+                                                        "qm31_mul_v2_tmp_9fdbc_3"
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
                                             },
-                                            "*",
+                                            "-",
                                             {
-                                              "State": "input_op1_limb2_col6"
+                                              "BinaryOp": [
+                                                {
+                                                  "Const": [
+                                                    "M31",
+                                                    "7"
+                                                  ]
+                                                },
+                                                "*",
+                                                {
+                                                  "Var": [
+                                                    "M31",
+                                                    "qm31_mul_vm2_tmp_9fdbc_4"
+                                                  ]
+                                                }
+                                              ]
                                             }
                                           ]
                                         },
@@ -500,39 +1163,46 @@
                                         {
                                           "BinaryOp": [
                                             {
-                                              "State": "input_op0_limb1_col1"
+                                              "Const": [
+                                                "M31",
+                                                "3"
+                                              ]
                                             },
                                             "*",
                                             {
-                                              "State": "input_op1_limb3_col7"
+                                              "Var": [
+                                                "M31",
+                                                "qm31_mul_v3_tmp_9fdbc_5"
+                                              ]
                                             }
                                           ]
                                         }
                                       ]
                                     },
-                                    "+",
+                                    "*",
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "input_op0_limb2_col2"
-                                        },
-                                        "*",
-                                        {
-                                          "State": "input_op1_limb0_col4"
-                                        }
+                                      "Const": [
+                                        "M31",
+                                        "304226850"
                                       ]
                                     }
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
                                   "BinaryOp": [
                                     {
-                                      "State": "input_op0_limb3_col3"
+                                      "Const": [
+                                        "M31",
+                                        "9"
+                                      ]
                                     },
                                     "*",
                                     {
-                                      "State": "input_op1_limb1_col5"
+                                      "Var": [
+                                        "M31",
+                                        "qm31_mul_vinf_tmp_9fdbc_6"
+                                      ]
                                     }
                                   ]
                                 }
@@ -640,38 +1310,111 @@
                                         {
                                           "BinaryOp": [
                                             {
-                                              "State": "input_op0_limb0_col0"
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "Const": [
+                                                            "M31",
+                                                            "10"
+                                                          ]
+                                                        },
+                                                        "*",
+                                                        {
+                                                          "Var": [
+                                                            "M31",
+                                                            "qm31_mul_v0_tmp_9fdbc_0"
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    "-",
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "Const": [
+                                                            "M31",
+                                                            "30"
+                                                          ]
+                                                        },
+                                                        "*",
+                                                        {
+                                                          "Var": [
+                                                            "M31",
+                                                            "qm31_mul_v1_tmp_9fdbc_1"
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                "+",
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "Const": [
+                                                        "M31",
+                                                        "15"
+                                                      ]
+                                                    },
+                                                    "*",
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "Var": [
+                                                            "M31",
+                                                            "qm31_mul_vm1_tmp_9fdbc_2"
+                                                          ]
+                                                        },
+                                                        "+",
+                                                        {
+                                                          "Var": [
+                                                            "M31",
+                                                            "qm31_mul_v2_tmp_9fdbc_3"
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
                                             },
-                                            "*",
+                                            "-",
                                             {
-                                              "State": "input_op1_limb3_col7"
+                                              "BinaryOp": [
+                                                {
+                                                  "Const": [
+                                                    "M31",
+                                                    "9"
+                                                  ]
+                                                },
+                                                "*",
+                                                {
+                                                  "Var": [
+                                                    "M31",
+                                                    "qm31_mul_vm2_tmp_9fdbc_4"
+                                                  ]
+                                                }
+                                              ]
                                             }
                                           ]
                                         },
-                                        "+",
+                                        "-",
                                         {
-                                          "BinaryOp": [
-                                            {
-                                              "State": "input_op0_limb1_col1"
-                                            },
-                                            "*",
-                                            {
-                                              "State": "input_op1_limb2_col6"
-                                            }
+                                          "Var": [
+                                            "M31",
+                                            "qm31_mul_v3_tmp_9fdbc_5"
                                           ]
                                         }
                                       ]
                                     },
-                                    "+",
+                                    "*",
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "input_op0_limb2_col2"
-                                        },
-                                        "*",
-                                        {
-                                          "State": "input_op1_limb1_col5"
-                                        }
+                                      "Const": [
+                                        "M31",
+                                        "304226850"
                                       ]
                                     }
                                   ]
@@ -680,11 +1423,17 @@
                                 {
                                   "BinaryOp": [
                                     {
-                                      "State": "input_op0_limb3_col3"
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
                                     },
                                     "*",
                                     {
-                                      "State": "input_op1_limb0_col4"
+                                      "Var": [
+                                        "M31",
+                                        "qm31_mul_vinf_tmp_9fdbc_6"
+                                      ]
                                     }
                                   ]
                                 }
