@@ -1,7 +1,7 @@
+use std::array;
 use std::iter::zip;
-use std::{array, mem};
 
-use bytemuck::allocation::cast_vec;
+use bytemuck::allocation::{cast_vec, try_cast_vec};
 use bytemuck::{Zeroable, cast_slice, cast_slice_mut};
 use itertools::{Itertools, izip};
 use num_traits::Zero;
@@ -40,13 +40,15 @@ impl BaseColumn {
         &mut cast_slice_mut(&mut self.data)[..self.length]
     }
 
-    pub fn into_cpu_vec(mut self) -> Vec<BaseField> {
-        let capacity = self.data.capacity() * N_LANES;
+    pub fn into_cpu_vec(self) -> Vec<BaseField> {
         let length = self.length;
-        let ptr = self.data.as_mut_ptr() as *mut BaseField;
-        let res = unsafe { Vec::from_raw_parts(ptr, length, capacity) };
-        mem::forget(self);
-        res
+        match try_cast_vec::<PackedBaseField, BaseField>(self.data) {
+            Ok(mut res) => {
+                res.truncate(length);
+                res
+            }
+            Err((_, data)) => cast_slice(&data)[..length].to_vec(),
+        }
     }
 
     pub fn from_cpu(values: &[BaseField]) -> Self {
@@ -776,6 +778,16 @@ mod tests {
         let res = values.into_iter().collect::<BaseColumn>();
 
         assert_eq!(res.to_cpu(), values);
+    }
+
+    #[test]
+    fn test_base_column_into_cpu_vec() {
+        for len in [0, 1, N_LANES - 1, N_LANES, N_LANES + 3, N_LANES * 3 + 7] {
+            let values: Vec<BaseField> = (0..len).map(BaseField::from).collect();
+            let col: BaseColumn = values.iter().copied().collect();
+            let cpu_vec = col.into_cpu_vec();
+            assert_eq!(cpu_vec, values);
+        }
     }
 
     #[test]
