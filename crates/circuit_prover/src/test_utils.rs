@@ -53,7 +53,7 @@ pub const PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] =
 
 /// The preprocessed root of the multiverifier circuit.
 pub const MULTIVERIFIER_PREPROCESSED_ROOT: [u32; 8] =
-    [1200193047, 769237956, 3453610982, 2265085164, 2133785528, 446246689, 803056912, 3201447093];
+    [494487330, 3001272733, 3367848063, 3181556312, 1774076304, 72386776, 2529621650, 3203811953];
 /// A multiverifier proof verifying two identical Cairo verifier proofs.
 pub const MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH: &str =
     concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/multiverifier/proof.bin");

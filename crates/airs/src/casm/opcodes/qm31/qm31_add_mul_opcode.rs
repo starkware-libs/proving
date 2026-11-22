@@ -124,7 +124,7 @@ impl AirFn for QM31AddMulOpcode {
             CasmAddress::new(mem1_base + offset2, "op1"),
         );
 
-        // Certified minimum-rank (Rank-7) QM31 product over M31 (7 quadratic FeltExpr muls vs 20).
+        // Unimodular Karatsuba-9 QM31 product over M31 (9 total muls vs 22 schoolbook).
         let mul_result = qm31_mul_expr_in_air(ab, &op0, &op1);
 
         for i in 0..4 {

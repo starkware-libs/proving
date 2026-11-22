@@ -4,8 +4,8 @@ use air_infra::const_expr;
 use air_infra::core::air_fn::AirBuilder;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 
-/// Computes the 7 quadratic bilinear products of the certified minimum-rank (`Rank-7`)
-/// decomposition of `QM31` multiplication over `M31`.
+/// Computes the 7 quadratic bilinear products of the minimum-rank (`Rank-7`) decomposition
+/// of `QM31` multiplication over `M31`.
 ///
 /// Using the unimodular basis isomorphism
 /// `(a0 + a1*i) + (b0 + b1*i)*u <-> (a0 - 2*a1) + (b0 - 2*b1)*u + a1*u^2 + b1*u^3`
@@ -76,10 +76,9 @@ pub fn qm31_mul_expr(op0: &[FeltExpr; 4], op1: &[FeltExpr; 4]) -> [FeltExpr; 4] 
     qm31_mul_reconstruct(&products)
 }
 
-/// Symbolic `QM31` multiplication inside an [`AirBuilder`], binding the 7 quadratic bilinear
-/// products via [`AirBuilder::let_for_constraint`] so each quadratic product is emitted once
-/// across all 4 output constraints (`20 -> 7` quadratic multiplications, `-65.0%`).
-pub fn qm31_mul_expr_in_air(
+/// Symbolic `QM31` multiplication inside an [`AirBuilder`] using the `Rank-7` decomposition
+/// (`7` quadratic `Var * Var` multiplications; uses `M31` constant scalings).
+pub fn qm31_mul_rank7_in_air(
     ab: &mut AirBuilder,
     op0: &[FeltExpr; 4],
     op1: &[FeltExpr; 4],
@@ -96,4 +95,52 @@ pub fn qm31_mul_expr_in_air(
     let products = qm31_mul_bilinear_products(op0, op1);
     let shared = from_fn(|k| ab.let_for_constraint(products[k].clone(), NAMES[k]));
     qm31_mul_reconstruct(&shared)
+}
+
+/// Symbolic `QM31` multiplication inside an [`AirBuilder`] using the unimodular `{0, +1, -1}`
+/// nested Karatsuba decomposition with [`AirBuilder::let_for_constraint`] sharing.
+///
+/// Because `air_code_gen` lowers every non-unit `Const * Var` product into a full `PackedM31`
+/// multiplication in `SimdDomainEvaluator`, a full `QM31` multiplication in `stwo_cairo_verifier`,
+/// and a `Mul` gate in `stwo-circuits` (`cairo_verifier` / `circuit_verifier`), avoiding all
+/// non-unit scalar constants cuts total multiplications per `QM31` product from `22` (`20`
+/// quadratic + `2` constant) down to `9` (`-59.1%`) and total arithmetic operations from `38` to
+/// `36` across every prover and verifier backend while preserving degree `2`.
+pub fn qm31_mul_expr_in_air(
+    ab: &mut AirBuilder,
+    op0: &[FeltExpr; 4],
+    op1: &[FeltExpr; 4],
+) -> [FeltExpr; 4] {
+    let ab0 = ab.let_for_constraint(op0[0].clone() + op0[2].clone(), "qm31_mul_ab0");
+    let ab1 = ab.let_for_constraint(op0[1].clone() + op0[3].clone(), "qm31_mul_ab1");
+    let cd0 = ab.let_for_constraint(op1[0].clone() + op1[2].clone(), "qm31_mul_cd0");
+    let cd1 = ab.let_for_constraint(op1[1].clone() + op1[3].clone(), "qm31_mul_cd1");
+
+    let p0 = ab.let_for_constraint(op0[0].clone() * op1[0].clone(), "qm31_mul_p0");
+    let p1 = ab.let_for_constraint(op0[1].clone() * op1[1].clone(), "qm31_mul_p1");
+    let ac_re = ab.let_for_constraint(p0.clone() - p1.clone(), "qm31_mul_ac_re");
+    let ac_im = ab.let_for_constraint(
+        (op0[0].clone() + op0[1].clone()) * (op1[0].clone() + op1[1].clone()) - (p0 + p1),
+        "qm31_mul_ac_im",
+    );
+
+    let q0 = ab.let_for_constraint(op0[2].clone() * op1[2].clone(), "qm31_mul_q0");
+    let q1 = ab.let_for_constraint(op0[3].clone() * op1[3].clone(), "qm31_mul_q1");
+    let bd_re = ab.let_for_constraint(q0.clone() - q1.clone(), "qm31_mul_bd_re");
+    let bd_im = ab.let_for_constraint(
+        (op0[2].clone() + op0[3].clone()) * (op1[2].clone() + op1[3].clone()) - (q0 + q1),
+        "qm31_mul_bd_im",
+    );
+
+    let r0 = ab.let_for_constraint(ab0.clone() * cd0.clone(), "qm31_mul_r0");
+    let r1 = ab.let_for_constraint(ab1.clone() * cd1.clone(), "qm31_mul_r1");
+
+    let s_re = ab.let_for_constraint(ac_re + bd_re.clone(), "qm31_mul_s_re");
+    let s_im = ab.let_for_constraint(ac_im + bd_im.clone(), "qm31_mul_s_im");
+
+    let out0 = s_re.clone() + bd_re.clone() - bd_im.clone();
+    let out1 = s_im.clone() + bd_re + bd_im;
+    let out2 = r0.clone() - r1.clone() - s_re;
+    let out3 = (ab0 + ab1) * (cd0 + cd1) - (r0 + r1) - s_im;
+    [out0, out1, out2, out3]
 }
