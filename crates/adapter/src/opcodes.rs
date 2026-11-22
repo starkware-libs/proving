@@ -18,7 +18,6 @@ use super::memory::{MemoryBuilder, MemoryValue};
 /// and should match the opcode's air used by `stwo-cairo-air`.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct CasmStatesByOpcode {
-    pub generic_opcode: Vec<CasmState>,
     pub add_ap_opcode: Vec<CasmState>,
     pub add_opcode: Vec<CasmState>,
     pub add_opcode_small: Vec<CasmState>,
@@ -474,20 +473,13 @@ impl CasmStatesByOpcode {
                 self.qm_31_add_mul_opcode.push(state);
             }
 
-            // generic opcode.
-            _ => {
-                if !matches!(instruction.opcode_extension, OpcodeExtension::Stone) {
-                    panic!("`generic_opcode` component supports `Stone` opcodes only.");
-                }
-                self.generic_opcode.push(state);
-            }
+            _ => panic!("unsupported instruction at pc {}: {encoded_instruction:#x}", pc.0),
         }
     }
 
     pub fn merge(
         &mut self,
         CasmStatesByOpcode {
-            generic_opcode,
             add_ap_opcode,
             add_opcode,
             add_opcode_small,
@@ -509,7 +501,6 @@ impl CasmStatesByOpcode {
             qm_31_add_mul_opcode,
         }: &Self,
     ) {
-        self.generic_opcode.extend(generic_opcode);
         self.add_ap_opcode.extend(add_ap_opcode);
         self.add_opcode.extend(add_opcode);
         self.add_opcode_small.extend(add_opcode_small);
@@ -533,7 +524,6 @@ impl CasmStatesByOpcode {
 
     pub fn counts(&self) -> Vec<(String, usize)> {
         vec![
-            ("generic_opcode".to_string(), self.generic_opcode.len()),
             ("add_ap_opcode".to_string(), self.add_ap_opcode.len()),
             ("add_opcode".to_string(), self.add_opcode.len()),
             ("add_opcode_small".to_string(), self.add_opcode_small.len()),
@@ -1138,7 +1128,8 @@ mod mappings_tests {
     }
 
     #[test]
-    fn test_generic() {
+    #[should_panic(expected = "unsupported instruction at pc")]
+    fn test_generic_opcode_panics() {
         let instructions = casm! {
         [ap]=1, ap++;
         [ap]=2, ap++;
@@ -1146,10 +1137,7 @@ mod mappings_tests {
         [ap]=1, ap++;
         }
         .instructions;
-
-        let input = input_from_plain_casm(instructions);
-        let casm_states_by_opcode = input.state_transitions.casm_states_by_opcode;
-        assert_eq!(casm_states_by_opcode.generic_opcode.len(), 1);
+        input_from_plain_casm(instructions);
     }
 
     #[test]

@@ -403,11 +403,6 @@ fn test_prove_verify_all_opcode_components() {
         run_and_adapt(&compiled_program, ProgramType::Json, LayoutName::all_cairo_stwo, None)
             .unwrap();
     for (opcode, n_instances) in &input.state_transitions.casm_states_by_opcode.counts() {
-        // TODO(Leo): remove in the next PRs once the adapter no longer emits `generic_opcode`.
-        if opcode == "generic_opcode" {
-            assert_eq!(*n_instances, 0);
-            continue;
-        }
         assert!(*n_instances > 0, "{opcode} isn't used in E2E full-Cairo opcode test");
     }
     let prover_params = ProverParameters {
