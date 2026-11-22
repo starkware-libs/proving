@@ -1,4 +1,3 @@
-use cairo_vm::Felt252;
 use cairo_vm::types::builtin_name::BuiltinName;
 use cairo_vm::types::errors::math_errors::MathError;
 use cairo_vm::types::relocatable::Relocatable;
@@ -6,6 +5,7 @@ use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::errors::memory_errors::MemoryError;
 use cairo_vm::vm::runners::cairo_pie::StrippedProgram;
 use cairo_vm::vm::vm_core::VirtualMachine;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use crate::hints::types::BootloaderVersion;
 
@@ -27,18 +27,18 @@ impl From<ProgramLoaderError> for HintError {
     }
 }
 
-/// Creates an instance of `Felt252` from a builtin name.
+/// Creates an instance of `FieldElement252` from a builtin name.
 ///
 /// Converts the builtin name to bytes then attempts to create a felt from
 /// these bytes. This function will fail if the builtin name is over 31 characters.
 ///
 /// This is used by the loader to make the builtins used by the program to the Cairo
 /// code.
-fn builtin_to_felt(builtin: &BuiltinName) -> Result<Felt252, ProgramLoaderError> {
+fn builtin_to_felt(builtin: &BuiltinName) -> Result<FieldElement252, ProgramLoaderError> {
     // The Python implementation uses the builtin name without suffix
     let builtin_name = builtin.to_str();
 
-    Ok(Felt252::from_bytes_be_slice(builtin_name.as_bytes()))
+    Ok(FieldElement252::from_bytes_be_slice(builtin_name.as_bytes()))
 }
 
 pub struct LoadedProgram {
@@ -101,7 +101,7 @@ impl<'vm> ProgramLoader<'vm> {
         let bootloader_version = bootloader_version.unwrap_or(0);
 
         self.vm.insert_value(data_length_ptr, data_length)?;
-        self.vm.insert_value(bootloader_version_ptr, Felt252::from(bootloader_version))?;
+        self.vm.insert_value(bootloader_version_ptr, FieldElement252::from(bootloader_version))?;
         self.vm.insert_value(program_main_ptr, program_main)?;
         self.vm.insert_value(n_builtins_ptr, n_builtins)?;
 
@@ -158,12 +158,12 @@ impl<'vm> ProgramLoader<'vm> {
 
 #[cfg(test)]
 mod tests {
-    use cairo_vm::Felt252;
     use cairo_vm::types::builtin_name::BuiltinName;
     use cairo_vm::types::program::Program;
     use cairo_vm::types::relocatable::Relocatable;
     use cairo_vm::vm::runners::cairo_pie::StrippedProgram;
     use rstest::{fixture, rstest};
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::hints::types::BootloaderVersion;
@@ -172,7 +172,7 @@ mod tests {
     #[case::output(BuiltinName::output, 122550255383924)]
     #[case::pedersen(BuiltinName::pedersen, 8098989891770344814)]
     fn test_builtin_to_felt(#[case] builtin_name: BuiltinName, #[case] expected_value: u64) {
-        let expected_felt = Felt252::from(expected_value);
+        let expected_felt = FieldElement252::from(expected_value);
         let felt = builtin_to_felt(&builtin_name).unwrap();
 
         assert_eq!(felt, expected_felt);
@@ -237,10 +237,13 @@ mod tests {
         let program_main = program.main;
         let n_builtins = program.builtins.len();
 
-        assert_eq!(header_felts[0].clone().into_owned(), Felt252::from(expected_data_length));
-        assert_eq!(header_felts[1].clone().into_owned(), Felt252::from(bootloader_version));
-        assert_eq!(header_felts[2].clone().into_owned(), Felt252::from(program_main));
-        assert_eq!(header_felts[3].clone().into_owned(), Felt252::from(n_builtins));
+        assert_eq!(
+            header_felts[0].clone().into_owned(),
+            FieldElement252::from(expected_data_length)
+        );
+        assert_eq!(header_felts[1].clone().into_owned(), FieldElement252::from(bootloader_version));
+        assert_eq!(header_felts[2].clone().into_owned(), FieldElement252::from(program_main));
+        assert_eq!(header_felts[3].clone().into_owned(), FieldElement252::from(n_builtins));
     }
 
     #[rstest]

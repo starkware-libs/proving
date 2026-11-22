@@ -4,7 +4,7 @@ use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use circuits::ops::Guess;
 use circuits_unpacker::unpacker::Node;
 use itertools::Itertools;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use starknet_types_core::hash::Blake2Felt252;
 use stwo::core::fields::qm31::QM31;
 
@@ -18,8 +18,10 @@ fn leaf_hash(i: u32) -> [u32; 8] {
 const AGGREGATED_OUTPUT_DIGEST: [u32; 8] = [21, 22, 23, 24, 25, 26, 27, 28];
 
 /// An arbitrary program-hash felt above `2^63` (a blake program hash virtually always is).
-fn wrapper_program_hash() -> Felt {
-    Felt::from_hex_unchecked("0x71234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd")
+fn wrapper_program_hash() -> FieldElement252 {
+    FieldElement252::from_hex_unchecked(
+        "0x71234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd",
+    )
 }
 
 /// The wrapper's output for the given tasks: the leaf digests (in the given order), zero digests
@@ -35,7 +37,7 @@ fn wrapper_output_words(leaf_digests: &[[u32; 8]]) -> Vec<u32> {
 /// `[wrapper_program_hash, output words...]` felts.
 fn native_wrapper_digest(output_words: &[u32]) -> [u32; 8] {
     let felts = std::iter::once(wrapper_program_hash())
-        .chain(output_words.iter().map(|word| Felt::from(*word)))
+        .chain(output_words.iter().map(|word| FieldElement252::from(*word)))
         .collect_vec();
     native_blake_u32s(&Blake2Felt252::encode_felts_to_u32s(&felts))
 }

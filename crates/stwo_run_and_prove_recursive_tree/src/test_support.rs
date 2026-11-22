@@ -4,7 +4,7 @@
 use std::path::{Path, PathBuf};
 
 use leaf_prover::prove_leaf::prove_leaf_from_files;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo_cairo_utils::file_utils::repo_root;
 
 use crate::test_data::canonical_small_for_tests_circuit_registry_path;
@@ -46,7 +46,7 @@ pub fn generate_leaf(dir: &Path, task_output: &[u32]) -> LeafInput {
         &Some(input_path),
         &canonical_small_for_tests_circuit_registry_path(),
     );
-    let output_preimage: Vec<Felt> =
+    let output_preimage: Vec<FieldElement252> =
         serde_json::from_str(&std::fs::read_to_string(&dump_path).unwrap()).unwrap();
     LeafInput {
         proof: leaf,

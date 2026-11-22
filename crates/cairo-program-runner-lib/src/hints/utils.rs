@@ -216,7 +216,7 @@ pub fn scope_usize_to_ap(
 
 #[cfg(test)]
 mod tests {
-    use cairo_vm::Felt252;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
 
@@ -230,7 +230,10 @@ mod tests {
 
         scope_usize_to_ap(&mut vm, &exec_scopes, "hash_func").unwrap();
 
-        assert_eq!(*vm.get_integer(Relocatable::from((1, 0))).unwrap().as_ref(), Felt252::from(2));
+        assert_eq!(
+            *vm.get_integer(Relocatable::from((1, 0))).unwrap().as_ref(),
+            FieldElement252::from(2)
+        );
     }
 
     #[test]

@@ -7,7 +7,7 @@ use cairo_vm::serde::deserialize_program::ApTracking;
 use cairo_vm::types::exec_scope::ExecutionScopes;
 use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::vm_core::VirtualMachine;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::utils::get_program_input_value;
 use crate::hints::types::PrivacySimpleBootloaderInput;
@@ -46,7 +46,7 @@ pub fn dump_privacy_simple_bootloader_output_preimage(
     let output_end = get_ptr_from_var_name("simple_bl_output", vm, ids_data, ap_tracking)?;
     let size = (output_end - output_start)?;
 
-    let elements: Vec<Felt> =
+    let elements: Vec<FieldElement252> =
         vm.get_integer_range(output_start, size)?.into_iter().map(|v| v.into_owned()).collect();
 
     let dump_path: PathBuf = exec_scopes.get(vars::OUTPUT_PREIMAGE_DUMP_PATH)?;
@@ -72,7 +72,7 @@ mod tests {
     use cairo_vm::types::program::Program;
     use cairo_vm::types::relocatable::{MaybeRelocatable, Relocatable};
     use cairo_vm::vm::vm_core::VirtualMachine;
-    use starknet_types_core::felt::Felt;
+    use starknet_types_core::felt::Felt as FieldElement252;
     use stwo_cairo_utils::file_utils::repo_root;
 
     use super::*;
@@ -112,8 +112,11 @@ mod tests {
 
     #[test]
     fn test_dump_privacy_simple_bootloader_output_preimage() {
-        let expected_felts: Vec<Felt> =
-            vec![Felt::from(10u64), Felt::from(20u64), Felt::from(30u64)];
+        let expected_felts: Vec<FieldElement252> = vec![
+            FieldElement252::from(10u64),
+            FieldElement252::from(20u64),
+            FieldElement252::from(30u64),
+        ];
 
         let mut vm = VirtualMachine::new(false, false);
         vm.add_memory_segment();
@@ -158,7 +161,7 @@ mod tests {
         .expect("Hint failed unexpectedly");
 
         let contents = std::fs::read_to_string(&dump_path).expect("Failed to read dump file");
-        let felts: Vec<Felt> =
+        let felts: Vec<FieldElement252> =
             serde_json::from_str(&contents).expect("Failed to parse dumped JSON");
 
         assert_eq!(felts, expected_felts);
@@ -226,7 +229,7 @@ mod tests {
         // Read the dumped preimage felts.
         let dump_contents =
             std::fs::read_to_string(&dump_path).expect("Failed to read output preimage dump file");
-        let preimage_felts: Vec<Felt> =
+        let preimage_felts: Vec<FieldElement252> =
             serde_json::from_str(&dump_contents).expect("Failed to parse preimage felts from JSON");
 
         // Validate preimage structure:
@@ -236,10 +239,14 @@ mod tests {
                 .expect("Failed to compute program hash.");
         let expected_task_size = 2 + task_output.len(); // task_size word + program_hash + output elements
 
-        assert_eq!(preimage_felts[0], Felt::ONE, "First preimage element should be n_tasks = 1");
+        assert_eq!(
+            preimage_felts[0],
+            FieldElement252::ONE,
+            "First preimage element should be n_tasks = 1"
+        );
         assert_eq!(
             preimage_felts[1],
-            Felt::from(expected_task_size as u64),
+            FieldElement252::from(expected_task_size as u64),
             "Second preimage element should be task size = 2 + output len"
         );
         assert_eq!(
@@ -249,7 +256,7 @@ mod tests {
         for (i, &expected_val) in task_output.iter().enumerate() {
             assert_eq!(
                 preimage_felts[3 + i],
-                Felt::from(expected_val),
+                FieldElement252::from(expected_val),
                 "Preimage element at index {} should match task output",
                 3 + i
             );

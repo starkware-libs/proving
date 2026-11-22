@@ -37,10 +37,10 @@ pub fn set_bit_from_index(
 
 #[cfg(test)]
 mod tests {
-    use cairo_vm::Felt252;
     use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::get_maybe_relocatable_from_var_name;
     use cairo_vm::types::relocatable::Relocatable;
     use rstest::rstest;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::test_utils::fill_ids_data_for_test;
@@ -59,8 +59,11 @@ mod tests {
         vm.set_fp(2);
         vm.set_ap(2);
 
-        vm.load_data(Relocatable::from((1, 0)), &[MaybeRelocatable::Int(Felt252::from(index))])
-            .expect("Failed to load data into VM memory");
+        vm.load_data(
+            Relocatable::from((1, 0)),
+            &[MaybeRelocatable::Int(FieldElement252::from(index))],
+        )
+        .expect("Failed to load data into VM memory");
 
         let ids_data = fill_ids_data_for_test(&["current", "bit"]);
         let ap_tracking = ApTracking::new();
@@ -68,6 +71,6 @@ mod tests {
         set_bit_from_index(&mut vm, &ids_data, &ap_tracking).expect("Failed to set bit from index");
         let bit = get_maybe_relocatable_from_var_name("bit", &vm, &ids_data, &ap_tracking)
             .expect("Failed to get bit from VM memory");
-        assert_eq!(bit, MaybeRelocatable::Int(Felt252::from(index % 2)));
+        assert_eq!(bit, MaybeRelocatable::Int(FieldElement252::from(index % 2)));
     }
 }

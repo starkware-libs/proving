@@ -1,7 +1,6 @@
 use std::fs::File;
 use std::path::Path;
 
-use cairo_vm::Felt252;
 use cairo_vm::types::builtin_name::BuiltinName;
 use cairo_vm::types::errors::math_errors::MathError;
 use cairo_vm::types::relocatable::Relocatable;
@@ -12,6 +11,7 @@ use cairo_vm::vm::runners::cairo_pie::{
     BuiltinAdditionalData, OutputBuiltinAdditionalData, Pages, PublicMemoryPage,
 };
 use serde::{Deserialize, Serialize};
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use crate::hints::types::{PackedOutput, Task};
 
@@ -148,7 +148,7 @@ impl From<WriteFactTopologiesError> for HintError {
 pub fn compute_fact_topologies(
     packed_outputs: &Vec<PackedOutput>,
     fact_topologies: &Vec<FactTopology>,
-    circuit_applicative_bootloader_program_hash: Felt252,
+    circuit_applicative_bootloader_program_hash: FieldElement252,
 ) -> Result<Vec<FactTopology>, FactTopologyError> {
     if packed_outputs.len() != fact_topologies.len() {
         return Err(FactTopologyError::WrongNumberOfFactTopologies(
@@ -465,7 +465,7 @@ mod tests {
         packed_outputs: Vec<PackedOutput>,
         fact_topologies: Vec<FactTopology>,
     ) {
-        let circuit_applicative_bootloader_program_hash = Felt252::from(1234);
+        let circuit_applicative_bootloader_program_hash = FieldElement252::from(1234);
         let plain_fact_topologies = compute_fact_topologies(
             &packed_outputs,
             &fact_topologies,
@@ -488,11 +488,11 @@ mod tests {
         // CompositePackedOutput with two subtasks and two outputs
         let composite_packed_output = CompositePackedOutput {
             outputs: vec![
-                Felt252::from(2),
-                Felt252::from(2),
-                Felt252::from(1234),
-                Felt252::from(2),
-                Felt252::from(1234),
+                FieldElement252::from(2),
+                FieldElement252::from(2),
+                FieldElement252::from(1234),
+                FieldElement252::from(2),
+                FieldElement252::from(1234),
             ],
             subtasks: vec![PackedOutput::Plain, PackedOutput::Plain],
             fact_topologies: subtask_fact_topologies.clone(),
@@ -502,7 +502,7 @@ mod tests {
             tree_structure: vec![], // Not used for composite, but required by API
             page_sizes: vec![],
         }];
-        let circuit_applicative_bootloader_program_hash = Felt252::from(1234);
+        let circuit_applicative_bootloader_program_hash = FieldElement252::from(1234);
         let result = compute_fact_topologies(
             &packed_outputs,
             &fact_topologies,
@@ -521,7 +521,7 @@ mod tests {
     fn test_compute_fact_topologies_arg_len_mismatch() {
         let packed_outputs = vec![PackedOutput::Plain];
         let fact_topologies = vec![];
-        let circuit_applicative_bootloader_program_hash = Felt252::from(1234);
+        let circuit_applicative_bootloader_program_hash = FieldElement252::from(1234);
         let result = compute_fact_topologies(
             &packed_outputs,
             &fact_topologies,

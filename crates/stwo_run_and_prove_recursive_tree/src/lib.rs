@@ -43,7 +43,7 @@ use std::num::NonZeroUsize;
 use std::path::{Path, PathBuf};
 
 use circuit_registry::{CircuitRegistry, DigestHex, LogSizes, RegistryError};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use thiserror::Error;
 use tracing::{Level, info, span};
 
@@ -101,7 +101,7 @@ pub enum RecursiveTreeError {
          registry's multiverifier `cairo_verifier_root.poseidon_circuit_hash` is {expected:#x}; \
          the registry does not match the circuits this binary builds."
     )]
-    PoseidonRootCircuitHash { expected: Felt, got: Felt },
+    PoseidonRootCircuitHash { expected: FieldElement252, got: FieldElement252 },
     #[error(
         "The circuit registry's multiverifier has no `cairo_verifier_root`, so the tree cannot be \
          folded into a root for the Cairo circuit verifier."
@@ -149,7 +149,11 @@ pub enum RecursiveTreeError {
          because the wrapper leaf's program hash {wrapper_program_hash:#x} is not the aggregator \
          wrapper's the registry was built for."
     )]
-    UnpackingVerifierCircuitHash { expected: DigestHex, got: DigestHex, wrapper_program_hash: Felt },
+    UnpackingVerifierCircuitHash {
+        expected: DigestHex,
+        got: DigestHex,
+        wrapper_program_hash: FieldElement252,
+    },
 }
 
 /// Aggregate statistics for the completed reduction, returned for logging.

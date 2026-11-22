@@ -8,7 +8,7 @@ use cairo_vm::types::exec_scope::ExecutionScopes;
 use cairo_vm::types::relocatable::Relocatable;
 use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::vm_core::VirtualMachine;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::utils::get_program_input_value;
 use crate::hints::fact_topologies::{FactTopology, write_to_fact_topologies_file};
@@ -54,7 +54,7 @@ pub fn dump_aggregator_wrapper_poseidon_preimage(
     let end: Relocatable =
         get_ptr_from_var_name("poseidon_preimage_end", vm, ids_data, ap_tracking)?;
     let size = (end - start)?;
-    let preimage: Vec<Felt> =
+    let preimage: Vec<FieldElement252> =
         vm.get_integer_range(start, size)?.into_iter().map(|v| v.into_owned()).collect();
 
     let dump_path: PathBuf = exec_scopes.get(vars::POSEIDON_PREIMAGE_DUMP_PATH)?;
@@ -183,7 +183,8 @@ mod tests {
 
     #[test]
     fn test_dump_aggregator_wrapper_poseidon_preimage() {
-        let expected_preimage: Vec<Felt> = (10u64..14).map(Felt::from).collect();
+        let expected_preimage: Vec<FieldElement252> =
+            (10u64..14).map(FieldElement252::from).collect();
 
         let mut vm = VirtualMachine::new(false, false);
         vm.add_memory_segment();
@@ -222,8 +223,8 @@ mod tests {
         let dumped: Vec<String> =
             serde_json::from_str(&std::fs::read_to_string(&dump_path).expect("read dump"))
                 .expect("parse dump");
-        let parsed: Vec<Felt> =
-            dumped.iter().map(|v| Felt::from_hex(v).expect("hex felt")).collect();
+        let parsed: Vec<FieldElement252> =
+            dumped.iter().map(|v| FieldElement252::from_hex(v).expect("hex felt")).collect();
         assert_eq!(parsed, expected_preimage);
     }
 

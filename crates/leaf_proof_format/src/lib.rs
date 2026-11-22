@@ -4,7 +4,7 @@
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_with::base64::Base64;
 use serde_with::serde_as;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 /// The number of little-endian u32 words in a 256-bit digest.
 pub const N_DIGEST_WORDS: usize = 8;
@@ -76,7 +76,7 @@ pub struct SerializedLeafProof {
 pub enum PackedNode {
     /// A leaf's hashed-output preimage, the task's program hash followed by the task's raw output.
     /// Each felt is a `0x`-prefixed hex string.
-    Plain { output_preimage: Vec<Felt> },
+    Plain { output_preimage: Vec<FieldElement252> },
     /// A verifier node — a fold over two children, a self-fold over one `Composite` child (the
     /// single-leaf tree's root pass, where the multiverifier verifies the same proof in both
     /// slots), or the leaf circuit over its single `Plain` child. Carries the `circuit_hash` of
@@ -90,7 +90,7 @@ pub enum PackedNode {
 
 impl PackedNode {
     /// A leaf entry: the leaf circuit node over the `Plain` preimage reveal.
-    pub fn leaf(circuit_hash: DigestHex, output_preimage: Vec<Felt>) -> Self {
+    pub fn leaf(circuit_hash: DigestHex, output_preimage: Vec<FieldElement252>) -> Self {
         PackedNode::Composite {
             circuit_hash,
             subtasks: vec![PackedNode::Plain { output_preimage }],
@@ -118,7 +118,8 @@ mod tests {
     /// [`DigestHex`] (the encoding the tree prover writes and the bootloader hints read).
     #[test]
     fn test_packed_node_round_trips() {
-        let leaf = PackedNode::leaf(DigestHex([1, 2, 3, 4, 5, 6, 7, 8]), vec![Felt::from(11)]);
+        let leaf =
+            PackedNode::leaf(DigestHex([1, 2, 3, 4, 5, 6, 7, 8]), vec![FieldElement252::from(11)]);
         let tree = PackedNode::Composite {
             circuit_hash: DigestHex([9; N_DIGEST_WORDS]),
             subtasks: vec![leaf.clone(), leaf],

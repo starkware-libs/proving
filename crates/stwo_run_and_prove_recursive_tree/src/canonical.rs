@@ -14,7 +14,7 @@ use circuit_registry::{CircuitRegistry, DigestHex};
 use circuit_verifier::multiverifier::{
     SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
 };
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::pcs::PcsConfig;
 use tracing::{Level, info, span};
 
@@ -51,7 +51,7 @@ pub struct CairoVerifierRootConfig {
     /// The Blake2s identity a root for the default build is held to.
     pub blake_circuit_hash: DigestHex,
     /// The felt identity a root for the `poseidon252_verifier` build is held to.
-    pub poseidon_circuit_hash: Felt,
+    pub poseidon_circuit_hash: FieldElement252,
 }
 
 impl CanonicalCircuit {

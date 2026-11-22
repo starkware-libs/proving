@@ -15,7 +15,7 @@ use circuits::hash::HashValue;
 use circuits::ivalue::NoValue;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use leaf_proof_format::{DigestHex, PackedNode};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
@@ -251,7 +251,8 @@ fn reduce(
                 layer_idx,
                 pair_idx,
             )?;
-            let circuit_hash = Felt::from_bytes_be(&circuit_proof.circuit_hash.to_bytes_be());
+            let circuit_hash =
+                FieldElement252::from_bytes_be(&circuit_proof.circuit_hash.to_bytes_be());
             if circuit_hash != root.poseidon_circuit_hash {
                 return Err(RecursiveTreeError::PoseidonRootCircuitHash {
                     expected: root.poseidon_circuit_hash,

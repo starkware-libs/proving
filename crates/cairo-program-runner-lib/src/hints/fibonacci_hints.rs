@@ -29,9 +29,9 @@ pub fn fibonacci_load_claim_idx(
 
 #[cfg(test)]
 mod tests {
-    use cairo_vm::Felt252;
     use cairo_vm::types::relocatable::Relocatable;
     use cairo_vm::vm::vm_core::VirtualMachine;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::{PROGRAM_INPUT, ProgramInput};
@@ -65,7 +65,7 @@ mod tests {
         assert_eq!(vm.get_ap(), Relocatable::from((1, 0)));
         assert_eq!(
             vm.segments.memory.get_integer(vm.get_ap()).unwrap().as_ref(),
-            &Felt252::from(fibonacci_input.second_element)
+            &FieldElement252::from(fibonacci_input.second_element)
         );
     }
 
@@ -82,7 +82,7 @@ mod tests {
         assert_eq!(vm.get_ap(), Relocatable::from((1, 1)));
         assert_eq!(
             vm.segments.memory.get_integer(vm.get_ap()).unwrap().as_ref(),
-            &Felt252::from(fibonacci_input.fibonacci_claim_index)
+            &FieldElement252::from(fibonacci_input.fibonacci_claim_index)
         );
     }
 }

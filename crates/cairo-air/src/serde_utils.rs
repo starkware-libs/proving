@@ -1,6 +1,6 @@
 use std::ops::Deref;
 
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::pcs::quotients::CommitmentSchemeProof;
 use stwo::core::proof::{ExtendedStarkProof, StarkProof};
 use stwo::core::vcs_lifted::MerkleHasherLifted;
@@ -13,7 +13,7 @@ impl<H: MerkleHasherLifted> CairoSerialize for CairoProof<H>
 where
     H::Hash: CairoSerialize,
 {
-    fn serialize(&self, output: &mut Vec<Felt>) {
+    fn serialize(&self, output: &mut Vec<FieldElement252>) {
         let Self {
             claim,
             interaction_pow,

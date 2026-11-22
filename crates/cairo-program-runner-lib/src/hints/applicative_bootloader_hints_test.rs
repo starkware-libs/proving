@@ -1,7 +1,7 @@
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::get_ptr_from_var_name;
 use cairo_vm::types::relocatable::Relocatable;
 use cairo_vm::vm::runners::builtin_runner::OutputBuiltinRunner;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::*;
 use crate::test_utils::fill_ids_data_for_test;
@@ -18,7 +18,10 @@ fn test_aggregator_program_hash_function_to_ap() {
 
     aggregator_program_hash_function_to_ap(&mut vm, &mut exec_scopes).unwrap();
 
-    assert_eq!(*vm.get_integer(Relocatable::from((1, 0))).unwrap().as_ref(), Felt252::from(2));
+    assert_eq!(
+        *vm.get_integer(Relocatable::from((1, 0))).unwrap().as_ref(),
+        FieldElement252::from(2)
+    );
 }
 
 #[test]

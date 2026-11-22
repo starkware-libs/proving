@@ -3,7 +3,7 @@ use circuit_verifier::multiverifier::{SharedConfig, shared_config};
 use circuits::hash::HashValue;
 use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::Node;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fields::qm31::QM31;
 
 use super::{UnpackingCircuitParams, build_applicative_unpacking_verifier_context};
@@ -17,8 +17,10 @@ fn hash(value: u32) -> HashValue<QM31> {
 }
 
 /// An arbitrary program-hash felt.
-fn wrapper_program_hash() -> Felt {
-    Felt::from_hex_unchecked("0x71234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd")
+fn wrapper_program_hash() -> FieldElement252 {
+    FieldElement252::from_hex_unchecked(
+        "0x71234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd",
+    )
 }
 
 #[test]

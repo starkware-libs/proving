@@ -104,7 +104,7 @@ pub fn concat_aggregator_get_handle_task_output(
 
 #[cfg(test)]
 mod tests {
-    use cairo_vm::Felt252;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::test_utils::fill_ids_data_for_test;
@@ -150,10 +150,10 @@ mod tests {
             tasks_outputs,
             vec![
                 vec![
-                    MaybeRelocatable::from(Felt252::from(100)),
-                    MaybeRelocatable::from(Felt252::from(101)),
+                    MaybeRelocatable::from(FieldElement252::from(100)),
+                    MaybeRelocatable::from(FieldElement252::from(101)),
                 ],
-                vec![MaybeRelocatable::from(Felt252::from_dec_str("32164469228446645568324754197800141613077674933089001409933681519550835661").unwrap())],
+                vec![MaybeRelocatable::from(FieldElement252::from_dec_str("32164469228446645568324754197800141613077674933089001409933681519550835661").unwrap())],
             ]
         );
     }

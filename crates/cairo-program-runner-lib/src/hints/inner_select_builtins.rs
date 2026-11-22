@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     get_ptr_from_var_name, insert_value_from_var_name,
 };
@@ -9,7 +8,7 @@ use cairo_vm::serde::deserialize_program::ApTracking;
 use cairo_vm::types::exec_scope::ExecutionScopes;
 use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::vm_core::VirtualMachine;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use crate::hints::vars;
 
@@ -29,9 +28,9 @@ pub fn select_builtin(
     ids_data: &HashMap<String, HintReference>,
     ap_tracking: &ApTracking,
 ) -> Result<(), HintError> {
-    let n_selected_builtins: Felt = exec_scopes.get(vars::N_SELECTED_BUILTINS)?;
+    let n_selected_builtins: FieldElement252 = exec_scopes.get(vars::N_SELECTED_BUILTINS)?;
 
-    let select_builtin = if n_selected_builtins == Felt::ZERO {
+    let select_builtin = if n_selected_builtins == FieldElement252::ZERO {
         false
     } else {
         let selected_encodings =
@@ -44,7 +43,7 @@ pub fn select_builtin(
         selected_encoding == builtin_encoding
     };
 
-    let select_builtin_felt = Felt252::from(select_builtin);
+    let select_builtin_felt = FieldElement252::from(select_builtin);
     insert_value_from_var_name("select_builtin", select_builtin_felt, vm, ids_data, ap_tracking)?;
 
     if select_builtin {
@@ -56,10 +55,10 @@ pub fn select_builtin(
 
 #[cfg(test)]
 mod tests {
-    use cairo_vm::Felt252;
     use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::get_integer_from_var_name;
     use cairo_vm::types::relocatable::{MaybeRelocatable, Relocatable};
     use rstest::rstest;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::test_utils::fill_ids_data_for_test;
@@ -71,11 +70,14 @@ mod tests {
     /// - no builtins to select (n_builtins = 0 and encodings match)
     /// - no builtins to select and no match (n_builtins = 0 and encodings don't match)
     #[rstest]
-    #[case::should_select_builtin(Felt::ONE, true)]
-    #[case::should_not_select_builtin(Felt::ZERO, false)]
-    #[case::no_builtins(Felt::ZERO, true)]
-    #[case::no_builtins_and_no_match(Felt::ZERO, false)]
-    fn test_select_builtin(#[case] n_builtins: Felt, #[case] should_select_builtin: bool) {
+    #[case::should_select_builtin(FieldElement252::ONE, true)]
+    #[case::should_not_select_builtin(FieldElement252::ZERO, false)]
+    #[case::no_builtins(FieldElement252::ZERO, true)]
+    #[case::no_builtins_and_no_match(FieldElement252::ZERO, false)]
+    fn test_select_builtin(
+        #[case] n_builtins: FieldElement252,
+        #[case] should_select_builtin: bool,
+    ) {
         let mut vm = VirtualMachine::new(false, false);
 
         let builtin_value = 10;
@@ -91,8 +93,8 @@ mod tests {
         vm.load_data(
             Relocatable::from((2, 0)),
             &[
-                MaybeRelocatable::from(Felt252::from(builtin_value)),
-                MaybeRelocatable::from(Felt252::from(expected_value)),
+                MaybeRelocatable::from(FieldElement252::from(builtin_value)),
+                MaybeRelocatable::from(FieldElement252::from(expected_value)),
             ],
         )
         .expect("Failed to load data into memory");
@@ -112,13 +114,14 @@ mod tests {
 
         let select_builtin =
             get_integer_from_var_name("select_builtin", &vm, &ids_data, &ap_tracking).unwrap();
-        let n_selected_builtins: Felt = exec_scopes.get(vars::N_SELECTED_BUILTINS).unwrap();
+        let n_selected_builtins: FieldElement252 =
+            exec_scopes.get(vars::N_SELECTED_BUILTINS).unwrap();
 
-        if (n_builtins != Felt::ZERO) && should_select_builtin {
-            assert_eq!(select_builtin, Felt252::from(1));
+        if (n_builtins != FieldElement252::ZERO) && should_select_builtin {
+            assert_eq!(select_builtin, FieldElement252::from(1));
             assert_eq!(n_selected_builtins, n_builtins - 1);
         } else {
-            assert_eq!(select_builtin, Felt252::from(0));
+            assert_eq!(select_builtin, FieldElement252::from(0));
             assert_eq!(n_selected_builtins, n_builtins);
         }
     }

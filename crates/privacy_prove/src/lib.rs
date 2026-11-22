@@ -45,7 +45,7 @@ use privacy_common::{
     get_privacy_bootloader_program,
 };
 use serde_json::from_str;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::utils::MaybeOwned;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
@@ -89,7 +89,7 @@ fn compress_proof(proof_bytes: &[u8]) -> Result<Vec<u8>, Box<dyn Error>> {
 fn build_privacy_proof_output(
     uncompressed_bytes: Vec<u8>,
     preprocessed_root: &[u32; 8],
-    output_preimage: Vec<Felt>,
+    output_preimage: Vec<FieldElement252>,
 ) -> Result<PrivacyProofOutput, Box<dyn Error>> {
     let compressed_proof = compress_proof(&uncompressed_bytes)?;
     let header = ProofHeader {
@@ -191,7 +191,7 @@ pub fn privacy_recursive_prove_large(pie: CairoPie) -> Result<PrivacyProofOutput
     );
     // Read the output preimage
     let output_preimage_content = read_to_string(output_preimage_path)?;
-    let output_preimage: Vec<Felt> = from_str(&output_preimage_content)?;
+    let output_preimage: Vec<FieldElement252> = from_str(&output_preimage_content)?;
 
     build_privacy_proof_output(proof, &preprocessed_root, output_preimage)
 }
@@ -271,7 +271,9 @@ fn build_privacy_bootloader_input(
     }
 }
 
-fn run_privacy_bootloader(pie: CairoPie) -> Result<(ProverInput, Vec<Felt>), Box<dyn Error>> {
+fn run_privacy_bootloader(
+    pie: CairoPie,
+) -> Result<(ProverInput, Vec<FieldElement252>), Box<dyn Error>> {
     let _span = span!(Level::INFO, "get_prover_input").entered();
 
     let output_preimage_file = NamedTempFile::new()?;
@@ -289,7 +291,7 @@ fn run_privacy_bootloader(pie: CairoPie) -> Result<(ProverInput, Vec<Felt>), Box
 
     info!("Reading the bootloader output preimage");
     let output_preimage_content = read_to_string(output_preimage_path)?;
-    let output_preimage: Vec<Felt> = from_str(&output_preimage_content)?;
+    let output_preimage: Vec<FieldElement252> = from_str(&output_preimage_content)?;
 
     info!("Adapting the runner output for the prover");
     let prover_input = adapt(&runner)?;

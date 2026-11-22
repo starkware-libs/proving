@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     get_ptr_from_var_name, insert_value_into_ap,
 };
@@ -10,6 +9,7 @@ use cairo_vm::types::exec_scope::ExecutionScopes;
 use cairo_vm::types::relocatable::MaybeRelocatable;
 use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::vm_core::VirtualMachine;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::types::SimpleOutputInput;
 use super::utils::get_program_input_value;
@@ -23,7 +23,7 @@ pub fn load_simple_output_input(exec_scopes: &mut ExecutionScopes) -> Result<(),
         .iter()
         .map(|number| {
             let dec_str = number.to_string();
-            Felt252::from_dec_str(&dec_str).unwrap().into()
+            FieldElement252::from_dec_str(&dec_str).unwrap().into()
         })
         .collect();
     exec_scopes.insert_value(SIMPLE_OUTPUT_INPUT, output_as_maybe);

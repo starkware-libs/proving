@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     get_constant_from_var_name, get_integer_from_var_name, get_ptr_from_var_name,
     get_relocatable_from_var_name, insert_value_from_var_name, insert_value_into_ap,
@@ -17,7 +16,7 @@ use cairo_vm::vm::runners::builtin_runner::{
 use cairo_vm::vm::vm_core::VirtualMachine;
 use num_bigint::BigUint;
 use num_traits::ToPrimitive;
-use starknet_types_core::felt::NonZeroFelt;
+use starknet_types_core::felt::{Felt as FieldElement252, NonZeroFelt};
 
 use super::types::HashFunc;
 use super::utils::get_program_from_task;
@@ -40,7 +39,7 @@ pub fn setup_run_simple_bootloader_before_task_execution(
 
     let n_tasks = simple_bootloader_input.tasks.len();
     let output_ptr = get_ptr_from_var_name("output_ptr", vm, ids_data, ap_tracking)?;
-    vm.insert_value(output_ptr, Felt252::from(n_tasks))?;
+    vm.insert_value(output_ptr, FieldElement252::from(n_tasks))?;
 
     let temp_segment = vm.add_temporary_segment();
     insert_value_from_var_name(
@@ -66,7 +65,7 @@ pub fn divide_num_by_2(
 ) -> Result<(), HintError> {
     let felt = get_integer_from_var_name("num", vm, ids_data, ap_tracking)?;
     // Unwrapping is safe in this context, 2 != 0
-    let two = NonZeroFelt::try_from(Felt252::from(2)).unwrap();
+    let two = NonZeroFelt::try_from(FieldElement252::from(2)).unwrap();
     let felt_divided_by_2 = felt.floor_div(&two);
 
     insert_value_into_ap(vm, felt_divided_by_2)?;
@@ -79,7 +78,7 @@ pub fn divide_num_by_2(
 /// Stores 0 in the AP and returns.
 /// Used as `tempvar use_poseidon = nondet %{ 0 %}`.
 pub fn set_ap_to_zero(vm: &mut VirtualMachine) -> Result<(), HintError> {
-    insert_value_into_ap(vm, Felt252::from(0))?;
+    insert_value_into_ap(vm, FieldElement252::from(0))?;
     Ok(())
 }
 
@@ -163,7 +162,7 @@ pub fn simulate_ec_op_fill_mem_with_bits_of_m(
     vm: &mut VirtualMachine,
     ids_data: &HashMap<String, HintReference>,
     ap_tracking: &ApTracking,
-    constants: &HashMap<String, Felt252>,
+    constants: &HashMap<String, FieldElement252>,
 ) -> Result<(), HintError> {
     let mut curr_m = get_integer_from_var_name("m", vm, ids_data, ap_tracking)?.to_biguint();
     let m_max_bits = get_constant_from_var_name("M_MAX_BITS", constants)?;
@@ -253,7 +252,7 @@ pub fn simulate_keccak_calc_high_low(
     let felt_array = get_ptr_from_var_name("felt_array", vm, ids_data, ap_tracking)?;
     let felt = vm.get_integer((felt_array + index)?)?;
     let x = index / 3;
-    let divisor = NonZeroFelt::try_from(Felt252::from(1u64 << (x * 8))).unwrap();
+    let divisor = NonZeroFelt::try_from(FieldElement252::from(1u64 << (x * 8))).unwrap();
     let (high_felt, low_felt) = felt.div_rem(&divisor);
     insert_value_from_var_name(&format!("high{index}"), high_felt, vm, ids_data, ap_tracking)?;
     insert_value_from_var_name(&format!("low{index}"), low_felt, vm, ids_data, ap_tracking)?;
@@ -322,7 +321,7 @@ pub fn simulate_ecdsa_compute_w_wr_wz(
     vm: &mut VirtualMachine,
     ids_data: &HashMap<String, HintReference>,
     ap_tracking: &ApTracking,
-    constants: &HashMap<String, Felt252>,
+    constants: &HashMap<String, FieldElement252>,
 ) -> Result<(), HintError> {
     let order_const_id = "starkware.cairo.common.ec.StarkCurve.ORDER";
     let order = constants
@@ -481,7 +480,8 @@ mod dump_inner_task_fact_topology_tests {
 //     };
 //     use cairo_vm::vm::vm_core::VirtualMachine;
 //     use cairo_vm::vm::vm_memory::memory::Memory;
-//     use cairo_vm::{any_box, Felt252};
+//     use cairo_vm::any_box;
+//     use starknet_types_core::felt::Felt as FieldElement252;
 //     use num_traits::ToPrimitive;
 //     use num_traits::ToPrimitive;
 //     use rstest::{fixture, rstest};
@@ -594,8 +594,8 @@ mod dump_inner_task_fact_topology_tests {
 //     #[case(128u128, 64u128)]
 //     #[case(1001u128, 500u128)]
 //     fn test_divide_num_by_2(#[case] num: u128, #[case] expected: u128) {
-//         let num_felt = Felt252::from(num);
-//         let expected_num_felt = Felt252::from(expected);
+//         let num_felt = FieldElement252::from(num);
+//         let expected_num_felt = FieldElement252::from(expected);
 
 //         let mut vm = vm!();
 //         add_segments!(vm, 2);
@@ -631,7 +631,7 @@ mod dump_inner_task_fact_topology_tests {
 //             .unwrap()
 //             .into_owned();
 
-//         assert_eq!(ap_value, Felt252::from(0));
+//         assert_eq!(ap_value, FieldElement252::from(0));
 //     }
 
 //     #[rstest]

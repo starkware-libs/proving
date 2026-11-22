@@ -5,7 +5,7 @@ use circuits::ivalue::{IValue, NoValue};
 use circuits_stark_verifier::proof::empty_proof;
 use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::{Node, RecursionTreeParams};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fields::qm31::QM31;
 
 use crate::aggregator::{CAPACITY, open_aggregator_output};
@@ -24,7 +24,7 @@ pub struct UnpackingCircuitParams<'a> {
     pub internal_node_circuit_whitelist: &'a [HashValue<QM31>],
     /// The aggregator wrapper task's program hash: its encoding heads the recomputed digest, so
     /// only this program's outputs verify.
-    pub aggregator_wrapper_program_hash: Felt,
+    pub aggregator_wrapper_program_hash: FieldElement252,
 }
 
 /// Builds the applicative unpacking verifier: a circuit proving that the aggregator wrapper

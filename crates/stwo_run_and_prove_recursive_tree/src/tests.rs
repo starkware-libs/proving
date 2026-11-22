@@ -4,7 +4,7 @@ use std::path::{Path, PathBuf};
 use circuit_registry::{CircuitRegistry, RegistryError};
 use circuits::hash::{DIGEST_N_WORDS, HashValue};
 use leaf_proof_format::{DigestHex, PackedNode, SerializedLeafProof};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo_cairo_utils::file_utils::repo_root;
@@ -30,7 +30,7 @@ fn test_leaf_input_roundtrips() {
         leaf.output,
         LeafOutputPreimage {
             hash_type: LeafOutputHashType::Blake2s,
-            preimage: vec![Felt::from(5), Felt::from(11)],
+            preimage: vec![FieldElement252::from(5), FieldElement252::from(11)],
         }
     );
     assert_eq!(leaf.proof.circuit_preprocessed_root.0[0], 0);
@@ -75,7 +75,7 @@ fn test_load_leaves_reads_manifest_of_paths() {
     let (manifest, _) = write_one_leaf_manifest(tmp.path(), r#"["0x2"]"#);
     let leaves = load_leaves(&manifest).unwrap();
     assert_eq!(leaves.len(), 1);
-    assert_eq!(leaves[0].output.preimage, [Felt::from(2)]);
+    assert_eq!(leaves[0].output.preimage, [FieldElement252::from(2)]);
     assert_eq!(leaves[0].proof.proof, vec![1, 2, 3]);
 }
 
@@ -106,12 +106,12 @@ fn test_leaf_output_digest_derived_from_preimage() {
         output: LeafOutputPreimage {
             hash_type: LeafOutputHashType::Blake2s,
             preimage: vec![
-                Felt::from_hex_unchecked(
+                FieldElement252::from_hex_unchecked(
                     "0x32b88272d54b83880ebebd9c4292a650bee27d1575e82123391b6df2932e843",
                 ),
-                Felt::from(11),
-                Felt::from(13),
-                Felt::from(17),
+                FieldElement252::from(11),
+                FieldElement252::from(13),
+                FieldElement252::from(17),
             ],
         },
     };
@@ -149,7 +149,7 @@ fn test_packed_node_serializes_leaf_and_internal() {
     // A leaf: a `Composite` (the leaf circuit) over `Plain` (the raw preimage reveal).
     let leaf_a = PackedNode::leaf(
         DigestHex(std::array::from_fn(|i| i as u32 + 30)),
-        vec![Felt::from(1), Felt::from(2)],
+        vec![FieldElement252::from(1), FieldElement252::from(2)],
     );
     // Serializes as `{"Composite": { circuit_hash, subtasks: [{"Plain": {
     // output_preimage }}] }}`.
@@ -216,7 +216,7 @@ fn test_cairo_verifier_root_formats_need_a_registry_cairo_verifier_root() {
         },
         output: LeafOutputPreimage {
             hash_type: LeafOutputHashType::Blake2s,
-            preimage: vec![Felt::ZERO],
+            preimage: vec![FieldElement252::ZERO],
         },
     };
     let unused = Path::new("unused");
@@ -248,7 +248,7 @@ fn test_applicative_inputs_are_checked_before_the_fold() {
     let registry = circuit_registry();
     let leaf_circuit_hash = registry.leaf_verifiers[0].circuit_hash;
     let leaf_pp_root = registry.leaf_verifiers[0].preprocessed_root;
-    let placeholder_leaf = |circuit_hash: DigestHex, preimage: Vec<Felt>| LeafInput {
+    let placeholder_leaf = |circuit_hash: DigestHex, preimage: Vec<FieldElement252>| LeafInput {
         proof: SerializedLeafProof {
             circuit_preprocessed_root: leaf_pp_root,
             circuit_hash,
@@ -259,18 +259,20 @@ fn test_applicative_inputs_are_checked_before_the_fold() {
     // The wrapper over `tasks`: its output is their digests in order, zero digests in the
     // remaining slots, then a zero aggregated-output digest.
     let wrapper_over = |tasks: &[&LeafInput]| {
-        let mut preimage = vec![Felt::ZERO];
-        preimage.extend(tasks.iter().flat_map(|task| task.output_digest().0).map(Felt::from));
-        preimage.resize(1 + CAPACITY * DIGEST_N_WORDS, Felt::ZERO);
+        let mut preimage = vec![FieldElement252::ZERO];
+        preimage.extend(
+            tasks.iter().flat_map(|task| task.output_digest().0).map(FieldElement252::from),
+        );
+        preimage.resize(1 + CAPACITY * DIGEST_N_WORDS, FieldElement252::ZERO);
         placeholder_leaf(leaf_circuit_hash, preimage)
     };
-    let task = placeholder_leaf(leaf_circuit_hash, vec![Felt::ZERO]);
+    let task = placeholder_leaf(leaf_circuit_hash, vec![FieldElement252::ZERO]);
     let wrapper = wrapper_over(&[&task]);
     let two = [wrapper.clone(), task.clone()];
     validate_applicative_inputs(&two, &registry).unwrap();
 
     // Two tasks the wrapper aggregated as `[task, other]`: swapped, and with the second missing.
-    let other = placeholder_leaf(leaf_circuit_hash, vec![Felt::ONE]);
+    let other = placeholder_leaf(leaf_circuit_hash, vec![FieldElement252::ONE]);
     let wrapper_of_two = wrapper_over(&[&task, &other]);
     let in_order = [wrapper_of_two.clone(), task.clone(), other.clone()];
     validate_applicative_inputs(&in_order, &registry).unwrap();
@@ -297,7 +299,7 @@ fn test_applicative_inputs_are_checked_before_the_fold() {
         "{err}"
     );
 
-    let unknown = placeholder_leaf(DigestHex([7; 8]), vec![Felt::ZERO]);
+    let unknown = placeholder_leaf(DigestHex([7; 8]), vec![FieldElement252::ZERO]);
     let err = validate_applicative_inputs(&[wrapper.clone(), unknown], &registry).unwrap_err();
     assert!(matches!(err, RecursiveTreeError::LeafCircuitNotWhitelisted { index: 1, .. }), "{err}");
 
@@ -307,7 +309,7 @@ fn test_applicative_inputs_are_checked_before_the_fold() {
     let err = validate_applicative_inputs(&[wrapper.clone(), wrong_root], &registry).unwrap_err();
     assert!(matches!(err, RecursiveTreeError::LeafCircuitNotWhitelisted { index: 1, .. }), "{err}");
 
-    let short_wrapper = placeholder_leaf(leaf_circuit_hash, vec![Felt::ZERO]);
+    let short_wrapper = placeholder_leaf(leaf_circuit_hash, vec![FieldElement252::ZERO]);
     let err = validate_applicative_inputs(&[short_wrapper, task], &registry).unwrap_err();
     assert!(matches!(err, RecursiveTreeError::BadWrapperLeaf { .. }), "{err}");
 
@@ -426,7 +428,7 @@ mod e2e {
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
     use circuits::hash::DIGEST_N_WORDS;
     use leaf_proof_format::{DigestHex, PackedNode};
-    use starknet_types_core::felt::Felt;
+    use starknet_types_core::felt::Felt as FieldElement252;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
     use stwo_cairo_utils::file_utils::repo_root;
@@ -500,7 +502,7 @@ mod e2e {
             &canonical.preprocessed_multiverifier,
             cairo_verifier_root_log_blowup_factor(canonical),
         );
-        DigestHex::from(Felt::from_bytes_be(&hash.to_bytes_be()).to_bytes_le()).0
+        DigestHex::from(FieldElement252::from_bytes_be(&hash.to_bytes_be()).to_bytes_le()).0
     }
 
     /// An expected tree node: the raw u32 output words + `circuit_hash` (both needed to hash a
@@ -768,10 +770,10 @@ mod e2e {
         //    poseidon-encoded aggregated output.
         let preimage_felts: Vec<String> =
             serde_json::from_str(&std::fs::read_to_string(&preimage_dump_path).unwrap()).unwrap();
-        let wrapper_program_hash = Felt::from_hex(&preimage_felts[0]).unwrap();
+        let wrapper_program_hash = FieldElement252::from_hex(&preimage_felts[0]).unwrap();
         assert_eq!(
             wrapper_program_hash,
-            Felt::from_dec_str(&super::program_hash(
+            FieldElement252::from_dec_str(&super::program_hash(
                 &repo_root().join("compiled_cairo_programs/aggregator_wrapper_compiled.json"),
             ))
             .unwrap(),
@@ -793,11 +795,11 @@ mod e2e {
         );
         let dumped_poseidon: Vec<String> =
             serde_json::from_str(&std::fs::read_to_string(&poseidon_dump_path).unwrap()).unwrap();
-        let poseidon_felts: Vec<Felt> =
-            dumped_poseidon.iter().map(|f| Felt::from_hex(f).unwrap()).collect();
+        let poseidon_felts: Vec<FieldElement252> =
+            dumped_poseidon.iter().map(|f| FieldElement252::from_hex(f).unwrap()).collect();
         // It opens with the concat aggregator's modified program hash, blake("AGGREGATOR",
         // program hash), as its task is blake-hashed.
-        let aggregator_program_hash = Felt::from_dec_str(&super::program_hash(
+        let aggregator_program_hash = FieldElement252::from_dec_str(&super::program_hash(
             &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
                 .join("test_data/concat_aggregator_compiled.json"),
         ))
@@ -805,12 +807,12 @@ mod e2e {
         assert_eq!(
             poseidon_felts[0],
             starknet_types_core::hash::Blake2Felt252::encode_felt252_data_and_calc_blake_hash(&[
-                Felt::from_bytes_be_slice(b"AGGREGATOR"),
+                FieldElement252::from_bytes_be_slice(b"AGGREGATOR"),
                 aggregator_program_hash,
             ]),
             "aggregated output opens with another aggregator's program hash"
         );
-        let expected_records: Vec<Felt> =
+        let expected_records: Vec<FieldElement252> =
             std::iter::repeat_n(&leaf.output.preimage, n).flatten().copied().collect();
         assert_eq!(
             poseidon_felts[1..],
@@ -834,7 +836,10 @@ mod e2e {
             proof: wrapper,
             output: LeafOutputPreimage {
                 hash_type: LeafOutputHashType::Blake2s,
-                preimage: preimage_felts.iter().map(|f| Felt::from_hex(f).unwrap()).collect(),
+                preimage: preimage_felts
+                    .iter()
+                    .map(|f| FieldElement252::from_hex(f).unwrap())
+                    .collect(),
             },
         };
         let mut leaves = vec![wrapper_leaf];

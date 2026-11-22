@@ -5,7 +5,6 @@ use anyhow::{Context, Result};
 use cairo_lang_executable::executable::{EntryPointKind, Executable};
 use cairo_lang_runner::{Arg, CairoHintProcessor, build_hints_dict};
 use cairo_lang_utils::bigint::BigUintAsHex;
-use cairo_vm::Felt252;
 use cairo_vm::cairo_run::{CairoRunConfig, cairo_run_program_with_initial_scope};
 use cairo_vm::hint_processor::builtin_hint_processor::builtin_hint_processor_definition::BuiltinHintProcessor;
 use cairo_vm::hint_processor::hint_processor_definition::HintProcessor;
@@ -15,6 +14,7 @@ use cairo_vm::types::program::Program;
 use cairo_vm::types::relocatable::MaybeRelocatable;
 use clap::ValueEnum;
 use serde_json::from_reader;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo_cairo_adapter::ProverInput;
 use stwo_cairo_adapter::adapter::adapt;
 
@@ -86,8 +86,13 @@ fn get_program_and_hints_from_executable(
     executable: &Executable,
     args: Vec<cairo_lang_runner::Arg>,
 ) -> Result<(Program, Box<dyn HintProcessor>)> {
-    let data: Vec<MaybeRelocatable> =
-        executable.program.bytecode.iter().map(Felt252::from).map(MaybeRelocatable::from).collect();
+    let data: Vec<MaybeRelocatable> = executable
+        .program
+        .bytecode
+        .iter()
+        .map(FieldElement252::from)
+        .map(MaybeRelocatable::from)
+        .collect();
     let (hints, string_to_hint) = build_hints_dict(&executable.program.hints);
     let entrypoint = executable
         .entrypoints

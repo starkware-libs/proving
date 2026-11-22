@@ -3,7 +3,7 @@ use std::iter::once;
 
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::channel::{Channel, MerkleChannel};
 use stwo::core::fields::batch_inverse;
 use stwo::core::fields::m31::M31;
@@ -297,7 +297,7 @@ pub struct FullSegmentRanges {
 
 // The Cairo1 verifier currently requires all the segments to be present.
 impl CairoSerialize for PublicSegmentRanges {
-    fn serialize(&self, serialized: &mut Vec<Felt>) {
+    fn serialize(&self, serialized: &mut Vec<FieldElement252>) {
         let Self {
             output,
             pedersen,
@@ -332,7 +332,7 @@ impl CairoSerialize for PublicSegmentRanges {
 }
 
 impl CairoDeserialize for PublicSegmentRanges {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a Felt>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let FullSegmentRanges {
             output,
             pedersen,

@@ -7,7 +7,7 @@ use std::collections::BTreeMap;
 use circuit_common::finalize::ComponentSizes;
 use leaf_proof_format::DigestHex;
 use serde::{Deserialize, Serialize};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fri::FriParams;
 use stwo_cairo_common::prover_params::ProverParameters;
 
@@ -121,7 +121,7 @@ pub struct CairoVerifierRoot {
     /// The same identity under Poseidon252, for the `poseidon252_verifier` build, which hashes
     /// this felt252, with the circuit's outputs, into its own output. Serialized as one `0x` hex
     /// string, the felt's own form, not as `DigestHex`.
-    pub poseidon_circuit_hash: Felt,
+    pub poseidon_circuit_hash: FieldElement252,
 }
 
 /// The applicative unpacking verifier circuit, padded to its config's component sizes. It verifies

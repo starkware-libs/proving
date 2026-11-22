@@ -38,7 +38,7 @@ use circuits::context::FinalizedContext;
 use circuits::hash::HashValue;
 use circuits::ivalue::NoValue;
 use leaf_prover::verifier_config::leaf_verifier_config;
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
@@ -498,7 +498,7 @@ impl RegistryDefinition {
 
     /// The (blake) program hash of the definition's aggregator wrapper, baked into the unpacking
     /// verifier, or `None` when the definition names none.
-    pub fn aggregator_wrapper_program_hash(&self) -> Option<Felt> {
+    pub fn aggregator_wrapper_program_hash(&self) -> Option<FieldElement252> {
         self.aggregator_wrapper_program.as_deref().map(blake_program_hash)
     }
 
@@ -533,7 +533,7 @@ impl RegistryDefinition {
 }
 
 /// The (blake) program hash of the compiled program at `path`.
-fn blake_program_hash(path: &Path) -> Felt {
+fn blake_program_hash(path: &Path) -> FieldElement252 {
     compiled_program_hash(path, HashFunc::Blake)
         .unwrap_or_else(|err| panic!("Cannot hash {}: {err}", path.display()))
 }

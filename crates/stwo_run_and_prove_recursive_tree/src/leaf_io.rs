@@ -8,7 +8,7 @@ use std::path::PathBuf;
 use blake2::{Blake2s256, Digest};
 use leaf_proof_format::{DigestHex, SerializedLeafProof};
 use serde::{Deserialize, Serialize};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use starknet_types_core::hash::{Blake2Felt252, Poseidon, StarkHash};
 
 use crate::RecursiveTreeError;
@@ -29,7 +29,7 @@ pub struct LeafInput {
 pub struct LeafOutputPreimage {
     pub hash_type: LeafOutputHashType,
     /// The preimage's felts, as the leaf's run dumped them.
-    pub preimage: Vec<Felt>,
+    pub preimage: Vec<FieldElement252>,
 }
 
 /// The hash a leaf's output preimage opens with; see [`LeafInput::output_digest`].

@@ -5,6 +5,7 @@ use std::rc::Rc;
 use std::vec;
 
 use cairo_lang_runner::{Arg, CairoHintProcessor};
+use cairo_vm::any_box;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     get_ptr_from_var_name, get_relocatable_from_var_name, insert_value_from_var_name,
 };
@@ -22,9 +23,8 @@ use cairo_vm::vm::errors::memory_errors::MemoryError;
 use cairo_vm::vm::runners::builtin_runner::{OutputBuiltinRunner, OutputBuiltinState};
 use cairo_vm::vm::runners::cairo_pie::CairoPie;
 use cairo_vm::vm::vm_core::VirtualMachine;
-use cairo_vm::{Felt252, any_box};
 use num_traits::ToPrimitive as _;
-use starknet_crypto::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::types::HashFunc;
 use super::utils::{get_identifier, get_program_from_task, get_program_identifies};
@@ -36,11 +36,6 @@ use crate::hints::program_hash::compute_program_hash_chain;
 use crate::hints::program_loader::ProgramLoader;
 use crate::hints::types::{BootloaderVersion, Task};
 use crate::hints::vars;
-
-pub fn felt_to_felt252(field_element: Felt) -> Felt252 {
-    let bytes = field_element.to_bytes_be();
-    Felt252::from_bytes_be(&bytes)
-}
 
 /// Determines if the program of the new task is the same as the previous one.
 /// Stores use_prev_hash to fp.
@@ -169,7 +164,6 @@ pub fn validate_hash(
         .map_err(|e| {
             HintError::CustomHint(format!("Could not compute program hash: {e}").into_boxed_str())
         })?;
-    let computed_program_hash = felt_to_felt252(computed_program_hash);
 
     if program_hash != computed_program_hash {
         return Err(HintError::AssertionFailed(
@@ -291,7 +285,7 @@ pub fn write_return_builtins_hint(
     ap_tracking: &ApTracking,
 ) -> Result<(), HintError> {
     let task: &Rc<Task> = exec_scopes.get_ref(vars::TASK)?;
-    let n_builtins: Felt = exec_scopes.get(vars::N_BUILTINS)?;
+    let n_builtins: FieldElement252 = exec_scopes.get(vars::N_BUILTINS)?;
 
     // builtins = task.get_program().builtins
     let program = get_program_from_task(task)?;
@@ -383,7 +377,7 @@ pub fn setup_subtask_for_execution(
 ) -> Result<HintExtension, HintError> {
     let task: Rc<Task> = exec_scopes.get(vars::TASK)?;
 
-    let n_builtins: Felt = get_program_from_task(&task)?.builtins.len().into();
+    let n_builtins: FieldElement252 = get_program_from_task(&task)?.builtins.len().into();
     exec_scopes.insert_value(vars::N_BUILTINS, n_builtins);
 
     let mut new_task_locals = HashMap::new();
@@ -534,7 +528,6 @@ pub fn bootloader_validate_hash(
         .map_err(|e| {
             HintError::CustomHint(format!("Could not compute program hash: {e}").into_boxed_str())
         })?;
-    let computed_program_hash = felt_to_felt252(computed_program_hash);
     if program_hash != computed_program_hash {
         return Err(HintError::AssertionFailed(
             "Computed hash does not match input".to_string().into_boxed_str(),
@@ -1035,7 +1028,7 @@ mod tests {
         let ap_tracking = ApTracking::new();
 
         let mut exec_scopes = ExecutionScopes::new();
-        let n_builtins: Felt = builtin_usage_program.builtins_len().into();
+        let n_builtins: FieldElement252 = builtin_usage_program.builtins_len().into();
         exec_scopes.insert_value(vars::N_BUILTINS, n_builtins);
         exec_scopes.insert_value(vars::TASK, Rc::new(task));
 
@@ -1069,7 +1062,7 @@ mod tests {
         // Check that the exec scope changed
         assert_eq!(exec_scopes.data.len(), 2, "A new scope should have been declared");
         assert_eq!(exec_scopes.data[1].len(), 1, "The new scope should only contain one variable");
-        let n_selected_builtins: Felt =
+        let n_selected_builtins: FieldElement252 =
             exec_scopes.get(vars::N_SELECTED_BUILTINS).expect("n_selected_builtins should be set");
         assert_eq!(n_selected_builtins, n_builtins);
     }
@@ -1094,7 +1087,7 @@ mod tests {
         // Check that the use_prev_hash variable is set correctly in the execution scope
         assert_eq!(
             vm.get_integer(Relocatable::from((1, 0))).unwrap().into_owned(),
-            Felt252::from(use_prev_hash)
+            FieldElement252::from(use_prev_hash)
         );
     }
 }

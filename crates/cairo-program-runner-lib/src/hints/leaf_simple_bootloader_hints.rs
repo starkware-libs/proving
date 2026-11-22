@@ -51,8 +51,8 @@ pub fn output_hash_func_to_ap(
 mod tests {
     use std::path::PathBuf;
 
-    use cairo_vm::Felt252;
     use cairo_vm::types::relocatable::Relocatable;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::hints::types::SimpleBootloaderInput;
@@ -115,7 +115,10 @@ mod tests {
 
         output_hash_func_to_ap(&mut vm, &mut exec_scopes).unwrap();
 
-        assert_eq!(*vm.get_integer(Relocatable::from((1, 0))).unwrap().as_ref(), Felt252::from(1));
+        assert_eq!(
+            *vm.get_integer(Relocatable::from((1, 0))).unwrap().as_ref(),
+            FieldElement252::from(1)
+        );
     }
 
     #[test]

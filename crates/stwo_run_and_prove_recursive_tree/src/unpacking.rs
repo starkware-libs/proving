@@ -21,7 +21,7 @@ use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::Node;
 use itertools::chain;
 use leaf_proof_format::{DigestHex, PackedNode, SerializedLeafProof};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fields::qm31::QM31;
 use tracing::{Level, info, span};
 
@@ -35,7 +35,7 @@ use crate::leaf_io::{LeafInput, LeafOutputHashType, LeafOutputPreimage};
 /// `CAPACITY - 1` task-slot digests, then the aggregated output's poseidon digest.
 #[derive(Debug)]
 pub(crate) struct WrapperLeaf {
-    program_hash: Felt,
+    program_hash: FieldElement252,
     task_slot_digests: Vec<[u32; DIGEST_N_WORDS]>,
     aggregated_output_digest: [u32; DIGEST_N_WORDS],
 }

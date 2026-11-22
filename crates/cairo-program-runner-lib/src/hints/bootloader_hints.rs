@@ -463,7 +463,6 @@ mod tests {
     use std::collections::BTreeMap;
     use std::ops::Add;
 
-    use cairo_vm::Felt252;
     use cairo_vm::hint_processor::builtin_hint_processor::builtin_hint_processor_definition::HintProcessorData;
     use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::get_maybe_relocatable_from_var_name;
     use cairo_vm::hint_processor::hint_processor_definition::HintProcessorLogic;
@@ -473,6 +472,7 @@ mod tests {
     };
     use cairo_vm::vm::runners::cairo_pie::PublicMemoryPage;
     use rstest::{fixture, rstest};
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::hints::codes::*;
@@ -491,15 +491,15 @@ mod tests {
             },
             bootloader_config: BootloaderConfig {
                 supported_simple_bootloader_hash_list: vec![
-                    Felt252::from(1234),
-                    Felt252::from(5678),
+                    FieldElement252::from(1234),
+                    FieldElement252::from(5678),
                 ],
-                circuit_applicative_bootloader_program_hash: Felt252::from(2222),
-                circuit_applicative_config_commitment: Felt252::from(2223),
+                circuit_applicative_bootloader_program_hash: FieldElement252::from(2222),
+                circuit_applicative_config_commitment: FieldElement252::from(2223),
                 supported_cairo_verifier_program_hashes: vec![
-                    Felt252::from(3333),
-                    Felt252::from(4444),
-                    Felt252::from(5555),
+                    FieldElement252::from(3333),
+                    FieldElement252::from(4444),
+                    FieldElement252::from(5555),
                 ],
             },
             packed_outputs: vec![],
@@ -795,9 +795,10 @@ mod tests {
         vm.set_fp(1);
         vm.segments.add();
         vm.segments.add();
-        let _ = vm
-            .segments
-            .load_data(Relocatable::from((1, 0)), &[MaybeRelocatable::Int(Felt252::from(2))]);
+        let _ = vm.segments.load_data(
+            Relocatable::from((1, 0)),
+            &[MaybeRelocatable::Int(FieldElement252::from(2))],
+        );
 
         let ids_data = fill_ids_data_for_test(&["n_subtasks"]);
 
@@ -844,7 +845,7 @@ mod tests {
             is_plain_packed_output(vm, exec_scopes).expect("Hint failed unexpectedly");
             let result = vm.segments.memory.get_integer(vm.get_ap()).unwrap();
 
-            result.into_owned() != Felt252::from(0)
+            result.into_owned() != FieldElement252::from(0)
         }
 
         let plain_packed_output = PackedOutput::Plain;
@@ -904,10 +905,10 @@ mod tests {
                 tasks: vec![],
             },
             bootloader_config: BootloaderConfig {
-                supported_simple_bootloader_hash_list: vec![Felt252::from(1234)],
+                supported_simple_bootloader_hash_list: vec![FieldElement252::from(1234)],
                 supported_cairo_verifier_program_hashes: Default::default(),
-                circuit_applicative_bootloader_program_hash: Felt252::from(2222),
-                circuit_applicative_config_commitment: Felt252::from(2223),
+                circuit_applicative_bootloader_program_hash: FieldElement252::from(2222),
+                circuit_applicative_config_commitment: FieldElement252::from(2223),
             },
             packed_outputs: packed_outputs.clone(),
         };
@@ -1029,7 +1030,7 @@ mod tests {
         exec_scopes.insert_box(
             "packed_output",
             Box::new(PackedOutput::Composite(CompositePackedOutput {
-                outputs: vec![Felt252::from(42)],
+                outputs: vec![FieldElement252::from(42)],
                 subtasks: vec![],
                 fact_topologies: vec![],
             })),
@@ -1057,7 +1058,7 @@ mod tests {
             get_ptr_from_var_name("nested_subtasks_output", &vm, &ids_data, &ap_tracking)
                 .expect("nested_subtasks_output should be set");
         let arg = vm.get_integer(nested_subtasks_output).unwrap().into_owned();
-        assert_eq!(arg, Felt252::from(42));
+        assert_eq!(arg, FieldElement252::from(42));
     }
 
     #[rstest]
