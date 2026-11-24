@@ -44,9 +44,13 @@ impl Debug for CM31 {
 impl Mul for CM31 {
     type Output = Self;
 
+    #[inline]
     fn mul(self, rhs: Self) -> Self::Output {
-        // (a + bi) * (c + di) = (ac - bd) + (ad + bc)i.
-        Self(self.0 * rhs.0 - self.1 * rhs.1, self.0 * rhs.1 + self.1 * rhs.0)
+        // Compute (a + bi) * (c + di) = (ac - bd) + ((a + b)(c + d) - ac - bd)i using 3 M31 muls.
+        let ac = self.0 * rhs.0;
+        let bd = self.1 * rhs.1;
+        let ab_t_cd = (self.0 + self.1) * (rhs.0 + rhs.1);
+        Self(ac - bd, ab_t_cd - ac - bd)
     }
 }
 
@@ -62,6 +66,13 @@ impl TryInto<M31> for CM31 {
 }
 
 impl FieldExpOps for CM31 {
+    #[inline]
+    fn square(&self) -> Self {
+        // Compute (a + bi)^2 = (a + b)(a - b) + 2ab*i using 2 M31 muls.
+        let ab = self.0 * self.1;
+        Self((self.0 + self.1) * (self.0 - self.1), ab + ab)
+    }
+
     fn inverse(&self) -> Self {
         assert!(!self.is_zero(), "0 has no inverse");
         // 1 / (a + bi) = (a - bi) / (a^2 + b^2).
@@ -79,10 +90,17 @@ macro_rules! cm31 {
 
 #[cfg(test)]
 mod tests {
+    use rand::rngs::SmallRng;
+    use rand::{Rng, SeedableRng};
+
     use super::CM31;
     use crate::core::fields::FieldExpOps;
     use crate::core::fields::m31::P;
     use crate::m31;
+
+    fn naive_cm31_mul(lhs: CM31, rhs: CM31) -> CM31 {
+        CM31(lhs.0 * rhs.0 - lhs.1 * rhs.1, lhs.0 * rhs.1 + lhs.1 * rhs.0)
+    }
 
     #[test]
     fn test_inverse() {
@@ -108,5 +126,30 @@ mod tests {
         assert_eq!(cm1 - m, cm1 - cm);
         assert_eq!(cm0_x_cm1 / cm1, cm31!(1, 2));
         assert_eq!(cm1 / m, cm1 / cm);
+    }
+
+    #[test]
+    fn test_mul_and_square_exhaustive_edges_and_random() {
+        let edges = [0, 1, 2, P - 2, P - 1];
+        for &a0 in &edges {
+            for &a1 in &edges {
+                let x = cm31!(a0, a1);
+                assert_eq!(x.square(), naive_cm31_mul(x, x));
+                for &b0 in &edges {
+                    for &b1 in &edges {
+                        let y = cm31!(b0, b1);
+                        assert_eq!(x * y, naive_cm31_mul(x, y));
+                    }
+                }
+            }
+        }
+
+        let mut rng = SmallRng::seed_from_u64(0xc310_5eed);
+        for _ in 0..10_000 {
+            let x: CM31 = rng.random();
+            let y: CM31 = rng.random();
+            assert_eq!(x * y, naive_cm31_mul(x, y));
+            assert_eq!(x.square(), naive_cm31_mul(x, x));
+        }
     }
 }

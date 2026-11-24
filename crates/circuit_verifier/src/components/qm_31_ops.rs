@@ -46,74 +46,110 @@ pub fn accumulate_constraints<Value: IValue>(
     let qm_31_ops_sub_flag =
         acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_sub_flag".to_owned() });
 
-    let constraint_0_value = eval!(
+    let qm31_mul_ab0_tmp_9fdbc_0 = eval!(context, (input_op0_limb0_col0) + (input_op0_limb2_col2));
+
+    let qm31_mul_ab1_tmp_9fdbc_1 = eval!(context, (input_op0_limb1_col1) + (input_op0_limb3_col3));
+
+    let qm31_mul_cd0_tmp_9fdbc_2 = eval!(context, (input_op1_limb0_col4) + (input_op1_limb2_col6));
+
+    let qm31_mul_cd1_tmp_9fdbc_3 = eval!(context, (input_op1_limb1_col5) + (input_op1_limb3_col7));
+
+    let qm31_mul_p0_tmp_9fdbc_4 = eval!(context, (input_op0_limb0_col0) * (input_op1_limb0_col4));
+
+    let qm31_mul_p1_tmp_9fdbc_5 = eval!(context, (input_op0_limb1_col1) * (input_op1_limb1_col5));
+
+    let qm31_mul_ac_re_tmp_9fdbc_6 =
+        eval!(context, (qm31_mul_p0_tmp_9fdbc_4) - (qm31_mul_p1_tmp_9fdbc_5));
+
+    let qm31_mul_ac_im_tmp_9fdbc_7 = eval!(
+        context,
+        (((input_op0_limb0_col0) + (input_op0_limb1_col1))
+            * ((input_op1_limb0_col4) + (input_op1_limb1_col5)))
+            - ((qm31_mul_p0_tmp_9fdbc_4) + (qm31_mul_p1_tmp_9fdbc_5))
+    );
+
+    let qm31_mul_q0_tmp_9fdbc_8 = eval!(context, (input_op0_limb2_col2) * (input_op1_limb2_col6));
+
+    let qm31_mul_q1_tmp_9fdbc_9 = eval!(context, (input_op0_limb3_col3) * (input_op1_limb3_col7));
+
+    let qm31_mul_bd_re_tmp_9fdbc_10 =
+        eval!(context, (qm31_mul_q0_tmp_9fdbc_8) - (qm31_mul_q1_tmp_9fdbc_9));
+
+    let qm31_mul_bd_im_tmp_9fdbc_11 = eval!(
+        context,
+        (((input_op0_limb2_col2) + (input_op0_limb3_col3))
+            * ((input_op1_limb2_col6) + (input_op1_limb3_col7)))
+            - ((qm31_mul_q0_tmp_9fdbc_8) + (qm31_mul_q1_tmp_9fdbc_9))
+    );
+
+    let qm31_mul_r0_tmp_9fdbc_12 =
+        eval!(context, (qm31_mul_ab0_tmp_9fdbc_0) * (qm31_mul_cd0_tmp_9fdbc_2));
+
+    let qm31_mul_r1_tmp_9fdbc_13 =
+        eval!(context, (qm31_mul_ab1_tmp_9fdbc_1) * (qm31_mul_cd1_tmp_9fdbc_3));
+
+    let qm31_mul_s_re_tmp_9fdbc_14 =
+        eval!(context, (qm31_mul_ac_re_tmp_9fdbc_6) + (qm31_mul_bd_re_tmp_9fdbc_10));
+
+    let qm31_mul_s_im_tmp_9fdbc_15 =
+        eval!(context, (qm31_mul_ac_im_tmp_9fdbc_7) + (qm31_mul_bd_im_tmp_9fdbc_11));
+
+    let constraint_16_value = eval!(
         context,
         (input_dst_limb0_col8)
-            - ((((((((((input_op0_limb0_col0) * (input_op1_limb0_col4))
-                - ((input_op0_limb1_col1) * (input_op1_limb1_col5)))
-                + ((2)
-                    * (((input_op0_limb2_col2) * (input_op1_limb2_col6))
-                        - ((input_op0_limb3_col3) * (input_op1_limb3_col7)))))
-                - ((input_op0_limb2_col2) * (input_op1_limb3_col7)))
-                - ((input_op0_limb3_col3) * (input_op1_limb2_col6)))
+            - (((((((qm31_mul_s_re_tmp_9fdbc_14) + (qm31_mul_bd_re_tmp_9fdbc_10))
+                - (qm31_mul_bd_im_tmp_9fdbc_11))
                 * (qm_31_ops_mul_flag))
                 + (((input_op0_limb0_col0) + (input_op1_limb0_col4)) * (qm_31_ops_add_flag)))
                 + (((input_op0_limb0_col0) - (input_op1_limb0_col4)) * (qm_31_ops_sub_flag)))
                 + (((input_op0_limb0_col0) * (input_op1_limb0_col4))
                     * (qm_31_ops_pointwise_mul_flag)))
     );
-    acc.add_constraint(context, constraint_0_value);
+    acc.add_constraint(context, constraint_16_value);
 
-    let constraint_1_value = eval!(
+    let constraint_17_value = eval!(
         context,
         (input_dst_limb1_col9)
-            - ((((((((((input_op0_limb0_col0) * (input_op1_limb1_col5))
-                + ((input_op0_limb1_col1) * (input_op1_limb0_col4)))
-                + ((2)
-                    * (((input_op0_limb2_col2) * (input_op1_limb3_col7))
-                        + ((input_op0_limb3_col3) * (input_op1_limb2_col6)))))
-                + ((input_op0_limb2_col2) * (input_op1_limb2_col6)))
-                - ((input_op0_limb3_col3) * (input_op1_limb3_col7)))
+            - (((((((qm31_mul_s_im_tmp_9fdbc_15) + (qm31_mul_bd_re_tmp_9fdbc_10))
+                + (qm31_mul_bd_im_tmp_9fdbc_11))
                 * (qm_31_ops_mul_flag))
                 + (((input_op0_limb1_col1) + (input_op1_limb1_col5)) * (qm_31_ops_add_flag)))
                 + (((input_op0_limb1_col1) - (input_op1_limb1_col5)) * (qm_31_ops_sub_flag)))
                 + (((input_op0_limb1_col1) * (input_op1_limb1_col5))
                     * (qm_31_ops_pointwise_mul_flag)))
     );
-    acc.add_constraint(context, constraint_1_value);
+    acc.add_constraint(context, constraint_17_value);
 
-    let constraint_2_value = eval!(
+    let constraint_18_value = eval!(
         context,
         (input_dst_limb2_col10)
-            - (((((((((input_op0_limb0_col0) * (input_op1_limb2_col6))
-                - ((input_op0_limb1_col1) * (input_op1_limb3_col7)))
-                + ((input_op0_limb2_col2) * (input_op1_limb0_col4)))
-                - ((input_op0_limb3_col3) * (input_op1_limb1_col5)))
+            - (((((((qm31_mul_r0_tmp_9fdbc_12) - (qm31_mul_r1_tmp_9fdbc_13))
+                - (qm31_mul_s_re_tmp_9fdbc_14))
                 * (qm_31_ops_mul_flag))
                 + (((input_op0_limb2_col2) + (input_op1_limb2_col6)) * (qm_31_ops_add_flag)))
                 + (((input_op0_limb2_col2) - (input_op1_limb2_col6)) * (qm_31_ops_sub_flag)))
                 + (((input_op0_limb2_col2) * (input_op1_limb2_col6))
                     * (qm_31_ops_pointwise_mul_flag)))
     );
-    acc.add_constraint(context, constraint_2_value);
+    acc.add_constraint(context, constraint_18_value);
 
-    let constraint_3_value = eval!(
+    let constraint_19_value = eval!(
         context,
         (input_dst_limb3_col11)
-            - (((((((((input_op0_limb0_col0) * (input_op1_limb3_col7))
-                + ((input_op0_limb1_col1) * (input_op1_limb2_col6)))
-                + ((input_op0_limb2_col2) * (input_op1_limb1_col5)))
-                + ((input_op0_limb3_col3) * (input_op1_limb0_col4)))
+            - (((((((((qm31_mul_ab0_tmp_9fdbc_0) + (qm31_mul_ab1_tmp_9fdbc_1))
+                * ((qm31_mul_cd0_tmp_9fdbc_2) + (qm31_mul_cd1_tmp_9fdbc_3)))
+                - ((qm31_mul_r0_tmp_9fdbc_12) + (qm31_mul_r1_tmp_9fdbc_13)))
+                - (qm31_mul_s_im_tmp_9fdbc_15))
                 * (qm_31_ops_mul_flag))
                 + (((input_op0_limb3_col3) + (input_op1_limb3_col7)) * (qm_31_ops_add_flag)))
                 + (((input_op0_limb3_col3) - (input_op1_limb3_col7)) * (qm_31_ops_sub_flag)))
                 + (((input_op0_limb3_col3) * (input_op1_limb3_col7))
                     * (qm_31_ops_pointwise_mul_flag)))
     );
-    acc.add_constraint(context, constraint_3_value);
+    acc.add_constraint(context, constraint_19_value);
 
     // Use Gate.
-    let tuple_4 = &[
+    let tuple_20 = &[
         context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, qm_31_ops_in_0_address),
         eval!(context, input_op0_limb0_col0),
@@ -121,11 +157,11 @@ pub fn accumulate_constraints<Value: IValue>(
         eval!(context, input_op0_limb2_col2),
         eval!(context, input_op0_limb3_col3),
     ];
-    let numerator_4 = eval!(context, 1);
-    acc.add_to_relation(context, numerator_4, tuple_4);
+    let numerator_20 = eval!(context, 1);
+    acc.add_to_relation(context, numerator_20, tuple_20);
 
     // Use Gate.
-    let tuple_5 = &[
+    let tuple_21 = &[
         context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, qm_31_ops_in_1_address),
         eval!(context, input_op1_limb0_col4),
@@ -133,11 +169,11 @@ pub fn accumulate_constraints<Value: IValue>(
         eval!(context, input_op1_limb2_col6),
         eval!(context, input_op1_limb3_col7),
     ];
-    let numerator_5 = eval!(context, 1);
-    acc.add_to_relation(context, numerator_5, tuple_5);
+    let numerator_21 = eval!(context, 1);
+    acc.add_to_relation(context, numerator_21, tuple_21);
 
     // Yield Gate.
-    let tuple_6 = &[
+    let tuple_22 = &[
         context.constant(relations::GATE_RELATION_ID.into()),
         eval!(context, qm_31_ops_out_address),
         eval!(context, input_dst_limb0_col8),
@@ -145,8 +181,8 @@ pub fn accumulate_constraints<Value: IValue>(
         eval!(context, input_dst_limb2_col10),
         eval!(context, input_dst_limb3_col11),
     ];
-    let numerator_6 = eval!(context, -(qm_31_ops_mults));
-    acc.add_to_relation(context, numerator_6, tuple_6);
+    let numerator_22 = eval!(context, -(qm_31_ops_mults));
+    acc.add_to_relation(context, numerator_22, tuple_22);
 }
 
 pub struct Component {}

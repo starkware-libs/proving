@@ -11,6 +11,7 @@ use serde::Serialize;
 use super::qm31_read_reduced::*;
 use crate::casm::common::*;
 use crate::casm::decode_instruction::decode_inst::*;
+use crate::convolution_utils::qm31_mul::qm31_mul_expr_in_air;
 
 /// The qm31_add_mul opcode.
 /// Implements the packed reduced QM31 operations:
@@ -123,33 +124,8 @@ impl AirFn for QM31AddMulOpcode {
             CasmAddress::new(mem1_base + offset2, "op1"),
         );
 
-        // When expending (a0+b0i+c0j+d0k) * (a1+b1i+c1j+d1k)
-        // and regrouping as coordinates in (1, i, j, k) we arrive at the result
-        // a0 * a1 - b0 * b1 + 2*(c0*c1 - d0*d1) - c0*d1 - d0*c1
-        // + i*(a0 * b1 + b0 * a1 + 2*(c0*d1 + d0*c1) + c0*c1 - d0*d1)
-        // + j*(a0 * c1 - b0 * d1 + c0 * a1 - d0 * b1)
-        // + k*(a0 * d1 + b0 * c1 + c0 * b1 + d0 * a1)
-        // Hence, the coordinates in mul_result are those of op0 * op1
-        let mul_result = [
-            op0[0].clone() * op1[0].clone() - op0[1].clone() * op1[1].clone()
-                + const_expr!(2)
-                    * (op0[2].clone() * op1[2].clone() - op0[3].clone() * op1[3].clone())
-                - op0[2].clone() * op1[3].clone()
-                - op0[3].clone() * op1[2].clone(),
-            op0[0].clone() * op1[1].clone()
-                + op0[1].clone() * op1[0].clone()
-                + const_expr!(2)
-                    * (op0[2].clone() * op1[3].clone() + op0[3].clone() * op1[2].clone())
-                + op0[2].clone() * op1[2].clone()
-                - op0[3].clone() * op1[3].clone(),
-            op0[0].clone() * op1[2].clone() - op0[1].clone() * op1[3].clone()
-                + op0[2].clone() * op1[0].clone()
-                - op0[3].clone() * op1[1].clone(),
-            op0[0].clone() * op1[3].clone()
-                + op0[1].clone() * op1[2].clone()
-                + op0[2].clone() * op1[1].clone()
-                + op0[3].clone() * op1[0].clone(),
-        ];
+        // Unimodular Karatsuba-9 QM31 product over M31 (9 multiplications, 0 non-unit constants).
+        let mul_result = qm31_mul_expr_in_air(ab, &op0, &op1);
 
         for i in 0..4 {
             ab.constrain(

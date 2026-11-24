@@ -64,15 +64,33 @@ pub impl AirComponentImpl of AirComponent {
 
         core::internal::revoke_ap_tracking();
 
+        let qm31_mul_ab0_tmp_9fdbc_0: QM31 = (input_op0_limb0_col0 + input_op0_limb2_col2);
+        let qm31_mul_ab1_tmp_9fdbc_1: QM31 = (input_op0_limb1_col1 + input_op0_limb3_col3);
+        let qm31_mul_cd0_tmp_9fdbc_2: QM31 = (input_op1_limb0_col4 + input_op1_limb2_col6);
+        let qm31_mul_cd1_tmp_9fdbc_3: QM31 = (input_op1_limb1_col5 + input_op1_limb3_col7);
+        let qm31_mul_p0_tmp_9fdbc_4: QM31 = (input_op0_limb0_col0 * input_op1_limb0_col4);
+        let qm31_mul_p1_tmp_9fdbc_5: QM31 = (input_op0_limb1_col1 * input_op1_limb1_col5);
+        let qm31_mul_ac_re_tmp_9fdbc_6: QM31 = (qm31_mul_p0_tmp_9fdbc_4 - qm31_mul_p1_tmp_9fdbc_5);
+        let qm31_mul_ac_im_tmp_9fdbc_7: QM31 = (((input_op0_limb0_col0 + input_op0_limb1_col1)
+            * (input_op1_limb0_col4 + input_op1_limb1_col5))
+            - (qm31_mul_p0_tmp_9fdbc_4 + qm31_mul_p1_tmp_9fdbc_5));
+        let qm31_mul_q0_tmp_9fdbc_8: QM31 = (input_op0_limb2_col2 * input_op1_limb2_col6);
+        let qm31_mul_q1_tmp_9fdbc_9: QM31 = (input_op0_limb3_col3 * input_op1_limb3_col7);
+        let qm31_mul_bd_re_tmp_9fdbc_10: QM31 = (qm31_mul_q0_tmp_9fdbc_8 - qm31_mul_q1_tmp_9fdbc_9);
+        let qm31_mul_bd_im_tmp_9fdbc_11: QM31 = (((input_op0_limb2_col2 + input_op0_limb3_col3)
+            * (input_op1_limb2_col6 + input_op1_limb3_col7))
+            - (qm31_mul_q0_tmp_9fdbc_8 + qm31_mul_q1_tmp_9fdbc_9));
+        let qm31_mul_r0_tmp_9fdbc_12: QM31 = (qm31_mul_ab0_tmp_9fdbc_0 * qm31_mul_cd0_tmp_9fdbc_2);
+        let qm31_mul_r1_tmp_9fdbc_13: QM31 = (qm31_mul_ab1_tmp_9fdbc_1 * qm31_mul_cd1_tmp_9fdbc_3);
+        let qm31_mul_s_re_tmp_9fdbc_14: QM31 = (qm31_mul_ac_re_tmp_9fdbc_6
+            + qm31_mul_bd_re_tmp_9fdbc_10);
+        let qm31_mul_s_im_tmp_9fdbc_15: QM31 = (qm31_mul_ac_im_tmp_9fdbc_7
+            + qm31_mul_bd_im_tmp_9fdbc_11);
+
         // Constraint -
         let constraint_eval = ((input_dst_limb0_col8
-            - (((((((((input_op0_limb0_col0 * input_op1_limb0_col4)
-                - (input_op0_limb1_col1 * input_op1_limb1_col5))
-                + (qm31_const::<2, 0, 0, 0>()
-                    * ((input_op0_limb2_col2 * input_op1_limb2_col6)
-                        - (input_op0_limb3_col3 * input_op1_limb3_col7))))
-                - (input_op0_limb2_col2 * input_op1_limb3_col7))
-                - (input_op0_limb3_col3 * input_op1_limb2_col6))
+            - ((((((qm31_mul_s_re_tmp_9fdbc_14 + qm31_mul_bd_re_tmp_9fdbc_10)
+                - qm31_mul_bd_im_tmp_9fdbc_11)
                 * qm_31_ops_mul_flag)
                 + ((input_op0_limb0_col0 + input_op1_limb0_col4) * qm_31_ops_add_flag))
                 + ((input_op0_limb0_col0 - input_op1_limb0_col4) * qm_31_ops_sub_flag))
@@ -81,13 +99,8 @@ pub impl AirComponentImpl of AirComponent {
 
         // Constraint -
         let constraint_eval = ((input_dst_limb1_col9
-            - (((((((((input_op0_limb0_col0 * input_op1_limb1_col5)
-                + (input_op0_limb1_col1 * input_op1_limb0_col4))
-                + (qm31_const::<2, 0, 0, 0>()
-                    * ((input_op0_limb2_col2 * input_op1_limb3_col7)
-                        + (input_op0_limb3_col3 * input_op1_limb2_col6))))
-                + (input_op0_limb2_col2 * input_op1_limb2_col6))
-                - (input_op0_limb3_col3 * input_op1_limb3_col7))
+            - ((((((qm31_mul_s_im_tmp_9fdbc_15 + qm31_mul_bd_re_tmp_9fdbc_10)
+                + qm31_mul_bd_im_tmp_9fdbc_11)
                 * qm_31_ops_mul_flag)
                 + ((input_op0_limb1_col1 + input_op1_limb1_col5) * qm_31_ops_add_flag))
                 + ((input_op0_limb1_col1 - input_op1_limb1_col5) * qm_31_ops_sub_flag))
@@ -96,10 +109,8 @@ pub impl AirComponentImpl of AirComponent {
 
         // Constraint -
         let constraint_eval = ((input_dst_limb2_col10
-            - ((((((((input_op0_limb0_col0 * input_op1_limb2_col6)
-                - (input_op0_limb1_col1 * input_op1_limb3_col7))
-                + (input_op0_limb2_col2 * input_op1_limb0_col4))
-                - (input_op0_limb3_col3 * input_op1_limb1_col5))
+            - ((((((qm31_mul_r0_tmp_9fdbc_12 - qm31_mul_r1_tmp_9fdbc_13)
+                - qm31_mul_s_re_tmp_9fdbc_14)
                 * qm_31_ops_mul_flag)
                 + ((input_op0_limb2_col2 + input_op1_limb2_col6) * qm_31_ops_add_flag))
                 + ((input_op0_limb2_col2 - input_op1_limb2_col6) * qm_31_ops_sub_flag))
@@ -108,10 +119,10 @@ pub impl AirComponentImpl of AirComponent {
 
         // Constraint -
         let constraint_eval = ((input_dst_limb3_col11
-            - ((((((((input_op0_limb0_col0 * input_op1_limb3_col7)
-                + (input_op0_limb1_col1 * input_op1_limb2_col6))
-                + (input_op0_limb2_col2 * input_op1_limb1_col5))
-                + (input_op0_limb3_col3 * input_op1_limb0_col4))
+            - ((((((((qm31_mul_ab0_tmp_9fdbc_0 + qm31_mul_ab1_tmp_9fdbc_1)
+                * (qm31_mul_cd0_tmp_9fdbc_2 + qm31_mul_cd1_tmp_9fdbc_3))
+                - (qm31_mul_r0_tmp_9fdbc_12 + qm31_mul_r1_tmp_9fdbc_13))
+                - qm31_mul_s_im_tmp_9fdbc_15)
                 * qm_31_ops_mul_flag)
                 + ((input_op0_limb3_col3 + input_op1_limb3_col7) * qm_31_ops_add_flag))
                 + ((input_op0_limb3_col3 - input_op1_limb3_col7) * qm_31_ops_sub_flag))

@@ -279,111 +279,163 @@ pub fn accumulate_constraints<Value: IValue>(
     .try_into()
     .unwrap();
 
+    let qm31_mul_ab0_tmp_48ee6_31 = eval!(
+        context,
+        (qm_31_read_reduced_output_tmp_48ee6_24_limb_0)
+            + (qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
+    );
+
+    let qm31_mul_ab1_tmp_48ee6_32 = eval!(
+        context,
+        (qm_31_read_reduced_output_tmp_48ee6_24_limb_1)
+            + (qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
+    );
+
+    let qm31_mul_cd0_tmp_48ee6_33 = eval!(
+        context,
+        (qm_31_read_reduced_output_tmp_48ee6_30_limb_0)
+            + (qm_31_read_reduced_output_tmp_48ee6_30_limb_2)
+    );
+
+    let qm31_mul_cd1_tmp_48ee6_34 = eval!(
+        context,
+        (qm_31_read_reduced_output_tmp_48ee6_30_limb_1)
+            + (qm_31_read_reduced_output_tmp_48ee6_30_limb_3)
+    );
+
+    let qm31_mul_p0_tmp_48ee6_35 = eval!(
+        context,
+        (qm_31_read_reduced_output_tmp_48ee6_24_limb_0)
+            * (qm_31_read_reduced_output_tmp_48ee6_30_limb_0)
+    );
+
+    let qm31_mul_p1_tmp_48ee6_36 = eval!(
+        context,
+        (qm_31_read_reduced_output_tmp_48ee6_24_limb_1)
+            * (qm_31_read_reduced_output_tmp_48ee6_30_limb_1)
+    );
+
+    let qm31_mul_ac_re_tmp_48ee6_37 =
+        eval!(context, (qm31_mul_p0_tmp_48ee6_35) - (qm31_mul_p1_tmp_48ee6_36));
+
+    let qm31_mul_ac_im_tmp_48ee6_38 = eval!(
+        context,
+        (((qm_31_read_reduced_output_tmp_48ee6_24_limb_0)
+            + (qm_31_read_reduced_output_tmp_48ee6_24_limb_1))
+            * ((qm_31_read_reduced_output_tmp_48ee6_30_limb_0)
+                + (qm_31_read_reduced_output_tmp_48ee6_30_limb_1)))
+            - ((qm31_mul_p0_tmp_48ee6_35) + (qm31_mul_p1_tmp_48ee6_36))
+    );
+
+    let qm31_mul_q0_tmp_48ee6_39 = eval!(
+        context,
+        (qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
+            * (qm_31_read_reduced_output_tmp_48ee6_30_limb_2)
+    );
+
+    let qm31_mul_q1_tmp_48ee6_40 = eval!(
+        context,
+        (qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
+            * (qm_31_read_reduced_output_tmp_48ee6_30_limb_3)
+    );
+
+    let qm31_mul_bd_re_tmp_48ee6_41 =
+        eval!(context, (qm31_mul_q0_tmp_48ee6_39) - (qm31_mul_q1_tmp_48ee6_40));
+
+    let qm31_mul_bd_im_tmp_48ee6_42 = eval!(
+        context,
+        (((qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
+            + (qm_31_read_reduced_output_tmp_48ee6_24_limb_3))
+            * ((qm_31_read_reduced_output_tmp_48ee6_30_limb_2)
+                + (qm_31_read_reduced_output_tmp_48ee6_30_limb_3)))
+            - ((qm31_mul_q0_tmp_48ee6_39) + (qm31_mul_q1_tmp_48ee6_40))
+    );
+
+    let qm31_mul_r0_tmp_48ee6_43 =
+        eval!(context, (qm31_mul_ab0_tmp_48ee6_31) * (qm31_mul_cd0_tmp_48ee6_33));
+
+    let qm31_mul_r1_tmp_48ee6_44 =
+        eval!(context, (qm31_mul_ab1_tmp_48ee6_32) * (qm31_mul_cd1_tmp_48ee6_34));
+
+    let qm31_mul_s_re_tmp_48ee6_45 =
+        eval!(context, (qm31_mul_ac_re_tmp_48ee6_37) + (qm31_mul_bd_re_tmp_48ee6_41));
+
+    let qm31_mul_s_im_tmp_48ee6_46 =
+        eval!(context, (qm31_mul_ac_im_tmp_48ee6_38) + (qm31_mul_bd_im_tmp_48ee6_42));
+
     // dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul).
-    let constraint_9_value = eval!(
+    let constraint_25_value = eval!(
         context,
         ((qm_31_read_reduced_output_tmp_48ee6_18_limb_0)
-            - (((((((qm_31_read_reduced_output_tmp_48ee6_24_limb_0)
-                * (qm_31_read_reduced_output_tmp_48ee6_30_limb_0))
-                - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_1)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_1)))
-                + ((2)
-                    * (((qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
-                        * (qm_31_read_reduced_output_tmp_48ee6_30_limb_2))
-                        - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
-                            * (qm_31_read_reduced_output_tmp_48ee6_30_limb_3)))))
-                - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_3)))
-                - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_2)))
+            - ((((qm31_mul_s_re_tmp_48ee6_45) + (qm31_mul_bd_re_tmp_48ee6_41))
+                - (qm31_mul_bd_im_tmp_48ee6_42))
                 * (decode_instruction_c67a5_output_tmp_48ee6_12_res_mul)))
             - (((qm_31_read_reduced_output_tmp_48ee6_24_limb_0)
                 + (qm_31_read_reduced_output_tmp_48ee6_30_limb_0))
                 * (res_add_col11))
     );
-    acc.add_constraint(context, constraint_9_value);
+    acc.add_constraint(context, constraint_25_value);
 
     // dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul).
-    let constraint_10_value = eval!(
+    let constraint_26_value = eval!(
         context,
         ((qm_31_read_reduced_output_tmp_48ee6_18_limb_1)
-            - (((((((qm_31_read_reduced_output_tmp_48ee6_24_limb_0)
-                * (qm_31_read_reduced_output_tmp_48ee6_30_limb_1))
-                + ((qm_31_read_reduced_output_tmp_48ee6_24_limb_1)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_0)))
-                + ((2)
-                    * (((qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
-                        * (qm_31_read_reduced_output_tmp_48ee6_30_limb_3))
-                        + ((qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
-                            * (qm_31_read_reduced_output_tmp_48ee6_30_limb_2)))))
-                + ((qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_2)))
-                - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_3)))
+            - ((((qm31_mul_s_im_tmp_48ee6_46) + (qm31_mul_bd_re_tmp_48ee6_41))
+                + (qm31_mul_bd_im_tmp_48ee6_42))
                 * (decode_instruction_c67a5_output_tmp_48ee6_12_res_mul)))
             - (((qm_31_read_reduced_output_tmp_48ee6_24_limb_1)
                 + (qm_31_read_reduced_output_tmp_48ee6_30_limb_1))
                 * (res_add_col11))
     );
-    acc.add_constraint(context, constraint_10_value);
+    acc.add_constraint(context, constraint_26_value);
 
     // dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul).
-    let constraint_11_value = eval!(
+    let constraint_27_value = eval!(
         context,
         ((qm_31_read_reduced_output_tmp_48ee6_18_limb_2)
-            - ((((((qm_31_read_reduced_output_tmp_48ee6_24_limb_0)
-                * (qm_31_read_reduced_output_tmp_48ee6_30_limb_2))
-                - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_1)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_3)))
-                + ((qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_0)))
-                - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_1)))
+            - ((((qm31_mul_r0_tmp_48ee6_43) - (qm31_mul_r1_tmp_48ee6_44))
+                - (qm31_mul_s_re_tmp_48ee6_45))
                 * (decode_instruction_c67a5_output_tmp_48ee6_12_res_mul)))
             - (((qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
                 + (qm_31_read_reduced_output_tmp_48ee6_30_limb_2))
                 * (res_add_col11))
     );
-    acc.add_constraint(context, constraint_11_value);
+    acc.add_constraint(context, constraint_27_value);
 
     // dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul).
-    let constraint_12_value = eval!(
+    let constraint_28_value = eval!(
         context,
         ((qm_31_read_reduced_output_tmp_48ee6_18_limb_3)
-            - ((((((qm_31_read_reduced_output_tmp_48ee6_24_limb_0)
-                * (qm_31_read_reduced_output_tmp_48ee6_30_limb_3))
-                + ((qm_31_read_reduced_output_tmp_48ee6_24_limb_1)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_2)))
-                + ((qm_31_read_reduced_output_tmp_48ee6_24_limb_2)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_1)))
-                + ((qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
-                    * (qm_31_read_reduced_output_tmp_48ee6_30_limb_0)))
+            - ((((((qm31_mul_ab0_tmp_48ee6_31) + (qm31_mul_ab1_tmp_48ee6_32))
+                * ((qm31_mul_cd0_tmp_48ee6_33) + (qm31_mul_cd1_tmp_48ee6_34)))
+                - ((qm31_mul_r0_tmp_48ee6_43) + (qm31_mul_r1_tmp_48ee6_44)))
+                - (qm31_mul_s_im_tmp_48ee6_46))
                 * (decode_instruction_c67a5_output_tmp_48ee6_12_res_mul)))
             - (((qm_31_read_reduced_output_tmp_48ee6_24_limb_3)
                 + (qm_31_read_reduced_output_tmp_48ee6_30_limb_3))
                 * (res_add_col11))
     );
-    acc.add_constraint(context, constraint_12_value);
+    acc.add_constraint(context, constraint_28_value);
 
     // Use Opcodes.
-    let tuple_13 = &[
+    let tuple_29 = &[
         context.constant(relations::OPCODES_RELATION_ID.into()),
         eval!(context, input_pc_col1),
         eval!(context, input_ap_col2),
         eval!(context, input_fp_col3),
     ];
-    let numerator_13 = eval!(context, enabler_col0);
-    acc.add_to_relation(context, numerator_13, tuple_13);
+    let numerator_29 = eval!(context, enabler_col0);
+    acc.add_to_relation(context, numerator_29, tuple_29);
 
     // Yield Opcodes.
-    let tuple_14 = &[
+    let tuple_30 = &[
         context.constant(relations::OPCODES_RELATION_ID.into()),
         eval!(context, ((input_pc_col1) + (1)) + (op1_imm_col9)),
         eval!(context, (input_ap_col2) + (ap_update_add_1_col12)),
         eval!(context, input_fp_col3),
     ];
-    let numerator_14 = eval!(context, -(enabler_col0));
-    acc.add_to_relation(context, numerator_14, tuple_14);
+    let numerator_30 = eval!(context, -(enabler_col0));
+    acc.add_to_relation(context, numerator_30, tuple_30);
 }
 
 pub struct Component {}

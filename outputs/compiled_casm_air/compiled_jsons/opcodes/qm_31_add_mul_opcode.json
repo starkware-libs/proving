@@ -858,6 +858,478 @@
       }
     },
     {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_ab0_tmp_48ee6_31"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_24_limb_0"
+              ]
+            },
+            "+",
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_ab1_tmp_48ee6_32"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_24_limb_1"
+              ]
+            },
+            "+",
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_cd0_tmp_48ee6_33"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_30_limb_0"
+              ]
+            },
+            "+",
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_cd1_tmp_48ee6_34"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_30_limb_1"
+              ]
+            },
+            "+",
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_p0_tmp_48ee6_35"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_24_limb_0"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_30_limb_0"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_p1_tmp_48ee6_36"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_24_limb_1"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_30_limb_1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_ac_re_tmp_48ee6_37"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_p0_tmp_48ee6_35"
+              ]
+            },
+            "-",
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_p1_tmp_48ee6_36"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_ac_im_tmp_48ee6_38"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "qm_31_read_reduced_output_tmp_48ee6_24_limb_0"
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "qm_31_read_reduced_output_tmp_48ee6_24_limb_1"
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "qm_31_read_reduced_output_tmp_48ee6_30_limb_0"
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "qm_31_read_reduced_output_tmp_48ee6_30_limb_1"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "qm31_mul_p0_tmp_48ee6_35"
+                  ]
+                },
+                "+",
+                {
+                  "Var": [
+                    "M31",
+                    "qm31_mul_p1_tmp_48ee6_36"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_q0_tmp_48ee6_39"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_q1_tmp_48ee6_40"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_bd_re_tmp_48ee6_41"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_q0_tmp_48ee6_39"
+              ]
+            },
+            "-",
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_q1_tmp_48ee6_40"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_bd_im_tmp_48ee6_42"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "qm31_mul_q0_tmp_48ee6_39"
+                  ]
+                },
+                "+",
+                {
+                  "Var": [
+                    "M31",
+                    "qm31_mul_q1_tmp_48ee6_40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_r0_tmp_48ee6_43"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_ab0_tmp_48ee6_31"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_cd0_tmp_48ee6_33"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_r1_tmp_48ee6_44"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_ab1_tmp_48ee6_32"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_cd1_tmp_48ee6_34"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_s_re_tmp_48ee6_45"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_ac_re_tmp_48ee6_37"
+              ]
+            },
+            "+",
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_bd_re_tmp_48ee6_41"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "qm31_mul_s_im_tmp_48ee6_46"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_ac_im_tmp_48ee6_38"
+              ]
+            },
+            "+",
+            {
+              "Var": [
+                "M31",
+                "qm31_mul_bd_im_tmp_48ee6_42"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "Constraint": [
         {
           "BinaryOp": [
@@ -877,135 +1349,25 @@
                         {
                           "BinaryOp": [
                             {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "qm_31_read_reduced_output_tmp_48ee6_24_limb_0"
-                                          ]
-                                        },
-                                        "*",
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "qm_31_read_reduced_output_tmp_48ee6_30_limb_0"
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "qm_31_read_reduced_output_tmp_48ee6_24_limb_1"
-                                          ]
-                                        },
-                                        "*",
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "qm_31_read_reduced_output_tmp_48ee6_30_limb_1"
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "2"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
-                                              ]
-                                            },
-                                            "*",
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
-                                              ]
-                                            }
-                                          ]
-                                        },
-                                        "-",
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
-                                              ]
-                                            },
-                                            "*",
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "qm31_mul_s_re_tmp_48ee6_45"
                               ]
                             },
-                            "-",
+                            "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "qm31_mul_bd_re_tmp_48ee6_41"
                               ]
                             }
                           ]
                         },
                         "-",
                         {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Var": [
-                                "M31",
-                                "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
-                              ]
-                            }
+                          "Var": [
+                            "M31",
+                            "qm31_mul_bd_im_tmp_48ee6_42"
                           ]
                         }
                       ]
@@ -1072,135 +1434,25 @@
                         {
                           "BinaryOp": [
                             {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "qm_31_read_reduced_output_tmp_48ee6_24_limb_0"
-                                          ]
-                                        },
-                                        "*",
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "qm_31_read_reduced_output_tmp_48ee6_30_limb_1"
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    "+",
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "qm_31_read_reduced_output_tmp_48ee6_24_limb_1"
-                                          ]
-                                        },
-                                        "*",
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "qm_31_read_reduced_output_tmp_48ee6_30_limb_0"
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "2"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
-                                              ]
-                                            },
-                                            "*",
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
-                                              ]
-                                            }
-                                          ]
-                                        },
-                                        "+",
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
-                                              ]
-                                            },
-                                            "*",
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "qm31_mul_s_im_tmp_48ee6_46"
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "qm31_mul_bd_re_tmp_48ee6_41"
                               ]
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Var": [
-                                "M31",
-                                "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
-                              ]
-                            }
+                          "Var": [
+                            "M31",
+                            "qm31_mul_bd_im_tmp_48ee6_42"
                           ]
                         }
                       ]
@@ -1267,80 +1519,25 @@
                         {
                           "BinaryOp": [
                             {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "qm_31_read_reduced_output_tmp_48ee6_24_limb_0"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
-                                      ]
-                                    }
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "qm_31_read_reduced_output_tmp_48ee6_24_limb_1"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
-                                      ]
-                                    }
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "qm31_mul_r0_tmp_48ee6_43"
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "qm_31_read_reduced_output_tmp_48ee6_30_limb_0"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "qm31_mul_r1_tmp_48ee6_44"
                               ]
                             }
                           ]
                         },
                         "-",
                         {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Var": [
-                                "M31",
-                                "qm_31_read_reduced_output_tmp_48ee6_30_limb_1"
-                              ]
-                            }
+                          "Var": [
+                            "M31",
+                            "qm31_mul_s_re_tmp_48ee6_45"
                           ]
                         }
                       ]
@@ -1413,74 +1610,63 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_48ee6_24_limb_0"
+                                        "qm31_mul_ab0_tmp_48ee6_31"
                                       ]
                                     },
-                                    "*",
+                                    "+",
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_48ee6_30_limb_3"
+                                        "qm31_mul_ab1_tmp_48ee6_32"
                                       ]
                                     }
                                   ]
                                 },
-                                "+",
+                                "*",
                                 {
                                   "BinaryOp": [
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_48ee6_24_limb_1"
+                                        "qm31_mul_cd0_tmp_48ee6_33"
                                       ]
                                     },
-                                    "*",
+                                    "+",
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_48ee6_30_limb_2"
+                                        "qm31_mul_cd1_tmp_48ee6_34"
                                       ]
                                     }
                                   ]
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
                               "BinaryOp": [
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_48ee6_24_limb_2"
+                                    "qm31_mul_r0_tmp_48ee6_43"
                                   ]
                                 },
-                                "*",
+                                "+",
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_48ee6_30_limb_1"
+                                    "qm31_mul_r1_tmp_48ee6_44"
                                   ]
                                 }
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "qm_31_read_reduced_output_tmp_48ee6_24_limb_3"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Var": [
-                                "M31",
-                                "qm_31_read_reduced_output_tmp_48ee6_30_limb_0"
-                              ]
-                            }
+                          "Var": [
+                            "M31",
+                            "qm31_mul_s_im_tmp_48ee6_46"
                           ]
                         }
                       ]

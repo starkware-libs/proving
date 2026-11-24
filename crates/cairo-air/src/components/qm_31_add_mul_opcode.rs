@@ -52,7 +52,6 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
-        let M31_2 = E::F::from(M31::from(2));
         let opcodes_relation_id = E::F::from(relations::OPCODES_RELATION_ID);
         let enabler_col0 = eval.next_trace_mask();
         let input_pc_col1 = eval.next_trace_mask();
@@ -277,22 +276,75 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             &mut eval,
         );
+        let qm31_mul_ab0_tmp_48ee6_31 = eval.add_intermediate(
+            (qm_31_read_reduced_output_tmp_48ee6_24_limb_0.clone()
+                + qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()),
+        );
+        let qm31_mul_ab1_tmp_48ee6_32 = eval.add_intermediate(
+            (qm_31_read_reduced_output_tmp_48ee6_24_limb_1.clone()
+                + qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()),
+        );
+        let qm31_mul_cd0_tmp_48ee6_33 = eval.add_intermediate(
+            (qm_31_read_reduced_output_tmp_48ee6_30_limb_0.clone()
+                + qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone()),
+        );
+        let qm31_mul_cd1_tmp_48ee6_34 = eval.add_intermediate(
+            (qm_31_read_reduced_output_tmp_48ee6_30_limb_1.clone()
+                + qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone()),
+        );
+        let qm31_mul_p0_tmp_48ee6_35 = eval.add_intermediate(
+            (qm_31_read_reduced_output_tmp_48ee6_24_limb_0.clone()
+                * qm_31_read_reduced_output_tmp_48ee6_30_limb_0.clone()),
+        );
+        let qm31_mul_p1_tmp_48ee6_36 = eval.add_intermediate(
+            (qm_31_read_reduced_output_tmp_48ee6_24_limb_1.clone()
+                * qm_31_read_reduced_output_tmp_48ee6_30_limb_1.clone()),
+        );
+        let qm31_mul_ac_re_tmp_48ee6_37 = eval.add_intermediate(
+            (qm31_mul_p0_tmp_48ee6_35.clone() - qm31_mul_p1_tmp_48ee6_36.clone()),
+        );
+        let qm31_mul_ac_im_tmp_48ee6_38 = eval.add_intermediate(
+            (((qm_31_read_reduced_output_tmp_48ee6_24_limb_0.clone()
+                + qm_31_read_reduced_output_tmp_48ee6_24_limb_1.clone())
+                * (qm_31_read_reduced_output_tmp_48ee6_30_limb_0.clone()
+                    + qm_31_read_reduced_output_tmp_48ee6_30_limb_1.clone()))
+                - (qm31_mul_p0_tmp_48ee6_35.clone() + qm31_mul_p1_tmp_48ee6_36.clone())),
+        );
+        let qm31_mul_q0_tmp_48ee6_39 = eval.add_intermediate(
+            (qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
+                * qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone()),
+        );
+        let qm31_mul_q1_tmp_48ee6_40 = eval.add_intermediate(
+            (qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()
+                * qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone()),
+        );
+        let qm31_mul_bd_re_tmp_48ee6_41 = eval.add_intermediate(
+            (qm31_mul_q0_tmp_48ee6_39.clone() - qm31_mul_q1_tmp_48ee6_40.clone()),
+        );
+        let qm31_mul_bd_im_tmp_48ee6_42 = eval.add_intermediate(
+            (((qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
+                + qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone())
+                * (qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone()
+                    + qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone()))
+                - (qm31_mul_q0_tmp_48ee6_39.clone() + qm31_mul_q1_tmp_48ee6_40.clone())),
+        );
+        let qm31_mul_r0_tmp_48ee6_43 = eval.add_intermediate(
+            (qm31_mul_ab0_tmp_48ee6_31.clone() * qm31_mul_cd0_tmp_48ee6_33.clone()),
+        );
+        let qm31_mul_r1_tmp_48ee6_44 = eval.add_intermediate(
+            (qm31_mul_ab1_tmp_48ee6_32.clone() * qm31_mul_cd1_tmp_48ee6_34.clone()),
+        );
+        let qm31_mul_s_re_tmp_48ee6_45 = eval.add_intermediate(
+            (qm31_mul_ac_re_tmp_48ee6_37.clone() + qm31_mul_bd_re_tmp_48ee6_41.clone()),
+        );
+        let qm31_mul_s_im_tmp_48ee6_46 = eval.add_intermediate(
+            (qm31_mul_ac_im_tmp_48ee6_38.clone() + qm31_mul_bd_im_tmp_48ee6_42.clone()),
+        );
         // dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul).
         eval.add_constraint(
             ((qm_31_read_reduced_output_tmp_48ee6_18_limb_0.clone()
-                - ((((((qm_31_read_reduced_output_tmp_48ee6_24_limb_0.clone()
-                    * qm_31_read_reduced_output_tmp_48ee6_30_limb_0.clone())
-                    - (qm_31_read_reduced_output_tmp_48ee6_24_limb_1.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_1.clone()))
-                    + (M31_2.clone()
-                        * ((qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
-                            * qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone())
-                            - (qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()
-                                * qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone()))))
-                    - (qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone()))
-                    - (qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone()))
+                - (((qm31_mul_s_re_tmp_48ee6_45.clone() + qm31_mul_bd_re_tmp_48ee6_41.clone())
+                    - qm31_mul_bd_im_tmp_48ee6_42.clone())
                     * decode_instruction_c67a5_output_tmp_48ee6_12_res_mul.clone()))
                 - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_0.clone()
                     + qm_31_read_reduced_output_tmp_48ee6_30_limb_0.clone())
@@ -301,19 +353,8 @@ impl FrameworkEval for Eval {
         // dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul).
         eval.add_constraint(
             ((qm_31_read_reduced_output_tmp_48ee6_18_limb_1.clone()
-                - ((((((qm_31_read_reduced_output_tmp_48ee6_24_limb_0.clone()
-                    * qm_31_read_reduced_output_tmp_48ee6_30_limb_1.clone())
-                    + (qm_31_read_reduced_output_tmp_48ee6_24_limb_1.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_0.clone()))
-                    + (M31_2.clone()
-                        * ((qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
-                            * qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone())
-                            + (qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()
-                                * qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone()))))
-                    + (qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone()))
-                    - (qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone()))
+                - (((qm31_mul_s_im_tmp_48ee6_46.clone() + qm31_mul_bd_re_tmp_48ee6_41.clone())
+                    + qm31_mul_bd_im_tmp_48ee6_42.clone())
                     * decode_instruction_c67a5_output_tmp_48ee6_12_res_mul.clone()))
                 - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_1.clone()
                     + qm_31_read_reduced_output_tmp_48ee6_30_limb_1.clone())
@@ -322,14 +363,8 @@ impl FrameworkEval for Eval {
         // dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul).
         eval.add_constraint(
             ((qm_31_read_reduced_output_tmp_48ee6_18_limb_2.clone()
-                - (((((qm_31_read_reduced_output_tmp_48ee6_24_limb_0.clone()
-                    * qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone())
-                    - (qm_31_read_reduced_output_tmp_48ee6_24_limb_1.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone()))
-                    + (qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_0.clone()))
-                    - (qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_1.clone()))
+                - (((qm31_mul_r0_tmp_48ee6_43.clone() - qm31_mul_r1_tmp_48ee6_44.clone())
+                    - qm31_mul_s_re_tmp_48ee6_45.clone())
                     * decode_instruction_c67a5_output_tmp_48ee6_12_res_mul.clone()))
                 - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
                     + qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone())
@@ -338,14 +373,10 @@ impl FrameworkEval for Eval {
         // dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul).
         eval.add_constraint(
             ((qm_31_read_reduced_output_tmp_48ee6_18_limb_3.clone()
-                - (((((qm_31_read_reduced_output_tmp_48ee6_24_limb_0.clone()
-                    * qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone())
-                    + (qm_31_read_reduced_output_tmp_48ee6_24_limb_1.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_2.clone()))
-                    + (qm_31_read_reduced_output_tmp_48ee6_24_limb_2.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_1.clone()))
-                    + (qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()
-                        * qm_31_read_reduced_output_tmp_48ee6_30_limb_0.clone()))
+                - (((((qm31_mul_ab0_tmp_48ee6_31.clone() + qm31_mul_ab1_tmp_48ee6_32.clone())
+                    * (qm31_mul_cd0_tmp_48ee6_33.clone() + qm31_mul_cd1_tmp_48ee6_34.clone()))
+                    - (qm31_mul_r0_tmp_48ee6_43.clone() + qm31_mul_r1_tmp_48ee6_44.clone()))
+                    - qm31_mul_s_im_tmp_48ee6_46.clone())
                     * decode_instruction_c67a5_output_tmp_48ee6_12_res_mul.clone()))
                 - ((qm_31_read_reduced_output_tmp_48ee6_24_limb_3.clone()
                     + qm_31_read_reduced_output_tmp_48ee6_30_limb_3.clone())
