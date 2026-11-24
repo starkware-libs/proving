@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::types::builtin_name::BuiltinName;
 use cairo_vm::types::errors::math_errors::MathError;
 use cairo_vm::types::relocatable::{MaybeRelocatable, Relocatable};
@@ -9,6 +8,7 @@ use cairo_vm::vm::errors::memory_errors::MemoryError;
 use cairo_vm::vm::runners::builtin_runner::SignatureBuiltinRunner;
 use cairo_vm::vm::runners::cairo_pie::{BuiltinAdditionalData, CairoPie, CairoPieMemory};
 use cairo_vm::vm::vm_core::VirtualMachine;
+use starknet_types_core::felt::Felt as FieldElement252;
 use thiserror_no_std::Error;
 
 #[derive(Error, Debug)]
@@ -226,7 +226,7 @@ pub fn build_cairo_pie_relocation_table(
 
 fn extend_additional_data(
     builtin: &mut SignatureBuiltinRunner,
-    data: &std::collections::BTreeMap<Relocatable, (Felt252, Felt252)>,
+    data: &std::collections::BTreeMap<Relocatable, (FieldElement252, FieldElement252)>,
     relocation_table: &RelocationTable,
 ) -> Result<(), SignatureRelocationError> {
     for (addr, signature) in data {
@@ -329,7 +329,7 @@ mod tests {
     fn test_relocate_value() {
         let relocation_table = RelocationTable::new();
 
-        let value = MaybeRelocatable::Int(Felt252::from(64));
+        let value = MaybeRelocatable::Int(FieldElement252::from(64));
         assert_eq!(relocation_table.relocate_value(value.clone()), Ok(value));
     }
 
@@ -388,7 +388,7 @@ mod tests {
 
     #[test]
     fn test_extract_segment_base_not_an_address() {
-        let result = extract_segment(MaybeRelocatable::Int(Felt252::from(1)));
+        let result = extract_segment(MaybeRelocatable::Int(FieldElement252::from(1)));
         assert_matches!(
             result,
             Err(RelocationTableError::Memory(MemoryError::AddressNotRelocatable))

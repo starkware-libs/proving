@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     get_ptr_from_var_name, insert_value_from_var_name, insert_value_into_ap,
 };
@@ -9,9 +8,9 @@ use cairo_vm::serde::deserialize_program::ApTracking;
 use cairo_vm::types::exec_scope::ExecutionScopes;
 use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::vm_core::VirtualMachine;
-use starknet_crypto::{Felt, pedersen_hash};
+use starknet_crypto::pedersen_hash;
+use starknet_types_core::felt::Felt as FieldElement252;
 
-use super::execute_task_hints::felt_to_felt252;
 use super::fact_topologies::GPS_FACT_TOPOLOGY;
 use super::types::FlexibleBuiltinUsageInput;
 use super::utils::get_program_input_value;
@@ -62,9 +61,9 @@ pub fn builtin_usage_add_signature(
         "3086480810278599376317923499561306189851900463386393948998357832163236918254",
         "598673427589502599949712887611119751108407514580626464031881322743364689811",
     );
-    let r = Felt252::from_dec_str(r_str)
+    let r = FieldElement252::from_dec_str(r_str)
         .map_err(|e| HintError::CustomHint(format!("Failed to parse r dec str: {e:?}").into()))?;
-    let s = Felt252::from_dec_str(s_str)
+    let s = FieldElement252::from_dec_str(s_str)
         .map_err(|e| HintError::CustomHint(format!("Failed to parse s dec str: {e:?}").into()))?;
     ecdsa_builtin.add_signature(ecdsa_ptr, &(r, s))?;
     Ok(())
@@ -94,8 +93,9 @@ pub fn builtin_usage_set_pages_and_fact_topology(
 ) -> Result<(), HintError> {
     let output_ptr = get_ptr_from_var_name("output_ptr", vm, ids_data, ap_tracking)?;
     let output_ptr_val = vm.get_integer(output_ptr)?.into_owned();
-    let ped_hash_val = pedersen_hash(&Felt::from(123_usize), &Felt::from(456_usize));
-    if output_ptr_val != felt_to_felt252(ped_hash_val) {
+    let ped_hash_val =
+        pedersen_hash(&FieldElement252::from(123_usize), &FieldElement252::from(456_usize));
+    if output_ptr_val != ped_hash_val {
         return Err(HintError::CustomHint(
             format!("Pedersen hash mismatch: expected {ped_hash_val}, got {output_ptr_val}").into(),
         ));
@@ -296,11 +296,11 @@ mod tests {
                 .get(&Relocatable::from((2, 0)))
                 .expect("Signature not found at ecdsa_ptr");
             let expected_signature = (
-                Felt252::from_dec_str(
+                FieldElement252::from_dec_str(
                     "3086480810278599376317923499561306189851900463386393948998357832163236918254",
                 )
                 .unwrap(),
-                Felt252::from_dec_str(
+                FieldElement252::from_dec_str(
                     "598673427589502599949712887611119751108407514580626464031881322743364689811",
                 )
                 .unwrap(),
@@ -326,13 +326,13 @@ mod tests {
         // Check that the value 5 was inserted into the AP.
         let ap = vm.get_ap();
         let value = vm.segments.memory.get_integer(ap).expect("Failed to get AP value");
-        assert_eq!(value, Cow::Borrowed(&Felt252::from(5)));
+        assert_eq!(value, Cow::Borrowed(&FieldElement252::from(5)));
 
         // Check that 6 is not in ap.
-        assert_ne!(value, Cow::Borrowed(&Felt252::from(6)));
+        assert_ne!(value, Cow::Borrowed(&FieldElement252::from(6)));
 
         // Also check that 5 is still in ap.
-        assert_eq!(value, Cow::Borrowed(&Felt252::from(5)));
+        assert_eq!(value, Cow::Borrowed(&FieldElement252::from(5)));
     }
 
     /// Test the builtin_usage_set_pages_and_fact_topology function.
@@ -368,11 +368,12 @@ mod tests {
         vm.builtin_runners = vec![output_builtin_runner.into()];
 
         // Load pedersen hash into output builtin_ptr
-        let ped_hash = pedersen_hash(&Felt::from(left_pedersen_hash), &Felt::from(456_usize));
-        let ped_hash_felt = felt_to_felt252(ped_hash);
-        let _ = vm
-            .load_data(Relocatable::from((2, 0)), &[MaybeRelocatable::from(ped_hash_felt)])
-            .unwrap();
+        let ped_hash = pedersen_hash(
+            &FieldElement252::from(left_pedersen_hash),
+            &FieldElement252::from(456_usize),
+        );
+        let _ =
+            vm.load_data(Relocatable::from((2, 0)), &[MaybeRelocatable::from(ped_hash)]).unwrap();
 
         let result = builtin_usage_set_pages_and_fact_topology(&mut vm, &ids_data, &ap_tracking);
 
@@ -476,7 +477,7 @@ mod tests {
             let addr = Relocatable::from((fp.segment_index, (fp.offset as i32 + offset) as usize));
             let value_owned = vm.segments.memory.get_integer(addr).unwrap();
             let value = value_owned.as_ref();
-            assert_eq!(value, &Felt252::from(expected), "Mismatch for {name} at local {i}");
+            assert_eq!(value, &FieldElement252::from(expected), "Mismatch for {name} at local {i}");
         }
     }
 }

@@ -30,21 +30,34 @@ use stwo::prover::poly::BitReversedOrder;
 use stwo::prover::poly::circle::{PolyOps, SecureEvaluation};
 
 #[rstest]
-#[case::fold_step_1(8, 2, 1, 7)]
-#[case::fold_step_2(8, 2, 2, 7)]
-#[case::fold_step_3(8, 2, 3, 7)]
-#[case::fold_step_4(8, 2, 4, 7)]
-#[case::fold_step_4_blowup_3(8, 3, 4, 7)]
+#[case::fold_step_1(8, 2, 1, 7, 0)]
+#[case::fold_step_2(8, 2, 2, 7, 0)]
+#[case::fold_step_3(8, 2, 3, 7, 0)]
+#[case::fold_step_4(8, 2, 4, 7, 0)]
+#[case::fold_step_4_blowup_3(8, 3, 4, 7, 0)]
+#[case::last_layer_1_fold_step_1(8, 2, 1, 7, 1)]
+#[case::last_layer_1_fold_step_3(8, 2, 3, 7, 1)]
+#[case::last_layer_2_fold_step_3(8, 2, 3, 7, 2)]
+#[case::last_layer_3_fold_step_3(8, 2, 3, 7, 3)]
+#[case::last_layer_3_fold_step_4(8, 2, 4, 7, 3)]
+#[case::fold_directly_to_last_layer(8, 2, 4, 7, 4)]
 fn test_fri_decommit_with_jumps(
     #[case] trace_log_size: u32,
     #[case] log_blowup_factor: u32,
     #[case] fold_step: u32,
     #[case] n_queries: usize,
+    #[case] log_last_layer_degree_bound: u32,
 ) {
     let log_evaluation_domain_size = trace_log_size + log_blowup_factor;
     let query_indices = generate_query_indices(n_queries, log_evaluation_domain_size);
-    let fri_proof =
-        create_fri_proof(trace_log_size, log_blowup_factor, fold_step, n_queries, &query_indices);
+    let fri_proof = create_fri_proof(
+        trace_log_size,
+        log_blowup_factor,
+        fold_step,
+        n_queries,
+        log_last_layer_degree_bound,
+        &query_indices,
+    );
 
     let mut context = TraceContext::default();
     // Make a dummy config.
@@ -56,7 +69,13 @@ fn test_fri_decommit_with_jumps(
         component_shapes: vec![],
         cumulative_sum_columns: vec![],
         fri: FriConfig {
-            params: FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step),
+            params: FriParams::new(
+                0,
+                log_last_layer_degree_bound,
+                log_blowup_factor,
+                n_queries,
+                fold_step,
+            ),
             trace_log_size,
         },
     };
@@ -74,11 +93,12 @@ fn test_fri_decommit_with_jumps(
     let queries = CircuitQueries { bits, points };
 
     // Compute the circuit FriProof.
-    let all_fold_steps = compute_all_fold_steps(trace_log_size, fold_step);
+    let all_fold_steps =
+        compute_all_fold_steps(trace_log_size - log_last_layer_degree_bound, fold_step);
     let witness = test_construct_fri_witness(&fri_proof, &all_fold_steps, &query_indices);
     let auth_paths =
         test_construct_fri_auth_paths(&fri_proof, &config, &query_indices, &all_fold_steps);
-    let last_layer_coefficients = fri_proof.proof.last_layer_poly.into_ordered_coefficients();
+    let last_layer_coefficients = fri_proof.proof.last_layer_poly.to_vec();
     let circuit_fri_proof = FriProof {
         commit: FriCommitProof {
             layer_commitments: chain!(
@@ -143,9 +163,11 @@ fn create_fri_proof(
     log_blowup_factor: u32,
     fold_step: u32,
     n_queries: usize,
+    log_last_layer_degree_bound: u32,
     query_indices: &[usize],
 ) -> ExtendedFriProof<Blake2sMerkleHasher> {
-    let config = FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step);
+    let config =
+        FriParams::new(0, log_last_layer_degree_bound, log_blowup_factor, n_queries, fold_step);
     let column = polynomial_evaluation(trace_log_size, log_blowup_factor);
     let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
     let prover = FriProver::<CpuBackend, Blake2sMerkleChannel>::commit(

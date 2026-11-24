@@ -87,10 +87,10 @@ pub fn fri_decommit<Value: IValue>(
     let mut base_point = queries.points.clone();
     let mut packed_bits = queries.bits.as_slice();
 
+    let log_last_layer_degree_bound = config.params.log_last_layer_degree_bound;
     let mut log_degree_bound = config.trace_log_size;
     let mut step = config.params.fold_step;
-    assert!(log_degree_bound >= step);
-    assert_eq!(config.params.log_last_layer_degree_bound, 0);
+    assert!(log_degree_bound >= log_last_layer_degree_bound + step);
 
     // Translate base_point to the base of the current circle domain.
     let mut packed_lowest_bits = packed_bits.split_off(..usize::try_from(step).unwrap()).unwrap();
@@ -179,7 +179,7 @@ pub fn fri_decommit<Value: IValue>(
             .collect();
 
         log_degree_bound = log_degree_bound.saturating_sub(step);
-        if log_degree_bound == 0 {
+        if log_degree_bound == log_last_layer_degree_bound {
             break;
         }
 
@@ -188,9 +188,9 @@ pub fn fri_decommit<Value: IValue>(
         // points are not needed after we exit the loop.
         let query_domain_point = repeated_double_point_simd(context, &base_point, n_doubles);
 
-        // Update the number of times to double the base point for the next step.
+        // Advance step for the next iteration, then set `n_doubles` to the new step.
+        step = std::cmp::min(step, log_degree_bound - log_last_layer_degree_bound);
         n_doubles = step;
-        step = std::cmp::min(step, log_degree_bound);
 
         packed_lowest_bits = packed_bits.split_off(..usize::try_from(step).unwrap()).unwrap();
 
@@ -200,10 +200,11 @@ pub fn fri_decommit<Value: IValue>(
         // Compute twiddles for the next step.
         twiddles_per_fold = compute_twiddles_from_base_point(context, &base_point, step);
     }
-    // The last fri layer log size is equal to the log blowup factor.
     let log_blowup_factor: usize = config.params.log_blowup_factor.try_into().unwrap();
-    assert_eq!(bits.len(), log_blowup_factor);
-    assert_eq!(packed_bits.len(), log_blowup_factor);
+    let log_last_layer_degree_bound: usize = log_last_layer_degree_bound.try_into().unwrap();
+    let log_last_layer_domain_size = log_blowup_factor + log_last_layer_degree_bound;
+    assert_eq!(bits.len(), log_last_layer_domain_size);
+    assert_eq!(packed_bits.len(), log_last_layer_domain_size);
 
     // The last base point's y-coords hasn't been used by `compute_twiddles_from_base_point` if the
     // last step was = 1.
@@ -211,12 +212,94 @@ pub fn fri_decommit<Value: IValue>(
         Simd::mark_partly_used(context, &base_point.y);
     }
 
-    // Check last layer.
-    assert_eq!(last_layer_coefs.len(), 1);
-    let last_layer_val = last_layer_coefs[0];
-    for value in layer_values {
-        eq(context, value, last_layer_val);
+    check_last_layer(
+        context,
+        last_layer_coefs,
+        &layer_values,
+        &base_point.x,
+        n_doubles,
+        log_last_layer_degree_bound,
+    );
+}
+
+/// Checks that each `layer_values[q]` equals the last-layer polynomial evaluated at the query's
+/// x-coordinate on the last-layer domain.
+///
+/// `last_layer_coefs` holds the polynomial coefficients in bit-reversed order (see
+/// [stwo::core::poly::line::LinePoly]).
+///
+/// # Arguments
+///
+/// - `base_point_x`: packed x-coordinate of each query's final-coset base point.
+/// - `n_doubles`: number of `double_x` applications that map `base_point_x` to the query's
+///   x-coordinate on the last-layer domain.
+fn check_last_layer<Value: IValue>(
+    context: &mut Context<Value>,
+    last_layer_coefs: &[Var],
+    layer_values: &[Var],
+    base_point_x: &Simd,
+    n_doubles: u32,
+    log_last_layer_degree_bound: usize,
+) {
+    assert_eq!(last_layer_coefs.len(), 1 << log_last_layer_degree_bound);
+
+    if log_last_layer_degree_bound == 0 {
+        // The polynomial is a constant; every query value must equal that constant.
+        let last_layer_val = last_layer_coefs[0];
+        for value in layer_values {
+            eq(context, *value, last_layer_val);
+        }
+        return;
     }
+
+    // Compute the per-query x-coordinate on the last-layer domain and all its needed doublings.
+    // First advances the base_point to the last layer's domain by doubling it `n_doubles` times,
+    // then doubles it `log_last_layer_degree_bound - 1` times more and saves the last
+    // `log_last_layer_degree_bound` doublings in `doublings_simd`, with `doublings_simd[0]`
+    // being the value after `n_doubles` doublings.
+    let mut cur_x = base_point_x.clone();
+    for _ in 0..n_doubles {
+        cur_x = double_x(context, &cur_x);
+    }
+    let mut doublings_simd = Vec::with_capacity(log_last_layer_degree_bound);
+    for _ in 1..log_last_layer_degree_bound {
+        doublings_simd.push(cur_x.clone());
+        cur_x = double_x(context, &cur_x);
+    }
+    doublings_simd.push(cur_x);
+
+    // TODO(DanC): Consider evaluating the polynomials using the queries SIMD, unpacking
+    // last_layer_coefs into 4 M31s instead. This could be more efficient for high query
+    // counts and low degree bounds.
+    for (q, value) in layer_values.iter().enumerate() {
+        let query_doublings: Vec<Var> =
+            doublings_simd.iter().map(|s| *Simd::unpack_idx(context, s, q).raw()).collect();
+        let expected = eval_line_poly(context, last_layer_coefs, &query_doublings);
+        eq(context, *value, expected);
+    }
+}
+
+/// Evaluates a line polynomial given by bit-reversed `coeffs` using the precomputed
+/// `[x, double_x(x), double_x^2(x), ..., double_x^(log_size - 1)(x)]`.
+fn eval_line_poly<Value: IValue>(
+    context: &mut Context<Value>,
+    coeffs: &[Var],
+    doublings: &[Var],
+) -> Var {
+    let mut values = coeffs.to_vec();
+    let mut next_len = values.len();
+    assert_eq!(next_len, 1 << doublings.len());
+    // Each round halves `values`, combining pairs via the innermost doubling first. Matches
+    // the recursive split in `stwo::core::poly::utils::fold`.
+    for &factor in doublings {
+        next_len /= 2;
+        for i in 0..next_len {
+            let lhs = values[i];
+            let rhs = values[next_len + i];
+            values[i] = eval!(context, (lhs) + ((rhs) * (factor)));
+        }
+    }
+    values[0]
 }
 
 /// Folds a coset of log size n to a point using the folding coefficients `alphas`.

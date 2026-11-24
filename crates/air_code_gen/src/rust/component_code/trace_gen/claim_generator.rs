@@ -641,11 +641,8 @@ fn write_trace_args(sub_components: &IndexMap<String, PaddingType>) -> rust::Tok
 /// Parses a `CompiledAirVar` into a string for the write_trace function.
 fn simd_parse_air_var(expr: &CompiledAirVar, constant_names: &[(RustConst, String)]) -> String {
     match expr {
-        // "usize" is used as index.
-        // TODO(Ohad): ask anatg about this.
-        CompiledAirVar::Const(ty, val) if ty == "usize" => val.to_string(),
+        CompiledAirVar::Index(index) => index.to_string(),
         CompiledAirVar::Const(..) | CompiledAirVar::NamedConst { .. } => {
-            // `unwrap` is safe because the type of the const cannot be `usize`.
             let constant = RustConst::from_air_var(expr).unwrap();
             constant_names
                 .iter()

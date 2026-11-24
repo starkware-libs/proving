@@ -13,7 +13,7 @@ use circuits::ivalue::{NoValue, qm31_from_u32s};
 use circuits::ops::guess;
 use circuits::wrappers::U32Wrapper;
 use num_traits::{One, Zero};
-use starknet_ff::FieldElement;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::fri::{FriConfig, FriParams};
@@ -33,7 +33,7 @@ where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
     /// Reads a proof back from the felt stream written by its `CairoSerialize` impl.
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         Self {
             claim: CairoDeserialize::deserialize(data),
             interaction_pow_nonce: CairoDeserialize::deserialize(data),
@@ -49,7 +49,7 @@ where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
     /// Reads a stark proof back. See [`CairoStarkProof`] on the omitted config.
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         Self {
             commitments: CairoDeserialize::deserialize(data),
             oods_proof_of_work: CairoDeserialize::deserialize(data),

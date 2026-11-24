@@ -6,6 +6,8 @@ use cairo_vm::serde::deserialize_program::ApTracking;
 use cairo_vm::types::exec_scope::ExecutionScopes;
 use cairo_vm::types::relocatable::{MaybeRelocatable, Relocatable};
 use cairo_vm::vm::vm_core::VirtualMachine;
+#[cfg(test)]
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use crate::hints::types::Task;
 use crate::hints::vars;
@@ -129,7 +131,7 @@ pub fn prepare_vm_for_load_program_loading_test(
 /// Asserts that the VM's output is the Blake2s digest of `preimage`, as two 128-bit cells, low
 /// first.
 #[cfg(test)]
-pub fn assert_output_is_blake2s_digest(vm: &mut VirtualMachine, preimage: &[cairo_vm::Felt252]) {
+pub fn assert_output_is_blake2s_digest(vm: &mut VirtualMachine, preimage: &[FieldElement252]) {
     use blake2::{Blake2s256, Digest};
     use starknet_types_core::hash::Blake2Felt252;
 

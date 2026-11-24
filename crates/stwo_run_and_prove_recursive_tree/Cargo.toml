@@ -30,11 +30,13 @@ clap.workspace = true
 itertools.workspace = true
 leaf-proof-format.workspace = true
 mimalloc = "0.1"
+rayon.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 sonic-rs.workspace = true
 # The Cairo `encode_felt252_data_and_calc_blake2s` felt-to-u32-words encoding.
 starknet-types-core.workspace = true
+stwo-cairo-serialize.workspace = true
 stwo-cairo-utils.workspace = true
 
 thiserror.workspace = true

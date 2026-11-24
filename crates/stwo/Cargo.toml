@@ -15,6 +15,7 @@ std = [
     "indexmap/std",
     "num-traits/std",
     "starknet-crypto/std",
+    "starknet-types-core/std",
     "thiserror/std",
     "tracing/std",
     "serde/std",
@@ -40,10 +41,10 @@ fnv.workspace = true
 itertools.workspace = true
 num-traits.workspace = true
 rand.workspace = true
-starknet-crypto = { version = "0.6.2", default-features = false, features = [
+starknet-crypto = { version = "=0.8.1", default-features = false, features = [
     "alloc",
 ] }
-starknet-ff = { version = "0.3.7", default-features = false, features = [
+starknet-types-core = { version = "=0.2.4", default-features = false, features = [
     "alloc",
     "serde",
 ] }

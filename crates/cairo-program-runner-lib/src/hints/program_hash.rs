@@ -1,18 +1,18 @@
 use std::iter::once;
 use std::path::Path;
 
-use cairo_vm::Felt252;
 use cairo_vm::types::builtin_name::BuiltinName;
 use cairo_vm::types::errors::program_errors::ProgramError;
 use cairo_vm::types::program::Program;
 use cairo_vm::types::relocatable::MaybeRelocatable;
 use cairo_vm::vm::runners::cairo_pie::StrippedProgram;
-use starknet_crypto::{Felt, pedersen_hash, poseidon_hash_many};
+use starknet_crypto::{pedersen_hash, poseidon_hash_many};
+use starknet_types_core::felt::Felt as FieldElement252;
 use starknet_types_core::hash::Blake2Felt252;
 
 use super::types::HashFunc;
 
-type HashFunction = fn(&Felt, &Felt) -> Felt;
+type HashFunction = fn(&FieldElement252, &FieldElement252) -> FieldElement252;
 
 #[derive(thiserror_no_std::Error, Debug)]
 pub enum HashChainError {
@@ -30,11 +30,6 @@ pub enum ProgramHashError {
 
     #[error("Invalid program data: data contains relocatable(s)")]
     InvalidProgramData,
-
-    /// Conversion from Felt252 to Felt failed. This is unlikely to happen
-    /// unless the implementation of Felt252 changes and this code is not updated properly.
-    #[error("Conversion from Felt252 to Felt failed")]
-    Felt252ToFeltConversionFailed,
 }
 // Computes a hash chain over the data, in the following order:
 // h(data[0], h(data[1], h(..., h(data[n-2], data[n-1])))).
@@ -43,9 +38,12 @@ pub enum ProgramHashError {
 // def compute_hash_chain(data, hash_func=pedersen_hash):
 // assert len(data) >= 1, f"len(data) for hash chain computation must be >= 1; got: {len(data)}."
 // return functools.reduce(lambda x, y: hash_func(y, x), data[::-1])
-fn compute_hash_chain<'a, I>(data: I, hash_func: HashFunction) -> Result<Felt, HashChainError>
+fn compute_hash_chain<'a, I>(
+    data: I,
+    hash_func: HashFunction,
+) -> Result<FieldElement252, HashChainError>
 where
-    I: Iterator<Item = &'a Felt> + DoubleEndedIterator,
+    I: Iterator<Item = &'a FieldElement252> + DoubleEndedIterator,
 {
     match data.copied().rev().reduce(|x, y| hash_func(&y, &x)) {
         Some(result) => Ok(result),
@@ -53,42 +51,29 @@ where
     }
 }
 
-/// Creates an instance of `Felt` from a builtin name.
+/// Creates an instance of `FieldElement252` from a builtin name.
 ///
 /// Converts the builtin name to bytes then attempts to create a field element from
 /// these bytes. This function will fail if the builtin name is over 31 characters.
-fn builtin_to_felt(builtin: &BuiltinName) -> Result<Felt, ProgramHashError> {
+fn builtin_to_felt(builtin: &BuiltinName) -> Result<FieldElement252, ProgramHashError> {
     // The Python implementation uses the builtin name without suffix
     let builtin_name = builtin.to_str();
 
-    // TODO(idanh): not sure if this check is correct, documentation of Felt::from_bytes_be_slice
-    // works in chunks of 32 bytes and not 31...
+    // TODO(idanh): not sure if this check is correct, documentation of
+    // FieldElement252::from_bytes_be_slice works in chunks of 32 bytes and not 31...
     if builtin_name.len() > 31 {
         return Err(ProgramHashError::InvalidProgramBuiltin(builtin.to_str()));
     }
-    Ok(Felt::from_bytes_be_slice(builtin_name.as_bytes()))
+    Ok(FieldElement252::from_bytes_be_slice(builtin_name.as_bytes()))
 }
 
-/// The `value: Felt` is `pub(crate)` and there is no accessor.
-/// This function converts a `Felt252` to a `Felt` using a safe, albeit inefficient,
-/// method.
-fn felt252_to_felt(felt: &Felt252) -> Result<Felt, ProgramHashError> {
-    let bytes = felt.to_bytes_be();
-    // Check if bytes length is over 31
-    if bytes.len() > 32 {
-        return Err(ProgramHashError::Felt252ToFeltConversionFailed);
-    }
-    Ok(Felt::from_bytes_be(&bytes))
-}
-
-/// Converts a `MaybeRelocatable` into a `Felt` value.
+/// Converts a `MaybeRelocatable` into a `FieldElement252` value.
 ///
 /// Returns `InvalidProgramData` if `maybe_relocatable` is not an integer
 fn maybe_relocatable_to_felt(
     maybe_relocatable: &MaybeRelocatable,
-) -> Result<Felt, ProgramHashError> {
-    let felt = maybe_relocatable.get_int_ref().ok_or(ProgramHashError::InvalidProgramData)?;
-    felt252_to_felt(felt)
+) -> Result<FieldElement252, ProgramHashError> {
+    maybe_relocatable.get_int().ok_or(ProgramHashError::InvalidProgramData)
 }
 
 /// Computes the program hash chain using the selected hash function.
@@ -98,29 +83,33 @@ pub fn compute_program_hash_chain(
     program: &StrippedProgram,
     bootloader_version: usize,
     program_hash_function: HashFunc,
-) -> Result<Felt, ProgramHashError> {
+) -> Result<FieldElement252, ProgramHashError> {
     let program_main = program.main;
-    let program_main = Felt::from(program_main);
+    let program_main = FieldElement252::from(program_main);
 
     // Convert builtin names to field elements
-    let builtin_list: Result<Vec<Felt>, _> = program.builtins.iter().map(builtin_to_felt).collect();
+    let builtin_list: Result<Vec<FieldElement252>, _> =
+        program.builtins.iter().map(builtin_to_felt).collect();
     let builtin_list = builtin_list?;
 
-    let program_header =
-        vec![Felt::from(bootloader_version), program_main, Felt::from(program.builtins.len())];
+    let program_header = vec![
+        FieldElement252::from(bootloader_version),
+        program_main,
+        FieldElement252::from(program.builtins.len()),
+    ];
 
     let program_data: Result<Vec<_>, _> =
         program.data.iter().map(maybe_relocatable_to_felt).collect();
     let program_data = program_data?;
 
-    let data_without_len: Vec<Felt> = [&program_header, &builtin_list, &program_data]
+    let data_without_len: Vec<FieldElement252> = [&program_header, &builtin_list, &program_data]
         .iter()
         .flat_map(|&v| v.iter().copied())
         .collect();
 
     let hash = match program_hash_function {
         HashFunc::Pedersen => {
-            let data_chain_len_felt = Felt::from(data_without_len.len());
+            let data_chain_len_felt = FieldElement252::from(data_without_len.len());
             compute_hash_chain(
                 once(&data_chain_len_felt).chain(data_without_len.iter()),
                 pedersen_hash,
@@ -149,7 +138,7 @@ pub enum CompiledProgramHashError {
 pub fn compiled_program_hash(
     path: &Path,
     program_hash_function: HashFunc,
-) -> Result<Felt, CompiledProgramHashError> {
+) -> Result<FieldElement252, CompiledProgramHashError> {
     let program = Program::from_bytes(&std::fs::read(path)?, Some("main"))?;
     compute_program_hash_chain(&program.get_stripped_program()?, 0, program_hash_function)
         .map_err(CompiledProgramHashError::Hash)
@@ -159,11 +148,11 @@ pub fn compiled_program_hash(
 mod tests {
     use std::path::PathBuf;
 
-    use cairo_vm::Felt252;
     use cairo_vm::types::layout_name::LayoutName;
     use cairo_vm::types::program::Program;
     use rstest::rstest;
     use starknet_crypto::pedersen_hash;
+    use starknet_types_core::felt::Felt as FieldElement252;
     use stwo_cairo_utils::file_utils::repo_root;
 
     use super::*;
@@ -173,9 +162,15 @@ mod tests {
 
     #[test]
     fn test_compute_hash_chain() {
-        let data: Vec<Felt> = vec![Felt::from(1u64), Felt::from(2u64), Felt::from(3u64)];
-        let expected_hash =
-            pedersen_hash(&Felt::from(1u64), &pedersen_hash(&Felt::from(2u64), &Felt::from(3u64)));
+        let data: Vec<FieldElement252> = vec![
+            FieldElement252::from(1u64),
+            FieldElement252::from(2u64),
+            FieldElement252::from(3u64),
+        ];
+        let expected_hash = pedersen_hash(
+            &FieldElement252::from(1u64),
+            &pedersen_hash(&FieldElement252::from(2u64), &FieldElement252::from(3u64)),
+        );
         let computed_hash = compute_hash_chain(data.iter(), pedersen_hash)
             .expect("Hash computation failed unexpectedly");
 
@@ -273,13 +268,12 @@ mod tests {
         let expected_hash = compute_program_hash_chain(&stripped_program, 0, hash_func)
             .expect("Failed to compute program hash in Rust.");
         // The dumped preimage is the task's program hash followed by its output.
-        let preimage: Vec<Felt252> = serde_json::from_str(
+        let preimage: Vec<FieldElement252> = serde_json::from_str(
             &std::fs::read_to_string(preimage_dump.path()).expect("Failed to read the dump."),
         )
         .expect("Failed to parse the dumped preimage.");
         assert_eq!(
-            preimage[0],
-            Felt252::from_bytes_be(&expected_hash.to_bytes_be()),
+            preimage[0], expected_hash,
             "Bootloader program hash should match compute_program_hash_chain for {hash_func:?}",
         );
         assert_output_is_blake2s_digest(&mut runner.vm, &preimage);

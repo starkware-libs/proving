@@ -29,9 +29,6 @@ pub fn get_opcodes(casm_states_by_opcode: &CasmStatesByOpcode) -> Vec<&'static s
     if !casm_states_by_opcode.call_opcode_rel_imm.is_empty() {
         opcodes.push("call_opcode_rel_imm");
     }
-    if !casm_states_by_opcode.generic_opcode.is_empty() {
-        opcodes.push("generic_opcode");
-    }
     if !casm_states_by_opcode.jnz_opcode_non_taken.is_empty() {
         opcodes.push("jnz_opcode_non_taken");
     }

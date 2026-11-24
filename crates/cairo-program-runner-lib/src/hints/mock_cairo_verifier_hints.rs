@@ -1,7 +1,6 @@
 use std::any::Any;
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     insert_value_from_var_name, insert_value_into_ap,
 };
@@ -11,6 +10,7 @@ use cairo_vm::types::exec_scope::ExecutionScopes;
 use cairo_vm::types::relocatable::MaybeRelocatable;
 use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::vm_core::VirtualMachine;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::types::MockCairoVerifierInput;
 use super::utils::{gen_arg, get_program_input_value};
@@ -82,7 +82,6 @@ pub fn mock_cairo_verifier_n_steps_to_ap(
 ) -> Result<(), HintError> {
     let mock_cairo_verifier_input: &MockCairoVerifierInput =
         exec_scopes.get_ref(MOCK_CAIRO_VERIFIER_INPUT)?;
-    let felt_n_steps =
-        Felt252::from_dec_str(&mock_cairo_verifier_input.n_steps.to_string()).unwrap();
+    let felt_n_steps = FieldElement252::from(mock_cairo_verifier_input.n_steps);
     insert_value_into_ap(vm, felt_n_steps)
 }

@@ -78,9 +78,6 @@ fn assert_cairo_components(trace: TreeVec<Vec<&Vec<M31>>>, cairo_components: &Ca
     if let Some(component) = &cairo_components.call_opcode_rel_imm {
         assert_component(component, &trace);
     }
-    if let Some(component) = &cairo_components.generic_opcode {
-        assert_component(component, &trace);
-    }
     if let Some(component) = &cairo_components.jnz_opcode_non_taken {
         assert_component(component, &trace);
     }

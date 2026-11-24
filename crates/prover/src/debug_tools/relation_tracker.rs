@@ -120,9 +120,6 @@ fn cairo_relation_entries(
     if let Some(component) = &cairo_components.call_opcode_rel_imm {
         entries.extend(add_to_relation_entries(component, trace));
     }
-    if let Some(component) = &cairo_components.generic_opcode {
-        entries.extend(add_to_relation_entries(component, trace));
-    }
     if let Some(component) = &cairo_components.jnz_opcode_non_taken {
         entries.extend(add_to_relation_entries(component, trace));
     }

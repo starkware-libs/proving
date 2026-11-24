@@ -66,9 +66,9 @@ pub fn divide_queries_ind_by_coset_size_to_fp_offset(
 
 #[cfg(test)]
 mod test {
-    use cairo_vm::Felt252;
     use cairo_vm::types::relocatable::Relocatable;
     use rstest::rstest;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use super::*;
     use crate::test_utils::fill_ids_data_for_test;
@@ -111,17 +111,17 @@ mod test {
         let _ = vm.segments.load_data(
             queries_addr,
             &[
-                MaybeRelocatable::from(Felt252::from(index)), // index
-                MaybeRelocatable::from(100),                  // y_value
-                MaybeRelocatable::from(200),                  // x_inv_value
+                MaybeRelocatable::from(FieldElement252::from(index)), // index
+                MaybeRelocatable::from(100),                          // y_value
+                MaybeRelocatable::from(200),                          // x_inv_value
             ],
         );
         let _ = vm.segments.load_data(
             params_addr,
             &[
-                MaybeRelocatable::from(Felt252::from(coset_size)), // coset_size
-                MaybeRelocatable::from(300),                       /* fri_group (pointer, not
-                                                                    * used here) */
+                MaybeRelocatable::from(FieldElement252::from(coset_size)), // coset_size
+                MaybeRelocatable::from(300), /* fri_group (pointer, not
+                                              * used here) */
                 MaybeRelocatable::from(400), // eval_point
             ],
         );
@@ -131,6 +131,6 @@ mod test {
         let fp = vm.get_fp();
         let result_addr = Relocatable::from((fp.segment_index, fp.offset + 1));
         let result = vm.get_integer(result_addr).expect("Failed to get result");
-        assert_eq!(*result.as_ref(), Felt252::from(expected));
+        assert_eq!(*result.as_ref(), FieldElement252::from(expected));
     }
 }

@@ -5,7 +5,6 @@
 use std::any::Any;
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     get_ptr_from_var_name, insert_value_from_var_name,
 };
@@ -18,6 +17,7 @@ use cairo_vm::vm::runners::builtin_runner::OutputBuiltinState;
 use cairo_vm::vm::vm_core::VirtualMachine;
 use leaf_proof_format::N_DIGEST_WORDS;
 use num_traits::ToPrimitive;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::fact_topologies::{
     FactTopology, GPS_FACT_TOPOLOGY, add_consecutive_output_pages, write_to_fact_topologies_file,
@@ -36,7 +36,7 @@ fn load_words_segment(
 ) -> Result<MaybeRelocatable, HintError> {
     let base = vm.add_memory_segment();
     let data: Vec<MaybeRelocatable> =
-        words.iter().map(|w| MaybeRelocatable::from(Felt252::from(*w))).collect();
+        words.iter().map(|w| MaybeRelocatable::from(FieldElement252::from(*w))).collect();
     vm.load_data(base, &data).map_err(HintError::Memory)?;
     Ok(MaybeRelocatable::from(base))
 }
@@ -164,9 +164,9 @@ pub fn circuit_applicative_setup_unpack(
     vm.load_data(
         config_base,
         &[
-            MaybeRelocatable::from(Felt252::from(multiverifier_hashes.len())),
+            MaybeRelocatable::from(FieldElement252::from(multiverifier_hashes.len())),
             multiverifier_hashes_ptr,
-            MaybeRelocatable::from(Felt252::from(leaf_verifier_hashes.len())),
+            MaybeRelocatable::from(FieldElement252::from(leaf_verifier_hashes.len())),
             leaf_verifier_hashes_ptr,
         ],
     )
@@ -219,7 +219,13 @@ pub fn circuit_unpack_set_is_leaf(
     ap_tracking: &ApTracking,
 ) -> Result<(), HintError> {
     let is_leaf = node_is_leaf(get_node(exec_scopes)?)?;
-    insert_value_from_var_name("is_leaf", Felt252::from(is_leaf as u64), vm, ids_data, ap_tracking)
+    insert_value_from_var_name(
+        "is_leaf",
+        FieldElement252::from(is_leaf as u64),
+        vm,
+        ids_data,
+        ap_tracking,
+    )
 }
 
 /// Implements hint: %{ CIRCUIT_UNPACK_SET_IS_SELF_FOLD %}
@@ -235,7 +241,7 @@ pub fn circuit_unpack_set_is_self_fold(
     );
     insert_value_from_var_name(
         "is_self_fold",
-        Felt252::from(is_self_fold as u64),
+        FieldElement252::from(is_self_fold as u64),
         vm,
         ids_data,
         ap_tracking,
@@ -276,7 +282,7 @@ fn set_circuit_hash_index_in_list(
             ));
         }
     };
-    let node_circuit_hash_felts = node_circuit_hash.map(Felt252::from);
+    let node_circuit_hash_felts = node_circuit_hash.map(FieldElement252::from);
 
     // ids.config = CircuitUnpackerConfig { n_multiverifier_hashes: felt,
     // multiverifier_hashes: felt*, n_leaf_verifier_hashes: felt, leaf_verifier_hashes: felt* }.
@@ -313,7 +319,7 @@ fn set_circuit_hash_index_in_list(
     })?;
     insert_value_from_var_name(
         "circuit_hash_index",
-        Felt252::from(circuit_hash_index),
+        FieldElement252::from(circuit_hash_index),
         vm,
         ids_data,
         ap_tracking,
@@ -436,7 +442,13 @@ pub fn load_mock_circuit_verifier_input(
     let output_values_ptr = load_words_segment(vm, &input.output_values)?;
     insert_value_from_var_name("circuit_hash", circuit_hash_ptr, vm, ids_data, ap_tracking)?;
     insert_value_from_var_name("output_values", output_values_ptr, vm, ids_data, ap_tracking)?;
-    insert_value_from_var_name("n_steps", Felt252::from(input.n_steps), vm, ids_data, ap_tracking)?;
+    insert_value_from_var_name(
+        "n_steps",
+        FieldElement252::from(input.n_steps),
+        vm,
+        ids_data,
+        ap_tracking,
+    )?;
     Ok(())
 }
 
@@ -494,7 +506,11 @@ mod tests {
         PackedNode::Composite {
             circuit_hash: DigestHex(sample_digest(circuit_hash_seed)),
             subtasks: vec![PackedNode::Plain {
-                output_preimage: vec![Felt252::from(7), Felt252::from(11), Felt252::from(13)],
+                output_preimage: vec![
+                    FieldElement252::from(7),
+                    FieldElement252::from(11),
+                    FieldElement252::from(13),
+                ],
             }],
         }
     }
@@ -537,7 +553,7 @@ mod tests {
             circuit_unpack_set_is_leaf(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking).unwrap();
             assert_eq!(
                 get_integer_from_var_name("is_leaf", &vm, &ids_data, &ap_tracking).unwrap(),
-                Felt252::from(expected)
+                FieldElement252::from(expected)
             );
         }
     }
@@ -602,9 +618,9 @@ mod tests {
         vm.load_data(
             config_base,
             &[
-                MaybeRelocatable::from(Felt252::from(multiverifier_hashes.len())),
+                MaybeRelocatable::from(FieldElement252::from(multiverifier_hashes.len())),
                 multiverifier_hashes_ptr,
-                MaybeRelocatable::from(Felt252::from(leaf_verifier_hashes.len())),
+                MaybeRelocatable::from(FieldElement252::from(leaf_verifier_hashes.len())),
                 leaf_verifier_hashes_ptr,
             ],
         )
@@ -634,7 +650,7 @@ mod tests {
         .unwrap();
         assert_eq!(
             get_integer_from_var_name("circuit_hash_index", &vm, &ids_data, &ap_tracking).unwrap(),
-            Felt252::from(1)
+            FieldElement252::from(1)
         );
 
         let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
@@ -655,7 +671,7 @@ mod tests {
         .unwrap();
         assert_eq!(
             get_integer_from_var_name("circuit_hash_index", &vm, &ids_data, &ap_tracking).unwrap(),
-            Felt252::from(0)
+            FieldElement252::from(0)
         );
     }
 
@@ -737,18 +753,18 @@ mod tests {
 
         assert_eq!(
             get_integer_from_var_name("n_steps", &vm, &ids_data, &ap_tracking).unwrap(),
-            Felt252::from(17)
+            FieldElement252::from(17)
         );
         for (name, seed) in [("circuit_hash", 10u32), ("output_values", 20)] {
             let ptr = get_ptr_from_var_name(name, &vm, &ids_data, &ap_tracking).unwrap();
-            let words: Vec<Felt252> = vm
+            let words: Vec<FieldElement252> = vm
                 .get_integer_range(ptr, N_DIGEST_WORDS)
                 .unwrap()
                 .into_iter()
                 .map(|f| *f.as_ref())
                 .collect();
-            let expected: Vec<Felt252> =
-                sample_digest(seed).iter().map(|&w| Felt252::from(w)).collect();
+            let expected: Vec<FieldElement252> =
+                sample_digest(seed).iter().map(|&w| FieldElement252::from(w)).collect();
             assert_eq!(words, expected, "words mismatch for {name}");
         }
     }
@@ -913,18 +929,18 @@ mod tests {
         for (offset, seed) in [(0u32, 10u32), (2, 20)] {
             assert_eq!(
                 *vm.get_integer((config_ptr + offset).unwrap()).unwrap().as_ref(),
-                Felt252::from(1)
+                FieldElement252::from(1)
             );
             let circuit_hashes_ptr =
                 vm.get_relocatable((config_ptr + (offset + 1)).unwrap()).unwrap();
-            let words: Vec<Felt252> = vm
+            let words: Vec<FieldElement252> = vm
                 .get_integer_range(circuit_hashes_ptr, N_DIGEST_WORDS)
                 .unwrap()
                 .into_iter()
                 .map(|f| *f.as_ref())
                 .collect();
-            let expected: Vec<Felt252> =
-                sample_digest(seed).iter().map(|&w| Felt252::from(w)).collect();
+            let expected: Vec<FieldElement252> =
+                sample_digest(seed).iter().map(|&w| FieldElement252::from(w)).collect();
             assert_eq!(words, expected, "list at config offset {offset} mismatch");
         }
 

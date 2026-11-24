@@ -109,6 +109,8 @@ pub enum CompiledAirVar {
     StaticCall(String, Vec<CompiledAirVar>),
     // A method function call. The self variable, the name of the method and its arguments.
     MethodCall(Box<CompiledAirVar>, String, Vec<CompiledAirVar>),
+    // An array index, passed as an argument of a method call.
+    Index(usize),
     // A binary operation represented by the left-hand side, the operator, and the right-hand
     // side.
     BinaryOp(Box<CompiledAirVar>, String, Box<CompiledAirVar>),

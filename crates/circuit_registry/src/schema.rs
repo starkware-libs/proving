@@ -7,7 +7,7 @@ use std::collections::BTreeMap;
 use circuit_common::finalize::ComponentSizes;
 use leaf_proof_format::DigestHex;
 use serde::{Deserialize, Serialize};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fri::FriParams;
 use stwo_cairo_common::prover_params::ProverParameters;
 
@@ -99,10 +99,29 @@ pub struct Multiverifier {
     /// `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)` — the value that
     /// identifies this circuit in a verifier's public output.
     pub circuit_hash: DigestHex,
-    /// The same identity when the circuit is proven with Poseidon252 instead of Blake2s. The
-    /// `poseidon252_verifier` Cairo verifier hashes this felt252, with the circuit's outputs, into
-    /// its own output. Serialized as one `0x` hex string, the felt's own form, not as `DigestHex`.
-    pub poseidon_circuit_hash: Felt,
+    /// The circuit proven as a tree's root for a Cairo circuit verifier. Present only in
+    /// registries of flows whose roots a Cairo verifier verifies.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cairo_verifier_root: Option<CairoVerifierRoot>,
+}
+
+/// The multiverifier as the root of a tree that a Cairo circuit verifier verifies. Such a root is
+/// proven under a config of its own, so its FRI params can differ from the folds'. Both builds of
+/// the Cairo circuit verifier, the default one and `poseidon252_verifier`, verify roots proven
+/// under that config.
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+pub struct CairoVerifierRoot {
+    /// Key into `CircuitRegistry::circuit_proof_configs`: the config the root is proven with,
+    /// which both builds of the Cairo circuit verifier pin. It has the multiverifier's component
+    /// log sizes.
+    pub config: String,
+    /// The multiverifier's circuit hash under Blake2s, at that config's blowup: the root's
+    /// identity for the default build.
+    pub blake_circuit_hash: DigestHex,
+    /// The same identity under Poseidon252, for the `poseidon252_verifier` build, which hashes
+    /// this felt252, with the circuit's outputs, into its own output. Serialized as one `0x` hex
+    /// string, the felt's own form, not as `DigestHex`.
+    pub poseidon_circuit_hash: FieldElement252,
 }
 
 /// The applicative unpacking verifier circuit, padded to its config's component sizes. It verifies
@@ -123,8 +142,10 @@ pub struct UnpackingVerifier {
 /// The json output: the prover params of the verified Cairo proofs, a map of proof configs, the
 /// leaf verifiers (one per trace size), the multiverifiers, and the unpacking verifiers. All
 /// circuits are padded to the shared target sizes and proven with the same blowup, so they share a
-/// single config; the multiverifier verifies proofs of the leaf circuit and is essentially the same
-/// across trace sizes, so a single multiverifier is reported.
+/// single config, `default`. The one exception is a root proven for a Cairo circuit verifier,
+/// which has a second config (see [`CairoVerifierRoot`]). The multiverifier verifies proofs of the
+/// leaf circuit and is essentially the same across trace sizes, so a single multiverifier is
+/// reported.
 ///
 /// The params are part of the registry because the circuits — hence every hash here — are functions
 /// of them, and so that a proving binary of these circuits needs no configuration beyond the

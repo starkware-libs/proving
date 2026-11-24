@@ -44,7 +44,7 @@ pub fn derive_cairo_serialize(input: TokenStream) -> TokenStream {
     // Implement `CairoSerialize` for the type.
     let expanded = quote! {
         impl #impl_generics ::stwo_cairo_serialize::CairoSerialize for #struct_name #ty_generics #where_clause {
-            fn serialize(&self, output: &mut Vec<::starknet_ff::FieldElement>) {
+            fn serialize(&self, output: &mut Vec<::starknet_types_core::felt::Felt>) {
                 #(#serialize_body)*
             }
         }
@@ -96,7 +96,7 @@ pub fn derive_cairo_deserialize(input: TokenStream) -> TokenStream {
     let expanded = quote! {
         impl #impl_generics ::stwo_cairo_serialize::CairoDeserialize for #struct_name #ty_generics #where_clause {
             fn deserialize<'a>(
-                data: &mut impl Iterator<Item = &'a ::starknet_ff::FieldElement>,
+                data: &mut impl Iterator<Item = &'a ::starknet_types_core::felt::Felt>,
             ) -> Self {
                 Self{ #(#deserialize_body)* }
             }

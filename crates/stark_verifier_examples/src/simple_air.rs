@@ -186,13 +186,16 @@ pub fn create_proof() -> (
     u64,
     u32,
 ) {
-    create_proof_with_fold_step(1)
+    let (fold_step, log_last_layer_degree_bound) = (1, 0);
+    create_proof_with_fri_params(fold_step, log_last_layer_degree_bound)
 }
 
 #[allow(clippy::type_complexity)]
-/// Creates a proof for the simple AIR with a configurable FRI fold step.
-pub fn create_proof_with_fold_step(
+/// Creates a proof for the simple AIR with a configurable FRI fold step and last layer degree
+/// bound.
+pub fn create_proof_with_fri_params(
     fold_step: u32,
+    log_last_layer_degree_bound: u32,
 ) -> (
     Vec<Box<dyn Component>>,
     Vec<QM31>,
@@ -202,7 +205,12 @@ pub fn create_proof_with_fold_step(
     u32,
 ) {
     let config = PcsConfig::from_fri_config(FriConfig {
-        params: FriParams { log_blowup_factor: 2, fold_step, ..FriParams::test_params() },
+        params: FriParams {
+            log_blowup_factor: 2,
+            fold_step,
+            log_last_layer_degree_bound,
+            ..FriParams::test_params()
+        },
         trace_log_size: LOG_SIZE_LONG,
     });
     let lifting_log_size = config.trace_lifting_log_size;

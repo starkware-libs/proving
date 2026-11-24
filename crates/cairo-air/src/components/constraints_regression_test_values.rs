@@ -48,9 +48,6 @@ pub const CUBE_252: Expect = expect![[r#"
 pub const EC_OP_BUILTIN: Expect = expect![[r#"
     (938201201 + 1421409269i) + (456805978 + 163110296i)u
 "#]];
-pub const GENERIC_OPCODE: Expect = expect![[r#"
-    (1142199633 + 673648135i) + (191481650 + 334634890i)u
-"#]];
 pub const JNZ_OPCODE_TAKEN: Expect = expect![[r#"
     (2048750410 + 1197911359i) + (2132735811 + 1307132594i)u
 "#]];

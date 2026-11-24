@@ -1,19 +1,19 @@
 use std::any::Any;
 
-use cairo_vm::Felt252;
 use cairo_vm::types::relocatable::MaybeRelocatable;
 use serde::{Deserialize, Serialize};
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use crate::maybe_relocatable_box;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VectorCommitmentConfig {
-    pub height: Felt252,
-    pub n_verifier_friendly_commitment_layers: Felt252,
+    pub height: FieldElement252,
+    pub n_verifier_friendly_commitment_layers: FieldElement252,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TableCommitmentConfig {
-    pub n_columns: Felt252,
+    pub n_columns: FieldElement252,
     pub vector: VectorCommitmentConfig,
 }
 
@@ -25,16 +25,16 @@ pub struct TracesConfig {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FriConfig {
-    pub log_input_size: Felt252,
-    pub n_layers: Felt252,
+    pub log_input_size: FieldElement252,
+    pub n_layers: FieldElement252,
     pub inner_layers: Vec<TableCommitmentConfig>,
-    pub fri_step_sizes: Vec<Felt252>,
-    pub log_last_layer_degree_bound: Felt252,
+    pub fri_step_sizes: Vec<FieldElement252>,
+    pub log_last_layer_degree_bound: FieldElement252,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ProofOfWorkConfig {
-    pub n_bits: Felt252,
+    pub n_bits: FieldElement252,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -43,42 +43,42 @@ pub struct StarkConfig {
     pub composition: TableCommitmentConfig,
     pub fri: FriConfig,
     pub proof_of_work: ProofOfWorkConfig,
-    pub log_trace_domain_size: Felt252,
-    pub n_queries: Felt252,
-    pub log_n_cosets: Felt252,
-    pub n_verifier_friendly_commitment_layers: Felt252,
+    pub log_trace_domain_size: FieldElement252,
+    pub n_queries: FieldElement252,
+    pub log_n_cosets: FieldElement252,
+    pub n_verifier_friendly_commitment_layers: FieldElement252,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TracesUnsentCommitment {
-    pub original: Felt252,
-    pub interaction: Felt252,
+    pub original: FieldElement252,
+    pub interaction: FieldElement252,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FriUnsentCommitment {
-    pub inner_layers: Vec<Felt252>,
-    pub last_layer_coefficients: Vec<Felt252>,
+    pub inner_layers: Vec<FieldElement252>,
+    pub last_layer_coefficients: Vec<FieldElement252>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ProofOfWorkUnsentCommitment {
-    pub nonce: Felt252,
+    pub nonce: FieldElement252,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StarkUnsentCommitment {
     pub traces: TracesUnsentCommitment,
-    pub composition: Felt252,
-    pub oods_values: Vec<Felt252>,
+    pub composition: FieldElement252,
+    pub oods_values: Vec<FieldElement252>,
     pub fri: FriUnsentCommitment,
     pub proof_of_work: ProofOfWorkUnsentCommitment,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VectorCommitmentWitness {
-    pub n_authentications: Felt252,
-    pub authentications: Vec<Felt252>,
+    pub n_authentications: FieldElement252,
+    pub authentications: Vec<FieldElement252>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -88,8 +88,8 @@ pub struct TableCommitmentWitness {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TableDecommitment {
-    pub n_values: Felt252,
-    pub values: Vec<Felt252>,
+    pub n_values: FieldElement252,
+    pub values: Vec<FieldElement252>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -106,8 +106,8 @@ pub struct TracesWitness {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FriLayerWitness {
-    pub n_leaves: Felt252,
-    pub leaves: Vec<Felt252>,
+    pub n_leaves: FieldElement252,
+    pub leaves: Vec<FieldElement252>,
     pub table_witness: TableCommitmentWitness,
 }
 
@@ -135,24 +135,24 @@ pub struct StarkProof {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SegmentInfo {
-    pub begin_addr: Felt252,
-    pub stop_ptr: Felt252,
+    pub begin_addr: FieldElement252,
+    pub stop_ptr: FieldElement252,
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CairoPublicInput {
-    pub log_n_steps: Felt252,
-    pub range_check_min: Felt252,
-    pub range_check_max: Felt252,
-    pub layout: Felt252,
-    pub dynamic_params: Vec<Felt252>,
-    pub n_segments: Felt252,
+    pub log_n_steps: FieldElement252,
+    pub range_check_min: FieldElement252,
+    pub range_check_max: FieldElement252,
+    pub layout: FieldElement252,
+    pub dynamic_params: Vec<FieldElement252>,
+    pub n_segments: FieldElement252,
     pub segments: Vec<SegmentInfo>,
-    pub padding_addr: Felt252,
-    pub padding_value: Felt252,
-    pub main_page_len: Felt252,
-    pub main_page: Vec<Felt252>,
-    pub n_continuous_pages: Felt252,
-    pub continuous_page_headers: Vec<Felt252>,
+    pub padding_addr: FieldElement252,
+    pub padding_value: FieldElement252,
+    pub main_page_len: FieldElement252,
+    pub main_page: Vec<FieldElement252>,
+    pub n_continuous_pages: FieldElement252,
+    pub continuous_page_headers: Vec<FieldElement252>,
 }
 pub trait ToVec {
     fn to_vec(&self) -> Vec<Box<dyn Any>>;

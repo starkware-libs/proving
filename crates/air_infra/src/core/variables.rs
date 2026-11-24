@@ -529,8 +529,6 @@ impl_air_var!([BoundedFeltExpr]);
 impl_air_var!((CasmAddress, Felt252Expr));
 // ReadPositive
 impl_air_var!((Felt252Expr, CasmId));
-// CondFelt252AsAddr + CondFelt252AsRelImm
-impl_air_var!((Felt252Expr, FeltExpr));
 // Add252 + Div252 + Mul252 + Sub252 + VerifyAdd252 + VerifyMul252
 impl_air_var!([Felt252Expr]);
 // MemVerifyEqual
@@ -545,16 +543,6 @@ type Cond = FeltExpr;
 impl_air_var!((CasmAddress, CasmId, Cond));
 // ReadSmall
 impl_air_var!((FeltExpr, CasmId));
-type GenericFlags = [FeltExpr; 20]; // GENERIC_FLAGS_SIZE = 20
-type Operands = [Felt252Expr; 3];
-// DecodeGenericInstruction
-impl_air_var!((GenericFlags, Offsets));
-// EvalOperands
-impl_air_var!((CasmStateVar, GenericFlags, Offsets));
-// HandleOpcodes
-impl_air_var!((CasmStateVar, GenericFlags, Offsets, Operands));
-// UpdateRegisters
-impl_air_var!((CasmStateVar, GenericFlags, Operands));
 type ModValue = [Felt252Expr; 4]; // MOD_BUILTIN_N_WORDS = 4
 // ModUtils
 impl_air_var!([ModValue]);

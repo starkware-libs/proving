@@ -61,6 +61,9 @@ A JSON circuit registry, with three top-level fields:
   `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)`, the circuit's identity
   in a verifier's output.
 - `multiverifiers`: the multiverifier circuits, each referencing its own `config` (by id), the
-  `input_configs` (by id) of the circuits whose proofs it verifies, its `circuit_hash`, and its
-  `poseidon_circuit_hash`, the same identity computed with Poseidon252 in place of Blake2s for
-  proofs under that channel, as a felt252 in one `0x` hex string.
+  `input_configs` (by id) of the circuits whose proofs it verifies, and its `circuit_hash`. In
+  registries whose definition sets `cairo_verifier_root_fri_params`, it also has a
+  `cairo_verifier_root`: the `config` (by id, `cairo_verifier_root`) a tree's root is proven under
+  for either build of the Cairo circuit verifier, the `blake_circuit_hash` computed under it, and
+  the `poseidon_circuit_hash` computed under it with Poseidon252 in place of Blake2s, for the
+  `poseidon252_verifier` build, as a felt252 in one `0x` hex string.

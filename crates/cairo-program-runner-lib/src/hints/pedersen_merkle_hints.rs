@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     get_integer_from_var_name, get_ptr_from_var_name, insert_value_into_ap,
 };
@@ -10,6 +9,7 @@ use cairo_vm::types::exec_scope::ExecutionScopes;
 use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::vm_core::VirtualMachine;
 use num_traits::ToPrimitive;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::types::PedersenMerkleInput;
 use super::utils::get_program_input_value;
@@ -42,13 +42,9 @@ pub fn pedersen_merkle_load_input(
     vm.insert_value(output, pedersen_merkle_input.height)?;
     vm.insert_value((output + 1)?, pedersen_merkle_input.prev_leaf)?;
     vm.insert_value((output + 2)?, pedersen_merkle_input.new_leaf)?;
-    vm.insert_value(
-        (output + 3)?,
-        Felt252::from_dec_str(&pedersen_merkle_input.node_index.to_string()).map_err(|_| {
-            HintError::CustomHint("Failed to convert node_index to Felt252.".into())
-        })?,
-    )?;
-    let reversed_path: Vec<Felt252> = pedersen_merkle_input.path.into_iter().rev().collect();
+    vm.insert_value((output + 3)?, FieldElement252::from(pedersen_merkle_input.node_index))?;
+    let reversed_path: Vec<FieldElement252> =
+        pedersen_merkle_input.path.into_iter().rev().collect();
     exec_scopes.insert_value(AUTH_PATH, reversed_path);
     Ok(())
 }
@@ -61,7 +57,7 @@ pub fn pedersen_merkle_load_input(
 pub fn pedersen_merkle_verify_auth_path_len(
     exec_scopes: &mut ExecutionScopes,
 ) -> Result<(), HintError> {
-    let auth_path: &Vec<Felt252> = exec_scopes.get_ref(AUTH_PATH)?;
+    let auth_path: &Vec<FieldElement252> = exec_scopes.get_ref(AUTH_PATH)?;
     if !auth_path.is_empty() {
         return Err(HintError::CustomHint("Got too many values in auth_path.".into()));
     }
@@ -102,7 +98,7 @@ pub fn pedersen_merkle_update(
     ap_tracking: &ApTracking,
     is_left_sibling: bool,
 ) -> Result<(), HintError> {
-    let auth_path: &mut Vec<Felt252> = exec_scopes.get_mut_ref(AUTH_PATH)?;
+    let auth_path: &mut Vec<FieldElement252> = exec_scopes.get_mut_ref(AUTH_PATH)?;
     let sibling = auth_path.pop().ok_or_else(|| {
         HintError::CustomHint("auth_path is empty. Cannot pop a sibling value.".into())
     })?;
@@ -132,18 +128,18 @@ mod tests {
     fn pedersen_merkle_input() -> String {
         let input = PedersenMerkleInput {
             height: 3,
-            prev_leaf: Felt252::from(123456789u64),
-            new_leaf: Felt252::from(987654321u64),
+            prev_leaf: FieldElement252::from(123456789u64),
+            new_leaf: FieldElement252::from(987654321u64),
             node_index: 5,
             path: vec![
                 // Use BigUint for large integer literals
-                Felt252::from(
+                FieldElement252::from(
                     BigUint::parse_bytes(b"1111111111111111111111111111111111111111", 10).unwrap(),
                 ),
-                Felt252::from(
+                FieldElement252::from(
                     BigUint::parse_bytes(b"2222222222222222222222222222222222222222", 10).unwrap(),
                 ),
-                Felt252::from(
+                FieldElement252::from(
                     BigUint::parse_bytes(b"3333333333333333333333333333333333333333", 10).unwrap(),
                 ),
             ],
@@ -184,13 +180,13 @@ mod tests {
             .as_ref();
         assert_eq!(
             got_height,
-            Felt252::from(expected_pedersen_merkle_input.height),
+            FieldElement252::from(expected_pedersen_merkle_input.height),
             "height mismatch in VM memory"
         );
 
         // Assert that auth_path is correctly set in exec_scopes
-        let auth_path: &Vec<Felt252> = exec_scopes.get_ref(AUTH_PATH).unwrap();
-        let expected_reversed_path: Vec<Felt252> =
+        let auth_path: &Vec<FieldElement252> = exec_scopes.get_ref(AUTH_PATH).unwrap();
+        let expected_reversed_path: Vec<FieldElement252> =
             expected_pedersen_merkle_input.path.into_iter().rev().collect();
         assert_eq!(auth_path, &expected_reversed_path);
     }
@@ -202,11 +198,11 @@ mod tests {
     fn test_pedersen_merkle_verify_auth_path_len() {
         let mut exec_scopes = ExecutionScopes::new();
         // Test with empty auth_path
-        exec_scopes.insert_value::<Vec<Felt252>>(AUTH_PATH, vec![]);
+        exec_scopes.insert_value::<Vec<FieldElement252>>(AUTH_PATH, vec![]);
         assert!(pedersen_merkle_verify_auth_path_len(&mut exec_scopes).is_ok());
 
         // Test with non-empty auth_path
-        exec_scopes.insert_value::<Vec<Felt252>>(AUTH_PATH, vec![Felt252::from(1)]);
+        exec_scopes.insert_value::<Vec<FieldElement252>>(AUTH_PATH, vec![FieldElement252::from(1)]);
         let result = pedersen_merkle_verify_auth_path_len(&mut exec_scopes);
         assert!(result.is_err());
         match result.unwrap_err() {
@@ -237,7 +233,7 @@ mod tests {
 
         assert_eq!(
             vm.get_integer(Relocatable::from((1, 1))).unwrap().as_ref(),
-            &Felt252::from(index % 2)
+            &FieldElement252::from(index % 2)
         );
     }
 
@@ -250,7 +246,7 @@ mod tests {
         let ids_data = fill_ids_data_for_test(&["prev_node_hash", "new_node_hash"]);
         let ap_tracking = ApTracking::new();
 
-        exec_scopes.insert_value::<Vec<Felt252>>(AUTH_PATH, vec![]);
+        exec_scopes.insert_value::<Vec<FieldElement252>>(AUTH_PATH, vec![]);
 
         // Setup VM pointers as in other test...
         vm.add_memory_segment();
@@ -285,9 +281,9 @@ mod tests {
         let ap_tracking = ApTracking::new();
 
         // Prepare auth_path with two siblings
-        let sibling1 = Felt252::from(111u64);
-        let sibling2 = Felt252::from(222u64);
-        exec_scopes.insert_value::<Vec<Felt252>>(AUTH_PATH, vec![sibling1, sibling2]);
+        let sibling1 = FieldElement252::from(111u64);
+        let sibling2 = FieldElement252::from(222u64);
+        exec_scopes.insert_value::<Vec<FieldElement252>>(AUTH_PATH, vec![sibling1, sibling2]);
 
         vm.add_memory_segment();
         vm.add_memory_segment();
@@ -309,11 +305,11 @@ mod tests {
         let hash_offset = if is_left_sibling { 1 } else { 0 };
         assert_eq!(
             vm.get_integer(Relocatable::from((2, hash_offset))).unwrap().as_ref(),
-            &Felt252::from(222u64)
+            &FieldElement252::from(222u64)
         );
         assert_eq!(
             vm.get_integer(Relocatable::from((2, 2 + hash_offset))).unwrap().as_ref(),
-            &Felt252::from(222u64)
+            &FieldElement252::from(222u64)
         );
     }
 }

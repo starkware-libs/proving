@@ -9,5 +9,6 @@ mod schema;
 pub use leaf_proof_format::DigestHex;
 pub use methods::RegistryError;
 pub use schema::{
-    CircuitProofConfig, CircuitRegistry, LeafVerifier, LogSizes, Multiverifier, UnpackingVerifier,
+    CairoVerifierRoot, CircuitProofConfig, CircuitRegistry, LeafVerifier, LogSizes, Multiverifier,
+    UnpackingVerifier,
 };

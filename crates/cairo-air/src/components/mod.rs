@@ -14,7 +14,6 @@ pub mod call_opcode_abs;
 pub mod call_opcode_rel_imm;
 pub mod cube_252;
 pub mod ec_op_builtin;
-pub mod generic_opcode;
 pub mod jnz_opcode_non_taken;
 pub mod jnz_opcode_taken;
 pub mod jump_opcode_abs;

@@ -5,7 +5,7 @@ use circuits::ivalue::IValue;
 use circuits::ops::{Constant, Guess, eq};
 use circuits_unpacker::unpacker::Node;
 use itertools::{Itertools, zip_eq};
-use starknet_types_core::felt::Felt;
+use starknet_types_core::felt::Felt as FieldElement252;
 use starknet_types_core::hash::Blake2Felt252;
 use stwo::core::fields::qm31::QM31;
 
@@ -24,7 +24,7 @@ pub const CAPACITY: usize = 512;
 // instead to allow first-come-first-served parallel tree folding.
 pub fn open_aggregator_output<Value: IValue>(
     context: &mut Context<Value>,
-    wrapper_program_hash: &Felt,
+    wrapper_program_hash: &FieldElement252,
     aggregated_output_digest: [u32; 8],
     wrapper_digest: &HashValue<Var>,
     task_leaves: &[Node<Var>],

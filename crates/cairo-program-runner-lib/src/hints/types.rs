@@ -6,7 +6,6 @@ use std::str::FromStr;
 use cairo_lang_casm::hints::Hint;
 use cairo_lang_runner::Arg;
 use cairo_lang_utils::unordered_hash_map::UnorderedHashMap;
-use cairo_vm::Felt252;
 use cairo_vm::air_public_input::{MemorySegmentAddresses, PublicMemoryEntry};
 use cairo_vm::cairo_run::CairoRunConfig;
 use cairo_vm::serde::deserialize_program::Identifier;
@@ -22,6 +21,7 @@ use serde::de::Error as SerdeError;
 use serde::ser::{SerializeSeq, Serializer};
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::{Number, Value};
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use super::fact_topologies::FactTopology;
 use crate::tasks::{create_cairo0_program_task, create_cairo1_program_task, create_pie_task};
@@ -32,12 +32,12 @@ pub(crate) type ProgramIdentifiers = HashMap<String, Identifier>;
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct BootloaderConfig {
-    pub supported_simple_bootloader_hash_list: Vec<Felt252>,
-    pub circuit_applicative_bootloader_program_hash: Felt252,
+    pub supported_simple_bootloader_hash_list: Vec<FieldElement252>,
+    pub circuit_applicative_bootloader_program_hash: FieldElement252,
     /// The commitment to the circuit applicative bootloader's trusted config (its circuit verifier
     /// program hash and supported circuit hashes), as the single felt that bootloader outputs.
-    pub circuit_applicative_config_commitment: Felt252,
-    pub supported_cairo_verifier_program_hashes: Vec<Felt252>,
+    pub circuit_applicative_config_commitment: FieldElement252,
+    pub supported_cairo_verifier_program_hashes: Vec<FieldElement252>,
 }
 
 pub const BOOTLOADER_CONFIG_SIZE: usize = 1;
@@ -47,13 +47,13 @@ pub const BOOTLOADER_CONFIG_SIZE: usize = 1;
 /// plain subtasks.
 pub struct CompositePackedOutput {
     #[serde(serialize_with = "felt_decimal_vec::serialize")]
-    pub outputs: Vec<Felt252>,
+    pub outputs: Vec<FieldElement252>,
     pub subtasks: Vec<PackedOutput>,
     pub fact_topologies: Vec<FactTopology>,
 }
 
 impl CompositePackedOutput {
-    pub fn elements_for_hash(&self) -> &Vec<Felt252> {
+    pub fn elements_for_hash(&self) -> &Vec<FieldElement252> {
         &self.outputs
     }
 
@@ -79,7 +79,7 @@ impl CompositePackedOutput {
     /// * Returns an error if the sum of subtask sizes does not match the length of `outputs`.
     pub fn get_plain_fact_topologies(
         &self,
-        circuit_applicative_bootloader_program_hash: Felt252,
+        circuit_applicative_bootloader_program_hash: FieldElement252,
     ) -> Result<Vec<FactTopology>, String> {
         let mut subtasks_fact_topologies = Vec::new();
 
@@ -194,7 +194,7 @@ impl<'de> Deserialize<'de> for PackedOutput {
                     .outputs
                     .ok_or_else(|| D::Error::missing_field("outputs"))?
                     .into_iter()
-                    .map(|x| Felt252::from_str(x.to_string().as_str()).unwrap())
+                    .map(|x| FieldElement252::from_str(x.to_string().as_str()).unwrap())
                     .collect();
                 let subtasks =
                     helper.subtasks.ok_or_else(|| D::Error::missing_field("subtasks"))?;
@@ -448,40 +448,40 @@ pub struct CairoVerifierInput {
 }
 
 pub struct ExtractedProofValues {
-    pub original_commitment_hash: Felt252,
-    pub interaction_commitment_hash: Felt252,
-    pub composition_commitment_hash: Felt252,
-    pub oods_values: Vec<Felt252>,
-    pub fri_layers_commitments: Vec<Felt252>,
-    pub fri_last_layer_coefficients: Vec<Felt252>,
-    pub proof_of_work_nonce: Felt252,
-    pub original_witness_leaves: Vec<Felt252>,
-    pub original_witness_authentications: Vec<Felt252>,
-    pub interaction_witness_leaves: Vec<Felt252>,
-    pub interaction_witness_authentications: Vec<Felt252>,
-    pub composition_witness_leaves: Vec<Felt252>,
-    pub composition_witness_authentications: Vec<Felt252>,
+    pub original_commitment_hash: FieldElement252,
+    pub interaction_commitment_hash: FieldElement252,
+    pub composition_commitment_hash: FieldElement252,
+    pub oods_values: Vec<FieldElement252>,
+    pub fri_layers_commitments: Vec<FieldElement252>,
+    pub fri_last_layer_coefficients: Vec<FieldElement252>,
+    pub proof_of_work_nonce: FieldElement252,
+    pub original_witness_leaves: Vec<FieldElement252>,
+    pub original_witness_authentications: Vec<FieldElement252>,
+    pub interaction_witness_leaves: Vec<FieldElement252>,
+    pub interaction_witness_authentications: Vec<FieldElement252>,
+    pub composition_witness_leaves: Vec<FieldElement252>,
+    pub composition_witness_authentications: Vec<FieldElement252>,
     pub fri_step_list: Vec<u64>,
     pub n_fri_layers: usize,
     pub log_n_cosets: u64,
     pub log_last_layer_degree_bound: u32,
     pub n_verifier_friendly_commitment_layers: u64,
-    pub z: Felt252,
-    pub alpha: Felt252,
+    pub z: FieldElement252,
+    pub alpha: FieldElement252,
     pub proof_of_work_bits: u64,
     pub n_queries: u64,
-    pub fri_witnesses_leaves: Vec<Vec<Felt252>>,
-    pub fri_witnesses_authentications: Vec<Vec<Felt252>>,
+    pub fri_witnesses_leaves: Vec<Vec<FieldElement252>>,
+    pub fri_witnesses_authentications: Vec<Vec<FieldElement252>>,
 }
 
 #[derive(Debug)]
 pub struct ExtractedIDsAndInputValues {
-    pub log_trace_domain_size: Felt252,
-    pub log_eval_domain_size: Felt252,
-    pub layer_log_sizes: Vec<Felt252>,
-    pub num_columns_first: Felt252,
-    pub num_columns_second: Felt252,
-    pub constraint_degree: Felt252,
+    pub log_trace_domain_size: FieldElement252,
+    pub log_eval_domain_size: FieldElement252,
+    pub layer_log_sizes: Vec<FieldElement252>,
+    pub num_columns_first: FieldElement252,
+    pub num_columns_second: FieldElement252,
+    pub constraint_degree: FieldElement252,
 }
 
 // Struct needed for deserialization of the public input. Owned version of PublicInput.
@@ -556,14 +556,14 @@ pub struct SimpleOutputInput {
 pub struct ConcatAggregatorInput {
     /// The bootloader output holding the task records, every felt a `0x`-prefixed hex string (a
     /// program hash does not fit a JSON number).
-    pub bootloader_output: Vec<Felt252>,
+    pub bootloader_output: Vec<FieldElement252>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct MockCairoVerifierInput {
     pub n_steps: u128,
-    pub program_hash: Felt252,
-    pub program_output: Vec<Felt252>,
+    pub program_hash: FieldElement252,
+    pub program_output: Vec<FieldElement252>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -632,20 +632,20 @@ pub struct FibonacciInput {
 pub struct PedersenMerkleInput {
     pub height: usize,
     pub node_index: u128,
-    pub path: Vec<Felt252>,
-    pub prev_leaf: Felt252,
-    pub new_leaf: Felt252,
+    pub path: Vec<FieldElement252>,
+    pub prev_leaf: FieldElement252,
+    pub new_leaf: FieldElement252,
 }
 
-/// Serde helper that serializes `Vec<Felt252>` as a JSON array of decimal-digit strings
+/// Serde helper that serializes `Vec<FieldElement252>` as a JSON array of decimal-digit strings
 /// (e.g. `["10", "42", ...]`, not `[10, 42, ...]`).
 ///
 /// Three constraints force this shape:
-///   1. `Felt252` values can reach ~2^252, far beyond JSON's safe-integer range of ±2^53. Emitting
-///      them as bare JSON numbers risks silent float64 coercion in any consumer that parses JSON
-///      numbers as IEEE-754 (the spec default and what most cross-language toolchains assume).
-///      Wrapping the digits in quotes turns them into a JSON string, which every parser preserves
-///      losslessly.
+///   1. `FieldElement252` values can reach ~2^252, far beyond JSON's safe-integer range of ±2^53.
+///      Emitting them as bare JSON numbers risks silent float64 coercion in any consumer that
+///      parses JSON numbers as IEEE-754 (the spec default and what most cross-language toolchains
+///      assume). Wrapping the digits in quotes turns them into a JSON string, which every parser
+///      preserves losslessly.
 ///   2. The Python consumer (a `marshmallow.fields.Integer` field on the GPS scheduler side)
 ///      deserializes the strings back into Python's arbitrary-precision `int`, so no precision is
 ///      lost on the round-trip.
@@ -657,7 +657,7 @@ pub struct PedersenMerkleInput {
 pub mod felt_decimal_vec {
     use super::*;
 
-    pub fn serialize<S>(values: &[Felt252], serializer: S) -> Result<S::Ok, S::Error>
+    pub fn serialize<S>(values: &[FieldElement252], serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
@@ -676,21 +676,21 @@ mod tests {
     #[derive(Serialize)]
     struct Wrapper {
         #[serde(serialize_with = "felt_decimal_vec::serialize")]
-        xs: Vec<Felt252>,
+        xs: Vec<FieldElement252>,
     }
 
     #[test]
     fn felt_decimal_vec_serializer_emits_decimal_strings() {
         // The values below span the boundaries the module's doc-comment calls out: small ints,
         // past JSON's ±2^53 safe-integer range (u64::MAX), past u64 into multi-limb territory
-        // (2^64), and the field's actual ceiling (Felt252::MAX ≈ 2^252).
-        let two_to_64 = Felt252::from_hex_unchecked("0x10000000000000000");
-        let felt_max = Felt252::MAX;
+        // (2^64), and the field's actual ceiling (FieldElement252::MAX ≈ 2^252).
+        let two_to_64 = FieldElement252::from_hex_unchecked("0x10000000000000000");
+        let felt_max = FieldElement252::MAX;
         let wrapper = Wrapper {
             xs: vec![
-                Felt252::from(0u64),
-                Felt252::from(1u64),
-                Felt252::from(u64::MAX),
+                FieldElement252::from(0u64),
+                FieldElement252::from(1u64),
+                FieldElement252::from(u64::MAX),
                 two_to_64,
                 felt_max,
             ],
@@ -707,9 +707,10 @@ mod tests {
         assert_eq!(xs[1], serde_json::json!("1"));
         assert_eq!(xs[2], serde_json::json!(u64::MAX.to_string()));
         assert_eq!(xs[3], serde_json::json!("18446744073709551616"));
-        // For Felt252::MAX, assert against `to_string()` so the test isn't brittle to a future
-        // field-of-definition change, then sanity-check the digit count to lock in the "≈2^252"
-        // promise from the doc (the Stark prime minus 1 is a 76-digit decimal number).
+        // For FieldElement252::MAX, assert against `to_string()` so the test isn't brittle to a
+        // future field-of-definition change, then sanity-check the digit count to lock in
+        // the "≈2^252" promise from the doc (the Stark prime minus 1 is a 76-digit decimal
+        // number).
         assert_eq!(xs[4], serde_json::json!(felt_max.to_string()));
         assert_eq!(felt_max.to_string().len(), 76);
     }

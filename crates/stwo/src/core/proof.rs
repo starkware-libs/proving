@@ -1,5 +1,5 @@
 use core::mem;
-use core::ops::Deref;
+use core::ops::{Deref, DerefMut};
 
 use serde::{Deserialize, Serialize};
 use std_shims::Vec;
@@ -105,6 +105,12 @@ impl<H: MerkleHasherLifted> Deref for StarkProof<H> {
 
     fn deref(&self) -> &CommitmentSchemeProof<H> {
         &self.0
+    }
+}
+
+impl<H: MerkleHasherLifted> DerefMut for StarkProof<H> {
+    fn deref_mut(&mut self) -> &mut CommitmentSchemeProof<H> {
+        &mut self.0
     }
 }
 

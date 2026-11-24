@@ -1,22 +1,23 @@
 use std::array;
 
-use starknet_ff::FieldElement;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::SecureField;
 use stwo::core::fri::{FriLayerProof, FriParams, FriProof};
 use stwo::core::poly::line::LinePoly;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
+use stwo::core::vcs::poseidon252_hash::Poseidon252Hash;
 use stwo::core::vcs_lifted::MerkleHasherLifted;
 use stwo::core::vcs_lifted::verifier::MerkleDecommitmentLifted;
 pub use stwo_cairo_serialize_derive::CairoDeserialize;
 
 /// Deserializes types from a format serialized by corresponding `CairoSerialize` implementations.
 pub trait CairoDeserialize: Sized {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self;
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self;
 }
 
 impl CairoDeserialize for u32 {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let field_elem = data.next().unwrap();
         let bytes = field_elem.to_bytes_be();
         if bytes[0..28] != [0; 28] {
@@ -28,7 +29,7 @@ impl CairoDeserialize for u32 {
 }
 
 impl CairoDeserialize for u64 {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let field_elem = data.next().unwrap();
         let bytes = field_elem.to_bytes_be();
         if bytes[0..24] != [0; 24] {
@@ -40,19 +41,19 @@ impl CairoDeserialize for u64 {
 }
 
 impl CairoDeserialize for usize {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         <u64 as CairoDeserialize>::deserialize(data) as usize
     }
 }
 
 impl CairoDeserialize for BaseField {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         BaseField::from(u32::deserialize(data))
     }
 }
 
 impl CairoDeserialize for SecureField {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let mut m31_values = [BaseField::from(0); 4];
         #[allow(clippy::needless_range_loop)]
         for i in 0..4 {
@@ -67,14 +68,14 @@ impl<H: MerkleHasherLifted> CairoDeserialize for MerkleDecommitmentLifted<H>
 where
     H::Hash: CairoDeserialize,
 {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let hash_witness = Vec::<H::Hash>::deserialize(data);
         MerkleDecommitmentLifted { hash_witness }
     }
 }
 
 impl CairoDeserialize for LinePoly {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let coeffs = Vec::<SecureField>::deserialize(data);
         let log_size: u32 = u32::deserialize(data);
 
@@ -91,7 +92,7 @@ impl<H: MerkleHasherLifted> CairoDeserialize for FriLayerProof<H>
 where
     H::Hash: CairoDeserialize,
 {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let fri_witness = Vec::deserialize(data);
         let decommitment = MerkleDecommitmentLifted::deserialize(data);
         let commitment = H::Hash::deserialize(data);
@@ -103,7 +104,7 @@ impl<H: MerkleHasherLifted> CairoDeserialize for FriProof<H>
 where
     H::Hash: CairoDeserialize,
 {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let first_layer = FriLayerProof::deserialize(data);
         let inner_layers = Vec::deserialize(data);
         let last_layer_poly = LinePoly::deserialize(data);
@@ -112,14 +113,14 @@ where
     }
 }
 
-impl CairoDeserialize for FieldElement {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+impl CairoDeserialize for FieldElement252 {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         data.next().copied().unwrap()
     }
 }
 
 impl CairoDeserialize for FriParams {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let pow_bits = u32::deserialize(data);
         let log_blowup_factor = u32::deserialize(data);
         let log_last_layer_degree_bound = u32::deserialize(data);
@@ -130,12 +131,12 @@ impl CairoDeserialize for FriParams {
 }
 
 impl<T: CairoDeserialize> CairoDeserialize for Option<T> {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let discriminant = data.next().unwrap();
-        if *discriminant == FieldElement::ZERO {
+        if *discriminant == FieldElement252::ZERO {
             let value = T::deserialize(data);
             Some(value)
-        } else if *discriminant == FieldElement::ONE {
+        } else if *discriminant == FieldElement252::ONE {
             None
         } else {
             panic!("Invalid discriminant for Option<T>");
@@ -144,13 +145,13 @@ impl<T: CairoDeserialize> CairoDeserialize for Option<T> {
 }
 
 impl<T: CairoDeserialize, const N: usize> CairoDeserialize for [T; N] {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         array::from_fn(|_| T::deserialize(data))
     }
 }
 
 impl<T: CairoDeserialize> CairoDeserialize for Vec<T> {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let len: usize = usize::deserialize(data);
 
         (0..len).map(|_| T::deserialize(data)).collect()
@@ -158,7 +159,7 @@ impl<T: CairoDeserialize> CairoDeserialize for Vec<T> {
 }
 
 impl<T0: CairoDeserialize, T1: CairoDeserialize> CairoDeserialize for (T0, T1) {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let v0 = T0::deserialize(data);
         let v1 = T1::deserialize(data);
         (v0, v1)
@@ -168,7 +169,7 @@ impl<T0: CairoDeserialize, T1: CairoDeserialize> CairoDeserialize for (T0, T1) {
 impl<T0: CairoDeserialize, T1: CairoDeserialize, T2: CairoDeserialize> CairoDeserialize
     for (T0, T1, T2)
 {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let v0 = T0::deserialize(data);
         let v1 = T1::deserialize(data);
         let v2 = T2::deserialize(data);
@@ -177,7 +178,7 @@ impl<T0: CairoDeserialize, T1: CairoDeserialize, T2: CairoDeserialize> CairoDese
 }
 
 impl CairoDeserialize for Blake2sHash {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
         let mut bytes = [0u8; 32];
         for byte_chunk in bytes.chunks_exact_mut(4) {
             let byte_chunk: &mut [u8; 4] = byte_chunk.try_into().unwrap();
@@ -185,5 +186,11 @@ impl CairoDeserialize for Blake2sHash {
             *byte_chunk = v.to_le_bytes();
         }
         Blake2sHash(bytes)
+    }
+}
+
+impl CairoDeserialize for Poseidon252Hash {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement252>) -> Self {
+        Poseidon252Hash(FieldElement252::deserialize(data))
     }
 }

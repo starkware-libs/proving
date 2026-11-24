@@ -68,7 +68,7 @@ impl TryInto<M31> for CM31 {
 impl FieldExpOps for CM31 {
     #[inline]
     fn square(&self) -> Self {
-        // (a + bi)^2 = (a + b)(a - b) + 2ab*i (2 M31 muls instead of 4).
+        // Compute (a + bi)^2 = (a + b)(a - b) + 2ab*i using 2 M31 muls.
         let ab = self.0 * self.1;
         Self((self.0 + self.1) * (self.0 - self.1), ab + ab)
     }

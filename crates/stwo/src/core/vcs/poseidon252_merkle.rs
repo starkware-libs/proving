@@ -3,13 +3,13 @@ use itertools::Itertools;
 use num_traits::Zero;
 use serde::{Deserialize, Serialize};
 use starknet_crypto::{poseidon_hash, poseidon_hash_many};
-use starknet_ff::FieldElement as FieldElement252;
+use starknet_types_core::felt::Felt as FieldElement252;
 use std_shims::Vec;
 
 use crate::core::channel::{MerkleChannel, Poseidon252Channel};
 use crate::core::fields::m31::{BaseField, M31};
 use crate::core::vcs::MerkleHasher;
-use crate::core::vcs::hash::Hash;
+use crate::core::vcs::poseidon252_hash::Poseidon252Hash;
 use crate::core::vcs::utils::add_length_padding;
 
 pub const ELEMENTS_IN_BLOCK: usize = 8;
@@ -19,7 +19,7 @@ pub const U32S_IN_BLOCK: usize = 7;
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Default, Deserialize, Serialize)]
 pub struct Poseidon252MerkleHasher;
 impl MerkleHasher for Poseidon252MerkleHasher {
-    type Hash = FieldElement252;
+    type Hash = Poseidon252Hash;
 
     fn hash_node(
         children_hashes: Option<(Self::Hash, Self::Hash)>,
@@ -31,16 +31,16 @@ impl MerkleHasher for Poseidon252MerkleHasher {
 
         if let Some((left, right)) = children_hashes {
             if column_values.is_empty() {
-                return poseidon_hash(left, right);
+                return Poseidon252Hash(poseidon_hash(left.0, right.0));
             }
-            values.push(left);
-            values.push(right);
+            values.push(left.0);
+            values.push(right.0);
         }
 
         for chunk in column_values.chunks(ELEMENTS_IN_BLOCK) {
             values.push(construct_felt252_from_m31s(chunk));
         }
-        poseidon_hash_many(&values)
+        Poseidon252Hash(poseidon_hash_many(&values))
     }
 }
 
@@ -60,7 +60,7 @@ pub fn construct_felt252_from_m31s(word: &[M31]) -> FieldElement252 {
 
     let felt_bytes = [felt_as_u256[1].to_be_bytes(), felt_as_u256[0].to_be_bytes()];
     let felt_bytes = unsafe { core::mem::transmute::<[[u8; 16]; 2], [u8; 32]>(felt_bytes) };
-    let mut felt = FieldElement252::from_bytes_be(&felt_bytes).unwrap();
+    let mut felt = FieldElement252::from_bytes_be(&felt_bytes);
 
     // If this is the remainder, store its length in bits 248, 249 and 250.
     // Note, you can also look at these 3 bits as word length modulo 8.
@@ -76,7 +76,7 @@ pub fn construct_felt252_from_m31s(word: &[M31]) -> FieldElement252 {
 /// so that different-length inputs cannot pack to the same felts.
 pub fn construct_felt252s_from_u32s(words: &[u32]) -> Vec<FieldElement252> {
     let shift: FieldElement252 = (1u64 << 32).into();
-    let append_u32 = |cur: FieldElement252, word: u32| cur * shift + word.into();
+    let append_u32 = |cur: FieldElement252, word: u32| cur * shift + FieldElement252::from(word);
     let mut felts = words
         .chunks(U32S_IN_BLOCK)
         .map(|chunk| chunk.iter().copied().fold(FieldElement252::default(), append_u32))
@@ -91,8 +91,6 @@ pub fn construct_felt252s_from_u32s(words: &[u32]) -> Vec<FieldElement252> {
     felts
 }
 
-impl Hash for FieldElement252 {}
-
 #[derive(Default)]
 pub struct Poseidon252MerkleChannel;
 
@@ -104,12 +102,12 @@ mod tests {
     use num_traits::Zero;
     use rand::rngs::SmallRng;
     use rand::{Rng, SeedableRng};
-    use starknet_ff::FieldElement as FieldElement252;
+    use starknet_types_core::felt::Felt as FieldElement252;
 
     use crate::core::fields::m31::{BaseField, M31};
     use crate::core::vcs::MerkleHasher;
     use crate::core::vcs::poseidon252_merkle::{
-        ELEMENTS_IN_BLOCK, Poseidon252MerkleHasher, construct_felt252_from_m31s,
+        ELEMENTS_IN_BLOCK, Poseidon252Hash, Poseidon252MerkleHasher, construct_felt252_from_m31s,
     };
     use crate::core::vcs::test_utils::prepare_merkle;
     use crate::core::vcs::utils::add_length_padding;
@@ -119,7 +117,7 @@ mod tests {
     #[test]
     fn test_vector() {
         assert_eq!(
-            Poseidon252MerkleHasher::hash_node(None, &[m31!(0), m31!(1)]),
+            Poseidon252MerkleHasher::hash_node(None, &[m31!(0), m31!(1)]).0,
             FieldElement252::from_dec_str(
                 "2978883932528585652864046122079599882777358126302490183268546077323303473078"
             )
@@ -128,9 +126,10 @@ mod tests {
 
         assert_eq!(
             Poseidon252MerkleHasher::hash_node(
-                Some((FieldElement252::from(1u32), FieldElement252::from(2u32))),
+                Some((Poseidon252Hash(1u32.into()), Poseidon252Hash(2u32.into()))),
                 &[m31!(3)]
-            ),
+            )
+            .0,
             FieldElement252::from_dec_str(
                 "3286095315900630438551061262740794783852190427874264245042874292062185873630"
             )
@@ -148,7 +147,7 @@ mod tests {
     fn test_merkle_invalid_witness() {
         let (queries, mut decommitment, values, verifier) =
             prepare_merkle::<Poseidon252MerkleHasher>();
-        decommitment.hash_witness[4] = FieldElement252::default();
+        decommitment.hash_witness[4] = Poseidon252Hash::default();
 
         assert_eq!(
             verifier.verify(&queries, values, decommitment).unwrap_err(),
@@ -184,7 +183,7 @@ mod tests {
     fn test_merkle_witness_too_long() {
         let (queries, mut decommitment, values, verifier) =
             prepare_merkle::<Poseidon252MerkleHasher>();
-        decommitment.hash_witness.push(FieldElement252::default());
+        decommitment.hash_witness.push(Poseidon252Hash::default());
 
         assert_eq!(
             verifier.verify(&queries, values, decommitment).unwrap_err(),

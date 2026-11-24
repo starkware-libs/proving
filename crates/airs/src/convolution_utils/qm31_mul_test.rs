@@ -383,18 +383,17 @@ fn test_qm31_mul_expr_exact_mul_node_counts_and_degree() {
     assert_eq!(count_compiled_air_fn_nonconst_muls(&compiled_r7[0]), 7);
     assert_eq!(compiled_constraint_degrees(&compiled_r7[0]), vec![2; 4]);
 
-    // Unimodular Karatsuba-9 (`qm31_mul_expr_in_air`): 9 quadratic muls, 0 constant muls -> 9 total
-    // muls!
+    // Unimodular Karatsuba-9 (`qm31_mul_expr_in_air`): 9 quadratic muls and 0 constant muls.
     let (reg_k9, _) = AirFnRegistry::new(&PureQm31MulGate { mode: MulMode::Karatsuba9 });
     let compiled_k9 = reg_k9.compile();
     assert_eq!(count_compiled_air_fn_nonconst_muls(&compiled_k9[0]), 9);
     assert_eq!(count_compiled_air_fn_all_muls(&compiled_k9[0]), 9);
-    // 27 mul add/subs + 4 `dst[i] - prod[i]` = 31 add/subs -> 40 total ops (vs 42 in schoolbook!).
+    // 27 mul add/subs + 4 `dst[i] - prod[i]` = 31 add/subs (40 total ops).
     assert_eq!(count_compiled_air_fn_add_subs(&compiled_k9[0]), 31);
     assert_eq!(compiled_constraint_degrees(&compiled_k9[0]), vec![2; 4]);
 
-    // Qm31Ops full gate: total muls (incl. Const * Var) drop 42 -> 29 (-31.0%), with 0 const muls,
-    // and constraint degree remains 3 on all 4 constraints!
+    // Qm31Ops full gate: 29 total muls (0 constant muls) and constraint degree 3 on all 4
+    // constraints.
     let (reg_gate, _) = AirFnRegistry::new(&Qm31Ops {});
     let compiled_gate = reg_gate.compile();
     assert_eq!(count_compiled_air_fn_nonconst_muls(&compiled_gate["qm_31_ops"]), 29);

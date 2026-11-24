@@ -47,6 +47,9 @@ jobs:
 
   avx512-bench:
     runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
+    permissions:
+      # This job commits and pushes the results of the benchmarks to a dedicated branch. 
+      contents: write
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
@@ -59,17 +62,15 @@ jobs:
         run: |
           cargo install cargo-criterion
           ./scripts/bench.sh |& tee output.txt
-      - name: Download previous benchmark data
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ./cache
-          key: ${{ runner.os }}-benchmark
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@52576c92bccf6ac60c8223ec7eb2565637cae9ba # v1
         with:
+          name: "avx512-bench"
           tool: "cargo"
           output-file-path: output.txt
-          external-data-json-path: ./cache/benchmark-data.json
+          gh-pages-branch: benchmark-data
+          benchmark-data-dir-path: avx512-bench
+          auto-push: ${{ github.ref == 'refs/heads/main' }}
           fail-on-alert: true
           summary-always: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -78,6 +79,9 @@ jobs:
 
   avx512-bench-parallel:
     runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
+    permissions:
+      # This job commits and pushes the results of the benchmarks to a dedicated branch.
+      contents: write
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
@@ -90,17 +94,15 @@ jobs:
         run: |
           cargo install cargo-criterion
           ./scripts/bench.sh --features="parallel" |& tee output.txt
-      - name: Download previous benchmark data
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: ./cache
-          key: ${{ runner.os }}-benchmark
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@52576c92bccf6ac60c8223ec7eb2565637cae9ba # v1
         with:
+          name: "avx512-bench-parallel"
           tool: "cargo"
           output-file-path: output.txt
-          external-data-json-path: ./cache/benchmark-data.json
+          gh-pages-branch: benchmark-data
+          benchmark-data-dir-path: avx512-bench-parallel
+          auto-push: ${{ github.ref == 'refs/heads/main' }}
           fail-on-alert: true
           summary-always: true
           github-token: ${{ secrets.GITHUB_TOKEN }}

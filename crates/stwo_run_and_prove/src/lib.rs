@@ -182,16 +182,17 @@ fn file_missing_or_empty(path: &PathBuf) -> std::io::Result<bool> {
 mod tests {
     use std::env;
 
-    use cairo_vm::Felt252;
     use ctor::ctor;
     use serde_json::Value;
+    use starknet_types_core::felt::Felt as FieldElement252;
     use stwo_cairo_utils::logging_utils::init_logging;
     use stwo_run_and_prove_common::MockProverTrait;
     use tempfile::{NamedTempFile, TempDir, TempPath};
 
     use super::*;
 
-    const ARRAY_SUM_EXPECTED_OUTPUT: [Felt252; 1] = [Felt252::from_hex_unchecked("0x32")];
+    const ARRAY_SUM_EXPECTED_OUTPUT: [FieldElement252; 1] =
+        [FieldElement252::from_hex_unchecked("0x32")];
     const RESOURCES_PATH: &str = "resources";
     const PROGRAM_FILE_NAME: &str = "array_sum.json";
     const PROVER_PARAMS_FILE_NAME: &str = "prover_params.json";
@@ -338,7 +339,7 @@ mod tests {
         // Verifying the proof output.
         let output_content =
             std::fs::read_to_string(output_tempfile).expect("Failed to read output file");
-        let output: Vec<Felt252> =
+        let output: Vec<FieldElement252> =
             sonic_rs::from_str(&output_content).expect("Failed to parse output");
         assert_eq!(
             output, ARRAY_SUM_EXPECTED_OUTPUT,

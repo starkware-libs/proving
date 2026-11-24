@@ -25,7 +25,6 @@
     "blake_compress_opcode",
     "call_opcode_abs",
     "call_opcode_rel_imm",
-    "generic_opcode",
     "jnz_opcode_non_taken",
     "jnz_opcode_taken",
     "jump_opcode_abs",
@@ -97,6 +96,22 @@
     "verify_bitwise_xor_9"
   ],
   "circuit_proof_configs": {
+    "cairo_verifier_root": {
+      "fri_params": {
+        "pow_bits": 24,
+        "log_blowup_factor": 3,
+        "log_last_layer_degree_bound": 0,
+        "n_queries": 24,
+        "fold_step": 4
+      },
+      "component_log_sizes": {
+        "eq": 20,
+        "qm31_ops": 23,
+        "m31_to_u32": 20,
+        "triple_xor": 19,
+        "blake_g_gate": 23
+      }
+    },
     "default": {
       "fri_params": {
         "pow_bits": 26,
@@ -119,24 +134,24 @@
       "config": "default",
       "trace_log_size": 20,
       "preprocessed_root": [
-        "0xe01455bb",
-        "0x3b17b229",
-        "0x54252adf",
-        "0xb2200396",
-        "0xd6c2fb78",
-        "0x9b16e7da",
-        "0xf0ad2723",
-        "0xe0c21624"
+        "0xf6c05b11",
+        "0xcc8ce3bb",
+        "0x79c96869",
+        "0xf16a5929",
+        "0x242704ad",
+        "0x39fc13e0",
+        "0x0c9da8a4",
+        "0xa6c51c1a"
       ],
       "circuit_hash": [
-        "0x644c8b5a",
-        "0xd558784d",
-        "0x0b4407f7",
-        "0x50f954b5",
-        "0x2b5cfc36",
-        "0xb5f4bc50",
-        "0x95b9d89b",
-        "0x95f9fd6e"
+        "0x0ebf8b53",
+        "0x99409800",
+        "0xecc24552",
+        "0xd00f6dd4",
+        "0x800f235c",
+        "0xd40310fa",
+        "0x777f4712",
+        "0x019ff734"
       ],
       "zk_blinding": false
     }
@@ -168,7 +183,20 @@
         "0x6b774733",
         "0x24d46196"
       ],
-      "poseidon_circuit_hash": "0x3694d9455c446ac4949b814b45029d1afdd6f0c82e7d14cfba5c3df8d65b827"
+      "cairo_verifier_root": {
+        "config": "cairo_verifier_root",
+        "blake_circuit_hash": [
+          "0x9fd27107",
+          "0x4a6236fc",
+          "0xfa8895de",
+          "0xc86c2830",
+          "0x8715b20e",
+          "0x6eface49",
+          "0x9fc6503b",
+          "0x559ab2d6"
+        ],
+        "poseidon_circuit_hash": "0x689fce3d1a53ca40184200ed7cf0267ad8d3ce6372b5b56438220cee6570d1c"
+      }
     }
   ],
   "unpacking_verifiers": [
@@ -176,24 +204,24 @@
       "config": "default",
       "input_config": "default",
       "preprocessed_root": [
-        "0x4feb3f8c",
-        "0xa81a78eb",
-        "0xeb7f435d",
-        "0x3e48d393",
-        "0x4cc52762",
-        "0x4cf1e3b1",
-        "0xa46c3829",
-        "0x22cfedd8"
+        "0xa551afa8",
+        "0x321e44c5",
+        "0x68669636",
+        "0x052d1d5e",
+        "0x2e764ecc",
+        "0x66188063",
+        "0xda73f92b",
+        "0x35b990f9"
       ],
       "circuit_hash": [
-        "0x78a0af25",
-        "0x0a6e2ebf",
-        "0x6a910a81",
-        "0xfa819915",
-        "0xce023b0b",
-        "0xb1df32bf",
-        "0x3c000110",
-        "0xfb376adc"
+        "0xc8a66722",
+        "0x62133d9f",
+        "0x01b54345",
+        "0xbd44e638",
+        "0x96453e76",
+        "0x88801dc4",
+        "0x79abdcd2",
+        "0x0415cc63"
       ]
     }
   ]

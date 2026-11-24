@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::air_public_input::{MemorySegmentAddresses, PublicMemoryEntry};
 use cairo_vm::serde::deserialize_program::Identifier;
 use cairo_vm::types::builtin_name::BuiltinName;
@@ -9,6 +8,7 @@ use num_bigint::BigUint;
 use num_traits::ToPrimitive;
 use regex::Regex;
 use serde_json::Value as JsonValue;
+use starknet_types_core::felt::Felt as FieldElement252;
 use starknet_types_core::hash::{Pedersen, StarkHash};
 use stwo_cairo_utils::math_utils;
 
@@ -34,7 +34,8 @@ pub fn safe_log2(x: u128) -> Result<u32, HintError> {
 ///
 /// # Returns
 ///
-/// Returns a `Result` containing a vector of `Felt252` values extracted from the annotations.
+/// Returns a `Result` containing a vector of `FieldElement252` values extracted from the
+/// annotations.
 ///
 /// # Errors
 ///
@@ -43,7 +44,7 @@ pub fn extract_annotations(
     annotations: &[String],
     prefix: &str,
     kind: &str,
-) -> Result<Vec<Felt252>, HintError> {
+) -> Result<Vec<FieldElement252>, HintError> {
     let mut res = Vec::new();
 
     let pattern = format!(r"P->V\[(\d+):(\d+)\]: /cpu air/{prefix}: .*?{kind}\((.+)\)");
@@ -64,7 +65,7 @@ pub fn extract_annotations(
 
             let mut parse_and_push = |value_str: &str| -> Result<(), HintError> {
                 let value_str = value_str.trim();
-                let value = Felt252::from_hex(value_str).map_err(|_| {
+                let value = FieldElement252::from_hex(value_str).map_err(|_| {
                     HintError::CustomHint(format!("Failed to parse value_str '{value_str}'").into())
                 })?;
                 res.push(value);
@@ -91,13 +92,15 @@ pub fn extract_annotations(
 ///
 /// # Returns
 ///
-/// Returns a `Result` containing a tuple `(z, alpha)` of `Felt252` values.
+/// Returns a `Result` containing a tuple `(z, alpha)` of `FieldElement252` values.
 ///
 /// # Errors
 ///
 /// Returns a `HintError` if the regex fails or if the expected number of interaction elements is
 /// not found.
-fn extract_z_and_alpha(annotations: &[String]) -> Result<(Felt252, Felt252), HintError> {
+fn extract_z_and_alpha(
+    annotations: &[String],
+) -> Result<(FieldElement252, FieldElement252), HintError> {
     let annotations_str = annotations.join("\n");
     let re = Regex::new(
         r"V->P: /cpu air/STARK/Interaction: Interaction element #\d+: Field Element\(0x([0-9a-f]+)\)",
@@ -115,7 +118,7 @@ fn extract_z_and_alpha(annotations: &[String]) -> Result<(Felt252, Felt252), Hin
                 )
             })?
             .as_str();
-        let value = Felt252::from_hex(hex_str).map_err(|_| {
+        let value = FieldElement252::from_hex(hex_str).map_err(|_| {
             HintError::CustomHint(format!("Failed to parse hex_str '{hex_str}'").into())
         })?;
         interaction_elements.push(value);
@@ -159,7 +162,7 @@ pub fn extract_proof_values(
         .map(|v| v.as_str().unwrap().to_string())
         .collect();
 
-    let annotations = |prefix: &str, kind: &str| -> Result<Vec<Felt252>, HintError> {
+    let annotations = |prefix: &str, kind: &str| -> Result<Vec<FieldElement252>, HintError> {
         extract_annotations(&annotations_vec, prefix, kind)
     };
 
@@ -192,7 +195,7 @@ pub fn extract_proof_values(
         .ok_or_else(|| HintError::CustomHint("Failed to get proof of work nonce.".into()))?;
 
     // Closure to collect authentication values
-    let get_authentications = |prefix: &str| -> Result<Vec<Felt252>, HintError> {
+    let get_authentications = |prefix: &str| -> Result<Vec<FieldElement252>, HintError> {
         let mut res = annotations(prefix, "Data")?;
         res.extend(annotations(prefix, "Hash")?);
         Ok(res)
@@ -265,8 +268,8 @@ pub fn extract_proof_values(
 
     let (z, alpha) = extract_z_and_alpha(&annotations_vec)?;
 
-    let mut fri_witnesses_leaves: Vec<Vec<Felt252>> = Vec::new();
-    let mut fri_witnesses_authentications: Vec<Vec<Felt252>> = Vec::new();
+    let mut fri_witnesses_leaves: Vec<Vec<FieldElement252>> = Vec::new();
+    let mut fri_witnesses_authentications: Vec<Vec<FieldElement252>> = Vec::new();
 
     for i in 1..n_fri_layers {
         let prefix = &format!("STARK/FRI/Decommitment/Layer {i}");
@@ -326,7 +329,7 @@ pub fn extract_proof_values(
 ///
 /// # Returns
 ///
-/// Returns a `Result` containing the `Felt252` value if found.
+/// Returns a `Result` containing the `FieldElement252` value if found.
 ///
 /// # Errors
 ///
@@ -336,7 +339,7 @@ fn get_dynamic_or_const_value(
     name: &str,
     identifiers: &HashMap<String, Identifier>,
     module_name: &str,
-) -> Result<Felt252, HintError> {
+) -> Result<FieldElement252, HintError> {
     let name_lower = name.to_lowercase();
 
     if let Some(dynamic_params) = dynamic_params
@@ -407,9 +410,9 @@ pub fn extract_from_ids_and_public_input(
         &module_name,
     )?;
 
-    let effective_component_height = Felt252::from(COMPONENT_HEIGHT) * cpu_component_step;
+    let effective_component_height = FieldElement252::from(COMPONENT_HEIGHT) * cpu_component_step;
 
-    let n_steps = Felt252::from(public_input.n_steps);
+    let n_steps = FieldElement252::from(public_input.n_steps);
     let trace_domain_size = effective_component_height * n_steps;
     let trace_domain_size_u64 = trace_domain_size
         .to_u128()
@@ -561,7 +564,7 @@ pub fn get_stark_proof_cairo_struct(
                     .zip(&extracted_ids_and_pub_in_vals.layer_log_sizes[2..])
                 {
                     inner_layers.push(TableCommitmentConfig {
-                        n_columns: Felt252::from(1u64 << layer_steps),
+                        n_columns: FieldElement252::from(1u64 << layer_steps),
                         vector: VectorCommitmentConfig {
                             height: layer_log_rows,
                             n_verifier_friendly_commitment_layers: extracted_proof_vals
@@ -575,7 +578,7 @@ pub fn get_stark_proof_cairo_struct(
             fri_step_sizes: extracted_proof_vals
                 .fri_step_list
                 .iter()
-                .map(|&x| Felt252::from(x))
+                .map(|&x| FieldElement252::from(x))
                 .collect(),
             log_last_layer_degree_bound: extracted_proof_vals.log_last_layer_degree_bound.into(),
         },
@@ -704,8 +707,8 @@ pub fn get_stark_proof_cairo_struct(
 /// Returns a `HintError` if required data is missing or cannot be computed.
 pub fn public_input_to_cairo(
     public_input: &OwnedPublicInput,
-    z: &Felt252,
-    alpha: &Felt252,
+    z: &FieldElement252,
+    alpha: &FieldElement252,
 ) -> Result<CairoPublicInput, HintError> {
     let continuous_page_headers =
         compute_continuous_page_headers(&public_input.public_memory, z, alpha)?;
@@ -722,7 +725,7 @@ pub fn public_input_to_cairo(
 
     let memory_segments = sort_segments(&public_input.memory_segments)?;
 
-    let log_n_steps: Felt252 = safe_log2(public_input.n_steps as u128)?.into();
+    let log_n_steps: FieldElement252 = safe_log2(public_input.n_steps as u128)?.into();
     let layout_bytes = public_input.layout.as_bytes();
     let layout = BigUint::from_bytes_be(layout_bytes);
 
@@ -742,16 +745,21 @@ pub fn public_input_to_cairo(
 
     let main_page_len = main_page.len();
 
-    let main_page_flat: Vec<Felt252> = main_page
+    let main_page_flat: Vec<FieldElement252> = main_page
         .into_iter()
-        .flat_map(|(address, value)| vec![Felt252::from(address), value])
+        .flat_map(|(address, value)| vec![FieldElement252::from(address), value])
         .collect();
     let n_continuous_pages = continuous_page_headers.len();
 
-    let continuous_page_headers_flat: Vec<Felt252> = continuous_page_headers
+    let continuous_page_headers_flat: Vec<FieldElement252> = continuous_page_headers
         .into_iter()
         .flat_map(|(start_addr, size, hash_value, product)| {
-            vec![Felt252::from(start_addr), Felt252::from(size), hash_value, product]
+            vec![
+                FieldElement252::from(start_addr),
+                FieldElement252::from(size),
+                hash_value,
+                product,
+            ]
         })
         .collect();
 
@@ -760,7 +768,7 @@ pub fn public_input_to_cairo(
         range_check_min: public_input.rc_min.into(),
         range_check_max: public_input.rc_max.into(),
         layout: layout.into(),
-        dynamic_params: dynamic_params.into_iter().map(Felt252::from).collect(),
+        dynamic_params: dynamic_params.into_iter().map(FieldElement252::from).collect(),
         n_segments: public_input.memory_segments.len().into(),
         segments,
         padding_addr: first_public_memory_entry.address.into(),
@@ -775,8 +783,8 @@ pub fn public_input_to_cairo(
 }
 
 // Make Clippy happy - making the output type of `get_pages_and_products` more readable.
-type PageMap = HashMap<u32, Vec<Felt252>>;
-type ProductMap = HashMap<u32, Felt252>;
+type PageMap = HashMap<u32, Vec<FieldElement252>>;
+type ProductMap = HashMap<u32, FieldElement252>;
 type PagesAndProductsResult = Result<(PageMap, ProductMap), HintError>;
 
 /// Computes pages and their cumulative products from the public memory entries.
@@ -796,11 +804,11 @@ type PagesAndProductsResult = Result<(PageMap, ProductMap), HintError>;
 /// Returns a `HintError` if values are missing or computations fail.
 pub fn get_pages_and_products(
     public_memory: &[PublicMemoryEntry],
-    z: &Felt252,
-    alpha: &Felt252,
+    z: &FieldElement252,
+    alpha: &FieldElement252,
 ) -> PagesAndProductsResult {
-    let mut pages: HashMap<u32, Vec<Felt252>> = HashMap::new();
-    let mut page_prods: HashMap<u32, Felt252> = HashMap::new();
+    let mut pages: HashMap<u32, Vec<FieldElement252>> = HashMap::new();
+    let mut page_prods: HashMap<u32, FieldElement252> = HashMap::new();
 
     for cell in public_memory.iter() {
         let page_id = cell.page;
@@ -815,10 +823,10 @@ pub fn get_pages_and_products(
         page.push(addr.into());
         page.push(val);
 
-        let previous_prod = page_prods.entry(page_id as u32).or_insert(Felt252::ONE);
+        let previous_prod = page_prods.entry(page_id as u32).or_insert(FieldElement252::ONE);
 
         // Compute term = z - (addr + alpha * val)
-        let term = z - (Felt252::from(addr) + (alpha * val));
+        let term = z - (FieldElement252::from(addr) + (alpha * val));
 
         *previous_prod *= term;
     }
@@ -844,12 +852,12 @@ pub fn get_pages_and_products(
 /// Returns a `HintError` if there are inconsistencies in the page data.
 pub fn compute_continuous_page_headers(
     public_memory: &[PublicMemoryEntry],
-    z: &Felt252,
-    alpha: &Felt252,
-) -> Result<Vec<(usize, usize, Felt252, Felt252)>, HintError> {
+    z: &FieldElement252,
+    alpha: &FieldElement252,
+) -> Result<Vec<(usize, usize, FieldElement252, FieldElement252)>, HintError> {
     let mut start_address: HashMap<u32, usize> = HashMap::new();
     let mut size: HashMap<u32, usize> = HashMap::new();
-    let mut data: HashMap<u32, Vec<Felt252>> = HashMap::new();
+    let mut data: HashMap<u32, Vec<FieldElement252>> = HashMap::new();
 
     let (_pages, page_prods) = get_pages_and_products(public_memory, z, alpha)?;
 
@@ -943,7 +951,7 @@ pub fn compute_continuous_page_headers(
 /// Returns a `HintError` if values are missing for any address on the main page.
 pub fn get_main_page(
     public_memory: &[PublicMemoryEntry],
-) -> Result<Vec<(usize, Felt252)>, HintError> {
+) -> Result<Vec<(usize, FieldElement252)>, HintError> {
     let mut res = Vec::new();
 
     for access in public_memory.iter() {
@@ -1027,7 +1035,7 @@ mod tests {
 
     const MODULE_NAME: &str = "starkware.cairo.dummy.module";
 
-    fn const_identifier(value: Option<Felt252>) -> Identifier {
+    fn const_identifier(value: Option<FieldElement252>) -> Identifier {
         Identifier {
             pc: None,
             type_: Some("const".to_string()),
@@ -1040,7 +1048,7 @@ mod tests {
         }
     }
 
-    /// A value present in `dynamic_params` takes precedence and is returned as a `Felt252`.
+    /// A value present in `dynamic_params` takes precedence and is returned as a `FieldElement252`.
     #[test]
     fn test_get_dynamic_or_const_value_from_dynamic_params() {
         let dynamic_params = HashMap::from([("cpu_component_step".to_string(), 1234)]);
@@ -1054,7 +1062,7 @@ mod tests {
         )
         .unwrap();
 
-        assert_eq!(value, Felt252::from(1234));
+        assert_eq!(value, FieldElement252::from(1234));
     }
 
     /// When not in `dynamic_params`, a constant identifier's value is returned.
@@ -1062,20 +1070,20 @@ mod tests {
     fn test_get_dynamic_or_const_value_from_const_identifier() {
         let identifiers = HashMap::from([(
             format!("{MODULE_NAME}.CPU_COMPONENT_STEP"),
-            const_identifier(Some(Felt252::from(1234))),
+            const_identifier(Some(FieldElement252::from(1234))),
         )]);
 
         let value =
             get_dynamic_or_const_value(None, "CPU_COMPONENT_STEP", &identifiers, MODULE_NAME)
                 .unwrap();
 
-        assert_eq!(value, Felt252::from(1234));
+        assert_eq!(value, FieldElement252::from(1234));
     }
 
     /// An identifier that is not a constant yields an error.
     #[test]
     fn test_get_dynamic_or_const_value_non_const_identifier() {
-        let mut identifier = const_identifier(Some(Felt252::from(1234)));
+        let mut identifier = const_identifier(Some(FieldElement252::from(1234)));
         identifier.type_ = Some("reference".to_string());
         let identifiers =
             HashMap::from([(format!("{MODULE_NAME}.CPU_COMPONENT_STEP"), identifier)]);

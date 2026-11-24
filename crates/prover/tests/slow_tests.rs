@@ -8,6 +8,7 @@ use cairo_air::CairoProofForRustVerifier;
 use cairo_air::verifier::verify_cairo;
 use cairo_vm::types::layout_name::LayoutName;
 use itertools::Itertools;
+use starknet_types_core::felt::Felt as FieldElement252;
 use stwo::core::fri::FriParams;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
@@ -437,7 +438,7 @@ fn test_prove_all_opcode_components_proof_regression() {
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
     let mut proof_file = NamedTempFile::new().unwrap();
-    let mut serialized: Vec<starknet_ff::FieldElement> = Vec::new();
+    let mut serialized: Vec<FieldElement252> = Vec::new();
     CairoSerialize::serialize(&cairo_proof, &mut serialized);
     let proof_hex: Vec<String> = serialized.into_iter().map(|felt| format!("0x{felt:x}")).collect();
     proof_file.write_all(sonic_rs::to_string_pretty(&proof_hex).unwrap().as_bytes()).unwrap();
@@ -486,7 +487,7 @@ fn test_prove_verify_all_builtins_non_default_fri_params() {
 mod pedersen_fast_deduction {
     use starknet_curve::curve_params::{PEDERSEN_P0, PEDERSEN_P1, PEDERSEN_P2, SHIFT_POINT};
     use starknet_types_core::curve::ProjectivePoint;
-    use starknet_types_core::felt::Felt;
+    use starknet_types_core::felt::Felt as FieldElement252;
     use stwo_cairo_common::prover_types::cpu::M31;
     use stwo_cairo_prover::witness::fast_deduction::pedersen::PartialEcMul;
 
@@ -510,8 +511,10 @@ mod pedersen_fast_deduction {
         let p1 = ProjectivePoint::from_affine(PEDERSEN_P1.x(), PEDERSEN_P1.y()).unwrap();
         let p2 = ProjectivePoint::from_affine(PEDERSEN_P2.x(), PEDERSEN_P2.y()).unwrap();
         let shift_point = ProjectivePoint::from_affine(SHIFT_POINT.x(), SHIFT_POINT.y()).unwrap();
-        let expected_new_accumulator =
-            (p1 + &p2 * Felt::from(56 << window_bits) - shift_point).to_affine().unwrap();
+        let expected_new_accumulator = (p1 + &p2 * FieldElement252::from(56 << window_bits)
+            - shift_point)
+            .to_affine()
+            .unwrap();
 
         assert_eq!(new_chain, chain);
         assert_eq!(new_round, round + M31::from_u32_unchecked(1));
@@ -541,10 +544,12 @@ mod pedersen_fast_deduction {
         let p1 = ProjectivePoint::from_affine(PEDERSEN_P1.x(), PEDERSEN_P1.y()).unwrap();
         let shift_point = ProjectivePoint::from_affine(SHIFT_POINT.x(), SHIFT_POINT.y()).unwrap();
         let shifted_p0 = &p0
-            * (Felt::from(1u128 << (window_bits * (NUM_WINDOWS / 2)))
-                * Felt::from(1u128 << (window_bits * (NUM_WINDOWS / 2 - 1))));
+            * (FieldElement252::from(1u128 << (window_bits * (NUM_WINDOWS / 2)))
+                * FieldElement252::from(1u128 << (window_bits * (NUM_WINDOWS / 2 - 1))));
         let expected_new_accumulator =
-            (&p1 * Felt::from(3) + &shifted_p0 * Felt::from(5) - shift_point).to_affine().unwrap();
+            (&p1 * FieldElement252::from(3) + &shifted_p0 * FieldElement252::from(5) - shift_point)
+                .to_affine()
+                .unwrap();
 
         assert_eq!(new_chain, chain);
         assert_eq!(new_round, round + M31::from_u32_unchecked(1));

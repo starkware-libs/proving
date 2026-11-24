@@ -1,7 +1,7 @@
 use core::{array, iter};
 
 use starknet_crypto::{poseidon_hash, poseidon_hash_many, poseidon_permute_comp};
-use starknet_ff::FieldElement as FieldElement252;
+use starknet_types_core::felt::{Felt as FieldElement252, NonZeroFelt};
 use std_shims::{Vec, vec};
 
 use super::Channel;
@@ -45,12 +45,11 @@ impl Poseidon252Channel {
     // TODO(shahars): Understand if we really need uniformity here.
     /// Generates a close-to uniform random vector of BaseField elements.
     fn draw_base_felts(&mut self) -> [BaseField; 8] {
-        let shift = (1u64 << 31).into();
+        let shift: NonZeroFelt = FieldElement252::from(1u64 << 31).try_into().unwrap();
 
         let mut cur = self.draw_secure_felt252();
         let u32s: [u32; 8] = array::from_fn(|_| {
-            let next = cur.floor_div(shift);
-            let res = cur - next * shift;
+            let (next, res) = cur.div_rem(&shift);
             cur = next;
             res.try_into().unwrap()
         });
@@ -67,7 +66,7 @@ impl Channel for Poseidon252Channel {
     const BYTES_PER_HASH: usize = BYTES_PER_FELT252;
 
     fn mix_felts(&mut self, felts: &[SecureField]) {
-        let shift = (1u64 << 31).into();
+        let shift = FieldElement252::from(1u64 << 31);
         let mut res = Vec::with_capacity(felts.len() / 2 + 2);
         res.push(self.digest);
         for chunk in felts.chunks(2) {
@@ -75,7 +74,7 @@ impl Channel for Poseidon252Channel {
                 chunk
                     .iter()
                     .flat_map(|x| x.to_m31_array())
-                    .fold(FieldElement252::ONE, |cur, y| cur * shift + y.0.into()),
+                    .fold(FieldElement252::ONE, |cur, y| cur * shift + FieldElement252::from(y.0)),
             );
         }
 
@@ -113,11 +112,10 @@ impl Channel for Poseidon252Channel {
 
     /// Draws 7 u32s.
     fn draw_u32s(&mut self) -> Vec<u32> {
-        let shift = (1u64 << 32).into();
+        let shift: NonZeroFelt = FieldElement252::from(1u64 << 32).try_into().unwrap();
         let mut cur = self.draw_secure_felt252();
         let words: [u32; 7] = array::from_fn(|_| {
-            let next = cur.floor_div(shift);
-            let res = cur - next * shift;
+            let (next, res) = cur.div_rem(&shift);
             cur = next;
             res.try_into().unwrap()
         });
@@ -139,7 +137,7 @@ impl Channel for Poseidon252Channel {
 #[cfg(test)]
 mod tests {
     use itertools::Itertools;
-    use starknet_ff::FieldElement as FieldElement252;
+    use starknet_types_core::felt::Felt as FieldElement252;
     use std_shims::BTreeSet;
 
     use crate::core::channel::Channel;
@@ -168,6 +166,35 @@ mod tests {
 
         // Assert that next random words are different.
         assert_ne!(first_random_words, channel.draw_u32s());
+    }
+
+    #[test]
+    fn test_draw_u32s_values() {
+        let mut channel = Poseidon252Channel::default();
+
+        assert_eq!(
+            channel.draw_u32s(),
+            [886766026, 477679824, 3218540027, 1381728512, 24873733, 2344250857, 2336456258]
+        );
+    }
+
+    #[test]
+    fn test_draw_base_felts_values() {
+        let mut channel = Poseidon252Channel::default();
+
+        assert_eq!(
+            channel.draw_base_felts(),
+            [
+                m31!(886766026),
+                m31!(955359648),
+                m31!(2136741868),
+                m31!(316409861),
+                m31!(397979733),
+                m31!(2001583392),
+                m31!(1356828834),
+                m31!(782812229),
+            ]
+        );
     }
 
     #[test]
@@ -209,7 +236,7 @@ mod tests {
 
         assert_eq!(
             channel.digest(),
-            FieldElement252::from_hex_be(
+            FieldElement252::from_hex(
                 "0x07cecc0ee3d858c843fe63165f038353f9f80f52dd8d32eead9f635e2f7d8b8e"
             )
             .unwrap()
@@ -222,7 +249,7 @@ mod tests {
         channel.mix_u32s(&[1, 2, 3, 4, 5, 6, 7, 8, 9]);
         assert_eq!(
             channel.digest,
-            FieldElement252::from_hex_be(
+            FieldElement252::from_hex(
                 "0x06c7fc11690eb272bcc81115e801ad52de4e6271ddff3f97a2b75315e3572ced"
             )
             .unwrap()

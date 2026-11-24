@@ -2,13 +2,13 @@ use std::any::Any;
 use std::io;
 use std::path::{Path, PathBuf};
 
-use cairo_vm::Felt252;
 use cairo_vm::cairo_run::CairoRunConfig;
 use cairo_vm::types::errors::program_errors::ProgramError;
 use cairo_vm::types::layout::CairoLayoutParams;
 use cairo_vm::types::layout_name::LayoutName;
 use cairo_vm::types::program::Program;
 use cairo_vm::vm::runners::cairo_runner::CairoRunner;
+use starknet_types_core::felt::Felt as FieldElement252;
 
 use crate::types::RunMode;
 
@@ -117,17 +117,17 @@ pub fn get_cairo_run_config(
     })
 }
 
-/// Write the program output to the specified output path as Felt252 values.
+/// Write the program output to the specified output path as FieldElement252 values.
 pub fn write_output_to_file(runner: &mut CairoRunner, output_path: PathBuf) -> anyhow::Result<()> {
     let mut output_buffer = String::new();
     runner.vm.write_output(&mut output_buffer)?;
     let output_lines = output_buffer
         .lines()
         .map(|line| {
-            Felt252::from_dec_str(line)
+            FieldElement252::from_dec_str(line)
                 .map_err(|_| anyhow::anyhow!("Failed to parse output line as Felt decimal: {line}"))
         })
-        .collect::<Result<Vec<Felt252>, anyhow::Error>>()?;
+        .collect::<Result<Vec<FieldElement252>, anyhow::Error>>()?;
     std::fs::write(&output_path, sonic_rs::to_string_pretty(&output_lines)?)?;
     Ok(())
 }

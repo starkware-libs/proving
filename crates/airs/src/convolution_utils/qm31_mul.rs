@@ -70,7 +70,7 @@ pub fn qm31_mul_reconstruct(v: &[FeltExpr; 7]) -> [FeltExpr; 4] {
 /// Symbolic `QM31` multiplication over `M31` using the 7-multiplication `Rank-7` decomposition.
 ///
 /// Every output coordinate has degree 2 in `(op0, op1)` and is identically equal as a polynomial
-/// in `F_{2^31 - 1}[op0, op1]` to the 20-multiplication schoolbook expansion.
+/// in `F_{2^31 - 1}[op0, op1]` to the canonical `QM31` product in `(1, i, u, i*u)` coordinates.
 pub fn qm31_mul_expr(op0: &[FeltExpr; 4], op1: &[FeltExpr; 4]) -> [FeltExpr; 4] {
     let products = qm31_mul_bilinear_products(op0, op1);
     qm31_mul_reconstruct(&products)
@@ -100,12 +100,11 @@ pub fn qm31_mul_rank7_in_air(
 /// Symbolic `QM31` multiplication inside an [`AirBuilder`] using the unimodular `{0, +1, -1}`
 /// nested Karatsuba decomposition with [`AirBuilder::let_for_constraint`] sharing.
 ///
-/// Because `air_code_gen` lowers every non-unit `Const * Var` product into a full `PackedM31`
-/// multiplication in `SimdDomainEvaluator`, a full `QM31` multiplication in `stwo_cairo_verifier`,
-/// and a `Mul` gate in `stwo-circuits` (`cairo_verifier` / `circuit_verifier`), avoiding all
-/// non-unit scalar constants cuts total multiplications per `QM31` product from `22` (`20`
-/// quadratic + `2` constant) down to `9` (`-59.1%`) and total arithmetic operations from `38` to
-/// `36` across every prover and verifier backend while preserving degree `2`.
+/// Because `air_code_gen` lowers every non-unit `Const * Var` product into a `PackedM31`
+/// multiplication in `SimdDomainEvaluator`, a `QM31` multiplication in `stwo_cairo_verifier`,
+/// and a `Mul` gate in `stwo-circuits` (`cairo_verifier` / `circuit_verifier`), restricting all
+/// linear combinations to `{0, +1, -1}` evaluates the degree-`2` `QM31` product using `9`
+/// quadratic multiplications, `0` constant multiplications, and `27` additions/subtractions.
 pub fn qm31_mul_expr_in_air(
     ab: &mut AirBuilder,
     op0: &[FeltExpr; 4],

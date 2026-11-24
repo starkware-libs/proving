@@ -15,11 +15,16 @@
 //! verifiable by the same multiverifier circuit (see [`canonical`]).
 //!
 //! The tree's final reduction is special: its proof is the one the fold's consumer verifies, not
-//! another fold, so it is proven and serialized in the requested [`ProofFormat`] — by default the
-//! Cairo circuit verifier's, as the applicative root task. Internal folds use the M31 channel the
-//! multiverifier circuit verifies. A single-leaf tree folds its leaf with itself (the
-//! multiverifier verifies the same proof in both slots), so the root is always a multiverifier
-//! proof in the requested format.
+//! another fold, so it is proven and serialized in the requested [`ProofFormat`]. That is the
+//! Cairo circuit verifier's by default, as the applicative root task, or its
+//! `poseidon252_verifier` build's, as the outer bootloader's verifier task. Internal folds use the
+//! Blake2s channel the multiverifier circuit verifies. A single-leaf tree folds its leaf with
+//! itself (the multiverifier verifies the same proof in both slots), so the root is always a
+//! multiverifier proof in the requested format. A root for either Cairo verifier build is proven
+//! under the registry's `cairo_verifier_root` config, whose FRI params can differ from the folds'.
+//! Every fold proof's circuit hash is compared to the registry's multiverifier entry: an internal
+//! node's to its Blake2s identity, such a root's to the root's own, Blake2s or the Poseidon252
+//! felt of the outer root.
 //!
 //! Outputs written for the root layer: the root proof (see above), a flat JSON file with the
 //! root node's circuit output values, and a nested packed JSON tree mirroring the fold, with
@@ -30,12 +35,15 @@
 //! In the `ApplicativeCircuit` format the fold continues into the applicative unpacking verifier.
 //! The proof and output values written are that verifier's, the output being the aggregated
 //! output's digest, while the packed tree is still the fold's, rooted at the multiverifier.
+//!
+//! Within each layer, the independent pair reductions are folded in parallel on `max_concurrency`
+//! dedicated rayon sub-pools. `max_concurrency == 1` skips threading and sub-pools entirely.
 
 use std::num::NonZeroUsize;
 use std::path::{Path, PathBuf};
 
-use circuit_registry::{CircuitRegistry, DigestHex, RegistryError};
-use starknet_types_core::felt::Felt;
+use circuit_registry::{CircuitRegistry, DigestHex, LogSizes, RegistryError};
+use starknet_types_core::felt::Felt as FieldElement252;
 use thiserror::Error;
 use tracing::{Level, info, span};
 
@@ -51,6 +59,7 @@ pub mod unpacking;
 use canonical::CanonicalCircuit;
 pub use fold::ProofFormat;
 use fold::{LayerEntry, reduce_pair, reduce_root_single};
+use itertools::Itertools;
 use leaf_io::LeafInput;
 pub use leaf_io::{LeafOutputHashType, LeafOutputPreimage, load_leaves};
 
@@ -81,6 +90,28 @@ pub enum RecursiveTreeError {
          describes {expected:?}; the registry does not match the circuits this binary builds."
     )]
     MultiverifierCircuitHash { expected: DigestHex, got: DigestHex },
+    #[error(
+        "The root fold proven here hashes to {got:?}, but the circuit registry's multiverifier \
+         `cairo_verifier_root.blake_circuit_hash` is {expected:?}; the registry does not match \
+         the circuits this binary builds."
+    )]
+    RootCircuitHash { expected: DigestHex, got: DigestHex },
+    #[error(
+        "The root fold proven here hashes to {got:#x} under Poseidon252, but the circuit \
+         registry's multiverifier `cairo_verifier_root.poseidon_circuit_hash` is {expected:#x}; \
+         the registry does not match the circuits this binary builds."
+    )]
+    PoseidonRootCircuitHash { expected: FieldElement252, got: FieldElement252 },
+    #[error(
+        "The circuit registry's multiverifier has no `cairo_verifier_root`, so the tree cannot be \
+         folded into a root for the Cairo circuit verifier."
+    )]
+    NoCairoVerifierRoot,
+    #[error(
+        "The circuit registry's `cairo_verifier_root` config has component log sizes {got:?}, but \
+         the multiverifier's are {expected:?}; the root must prove the same padded circuit."
+    )]
+    CairoVerifierRootSizes { expected: LogSizes, got: LogSizes },
     #[error(transparent)]
     Registry(#[from] RegistryError),
     #[error("The applicative flow folds two to {capacity} leaves, the wrapper included; got {n}.")]
@@ -118,7 +149,11 @@ pub enum RecursiveTreeError {
          because the wrapper leaf's program hash {wrapper_program_hash:#x} is not the aggregator \
          wrapper's the registry was built for."
     )]
-    UnpackingVerifierCircuitHash { expected: DigestHex, got: DigestHex, wrapper_program_hash: Felt },
+    UnpackingVerifierCircuitHash {
+        expected: DigestHex,
+        got: DigestHex,
+        wrapper_program_hash: FieldElement252,
+    },
 }
 
 /// Aggregate statistics for the completed reduction, returned for logging.
@@ -162,9 +197,6 @@ pub fn stwo_run_and_prove_recursive_tree(
     root_proof_format: ProofFormat,
 ) -> Result<RecursiveTreeStats, RecursiveTreeError> {
     let _span = span!(Level::INFO, "stwo_run_and_prove_recursive_tree").entered();
-    // Note: max_concurrency is currently no-op (the fold below is strictly sequential). Parameter
-    // will drive intra-layer parallelism in a follow-up PR.
-    let _ = max_concurrency;
 
     if leaves.is_empty() {
         return Err(RecursiveTreeError::EmptyLeaves);
@@ -185,6 +217,12 @@ pub fn stwo_run_and_prove_recursive_tree(
     let applicative_inputs = (root_proof_format == ProofFormat::ApplicativeCircuit)
         .then(|| unpacking::validate_applicative_inputs(&leaves, registry))
         .transpose()?;
+    // Likewise a root for a Cairo circuit verifier that the registry does not describe.
+    if matches!(root_proof_format, ProofFormat::CairoVerifier | ProofFormat::PoseidonCairoVerifier)
+        && registry.multiverifier()?.cairo_verifier_root.is_none()
+    {
+        return Err(RecursiveTreeError::NoCairoVerifierRoot);
+    }
 
     let canonical = CanonicalCircuit::build(registry)?;
     let proof_config = &canonical.shared_config.proof_config;
@@ -201,7 +239,7 @@ pub fn stwo_run_and_prove_recursive_tree(
         ProofFormat::ApplicativeCircuit => ProofFormat::Circuit,
         other => other,
     };
-    let (root, stats) = fold_entries(current_layer, &canonical, fold_format)?;
+    let (root, stats) = fold_entries(current_layer, &canonical, max_concurrency, fold_format)?;
     info!(
         n_layers = stats.n_layers,
         n_pair_reductions = stats.n_pair_reductions,
@@ -238,9 +276,13 @@ pub fn stwo_run_and_prove_recursive_tree(
 pub(crate) fn fold_entries(
     entries: Vec<LayerEntry>,
     canonical: &CanonicalCircuit,
+    max_concurrency: NonZeroUsize,
     root_proof_format: ProofFormat,
 ) -> Result<(LayerEntry, RecursiveTreeStats), RecursiveTreeError> {
     let mut current_layer = entries;
+    // Cap to the available rayon workers; per-chunk sizing in `reduce_layer_pairs` shrinks
+    // further when a chunk has fewer pairs than `max_concurrency`.
+    let max_concurrency = max_concurrency.get().min(rayon::current_num_threads());
     let mut stats =
         RecursiveTreeStats { n_leaves: current_layer.len(), n_layers: 0, n_pair_reductions: 0 };
 
@@ -256,6 +298,7 @@ pub(crate) fn fold_entries(
         return Ok((root, stats));
     }
 
+    let mut pools: Vec<rayon::ThreadPool> = Vec::new();
     let mut layer_idx: usize = 0;
     while current_layer.len() > 1 {
         info!(layer_idx, n_entries = current_layer.len(), "Reducing recursive-tree layer.");
@@ -263,23 +306,23 @@ pub(crate) fn fold_entries(
         // proof the fold's consumer verifies, in `root_proof_format` (see `reduce_pair`).
         let proof_format =
             if current_layer.len() == 2 { root_proof_format } else { ProofFormat::Circuit };
-        let mut next_layer: Vec<LayerEntry> = Vec::with_capacity(current_layer.len().div_ceil(2));
-        let mut pairs = current_layer.into_iter();
-        let mut pair_idx: usize = 0;
-        while let Some(left) = pairs.next() {
-            match pairs.next() {
-                Some(right) => {
-                    let entry =
-                        reduce_pair(left, right, layer_idx + 1, pair_idx, canonical, proof_format)?;
-                    next_layer.push(entry);
-                    stats.n_pair_reductions += 1;
-                }
-                None => {
-                    info!(layer_idx, pair_idx, "Carrying unpaired entry to next layer.");
-                    next_layer.push(left);
-                }
-            }
-            pair_idx += 1;
+
+        let mut tuples = current_layer.into_iter().tuples();
+        let pairs: Vec<(LayerEntry, LayerEntry)> = tuples.by_ref().collect();
+        let carry = tuples.into_buffer().next();
+        stats.n_pair_reductions += pairs.len();
+
+        let mut next_layer = reduce_layer_pairs(
+            pairs,
+            layer_idx,
+            proof_format,
+            canonical,
+            max_concurrency,
+            &mut pools,
+        )?;
+        if let Some(entry) = carry {
+            info!(layer_idx, pair_idx = next_layer.len(), "Carrying unpaired entry to next layer.");
+            next_layer.push(entry);
         }
         current_layer = next_layer;
         layer_idx += 1;
@@ -291,6 +334,83 @@ pub(crate) fn fold_entries(
          contain exactly one root entry",
     );
     Ok((root, stats))
+}
+
+/// Builds `n_pools` rayon sub-pools, splitting the process's total rayon workers evenly. Each pool
+/// gets `max(1, rayon::current_num_threads() / n_pools)` worker threads, so `n_pools` concurrent
+/// pair reductions can run each on its own dedicated slice of cores. Reads
+/// [`rayon::current_num_threads`] so the split honors `RAYON_NUM_THREADS` when set.
+fn build_worker_pools(n_pools: usize) -> Vec<rayon::ThreadPool> {
+    let total = rayon::current_num_threads();
+    let per_pool = std::cmp::max(1, total / n_pools);
+    info!(
+        n_pools,
+        threads_per_pool = per_pool,
+        total_rayon_threads = total,
+        "Building per-worker rayon pools for concurrent pair reductions."
+    );
+    (0..n_pools)
+        .map(|pool_idx| {
+            rayon::ThreadPoolBuilder::new()
+                .num_threads(per_pool)
+                .thread_name(move |idx| format!("recursive-tree-worker-{pool_idx}-{idx}"))
+                .build()
+                .expect("failed to build rayon worker pool")
+        })
+        .collect()
+}
+
+/// Runs the pair reductions of a single layer, preserving input order. Dispatches pairs across
+/// chunks of at most `max_concurrency` pairs. Each chunk runs on `chunk.len()` rayon sub-pools (so
+/// a short trailing chunk gets threads-per-pool scaled up to its size), each pinned via
+/// [`rayon::ThreadPool::install`] so its `par_iter` calls stay on a dedicated slice of cores.
+/// A single-pair chunk (including the whole `max_concurrency == 1` case) runs serially on the
+/// main pool.
+fn reduce_layer_pairs(
+    pairs: Vec<(LayerEntry, LayerEntry)>,
+    layer_idx: usize,
+    proof_format: ProofFormat,
+    canonical: &CanonicalCircuit,
+    max_concurrency: usize,
+    pools: &mut Vec<rayon::ThreadPool>,
+) -> Result<Vec<LayerEntry>, RecursiveTreeError> {
+    let reduce = |(pair_idx, (left, right)): (usize, (LayerEntry, LayerEntry))| {
+        reduce_pair(left, right, layer_idx + 1, pair_idx, canonical, proof_format)
+    };
+
+    let mut next_layer = Vec::with_capacity(pairs.len());
+    let mut pairs_iter = pairs.into_iter().enumerate();
+    loop {
+        let mut chunk: Vec<_> = pairs_iter.by_ref().take(max_concurrency).collect();
+        match chunk.len() {
+            0 => break,
+            1 => {
+                next_layer.push(reduce(chunk.pop().unwrap())?);
+                continue;
+            }
+            _ => {}
+        }
+        if pools.len() != chunk.len() {
+            // Drop the old pools first, so their threads exit before the new ones are spawned.
+            pools.clear();
+            *pools = build_worker_pools(chunk.len());
+        }
+        let chunk_results: Vec<Result<LayerEntry, RecursiveTreeError>> = std::thread::scope(|s| {
+            let handles: Vec<_> = chunk
+                .into_iter()
+                .zip(pools.iter())
+                .map(|(pair, pool)| s.spawn(move || pool.install(|| reduce(pair))))
+                .collect();
+            handles
+                .into_iter()
+                .map(|h| h.join().unwrap_or_else(|payload| std::panic::resume_unwind(payload)))
+                .collect()
+        });
+        for entry in chunk_results {
+            next_layer.push(entry?);
+        }
+    }
+    Ok(next_layer)
 }
 
 #[cfg(test)]

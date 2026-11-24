@@ -29,8 +29,6 @@ impl RustConst {
     /// Returns the constant `expr` is, if it is one that is defined as a variable.
     pub fn from_air_var(expr: &CompiledAirVar) -> Option<Self> {
         match expr {
-            // Usize are used for array indexing, handled differently.
-            CompiledAirVar::Const(ty, _) if ty == "usize" => None,
             CompiledAirVar::Const(ty, value) => {
                 Some(Self::Literal { ty: ty.clone(), value: value.clone() })
             }
@@ -114,7 +112,6 @@ pub fn parse_eval_constraint(
 ) -> String {
     match expr {
         CompiledAirVar::Const(..) | CompiledAirVar::NamedConst { .. } => {
-            // Constraints have no `usize` constants, so this `unwrap` never fails.
             let constant = RustConst::from_air_var(expr).unwrap();
             constant_names.get(&constant).unwrap().to_string() + ".clone()"
         }
@@ -164,6 +161,7 @@ pub fn parse_eval_constraint(
         }
         CompiledAirVar::Struct { .. }
         | CompiledAirVar::MethodCall(..)
+        | CompiledAirVar::Index(_)
         | CompiledAirVar::Multiplicity(_) => {
             panic!("Unsupported expression in constraint evaluation: {expr}")
         }

@@ -16,6 +16,19 @@ pub const VERIFY_BITWISE_XOR_8_RELATION_ID: M31 = M31::from_u32_unchecked(112558
 pub const VERIFY_BITWISE_XOR_8_B_RELATION_ID: M31 = M31::from_u32_unchecked(521092554);
 pub const VERIFY_BITWISE_XOR_9_RELATION_ID: M31 = M31::from_u32_unchecked(95781001);
 
+// The names of all the relations.
+#[cfg(test)]
+pub const RELATION_NAMES: [&str; 8] = [
+    "Gate",
+    "RangeCheck_16",
+    "VerifyBitwiseXor_12",
+    "VerifyBitwiseXor_4",
+    "VerifyBitwiseXor_7",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8_B",
+    "VerifyBitwiseXor_9",
+];
+
 // The number of lookup elements computed. These are used by all relations, so the size
 // should be at least the size of the largest relation.
 // Shouldn't be too large, as this many values will be stored in memory.

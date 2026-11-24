@@ -86,7 +86,7 @@ Check `Cargo.toml` for current versions. Key crates:
 | blake2 | Blake2s hash (verifier-compatible) |
 | blake3 | Blake3 hash (optional) |
 | starknet-crypto | Poseidon252 hash |
-| starknet-ff | Felt252 field for Poseidon |
+| starknet-types-core | Felt252 field for Poseidon |
 
 ## 6. API Misuse Prevention
 

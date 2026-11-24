@@ -21,7 +21,7 @@ impl AirFn for Qm31Ops {
         let mul_flag = ab.call_external_table(&MulFlag {});
         let pointwise_mul_flag = ab.call_external_table(&PointwiseMulFlag {});
 
-        // Unimodular Karatsuba-9 QM31 product over M31 (9 total muls vs 22 schoolbook).
+        // Unimodular Karatsuba-9 QM31 product over M31 (9 multiplications, 0 non-unit constants).
         let mul_result = qm31_mul_expr_in_air(ab, &op0, &op1);
 
         for i in 0..4 {

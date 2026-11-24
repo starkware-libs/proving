@@ -32,6 +32,10 @@ const fn reduce_u64(val: u64) -> M31 {
 }
 
 /// Multiplies a [`CM31`] element by [`R`] (`2 + i`) using only additions and shifts.
+///
+/// # Hazard
+/// Requires `M31` coordinates in `0..=P`; unchecked `u32` limbs exceeding `P` can underflow
+/// `(x0 << 1) + P64 - x1`.
 #[inline]
 pub const fn mul_by_r(x: CM31) -> CM31 {
     let x0 = x.0.0 as u64;
@@ -85,10 +89,14 @@ impl QM31 {
         Self(self.0 * rhs, self.1 * rhs)
     }
 
-    /// Multiplies two [`QM31`] elements using the certified minimum-rank (`Rank-7`) bilinear
-    /// decomposition over `M31` (`7` variable `M31` multiplications), via the unimodular
-    /// isomorphism `(a0 + a1*i) + (b0 + b1*i)*u <-> (a0 - 2*a1) + (b0 - 2*b1)*u + a1*u^2 + b1*u^3`
+    /// Multiplies two [`QM31`] elements using a minimum-rank (`Rank-7`) bilinear decomposition
+    /// over `M31` (`7` variable `M31` multiplications), via the unimodular isomorphism
+    /// `(a0 + a1*i) + (b0 + b1*i)*u <-> (a0 - 2*a1) + (b0 - 2*b1)*u + a1*u^2 + b1*u^3`
     /// modulo `u^4 - 4*u^2 + 5 = 0` evaluated at `{0, 1, -1, 2, -2, 3, inf}`.
+    ///
+    /// # Hazard
+    /// Requires `M31` coordinates in `0..=P`; unchecked `u32` limbs exceeding `P` can violate
+    /// the `u64` non-negativity and `reduce_u64` accumulator bounds.
     #[inline(always)]
     pub const fn mul_rank7(self, rhs: Self) -> Self {
         let a0 = self.0.0.0 as u64;
