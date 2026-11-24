@@ -77,7 +77,8 @@ jobs:
           toolchain: ${{ env.NIGHTLY_VERSION }}
       - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - name: Install Machete
-        run: cargo install --locked cargo-machete
+        # Pin machete version. Newest release uses unstable features.
+        run: cargo install --locked cargo-machete --version 0.9.2
       - name: Run Machete (detect unused dependencies)
         run: cargo machete crates
 
