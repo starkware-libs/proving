@@ -110,9 +110,11 @@ mod tests {
     use stwo::core::fri::FriParams;
     use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig, TreeVec};
     use stwo::core::poly::circle::CanonicCoset;
-    use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
+    use stwo::core::proof::StarkProof;
+    use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
     #[cfg(not(target_arch = "wasm32"))]
     use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
+    use stwo::core::vcs_lifted::verifier::MerkleVerificationError;
     use stwo::core::verifier::{VerificationError, verify};
     use stwo::prover::backend::simd::SimdBackend;
     use stwo::prover::backend::{Column, CpuBackend};
@@ -306,6 +308,101 @@ mod tests {
         // The genuine nonce still verifies, so the rejection above is due to the nonce alone and
         // `verify_with_oods_nonce` leaves no channel state behind.
         verify_with_oods_nonce(valid_nonce).unwrap();
+    }
+
+    /// A proof whose decommitments or queried values have the wrong shape must be rejected with an
+    /// error, not crash the verifier: those parts of the proof are prover-supplied.
+    #[test]
+    fn test_wide_fib_malformed_pcs_proof_rejected() {
+        let log_n_instances = 6;
+        let fri_params = FriParams::test_params();
+        let config = PcsConfig {
+            fri_params,
+            trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
+            // The preprocessed tree is empty, so it is not lifted.
+            preprocessed_lifting_log_size: 0,
+        };
+        let twiddles = SimdBackend::precompute_twiddles(
+            CanonicCoset::new(log_n_instances + 1 + config.fri_params.log_blowup_factor)
+                .circle_domain()
+                .half_coset,
+        );
+
+        let prover_channel = &mut Blake2sChannel::default();
+        let mut commitment_scheme =
+            CommitmentSchemeProver::<SimdBackend, Blake2sMerkleChannel>::new(config, &twiddles);
+
+        let mut tree_builder = commitment_scheme.tree_builder();
+        tree_builder.extend_evals(vec![]);
+        tree_builder.commit(prover_channel);
+
+        let trace =
+            generate_trace::<FIB_SEQUENCE_LENGTH, _>(&generate_test_inputs(log_n_instances));
+        let mut tree_builder = commitment_scheme.tree_builder();
+        tree_builder.extend_evals(trace);
+        tree_builder.commit(prover_channel);
+
+        let component = WideFibonacciComponent::new(
+            &mut TraceLocationAllocator::default(),
+            WideFibonacciEval::<FIB_SEQUENCE_LENGTH> { log_n_rows: log_n_instances },
+            SecureField::zero(),
+        );
+
+        let proof = prove::<SimdBackend, Blake2sMerkleChannel>(
+            &[&component],
+            prover_channel,
+            commitment_scheme,
+        )
+        .unwrap();
+
+        let sizes = component.trace_log_degree_bounds();
+        let verify_tampered = |tamper: &dyn Fn(&mut StarkProof<Blake2sMerkleHasher>)| {
+            let mut proof = proof.clone();
+            tamper(&mut proof);
+            let channel = &mut Blake2sChannel::default();
+            let scheme = &mut CommitmentSchemeVerifier::<Blake2sMerkleChannel>::new(config);
+            scheme.commit(proof.commitments[0], &sizes[0], channel);
+            scheme.commit(proof.commitments[1], &sizes[1], channel);
+            verify(&[&component], channel, scheme, proof)
+        };
+
+        // Untouched, the proof verifies.
+        verify_tampered(&|_| {}).unwrap();
+
+        // Wrong number of tree decommitments or trees of queried values: caught by the PCS
+        // verifier's structure check.
+        let structure_tampers: [&dyn Fn(&mut StarkProof<Blake2sMerkleHasher>); 4] = [
+            &|p| _ = p.0.decommitments.0.pop(),
+            &|p| p.0.decommitments.0.push(p.0.decommitments[0].clone()),
+            &|p| _ = p.0.queried_values.0.pop(),
+            &|p| p.0.queried_values.0.push(vec![]),
+        ];
+        for (i, tamper) in structure_tampers.into_iter().enumerate() {
+            let result = verify_tampered(tamper);
+            assert!(
+                matches!(result, Err(VerificationError::InvalidStructure(_))),
+                "tamper {i}: expected InvalidStructure, got {result:?}",
+            );
+        }
+
+        // A queried column missing a value, or a missing queried column, in the trace tree: caught
+        // by the Merkle verifier.
+        let result = verify_tampered(&|p| _ = p.0.queried_values[1][0].pop());
+        assert!(
+            matches!(
+                result,
+                Err(VerificationError::Merkle(MerkleVerificationError::QueriedValuesCountMismatch))
+            ),
+            "expected QueriedValuesCountMismatch, got {result:?}",
+        );
+        let result = verify_tampered(&|p| _ = p.0.queried_values[1].pop());
+        assert!(
+            matches!(
+                result,
+                Err(VerificationError::Merkle(MerkleVerificationError::ColumnCountMismatch))
+            ),
+            "expected ColumnCountMismatch, got {result:?}",
+        );
     }
 
     /// Tests the subdomain evaluation path (log_expansion > 0) by using log_blowup_factor = 2

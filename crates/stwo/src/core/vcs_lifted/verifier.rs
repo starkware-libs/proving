@@ -94,6 +94,10 @@ impl<H: MerkleHasherLifted> MerkleVerifierLifted<H> {
     ///
     /// Returns an error if any of the following conditions are met:
     ///
+    /// * The number of queried columns, or of values in a queried column, does not match the
+    ///   committed columns and the query positions.
+    /// * Two occurrences of the same query position carry different values.
+    /// * There are no query positions (for a non-empty tree).
     /// * The witness is too long (not fully consumed).
     /// * The witness is too short (missing values).
     /// * The computed root does not match the expected root.
@@ -110,14 +114,19 @@ impl<H: MerkleHasherLifted> MerkleVerifierLifted<H> {
         queried_values: ColumnVec<Vec<BaseField>>,
         decommitment: MerkleDecommitmentLifted<H>,
     ) -> Result<(), MerkleVerificationError> {
+        // Check that the structure of the input is consistent with the configurations. The
+        // queried values come from the proof, so a mismatch is an invalid proof, not a bug: return
+        // an error rather than panic. The check runs before the empty-tree early return so that
+        // values sent for an empty tree are rejected too.
+        if queried_values.len() != self.column_log_sizes.len() {
+            return Err(MerkleVerificationError::ColumnCountMismatch);
+        }
+        if queried_values.iter().any(|values| values.len() != query_positions.len()) {
+            return Err(MerkleVerificationError::QueriedValuesCountMismatch);
+        }
         if self.height == 0 {
             return Ok(());
         };
-        // Check that the structure of the input is consistent with the configurations.
-        assert_eq!(queried_values.len(), self.column_log_sizes.len());
-        for values in queried_values.iter() {
-            assert_eq!(values.len(), query_positions.len());
-        }
 
         // Sort the queried values in ascending order by column log size.
         let queried_values_sorted_by_log_size = queried_values
@@ -140,10 +149,11 @@ impl<H: MerkleHasherLifted> MerkleVerifierLifted<H> {
                     entry.insert(values);
                 }
                 // Otherwise, we check that the queried values are equal to what's already in the
-                // map.
+                // map. The values come from the proof, so a mismatch is an invalid proof.
                 Entry::Occupied(entry) => {
-                    let old_values = entry.get();
-                    assert_eq!(old_values, &values);
+                    if entry.get() != &values {
+                        return Err(MerkleVerificationError::InconsistentDuplicateQueryValues);
+                    }
                 }
             }
         }
@@ -191,7 +201,11 @@ impl<H: MerkleHasherLifted> MerkleVerifierLifted<H> {
             return Err(MerkleVerificationError::WitnessTooLong);
         }
 
-        let [(_, computed_root)] = prev_layer_hashes.try_into().unwrap();
+        // Folding the leaves up `height` layers leaves exactly one node, unless there were no
+        // query positions at all (the number of queries is a proof parameter): reject that rather
+        // than panic.
+        let [(_, computed_root)] =
+            prev_layer_hashes.try_into().map_err(|_| MerkleVerificationError::NoQueryPositions)?;
         if computed_root != self.root {
             return Err(MerkleVerificationError::RootMismatch);
         }
@@ -208,6 +222,14 @@ pub enum MerkleVerificationError {
     WitnessTooLong,
     #[error("Root mismatch.")]
     RootMismatch,
+    #[error("Number of queried columns does not match the number of committed columns.")]
+    ColumnCountMismatch,
+    #[error("Number of queried values in a column does not match the number of query positions.")]
+    QueriedValuesCountMismatch,
+    #[error("Queried values differ between two occurrences of the same query position.")]
+    InconsistentDuplicateQueryValues,
+    #[error("No query positions to verify.")]
+    NoQueryPositions,
 }
 
 #[cfg(all(test, feature = "prover"))]
@@ -220,7 +242,9 @@ mod tests {
     use crate::core::vcs::blake2_hash::Blake2sHash;
     use crate::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
     use crate::core::vcs_lifted::test_utils::prepare_merkle;
-    use crate::core::vcs_lifted::verifier::{MerkleVerificationError, MerkleVerifierLifted};
+    use crate::core::vcs_lifted::verifier::{
+        MerkleDecommitmentLifted, MerkleVerificationError, MerkleVerifierLifted,
+    };
     use crate::prover::backend::CpuBackend;
     use crate::prover::vcs_lifted::prover::MerkleProverLifted;
 
@@ -319,5 +343,94 @@ mod tests {
         let (values, decommitment) = merkle.decommit(&queries, cols.iter().collect());
         let verifier = MerkleVerifierLifted::new(merkle.root(), log_sizes, max_log_size);
         verifier.verify(&queries, values, decommitment.decommitment).unwrap();
+    }
+
+    // The tests below feed the verifier queried values whose shape is wrong. Those values come
+    // from the proof, so the verifier must reject them with an error rather than panic.
+
+    #[test]
+    fn test_merkle_missing_column() {
+        let (queries, decommitment, mut values, verifier) = prepare_merkle::<Blake2sMerkleHasher>();
+        values.pop();
+
+        assert_eq!(
+            verifier.verify(&queries, values, decommitment).unwrap_err(),
+            MerkleVerificationError::ColumnCountMismatch
+        );
+    }
+
+    #[test]
+    fn test_merkle_extra_column() {
+        let (queries, decommitment, mut values, verifier) = prepare_merkle::<Blake2sMerkleHasher>();
+        values.push(values[0].clone());
+
+        assert_eq!(
+            verifier.verify(&queries, values, decommitment).unwrap_err(),
+            MerkleVerificationError::ColumnCountMismatch
+        );
+    }
+
+    #[test]
+    fn test_merkle_short_column() {
+        let (queries, decommitment, mut values, verifier) = prepare_merkle::<Blake2sMerkleHasher>();
+        values[3].pop();
+
+        assert_eq!(
+            verifier.verify(&queries, values, decommitment).unwrap_err(),
+            MerkleVerificationError::QueriedValuesCountMismatch
+        );
+    }
+
+    #[test]
+    fn test_merkle_values_for_empty_tree() {
+        let verifier =
+            MerkleVerifierLifted::<Blake2sMerkleHasher>::new(Blake2sHash::default(), vec![], 0);
+        verifier.verify(&[], vec![], MerkleDecommitmentLifted::empty()).unwrap();
+
+        assert_eq!(
+            verifier.verify(&[], vec![vec![]], MerkleDecommitmentLifted::empty()).unwrap_err(),
+            MerkleVerificationError::ColumnCountMismatch
+        );
+    }
+
+    #[test]
+    fn test_merkle_no_query_positions() {
+        let (_, _, values, verifier) = prepare_merkle::<Blake2sMerkleHasher>();
+        let values = values.into_iter().map(|_| vec![]).collect();
+
+        assert_eq!(
+            verifier.verify(&[], values, MerkleDecommitmentLifted::empty()).unwrap_err(),
+            MerkleVerificationError::NoQueryPositions
+        );
+    }
+
+    #[test]
+    fn test_merkle_inconsistent_duplicate_query_values() {
+        let mut rng = SmallRng::seed_from_u64(42);
+        let log_sizes = vec![3, 4, 3];
+        let cols: Vec<Vec<BaseField>> = log_sizes
+            .iter()
+            .map(|&log_size| {
+                (0..(1 << log_size))
+                    .map(|_| BaseField::from(rng.random_range(1..(1u32 << 30))))
+                    .collect()
+            })
+            .collect();
+        let max_log_size = *log_sizes.iter().max().unwrap();
+        let merkle = MerkleProverLifted::<CpuBackend, Blake2sMerkleHasher>::commit(
+            cols.iter().collect(),
+            max_log_size,
+            0,
+        );
+        // Position 3 is queried twice, at indices 1 and 3.
+        let queries = vec![13, 3, 7, 3, 1];
+        let (mut values, decommitment) = merkle.decommit(&queries, cols.iter().collect());
+        values[0][3] += BaseField::from(1);
+        let verifier = MerkleVerifierLifted::new(merkle.root(), log_sizes, max_log_size);
+
+        assert_eq!(
+            verifier.verify(&queries, values, decommitment.decommitment).unwrap_err(),
+            MerkleVerificationError::InconsistentDuplicateQueryValues
+        );
     }
 }
